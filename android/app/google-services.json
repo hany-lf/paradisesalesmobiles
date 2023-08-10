@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "726316344031",
+    "project_id": "paradisesalesmobiles",
+    "storage_bucket": "paradisesalesmobiles.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726316344031:android:fc392671776855599fbf6a",
+        "android_client_info": {
+          "package_name": "com.paradisesalesmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "726316344031-buc6s2lnht51qeq08tsk0g5s96c4sqtd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.paradisesalesmobile",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "726316344031-5l0pdr7aug5fe1ftf1h97hh1b17rgpct.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhf5_uiBL2URi8PD34PZ1SMPm3JrlESts"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "726316344031-5l0pdr7aug5fe1ftf1h97hh1b17rgpct.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
