@@ -275,18 +275,18 @@ export const DefaultTheme = {
  * Define list font use for whole application
  */
 export const FontSupport = [
-  'ProximaNova',
-  'Raleway',
-  'Roboto',
-  'Merriweather',
-  'DMSerifDisplay',
-  'KaiseiHarunoUmi',
+  // 'ProximaNova',
+  // 'Raleway',
+  // 'Roboto',
+  // 'Merriweather',
+  // 'DMSerifDisplay',
+  // 'KaiseiHarunoUmi',
 ];
 
 /**
  * Define font default use for whole application
  */
-export const DefaultFont = 'ProximaNova';
+export const DefaultFont = 'Lato';
 
 /**
  * export theme and colors for application

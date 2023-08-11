@@ -1,6 +1,6 @@
 import {BaseSetting} from './setting';
-// import Fonts from './Fonts';
-// import {BaseStyle} from './styles';
+import Fonts from './Fonts';
+import {BaseStyle} from './styles';
 import {
   BaseColor,
   DefaultTheme,
@@ -10,12 +10,12 @@ import {
   ThemeSupport,
   DefaultFont,
 } from './theme';
-// import {Typography, FontWeight, FontFamily} from './typography';
+import {Typography, FontWeight, FontFamily} from './typography';
 // import {Images} from './images';
 export {
   BaseSetting,
-  //   Fonts,
-  //   BaseStyle,
+  Fonts,
+  BaseStyle,
   BaseColor,
   useFont,
   useTheme,
@@ -23,8 +23,8 @@ export {
   ThemeSupport,
   DefaultFont,
   DefaultTheme,
-  //   Typography,
-  //   FontWeight,
-  //   FontFamily,
+  Typography,
+  FontWeight,
+  FontFamily,
   //   Images,
 };
