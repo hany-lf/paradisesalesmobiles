@@ -3,7 +3,7 @@ import SliderIntro from 'react-native-slider-intro';
 import {DefaultTheme} from '@config';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BaseStyle} from '@config';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState, useRef} from 'react';
 import styles from './styles';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -25,16 +25,22 @@ import {
   ActivityIndicator,
   Dimensions,
   ImageBackground,
+  Button,
 } from 'react-native';
 
 import intro5 from '@assets/images/OnboardingScreen.jpg';
 import AppIntroSlider from 'react-native-app-intro-slider';
+import IconAwesome5 from 'react-native-vector-icons/FontAwesome5';
 const SignIn = props => {
   console.log('api url env', API_URL);
   const scheme = useColorScheme();
   console.log('schema', scheme);
   const {colors} = scheme === 'dark' ? DefaultTheme.dark : DefaultTheme.light; //dari config aja coba ya
   const [intro, setIntro] = useState(true);
+  let slider = useRef(null);
+  // type Item = typeof data[0];
+
+  // const  _keyExtractor = (item: Item) => item.title;
 
   const _onDone = () => {
     console.log('done');
@@ -54,10 +60,20 @@ const SignIn = props => {
   };
 
   const renderNextButton = () => {
+    // console.log('activeindex', i);
     return (
-      <View style={styles.nextButton}>
-        <Text style={styles.text}>Next</Text>
+      // <TouchableOpacity>
+      <View>
+        {/* <Icon */}
+        <IconAwesome5
+          name="arrow-right"
+          style={{
+            color: BaseColor.corn30,
+            fontSize: 24,
+            marginRight: 5,
+          }}></IconAwesome5>
       </View>
+      // </TouchableOpacity>
     );
   };
 
@@ -68,7 +84,7 @@ const SignIn = props => {
       </View>
     );
   };
-  const _renderItem = ({item, dimensions}) => (
+  const _renderItem = ({item}) => (
     <ImageBackground
       source={item.backgroundImage}
       style={[
@@ -88,71 +104,88 @@ const SignIn = props => {
             height: Dimensions.get('window').height,
           }}>
           <Image
-            style={{width: 200, height: 100, resizeMode: 'contain'}}
+            style={{width: 200, height: 100, resizeMode: 'cover'}}
             source={item.image}
           />
         </View>
       )}
 
-      <Text
-        style={{
-          color: '#CCC0A7',
-          fontFamily: Fonts.type.LatoItalic,
-          fontSize: 20,
-        }}>
-        {item.title}
-      </Text>
+      <View style={{marginTop: '60%'}}>
+        <Text
+          style={{
+            color: '#CCC0A7',
+            fontFamily: Fonts.type.LatoItalic,
+            fontSize: 20,
+          }}>
+          {item.title}
+        </Text>
+
+        {/* <Button
+          title={item.key}
+          // onPress={() => slider?.goToSlide(item.key, true)}
+        >
+          <Text>{item.key}</Text>
+        </Button> */}
+      </View>
     </ImageBackground>
   );
 
+  const _renderPagination = activeIndex => {
+    console.log('acit', activeIndex);
+    return (
+      <View style={{position: 'absolute', bottom: 16, left: 16, right: 16}}>
+        <SafeAreaView>
+          <View
+            style={{
+              height: 16,
+              margin: 16,
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            {slides.length > 1 &&
+              slides.map((_, i) => (
+                <TouchableOpacity
+                  key={i}
+                  style={[
+                    {
+                      width: 20,
+                      height: 20,
+                      borderRadius: 10,
+                      marginHorizontal: 20,
+                      marginBottom: 30,
+                    },
+                    i === activeIndex
+                      ? {backgroundColor: BaseColor.corn50}
+                      : {backgroundColor: BaseColor.corn30},
+                  ]}
+                  onPress={() => slider?.goToSlide(i, true)}
+                />
+              ))}
+          </View>
+        </SafeAreaView>
+      </View>
+    );
+  };
+
   const slides = [
-    // {
-    //   key: '1',
-    //   title: 'Find information and update Approval',
-    //   // titleStyle: styles.textTitle,
-    //   // textStyle: styles.textTitle,
-    //   text: 'Find information and updates on approvals developed by IFCA and get detailed information on documents to be approved.',
-    //   // image: require('@assets/images/onboard1.png'),
-    //   // imageStyle: styles.images_waskita,
-    //   // backgroundColor: colors.primary,
-    //   // width: 550,
-    //   // height: 550,
-    //   // bottomSpacer: styles.bottom_Spacer,
-    //   backgroundImage: require('@assets/images/onboard1.png'),
-    // },
     {
-      key: '2',
+      key: '0',
       title: 'Welcome to Paradise Property App',
 
       backgroundImage: require('@assets/images/OnboardingScreen.jpg'),
     },
     {
-      key: '3',
+      key: '1',
       title: 'Approval Document',
-      // titleStyle: styles.textTitle,
-      // textStyle: styles.textTitle,
-      text: 'Document approvals have become very easy via online.',
-      image: require('@assets/images/Onboarding Screen-03.jpg'),
-      // imageStyle: styles.images_waskita,
-      backgroundColor: colors.primary,
-      // width: 200,
-      // height: 200,
-      // bottomSpacer: styles.bottom_Spacer,
-      backgroundImage: require('@assets/images/OnboardingScreen.jpg'),
+
+      backgroundImage: require('@assets/images/OnboardingScreen-03.jpg'),
     },
     {
-      key: '4',
+      key: '2',
       title: 'Approval Document',
-      // titleStyle: styles.textTitle,
-      // textStyle: styles.textTitle,
-      text: 'Document approvals have become very easy via online.',
-      image: require('@assets/images/Onboarding Screen-03.jpg'),
-      // imageStyle: styles.images_waskita,
-      backgroundColor: colors.primary,
-      // width: 200,
-      // height: 200,
-      // bottomSpacer: styles.bottom_Spacer,
-      backgroundImage: require('@assets/images/OnboardingScreen.jpg'),
+
+      backgroundImage: require('@assets/images/OnboardingScreenbeach.jpg'),
     },
   ];
 
@@ -161,16 +194,6 @@ const SignIn = props => {
       <Text>ini login ya ges ya</Text>
     </View>
   ) : (
-    // <SliderIntro
-    //   data={slides}
-    //   renderNextButton={renderNextButton} //ini ngerender doang supaya buttonnya di gaya-gayain
-    //   renderDoneButton={renderDoneButton} //ini ngerender doang supaya buttonnya di gaya-gayain
-    //   renderSkipButton={renderSkipButton} //ini ngerender doang supaya buttonnya di gaya-gayain
-    //   onDone={_onDone}
-    //   onSkip={_onSkip}
-    //   renderItem={_renderItem}
-    //   // navContainerMaxSizePercent={0.3}
-    // />
     <AppIntroSlider
       renderNextButton={renderNextButton} //ini ngerender doang supaya buttonnya di gaya-gayain
       renderDoneButton={renderDoneButton} //ini ngerender doang supaya buttonnya di gaya-gayain
@@ -178,6 +201,27 @@ const SignIn = props => {
       onDone={_onDone}
       onSkip={_onSkip}
       data={slides}
+      activeDotStyle={{
+        width: 20,
+        height: 20,
+        borderRadius: 10,
+        marginHorizontal: 20,
+        marginBottom: 30,
+        backgroundColor: BaseColor.corn50,
+      }}
+      dotStyle={{
+        width: 20,
+        height: 20,
+        borderRadius: 10,
+        marginHorizontal: 20,
+        marginBottom: 30,
+        backgroundColor: BaseColor.corn30,
+      }}
+      // renderPagination={_renderPagination} //ini buat pagination doang ya tanpa button next
+      // ref={ref => {
+      //   slider = ref;
+      // }} // the ref ini digunain buat si pagination kalo dinyalain
+      // scrollEnabled={true}
       renderItem={_renderItem}></AppIntroSlider>
   );
 };

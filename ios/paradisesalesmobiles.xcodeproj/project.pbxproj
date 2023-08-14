@@ -8,12 +8,29 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* paradisesalesmobilesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* paradisesalesmobilesTests.m */; };
+		098F01F86E0746FAA7C6FEAF /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 591697C1AA9A4E99B9593616 /* Lato-Light.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		28072C9225C6470EB0DA9D62 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9080FBFC06324B25B906D6A8 /* Lato-Black.ttf */; };
+		2E9F84A51EBE4274B82FD2CD /* Lato-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69E361E337E54826AFA4F022 /* Lato-ThinItalic.ttf */; };
 		624DF0FD46BF3779B7E06199 /* libPods-paradisesalesmobiles-paradisesalesmobilesTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F805F6E61A0893D8E5003B3D /* libPods-paradisesalesmobiles-paradisesalesmobilesTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		82367DA6784743FD82695AF5 /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AF94D32F3704AC6B317321D /* Lato-LightItalic.ttf */; };
+		86CF263F2A89D96B001532ED /* FontAwesome6_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86CF262C2A89D96A001532ED /* FontAwesome6_Regular.ttf */; };
+		86CF26412A89D96C001532ED /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86CF262E2A89D96A001532ED /* FontAwesome5_Brands.ttf */; };
+		86CF26462A89D96C001532ED /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86CF26332A89D96A001532ED /* FontAwesome5_Solid.ttf */; };
+		86CF26472A89D96C001532ED /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86CF26342A89D96A001532ED /* FontAwesome5_Regular.ttf */; };
+		86CF26482A89D96C001532ED /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86CF26352A89D96A001532ED /* FontAwesome.ttf */; };
+		86CF264B2A89D96C001532ED /* FontAwesome6_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86CF26382A89D96A001532ED /* FontAwesome6_Solid.ttf */; };
+		86CF264D2A89D96C001532ED /* FontAwesome6_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86CF263A2A89D96A001532ED /* FontAwesome6_Brands.ttf */; };
 		86FA496A2A8398F5001456ED /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 86FA49692A8398F5001456ED /* GoogleService-Info.plist */; };
+		9C3AECAB61F34600AEC42A5D /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D41004039F574E99BC713051 /* Lato-BoldItalic.ttf */; };
+		A08EF369AD80408EACADD953 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FD97778D1AFD4842952A3183 /* Lato-Bold.ttf */; };
+		B5CCB19F51DF4ABDB165C740 /* Lato-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4CA665CC5727420F93093DD4 /* Lato-BlackItalic.ttf */; };
+		D2F74BF7B56141F3981447E5 /* Lato-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21FC00ACEAB040CBADDA6A37 /* Lato-Thin.ttf */; };
+		E9BF709CC28F46CCA921436A /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17362B1AD8574ABE8DA751A3 /* Lato-Regular.ttf */; };
+		EBBA6D4D96EF467FA9978260 /* Lato-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 03EE61103C4543B8AECF0BBD /* Lato-Italic.ttf */; };
 		FB85675B7ED5EBF848EDEEE5 /* libPods-paradisesalesmobiles.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7304F64E55D115D470CF39D3 /* libPods-paradisesalesmobiles.a */; };
 /* End PBXBuildFile section */
 
@@ -31,21 +48,48 @@
 		00E356EE1AD99517003FC87E /* paradisesalesmobilesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = paradisesalesmobilesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* paradisesalesmobilesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = paradisesalesmobilesTests.m; sourceTree = "<group>"; };
+		03EE61103C4543B8AECF0BBD /* Lato-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Italic.ttf"; path = "../apps/assets/fonts/Lato-Italic.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* paradisesalesmobiles.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = paradisesalesmobiles.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = paradisesalesmobiles/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = paradisesalesmobiles/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = paradisesalesmobiles/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = paradisesalesmobiles/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = paradisesalesmobiles/main.m; sourceTree = "<group>"; };
+		17362B1AD8574ABE8DA751A3 /* Lato-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Regular.ttf"; path = "../apps/assets/fonts/Lato-Regular.ttf"; sourceTree = "<group>"; };
+		21FC00ACEAB040CBADDA6A37 /* Lato-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Thin.ttf"; path = "../apps/assets/fonts/Lato-Thin.ttf"; sourceTree = "<group>"; };
 		42E7AD6A7160D6DFB1A01D43 /* Pods-paradisesalesmobiles.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-paradisesalesmobiles.debug.xcconfig"; path = "Target Support Files/Pods-paradisesalesmobiles/Pods-paradisesalesmobiles.debug.xcconfig"; sourceTree = "<group>"; };
+		4CA665CC5727420F93093DD4 /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-BlackItalic.ttf"; path = "../apps/assets/fonts/Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
+		591697C1AA9A4E99B9593616 /* Lato-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Light.ttf"; path = "../apps/assets/fonts/Lato-Light.ttf"; sourceTree = "<group>"; };
+		69E361E337E54826AFA4F022 /* Lato-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-ThinItalic.ttf"; path = "../apps/assets/fonts/Lato-ThinItalic.ttf"; sourceTree = "<group>"; };
+		6AF94D32F3704AC6B317321D /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-LightItalic.ttf"; path = "../apps/assets/fonts/Lato-LightItalic.ttf"; sourceTree = "<group>"; };
 		7304F64E55D115D470CF39D3 /* libPods-paradisesalesmobiles.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-paradisesalesmobiles.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = paradisesalesmobiles/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		86CF262C2A89D96A001532ED /* FontAwesome6_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome6_Regular.ttf; sourceTree = "<group>"; };
+		86CF262E2A89D96A001532ED /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Brands.ttf; sourceTree = "<group>"; };
+		86CF26332A89D96A001532ED /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Solid.ttf; sourceTree = "<group>"; };
+		86CF26342A89D96A001532ED /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Regular.ttf; sourceTree = "<group>"; };
+		86CF26352A89D96A001532ED /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
+		86CF26382A89D96A001532ED /* FontAwesome6_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome6_Solid.ttf; sourceTree = "<group>"; };
+		86CF263A2A89D96A001532ED /* FontAwesome6_Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome6_Brands.ttf; sourceTree = "<group>"; };
+		86CF264F2A89DB30001532ED /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Regular.ttf"; path = "../Lato/Lato-Regular.ttf"; sourceTree = "<group>"; };
+		86CF26502A89DB30001532ED /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Bold.ttf"; path = "../Lato/Lato-Bold.ttf"; sourceTree = "<group>"; };
+		86CF26512A89DB31001532ED /* Lato-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-ThinItalic.ttf"; path = "../Lato/Lato-ThinItalic.ttf"; sourceTree = "<group>"; };
+		86CF26522A89DB31001532ED /* Lato-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Thin.ttf"; path = "../Lato/Lato-Thin.ttf"; sourceTree = "<group>"; };
+		86CF26532A89DB31001532ED /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-BoldItalic.ttf"; path = "../Lato/Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
+		86CF26542A89DB32001532ED /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Black.ttf"; path = "../Lato/Lato-Black.ttf"; sourceTree = "<group>"; };
+		86CF26552A89DB32001532ED /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Light.ttf"; path = "../Lato/Lato-Light.ttf"; sourceTree = "<group>"; };
+		86CF26562A89DB32001532ED /* Lato-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Italic.ttf"; path = "../Lato/Lato-Italic.ttf"; sourceTree = "<group>"; };
+		86CF26572A89DB32001532ED /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-BlackItalic.ttf"; path = "../Lato/Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
+		86CF26582A89DB33001532ED /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-LightItalic.ttf"; path = "../Lato/Lato-LightItalic.ttf"; sourceTree = "<group>"; };
 		86FA49692A8398F5001456ED /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E4054576DFFACFA8D94E599 /* Pods-paradisesalesmobiles-paradisesalesmobilesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-paradisesalesmobiles-paradisesalesmobilesTests.release.xcconfig"; path = "Target Support Files/Pods-paradisesalesmobiles-paradisesalesmobilesTests/Pods-paradisesalesmobiles-paradisesalesmobilesTests.release.xcconfig"; sourceTree = "<group>"; };
+		9080FBFC06324B25B906D6A8 /* Lato-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Black.ttf"; path = "../apps/assets/fonts/Lato-Black.ttf"; sourceTree = "<group>"; };
 		A0512E489E104ACB3B6DF872 /* Pods-paradisesalesmobiles-paradisesalesmobilesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-paradisesalesmobiles-paradisesalesmobilesTests.debug.xcconfig"; path = "Target Support Files/Pods-paradisesalesmobiles-paradisesalesmobilesTests/Pods-paradisesalesmobiles-paradisesalesmobilesTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D41004039F574E99BC713051 /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-BoldItalic.ttf"; path = "../apps/assets/fonts/Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
 		E85A2A517DCAA6DA0DEEB3E7 /* Pods-paradisesalesmobiles.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-paradisesalesmobiles.release.xcconfig"; path = "Target Support Files/Pods-paradisesalesmobiles/Pods-paradisesalesmobiles.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F805F6E61A0893D8E5003B3D /* libPods-paradisesalesmobiles-paradisesalesmobilesTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-paradisesalesmobiles-paradisesalesmobilesTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD97778D1AFD4842952A3183 /* Lato-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Bold.ttf"; path = "../apps/assets/fonts/Lato-Bold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +143,23 @@
 			name = paradisesalesmobiles;
 			sourceTree = "<group>";
 		};
+		2CF6B4BAA0BD490699FB8C97 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9080FBFC06324B25B906D6A8 /* Lato-Black.ttf */,
+				4CA665CC5727420F93093DD4 /* Lato-BlackItalic.ttf */,
+				FD97778D1AFD4842952A3183 /* Lato-Bold.ttf */,
+				D41004039F574E99BC713051 /* Lato-BoldItalic.ttf */,
+				03EE61103C4543B8AECF0BBD /* Lato-Italic.ttf */,
+				591697C1AA9A4E99B9593616 /* Lato-Light.ttf */,
+				6AF94D32F3704AC6B317321D /* Lato-LightItalic.ttf */,
+				17362B1AD8574ABE8DA751A3 /* Lato-Regular.ttf */,
+				21FC00ACEAB040CBADDA6A37 /* Lato-Thin.ttf */,
+				69E361E337E54826AFA4F022 /* Lato-ThinItalic.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,12 +180,14 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				86CF26282A89D96A001532ED /* Fonts */,
 				13B07FAE1A68108700A75B9A /* paradisesalesmobiles */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* paradisesalesmobilesTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				2CF6B4BAA0BD490699FB8C97 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -138,6 +201,31 @@
 				00E356EE1AD99517003FC87E /* paradisesalesmobilesTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		86CF26282A89D96A001532ED /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				86CF26542A89DB32001532ED /* Lato-Black.ttf */,
+				86CF26572A89DB32001532ED /* Lato-BlackItalic.ttf */,
+				86CF26502A89DB30001532ED /* Lato-Bold.ttf */,
+				86CF26532A89DB31001532ED /* Lato-BoldItalic.ttf */,
+				86CF26562A89DB32001532ED /* Lato-Italic.ttf */,
+				86CF26552A89DB32001532ED /* Lato-Light.ttf */,
+				86CF26582A89DB33001532ED /* Lato-LightItalic.ttf */,
+				86CF264F2A89DB30001532ED /* Lato-Regular.ttf */,
+				86CF26522A89DB31001532ED /* Lato-Thin.ttf */,
+				86CF26512A89DB31001532ED /* Lato-ThinItalic.ttf */,
+				86CF262C2A89D96A001532ED /* FontAwesome6_Regular.ttf */,
+				86CF262E2A89D96A001532ED /* FontAwesome5_Brands.ttf */,
+				86CF26332A89D96A001532ED /* FontAwesome5_Solid.ttf */,
+				86CF26342A89D96A001532ED /* FontAwesome5_Regular.ttf */,
+				86CF26352A89D96A001532ED /* FontAwesome.ttf */,
+				86CF26382A89D96A001532ED /* FontAwesome6_Solid.ttf */,
+				86CF263A2A89D96A001532ED /* FontAwesome6_Brands.ttf */,
+			);
+			name = Fonts;
+			path = "../../../../Downloads/materi paradise/Fonts";
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
@@ -249,8 +337,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				86CF26482A89D96C001532ED /* FontAwesome.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				86FA496A2A8398F5001456ED /* GoogleService-Info.plist in Resources */,
+				28072C9225C6470EB0DA9D62 /* Lato-Black.ttf in Resources */,
+				B5CCB19F51DF4ABDB165C740 /* Lato-BlackItalic.ttf in Resources */,
+				A08EF369AD80408EACADD953 /* Lato-Bold.ttf in Resources */,
+				86CF26412A89D96C001532ED /* FontAwesome5_Brands.ttf in Resources */,
+				86CF26462A89D96C001532ED /* FontAwesome5_Solid.ttf in Resources */,
+				9C3AECAB61F34600AEC42A5D /* Lato-BoldItalic.ttf in Resources */,
+				EBBA6D4D96EF467FA9978260 /* Lato-Italic.ttf in Resources */,
+				098F01F86E0746FAA7C6FEAF /* Lato-Light.ttf in Resources */,
+				86CF26472A89D96C001532ED /* FontAwesome5_Regular.ttf in Resources */,
+				82367DA6784743FD82695AF5 /* Lato-LightItalic.ttf in Resources */,
+				E9BF709CC28F46CCA921436A /* Lato-Regular.ttf in Resources */,
+				D2F74BF7B56141F3981447E5 /* Lato-Thin.ttf in Resources */,
+				2E9F84A51EBE4274B82FD2CD /* Lato-ThinItalic.ttf in Resources */,
+				86CF264B2A89D96C001532ED /* FontAwesome6_Solid.ttf in Resources */,
+				86CF263F2A89D96B001532ED /* FontAwesome6_Regular.ttf in Resources */,
+				86CF264D2A89D96C001532ED /* FontAwesome6_Brands.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -39,6 +39,8 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 
+import SplashScreen from 'react-native-splash-screen';
+
 const Navigator = props => {
   const navigationRef = useRef(null);
   const scheme = useColorScheme();
@@ -49,6 +51,9 @@ const Navigator = props => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    //hide screen splash
+    SplashScreen.hide();
+
     const onProcess = async () => {
       // Get current language of device
       const languageCode = language ?? BaseSetting.defaultLanguage;

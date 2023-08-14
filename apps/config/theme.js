@@ -25,26 +25,25 @@ export const BaseColor = {
   primaryColor: '#0D7C5D',
   textColor: '#212121',
 
-  //theme blue
-  blue10: '#A9C2E9',
-  blue30: '#5484D3',
-  blue50: '#1C3A6B',
-  blue70: '#112544',
-  blue90: '#0A1426',
+  //primary gold color
+  corn10: '#EAE6DC',
+  corn30: '#CCC0A7',
+  corn50: '#98804E',
+  corn70: '#4C4027',
+  corn90: '#1E1A10',
 
-  //theme greenn
-  green10: '#9FF5DC',
-  green30: '#3EEBBA',
-  green50: '#0D7C5D',
-  green70: '#074735',
-  green90: '#04241B',
+  //neutral color grey
+  grey10: '#FDFDFC',
+  grey30: '#CFCFCF',
+  grey50: '#878787',
+  grey70: '#363636',
+  grey90: '#0E0E0E',
 
-  //theme abu
-  abu10: '#F3F3F3',
-  abu30: '#CFCFCF',
-  abu50: '#878787',
-  abu70: '#363636',
-  abu90: '#0E0E0E',
+  //state color
+  blueStateColor: '#0E0E0E',
+  greenStateColor: '#27AE60',
+  yellowStateColor: '#E2B93B',
+  redStateColor: '#EB5757',
 };
 
 /**

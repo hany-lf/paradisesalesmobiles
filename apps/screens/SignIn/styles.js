@@ -38,6 +38,9 @@ export default StyleSheet.create({
   mainContent: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-around',
+    // justifyContent: 'space-around',
+    // justifyContent: 'space-evenly',
+
+    justifyContent: 'center',
   },
 });

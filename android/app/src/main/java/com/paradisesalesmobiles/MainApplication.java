@@ -11,6 +11,7 @@ import com.facebook.soloader.SoLoader;
 import java.util.List;
 // react-native-splash-screen >= 0.3.1
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
 
 
 public class MainApplication extends Application implements ReactApplication {
