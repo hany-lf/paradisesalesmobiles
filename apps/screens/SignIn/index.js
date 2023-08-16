@@ -1,15 +1,14 @@
 import {API_URL} from '@env';
 import SliderIntro from 'react-native-slider-intro';
-import {DefaultTheme} from '@config';
+import {DefaultTheme, useFont} from '@config';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BaseStyle} from '@config';
 import React, {useCallback, useEffect, useState, useRef} from 'react';
 import styles from './styles';
-import {useSelector, useDispatch} from 'react-redux';
-import {useTranslation} from 'react-i18next';
+
 // import messaging from '@react-native-firebase/messaging';
 import {useTheme} from '@react-navigation/native';
-
+import {TextInput, Icon, Button} from '@components';
 // import {TextInput, Icon, Button} from '@components';
 import {login, actionTypes} from '../../actions/UserActions';
 import {BaseColor, Fonts} from '../../config';
@@ -25,22 +24,37 @@ import {
   ActivityIndicator,
   Dimensions,
   ImageBackground,
-  Button,
+  // Button,
 } from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
 
 import intro5 from '@assets/images/OnboardingScreen.jpg';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import IconAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {useTranslation} from 'react-i18next';
+
 const SignIn = props => {
   console.log('api url env', API_URL);
   const scheme = useColorScheme();
   console.log('schema', scheme);
   const {colors} = scheme === 'dark' ? DefaultTheme.dark : DefaultTheme.light; //dari config aja coba ya
-  const [intro, setIntro] = useState(true);
+  const font = useFont();
   let slider = useRef(null);
+  const dispatch = useDispatch();
+  const {t} = useTranslation();
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [hidePass, setHidePass] = useState(true);
+  const [intro, setIntro] = useState(false);
+  const [loadingProses, setLoadingProses] = useState(false);
+  const [disableUser, setdisableUser] = useState(true);
   // type Item = typeof data[0];
 
   // const  _keyExtractor = (item: Item) => item.title;
+
+  const passwordChanged = useCallback(value => setPassword(value), []);
+  const emailChanged = useCallback(value => setEmail(value), []);
 
   const _onDone = () => {
     console.log('done');
@@ -54,7 +68,14 @@ const SignIn = props => {
   const renderDoneButton = () => {
     return (
       <View style={styles.nextButton}>
-        <Text style={styles.text}>Done</Text>
+        <Text
+          style={{
+            color: '#CCC0A7',
+            fontFamily: Fonts.type.LatoBold,
+            fontSize: 16,
+          }}>
+          Done
+        </Text>
       </View>
     );
   };
@@ -114,8 +135,8 @@ const SignIn = props => {
         <Text
           style={{
             color: '#CCC0A7',
-            fontFamily: Fonts.type.LatoItalic,
-            fontSize: 20,
+            fontFamily: Fonts.type.Lato,
+            fontSize: 16,
           }}>
           {item.title}
         </Text>
@@ -177,22 +198,118 @@ const SignIn = props => {
     },
     {
       key: '1',
-      title: 'Approval Document',
-
-      backgroundImage: require('@assets/images/OnboardingScreen-03.jpg'),
-    },
-    {
-      key: '2',
-      title: 'Approval Document',
+      title: 'Enjoy amazing promo & offers',
 
       backgroundImage: require('@assets/images/OnboardingScreenbeach.jpg'),
     },
+    {
+      key: '2',
+      title: 'Browse your luxury apartments',
+      backgroundImage: require('@assets/images/OnboardingScreen-03.jpg'),
+    },
   ];
 
+  const loginklik = () => {};
+
   return intro == false ? (
-    <View>
-      <Text>ini login ya ges ya</Text>
-    </View>
+    <SafeAreaView
+      edges={['right', 'top', 'left']}
+      style={[BaseStyle.safeAreaView, {backgroundColor: BaseColor.whiteColor}]}>
+      <View style={{marginTop: '20%'}}>
+        <View style={{alignItems: 'center'}}>
+          <Image
+            source={require('@assets/images/logo-paradise.png')}
+            style={{width: 200, height: 150, resizeMode: 'contain'}}></Image>
+        </View>
+        <View style={{paddingHorizontal: 20}}>
+          <TextInput
+            style={[BaseStyle.textInput, {marginBottom: 30}]}
+            onChangeText={emailChanged}
+            autoCorrect={false}
+            placeholder={t('email')}
+            value={email}
+            selectionColor={colors.primary}
+          />
+          <TextInput
+            style={[BaseStyle.textInput, {marginTop: 10}]}
+            onChangeText={passwordChanged}
+            autoCorrect={false}
+            placeholder={t('password')}
+            secureTextEntry={hidePass}
+            value={password}
+            selectionColor={colors.primary}
+            position={'right'}
+            icon={
+              <Icon
+                onPress={() => setHidePass(!hidePass)}
+                active
+                name={hidePass ? 'eye-slash' : 'eye'}
+                size={20}
+                color={BaseColor.corn70}
+              />
+            }
+          />
+        </View>
+
+        <TouchableOpacity
+          style={{}}
+          onPress={() => alert('screen forgot password')}>
+          <View
+            style={{
+              justifyContent: 'flex-end',
+              flexDirection: 'row',
+
+              marginVertical: 20,
+              paddingRight: 20,
+            }}>
+            <Text style={styles.forgotPassword}>Forgot Password?</Text>
+          </View>
+        </TouchableOpacity>
+
+        <View>
+          <Button
+            medium
+            round
+            disabled={disableUser}
+            loading={loading}
+            style={{marginTop: 15}}
+            backgroundColor={disableUser ? BaseColor.corn30 : BaseColor.corn70}
+            onPress={loginklik}>
+            {loadingProses == true ? (
+              <ActivityIndicator
+                color={BaseColor.whiteColor}></ActivityIndicator>
+            ) : (
+              t('sign_in')
+            )}
+          </Button>
+        </View>
+        <View
+          style={{flexDirection: 'row', alignSelf: 'center', marginTop: 30}}>
+          <Text
+            style={{
+              fontFamily: Fonts.type.Lato,
+
+              textAlign: 'center',
+            }}>
+            Don't have account?
+          </Text>
+          <TouchableOpacity>
+            <View>
+              <Text
+                style={{
+                  fontFamily: Fonts.type.Lato,
+                  // width: '15%',
+                  borderBottomColor: BaseColor.corn70,
+                  borderBottomWidth: 1,
+                  textAlign: 'center',
+                }}>
+                Register
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </SafeAreaView>
   ) : (
     <AppIntroSlider
       renderNextButton={renderNextButton} //ini ngerender doang supaya buttonnya di gaya-gayain

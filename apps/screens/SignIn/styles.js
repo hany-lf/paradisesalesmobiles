@@ -10,6 +10,13 @@ export default StyleSheet.create({
     padding: 10,
     width: '100%',
   },
+  forgotPassword: {
+    fontFamily: Fonts.type.Lato,
+    width: '30%',
+    borderBottomColor: BaseColor.corn70,
+    borderBottomWidth: 1,
+    textAlign: 'center',
+  },
   contain: {
     padding: 20,
     paddingTop: 0,

@@ -21,8 +21,8 @@ export const BaseStyle = StyleSheet.create({
     marginHorizontal: 20,
   },
   textInput: {
-    height: 46,
-    borderRadius: 5,
+    height: 56,
+    borderRadius: 16,
     paddingHorizontal: 10,
     width: '100%',
     justifyContent: 'space-between',
