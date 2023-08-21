@@ -12,7 +12,8 @@ import java.util.List;
 // react-native-splash-screen >= 0.3.1
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-
+// import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
+// import io.invertase.firebase.RNFirebasePackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -30,6 +31,9 @@ public class MainApplication extends Application implements ReactApplication {
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
           // packages.add(new SplashScreenReactPackage());
+          // packages.add(new RNFirebaseAuthPackage());
+          // packages.add(new RNFirebasePackage());
+          // packages.add( new ReactNativeFirebaseAppPackage());
           return packages;
         }
 

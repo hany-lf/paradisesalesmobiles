@@ -27,11 +27,12 @@ import {
   // Button,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-
+import messaging from '@react-native-firebase/messaging';
 import intro5 from '@assets/images/OnboardingScreen.jpg';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import IconAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {useTranslation} from 'react-i18next';
+import {PermissionsAndroid} from 'react-native';
 
 const SignIn = props => {
   console.log('api url env', API_URL);
@@ -48,7 +49,8 @@ const SignIn = props => {
   const [hidePass, setHidePass] = useState(true);
   const [intro, setIntro] = useState(false);
   const [loadingProses, setLoadingProses] = useState(false);
-  const [disableUser, setdisableUser] = useState(true);
+  const [disableUser, setdisableUser] = useState(false);
+  const [token_firebase, setTokenFirebase] = useState('');
   // type Item = typeof data[0];
 
   // const  _keyExtractor = (item: Item) => item.title;
@@ -209,7 +211,53 @@ const SignIn = props => {
     },
   ];
 
-  const loginklik = () => {};
+  const loginklik = () => {
+    setLoading(true);
+    // alert('alert sign in');
+    const cekdata = {
+      email,
+      password,
+      token_firebase,
+    };
+    console.log('cekdata', cekdata);
+
+    loginUser();
+    setLoading(false);
+  };
+
+  const loginUser = useCallback(
+    () => dispatch(login(email, password, token_firebase)),
+    [email, password, token_firebase, dispatch],
+  );
+
+  useEffect(() => {
+    requestUserPermission();
+  }, []);
+
+  // PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
+
+  const requestUserPermission = async () => {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      getFcmToken();
+      console.log('Authorization status:', authStatus);
+    }
+  };
+
+  const getFcmToken = async () => {
+    const fcmToken = await messaging().getToken();
+    if (fcmToken) {
+      console.log('Bearer ' + fcmToken);
+      console.log('Your Firebase Token is:', fcmToken);
+      setTokenFirebase(fcmToken);
+    } else {
+      console.log('Failed', 'No token received');
+    }
+  };
 
   return intro == false ? (
     <SafeAreaView
