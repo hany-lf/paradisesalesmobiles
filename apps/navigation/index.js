@@ -40,6 +40,8 @@ import {
 } from '@react-navigation/drawer';
 
 import SplashScreen from 'react-native-splash-screen';
+import ForgotPassword from '../screens/ForgotPassword';
+import Register from '../screens/Register';
 
 const Navigator = props => {
   const navigationRef = useRef(null);
@@ -110,6 +112,14 @@ const Navigator = props => {
             component={MainStack}
             options={{headerShown: false}}></RootStack.Screen>
         )}
+        <RootStack.Screen
+          name="ForgotPassword"
+          component={ForgotPassword}
+          options={{headerShown: false}}></RootStack.Screen>
+        <RootStack.Screen
+          name="Register"
+          component={Register}
+          options={{headerShown: false}}></RootStack.Screen>
       </RootStack.Navigator>
     </NavigationContainer>
   );

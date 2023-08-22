@@ -51,6 +51,8 @@ const SignIn = props => {
   const [loadingProses, setLoadingProses] = useState(false);
   const [disableUser, setdisableUser] = useState(false);
   const [token_firebase, setTokenFirebase] = useState('');
+  const {navigation} = props;
+  console.log('props', props);
   // type Item = typeof data[0];
 
   // const  _keyExtractor = (item: Item) => item.title;
@@ -213,6 +215,7 @@ const SignIn = props => {
 
   const loginklik = () => {
     setLoading(true);
+    setLoadingProses(true);
     // alert('alert sign in');
     const cekdata = {
       email,
@@ -222,6 +225,7 @@ const SignIn = props => {
     console.log('cekdata', cekdata);
 
     loginUser();
+    setLoadingProses(false);
     setLoading(false);
   };
 
@@ -233,6 +237,16 @@ const SignIn = props => {
   useEffect(() => {
     requestUserPermission();
   }, []);
+
+  //untuk ubah disable button login
+  useEffect(() => {
+    console.log('!email', email);
+    if (email != '' && password != '') {
+      setdisableUser(false);
+    } else {
+      setdisableUser(true);
+    }
+  });
 
   // PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
 
@@ -301,7 +315,7 @@ const SignIn = props => {
 
         <TouchableOpacity
           style={{}}
-          onPress={() => alert('screen forgot password')}>
+          onPress={() => navigation.navigate('ForgotPassword')}>
           <View
             style={{
               justifyContent: 'flex-end',
@@ -327,7 +341,7 @@ const SignIn = props => {
               <ActivityIndicator
                 color={BaseColor.whiteColor}></ActivityIndicator>
             ) : (
-              t('sign_in')
+              t('Login')
             )}
           </Button>
         </View>
@@ -341,7 +355,7 @@ const SignIn = props => {
             }}>
             Don't have account?
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
             <View>
               <Text
                 style={{
