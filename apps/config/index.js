@@ -11,7 +11,7 @@ import {
   DefaultFont,
 } from './theme';
 import {Typography, FontWeight, FontFamily} from './typography';
-// import {Images} from './images';
+import {Images} from './images';
 export {
   BaseSetting,
   Fonts,
@@ -26,5 +26,5 @@ export {
   Typography,
   FontWeight,
   FontFamily,
-  //   Images,
+  Images,
 };

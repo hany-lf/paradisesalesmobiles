@@ -275,11 +275,6 @@ const Register = props => {
               alignSelf: 'center',
               marginTop: 30,
             }}>
-            <IconAwesome5
-              name="arrow-left"
-              color={BaseColor.corn70}
-              size={16}
-              style={{marginHorizontal: 12}}></IconAwesome5>
             <Text
               style={{
                 fontFamily: Fonts.type.Lato,
@@ -287,7 +282,7 @@ const Register = props => {
                 textAlign: 'center',
                 color: BaseColor.corn70,
               }}>
-              Back to login
+              Already have account? Login
             </Text>
           </View>
         </TouchableOpacity>
