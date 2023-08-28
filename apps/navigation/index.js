@@ -42,6 +42,7 @@ import {
 import SplashScreen from 'react-native-splash-screen';
 import ForgotPassword from '../screens/ForgotPassword';
 import Register from '../screens/Register';
+import CustomModal from '../screens/CustomModal';
 
 const Navigator = props => {
   const navigationRef = useRef(null);
@@ -86,6 +87,7 @@ const Navigator = props => {
       <RootStack.Navigator
         initialRouteName={initialRoute}
         screenOptions={{
+          animationEnabled: false,
           drawerStyle: {
             width: '60%',
           },
@@ -112,6 +114,11 @@ const Navigator = props => {
             component={MainStack}
             options={{headerShown: false}}></RootStack.Screen>
         )}
+        {/* <RootStack.Screen
+          name="Create"
+          component={CustomModal}
+          options={{animationEnabled: true}}
+        /> */}
         <RootStack.Screen
           name="ForgotPassword"
           component={ForgotPassword}

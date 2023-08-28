@@ -1,5 +1,5 @@
 import {View, Image, Dimensions, Animated, ScrollView} from 'react-native';
-import {Button, Text} from '@components';
+import {Button, Text, Icon} from '@components';
 
 import {ButtonMenuHome} from '../../components';
 
@@ -9,9 +9,11 @@ import getUser from '../../selectors/UserSelectors';
 import React, {useState, useEffect, useRef} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import styles from './styles';
+import ActionButton from 'react-native-action-button';
 import {BaseStyle, BaseColor, Fonts, DefaultTheme, useFont} from '@config';
 // import Carousel from 'react-native-reanimated-carousel';
 import Carousel, {ParallaxImage, Pagination} from 'react-native-snap-carousel';
+
 const {width: screenWidth} = Dimensions.get('window');
 
 const Home = props => {
@@ -71,6 +73,31 @@ const Home = props => {
       location: 'Jakarta, Indonesia',
     },
   ];
+
+  const MENUS = {
+    news: {
+      id: 'news',
+      iconName: 'book',
+      title: 'News',
+      navigate: 'NewsMenu',
+    },
+    eCommerce: {
+      id: 'eCommerce',
+      iconName: 'shopping-cart',
+      title: 'E-commerce',
+      navigate: 'ECommerceMenu',
+    },
+  };
+
+  const menuChoosed = useSelector(state => state.application.menu);
+
+  const handleChangeMenu = menu => {
+    navigation.replace(menu.navigate);
+    dispatch({
+      type: actionTypes.SET_MENU,
+      menu: menu.id,
+    });
+  };
 
   const _renderItem = ({item, index}, parallaxProps) => {
     console.log('item render', item);
@@ -169,14 +196,15 @@ const Home = props => {
               data={datas}
               renderItem={_renderItem}
               hasParallaxImages={true}
-              onSnapToItem={index => setActiveSlide(index)}
+              // onSnapToItem={index => setActiveSlide(index)}
+              // onSnapToItem={setActiveSlide}
               // removeClippedSubviews={false}
               // removeClippedSubviews={true}
               // useScrollView={false}
               // style={{borderWidth: 1, borderColor: 'black'}}
             />
           </View>
-          <Pagination
+          {/* <Pagination
             dotsLength={datas.length}
             activeDotIndex={activeSlide}
             containerStyle={{
@@ -195,11 +223,16 @@ const Home = props => {
             }}
             inactiveDotOpacity={0.4}
             inactiveDotScale={0.6}
-          />
+          /> */}
         </ScrollView>
 
         <View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
+              marginTop: 30,
+            }}>
             <ButtonMenuHome
               title={'My Unit'}
               nameicon={'building'}></ButtonMenuHome>

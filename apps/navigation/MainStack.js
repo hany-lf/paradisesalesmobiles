@@ -5,24 +5,99 @@ import {
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
+import {BaseColor} from '@config';
+
+import {
+  BottomTabNavigatorMazi,
+  tabBarFloat,
+  tabBarIcon,
+  CustomTabBarButton,
+} from './components';
 import {useWindowDimensions, View, Text, TouchableOpacity} from 'react-native';
 import ForgotPassword from '../screens/ForgotPassword';
 import HomeScreen from '../screens/Home';
 import Register from '../screens/Register';
+import ProfileScreen from '../screens/Profile';
+import ProjectScreen from '../screens/ProjectScreen';
+import CustomModal from '../screens/CustomModal';
+import IconFontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 // import ForgotPassword from '../screens/ForgotPassword';
+export const WalletMenu = () => (
+  <BottomTabNavigatorMazi tabScreens={WalletTabScreens} />
+);
+
+const ModalScreen = () => (
+  <View style={{flex: 1, backgroundColor: 'blue'}}></View>
+);
+
+const CreateNewPlaceholder = () => (
+  <View style={{flex: 1, backgroundColor: 'blue'}}></View>
+);
+
+export const WalletTabScreens = {
+  HomeScreen: {
+    component: HomeScreen,
+    options: {
+      title: 'Home',
+      headerShown: false,
+      tabBarIcon: ({focused, color}) =>
+        tabBarIcon({focused, color, name: 'home'}),
+    },
+  },
+  CustomModal: {
+    // component: CustomModal,
+    component: CreateNewPlaceholder,
+    options: {
+      title: 'Menu',
+      headerShown: false,
+      animationEnabled: true,
+      // mode: 'modal',
+      tabBarButton: ({focused, onPress, props, color}) =>
+        CustomTabBarButton({
+          onPress,
+          props,
+          color,
+          focused,
+          // color: '#58D68D',
+          bgColor: BaseColor.corn10, //inni background belakang bawah button bulet
+          nameIcon: 'align-justify',
+          nameTitle: 'Menu',
+        }),
+      // tabBarFloat: ({focused, color}) =>
+      // tabBarFloat({focused, color, name: 'history'}),
+      // tabBarIcon: ({focused, color}) =>
+      //   tabBarIcon({focused, color, name: 'history'}),
+    },
+  },
+  ProfileScreen: {
+    component: ProfileScreen,
+    options: {
+      title: 'Profile',
+      headerShown: false,
+
+      tabBarIcon: ({focused, color}) =>
+        tabBarIcon({focused, color, name: 'user'}),
+    },
+  },
+};
 
 const MainStack = ({navigation}) => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
       <Stack.Screen
         // name="HomeStack"
         // component={DrawerStack}
         name="HomeStack"
-        component={HomeScreen}
+        // component={HomeScreen}
+        component={WalletMenu}
         options={{headerShown: false}}></Stack.Screen>
+
       <Stack.Screen
         // name="HomeStack"
         // component={DrawerStack}
