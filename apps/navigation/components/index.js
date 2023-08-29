@@ -156,14 +156,15 @@ export const BottomTabNavigatorMazi = ({tabScreens = {}}) => {
         animationEnabled: false,
         tabBarShowIcon: true,
         tabBarShowLabel: true,
-        tabBarInactiveTintColor: BaseColor.corn30,
-        tabBarActiveTintColor: BaseColor.corn70,
+        tabBarInactiveTintColor: BaseColor.corn70,
+        tabBarActiveTintColor: BaseColor.corn50,
         tabBarStyle: {
           //cek
           position: 'absolute',
 
           elevation: 0,
           backgroundColor: BaseColor.corn10,
+          // backgroundColor:BaseColor.whiteColor
           borderRadius: 15,
           height: 60,
           ...styles.shadow,
@@ -192,16 +193,19 @@ export const BottomTabNavigatorMazi = ({tabScreens = {}}) => {
             key={index}
             name={name}
             component={component}
-            listeners={({navigation, route}) => ({
-              tabPress: e => {
-                console.log('ini yg diklik', e),
-                  // Prevent default action
-                  e.preventDefault();
+            listeners={({navigation, route}) => (
+              {
+                tabPress: e => {
+                  console.log('ini yg diklik', e),
+                    // Prevent default action
+                    e.preventDefault();
 
-                // Do something with the `navigation` object
-                navigation.navigate('CustomModal');
+                  // Do something with the `navigation` object
+                  navigation.navigate('CustomModal');
+                },
               },
-            })}
+              console.log('navigasi custom modal', navigation)
+            )}
             options={{
               tabBarIconStyle: {paddingVertical: 0, marginVertical: 0},
               ...options,

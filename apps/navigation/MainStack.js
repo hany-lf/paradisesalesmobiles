@@ -20,6 +20,7 @@ import Register from '../screens/Register';
 import ProfileScreen from '../screens/Profile';
 import ProjectScreen from '../screens/ProjectScreen';
 import CustomModal from '../screens/CustomModal';
+import Notification from '../screens/Notification';
 import IconFontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -47,9 +48,18 @@ export const WalletTabScreens = {
         tabBarIcon({focused, color, name: 'home'}),
     },
   },
+  ProjectScreen: {
+    component: ProjectScreen,
+    options: {
+      title: 'Project',
+      headerShown: false,
+      tabBarIcon: ({focused, color}) =>
+        tabBarIcon({focused, color, name: 'city'}),
+    },
+  },
   CustomModal: {
-    // component: CustomModal,
-    component: CreateNewPlaceholder,
+    component: CustomModal,
+    // component: CreateNewPlaceholder,
     options: {
       title: 'Menu',
       headerShown: false,
@@ -70,6 +80,16 @@ export const WalletTabScreens = {
       // tabBarFloat({focused, color, name: 'history'}),
       // tabBarIcon: ({focused, color}) =>
       //   tabBarIcon({focused, color, name: 'history'}),
+    },
+  },
+  NotificationScreen: {
+    component: Notification,
+    options: {
+      title: 'Notification',
+      headerShown: false,
+
+      tabBarIcon: ({focused, color}) =>
+        tabBarIcon({focused, color, name: 'bell'}),
     },
   },
   ProfileScreen: {

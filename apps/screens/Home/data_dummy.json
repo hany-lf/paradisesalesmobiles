@@ -1,0 +1,27 @@
+{
+  "data_dummy": [
+    {
+      "key": 1,
+      "project_no": 1,
+      "image": "require('@assets/images/home/slider-project/sudirmansuite.jpeg')",
+
+      "project_name": " 31 Sudirman Suites",
+      "location": "Makassar, Indonesia"
+    },
+
+    {
+      "key": 2,
+      "project_no": 2,
+      "image": "require('@assets/images/home/slider-project/beachwalk.jpeg')",
+      "project_name": "Beachwalk Residence",
+      "location": "Bali, Indonesia"
+    },
+    {
+      "key": 3,
+      "project_no": 3,
+      "image": "require('@assets/images/home/slider-project/antasariplace.jpeg')",
+      "project_name": "Antasari Place",
+      "location": "Jakarta, Indonesia"
+    }
+  ]
+}

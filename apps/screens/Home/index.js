@@ -1,4 +1,11 @@
-import {View, Image, Dimensions, Animated, ScrollView} from 'react-native';
+import {
+  View,
+  Image,
+  Dimensions,
+  Animated,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import {Button, Text, Icon} from '@components';
 
 import {ButtonMenuHome} from '../../components';
@@ -13,7 +20,7 @@ import ActionButton from 'react-native-action-button';
 import {BaseStyle, BaseColor, Fonts, DefaultTheme, useFont} from '@config';
 // import Carousel from 'react-native-reanimated-carousel';
 import Carousel, {ParallaxImage, Pagination} from 'react-native-snap-carousel';
-
+import {CardHomePromo} from '../../components';
 const {width: screenWidth} = Dimensions.get('window');
 
 const Home = props => {
@@ -25,6 +32,7 @@ const Home = props => {
   console.log('user dihome', user);
   const carouselRef = useRef(null);
   const [activeSlide, setActiveSlide] = useState(0);
+  const [datas, setDatas] = useState([]);
 
   useEffect(() => {
     if (user == null) {
@@ -32,16 +40,7 @@ const Home = props => {
     }
   }, [user]);
 
-  const onLogOut = () => {
-    setLoading(true);
-    dispatch(
-      authentication(false, response => {
-        setLoading(false);
-      }),
-    );
-  };
-
-  const datas = [
+  const data_dummy = [
     {
       key: 1,
       project_no: 1,
@@ -74,6 +73,10 @@ const Home = props => {
     },
   ];
 
+  useEffect(() => {
+    setDatas(data_dummy);
+  }, []);
+
   const MENUS = {
     news: {
       id: 'news',
@@ -99,7 +102,7 @@ const Home = props => {
     });
   };
 
-  const _renderItem = ({item, index}, parallaxProps) => {
+  const _renderItem = ({item, index, dataIndex}, parallaxProps) => {
     console.log('item render', item);
     console.log('index', index);
     return (
@@ -115,7 +118,9 @@ const Home = props => {
           // apparitionDelay={2}
           // currentIndex={0}
           // onSnapToItem={index => console.log(index)}
-          // onSnapToItem={index => setActiveSlide(index)}
+          // onBeforeSnapToItem={index}
+          // onScrollIndexChanged={index => setActiveSlide(index)}
+          onSnapToItem={index => setActiveSlide(index)}
           {...parallaxProps}
         />
 
@@ -164,9 +169,27 @@ const Home = props => {
     );
   };
 
-  // const _renderItem = ({item, index}) => {
-  //   return <Text>{item.project_name}</Text>;
-  // };
+  const _renderItem_ = ({item, index, dataIndex}, parallaxProps) => {
+    console.log('item render', item);
+    console.log('index', index);
+    return (
+      <View style={styles.item}>
+        <ParallaxImage
+          // source={{uri: item.image}}
+          source={item.image}
+          containerStyle={styles.imageContainer}
+          style={styles.image}
+          parallaxFactor={0.4}
+          {...parallaxProps}
+        />
+        {/* <Text>{index}</Text>
+        <Text style={styles.title} numberOfLines={2}>
+          {item.project_name}
+        </Text> */}
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView
       edges={['right', 'top', 'left']}
@@ -196,12 +219,6 @@ const Home = props => {
               data={datas}
               renderItem={_renderItem}
               hasParallaxImages={true}
-              // onSnapToItem={index => setActiveSlide(index)}
-              // onSnapToItem={setActiveSlide}
-              // removeClippedSubviews={false}
-              // removeClippedSubviews={true}
-              // useScrollView={false}
-              // style={{borderWidth: 1, borderColor: 'black'}}
             />
           </View>
           {/* <Pagination
@@ -247,10 +264,97 @@ const Home = props => {
               nameicon={'calculator'}></ButtonMenuHome>
           </View>
 
-          <Text>My Unit</Text>
-          <Button onPress={() => onLogOut()} outline style={{borderRadius: 24}}>
-            <Text style={{color: BaseColor.green90}}>Logout</Text>
-          </Button>
+          <View
+            style={{
+              backgroundColor: BaseColor.corn10,
+              marginTop: 40,
+              marginBottom: 150,
+            }}>
+            {/* //INI PROMO OFFERS */}
+            <View
+              style={{
+                // backgroundColor: BaseColor.corn10,
+                flex: 1,
+                marginTop: 20,
+              }}>
+              <View
+                style={{
+                  marginHorizontal: 20,
+                  marginVertical: 20,
+                  flex: 1,
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                }}>
+                <Text style={{fontSize: 17, fontFamily: Fonts.type.Lato}}>
+                  Promo & Offers
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontFamily: Fonts.type.Lato,
+                    color: BaseColor.corn50,
+                  }}>
+                  See all
+                </Text>
+              </View>
+
+              <View style={{marginHorizontal: 20, marginVertical: 10}}>
+                <CardHomePromo
+                  backgroundColor={BaseColor.corn50}
+                  title={'Step into your new elegance design home.'}
+                  subtitle={
+                    'Each apartment showcase contemporary architecture, high-end finished, and top-of the-line appliance.'
+                  }
+                  onPressSeeDetails={() => alert('ini onpress see details')}
+                  onPress={() => alert('ini onpress promo')}
+                  image={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}></CardHomePromo>
+                {/* <View style={{width: '20%', height: 100}}></View> */}
+              </View>
+            </View>
+
+            {/* //INI NEWS UPDATE */}
+            <View
+              style={{
+                // backgroundColor: BaseColor.corn10,
+                flex: 1,
+                marginTop: 20,
+                marginBottom: 20,
+              }}>
+              <View
+                style={{
+                  marginHorizontal: 20,
+                  marginVertical: 20,
+                  flex: 1,
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                }}>
+                <Text style={{fontSize: 17, fontFamily: Fonts.type.Lato}}>
+                  News & Update
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontFamily: Fonts.type.Lato,
+                    color: BaseColor.corn50,
+                  }}>
+                  See all
+                </Text>
+              </View>
+
+              <View style={{marginHorizontal: 20, marginVertical: 10}}>
+                <CardHomePromo
+                  backgroundColor={BaseColor.corn50}
+                  title={'Step into your new elegance design home.'}
+                  subtitle={
+                    'Each apartment showcase contemporary architecture, high-end finished, and top-of the-line appliance.'
+                  }
+                  onPressSeeDetails={() => alert('ini onpress see details')}
+                  onPress={() => alert('ini onpress news update')}
+                  image={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}></CardHomePromo>
+                {/* <View style={{width: '20%', height: 100}}></View> */}
+              </View>
+            </View>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
