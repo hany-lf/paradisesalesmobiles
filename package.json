@@ -8,6 +8,7 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
+    "postinstall": "patch-package",
     "clean": "rm -rf ./node_modules/ && yarn",
     "clean-android": "cd ./android && ./gradlew clean",
     "build-android-release": "cd ./android && ./gradlew clean && ./gradlew app:assembleRelease",
