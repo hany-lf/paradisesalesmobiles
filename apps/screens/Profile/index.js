@@ -12,6 +12,7 @@ const Profile = props => {
   const [loading, setLoading] = useState(false);
   const {t} = useTranslation();
   const dispatch = useDispatch();
+  const {navigation} = props;
 
   const onLogOut = () => {
     setLoading(true);
