@@ -5,6 +5,9 @@ import {
   Animated,
   ScrollView,
   TouchableOpacity,
+  FlatList,
+  useWindowDimensions,
+  Platform,
 } from 'react-native';
 import {Button, Text, Icon} from '@components';
 
@@ -21,7 +24,10 @@ import {BaseStyle, BaseColor, Fonts, DefaultTheme, useFont} from '@config';
 // import Carousel from 'react-native-reanimated-carousel';
 import Carousel, {ParallaxImage, Pagination} from 'react-native-snap-carousel';
 import {CardHomePromo} from '../../components';
-const {width: screenWidth} = Dimensions.get('window');
+import {useSharedValue} from 'react-native-reanimated';
+import {ExpandingDot} from 'react-native-animated-pagination-dots';
+
+const SLIDER_1_FIRST_ITEM = 1;
 
 const Home = props => {
   const [loading, setLoading] = useState(false);
@@ -32,13 +38,32 @@ const Home = props => {
   console.log('user dihome', user);
   const carouselRef = useRef(null);
   const [activeSlide, setActiveSlide] = useState(0);
+  const [slider1ActiveSlide, setslider1ActiveSlide] =
+    useState(SLIDER_1_FIRST_ITEM);
   const [datas, setDatas] = useState([]);
+  const [datasIndicator, setDatasIndicator] = useState([]);
+  const [images, setImages] = useState([]);
+
+  const {width, height} = Dimensions.get('screen');
+
+  const scrollX = useRef(new Animated.Value(0)).current;
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.72 : width * 0.85;
+  const SPACING = 4;
+  const SPACER_ITEM_SIZE = (width - ITEM_SIZE) / 2;
+
+  const ITEM_HEIGHT = height * 0.75;
+  const DOT_SIZE = 8;
+  const DOT_SPACING = 8;
+  const DOT_INDICATOR_SIZE = DOT_SIZE + DOT_SPACING;
 
   useEffect(() => {
     if (user == null) {
       props.navigation.navigate('SignIn');
     }
   }, [user]);
+
+  // useEffect(() => {}, [datas]);
 
   const data_dummy = [
     {
@@ -71,10 +96,32 @@ const Home = props => {
       project_name: 'Antasari Place',
       location: 'Jakarta, Indonesia',
     },
+    {
+      key: 4,
+      project_no: 2,
+      image: require('@assets/images/home/slider-project/beachwalk.jpeg'),
+      project_name: 'Beachwalk Residence',
+      location: 'Bali, Indonesia',
+    },
+    {
+      key: 5,
+      project_no: 3,
+      image: require('@assets/images/home/slider-project/antasariplace.jpeg'),
+      project_name: 'Antasari Place',
+      location: 'Jakarta, Indonesia',
+    },
+    {
+      key: 6,
+      project_no: 3,
+      image: require('@assets/images/home/slider-project/antasariplace.jpeg'),
+      project_name: 'Antasari Place',
+      location: 'Jakarta, Indonesia',
+    },
   ];
 
   useEffect(() => {
-    setDatas(data_dummy);
+    setDatasIndicator(data_dummy);
+    setDatas([{key: 'left-spacer'}, ...data_dummy, {key: 'right-spacer'}]);
   }, []);
 
   const MENUS = {
@@ -102,9 +149,10 @@ const Home = props => {
     });
   };
 
-  const _renderItem = ({item, index, dataIndex}, parallaxProps) => {
+  const _renderItem = ({item, index}, parallaxProps) => {
     console.log('item render', item);
     console.log('index', index);
+    // console.log('data index', dataIndex);
     return (
       <View style={styles.item}>
         {/* <Text>{item.image}</Text>
@@ -115,12 +163,13 @@ const Home = props => {
           containerStyle={styles.imageContainer}
           style={styles.image}
           parallaxFactor={0.4}
+          showSpinner={true}
           // apparitionDelay={2}
           // currentIndex={0}
           // onSnapToItem={index => console.log(index)}
           // onBeforeSnapToItem={index}
           // onScrollIndexChanged={index => setActiveSlide(index)}
-          onSnapToItem={index => setActiveSlide(index)}
+
           {...parallaxProps}
         />
 
@@ -169,23 +218,58 @@ const Home = props => {
     );
   };
 
-  const _renderItem_ = ({item, index, dataIndex}, parallaxProps) => {
-    console.log('item render', item);
-    console.log('index', index);
+  const Indicator = ({scrollX}) => {
     return (
-      <View style={styles.item}>
-        <ParallaxImage
-          // source={{uri: item.image}}
-          source={item.image}
-          containerStyle={styles.imageContainer}
-          style={styles.image}
-          parallaxFactor={0.4}
-          {...parallaxProps}
-        />
-        {/* <Text>{index}</Text>
-        <Text style={styles.title} numberOfLines={2}>
-          {item.project_name}
-        </Text> */}
+      <View
+        style={{
+          // position: 'absolute',
+          flexDirection: 'row',
+          // bottom: -20,
+          justifyContent: 'center',
+        }}>
+        {datasIndicator.map((_, index) => {
+          console.log('index', index);
+          const inputRange = [
+            (index - 1) * width,
+            // (index - 2) * width,
+            index * width,
+            (index + 1) * width,
+            // (index + 2) * width,
+          ];
+          // const scale = scrollX.interpolate({
+          //   inputRange,
+          //   outputRange: [0.8, 1.4, 0.8],
+          //   extrapolate: 'clamp',
+          // });
+
+          const opacity = scrollX.interpolate({
+            inputRange,
+            outputRange: [0.8, 1.4, 0.8],
+            extrapolate: 'clamp',
+          });
+
+          const colour = scrollX.interpolate({
+            inputRange,
+            outputRange: ['black', 'red', 'black'],
+            extrapolate: 'clamp',
+          });
+          return (
+            <Animated.View
+              key={index}
+              style={{
+                height: 10,
+                width: 10,
+                backgroundColor: colour,
+                opacity,
+                borderRadius: 5,
+
+                margin: 5,
+                // transform: [{scale}],
+              }}>
+              {/* <Text>{index}</Text> */}
+            </Animated.View>
+          );
+        })}
       </View>
     );
   };
@@ -207,41 +291,117 @@ const Home = props => {
               style={{width: 160, resizeMode: 'contain'}}></Image>
           </View>
         </View>
-        <ScrollView>
-          <View style={{flex: 1}}>
-            {/* <Text>a</Text> */}
-            {/* <Text>{activeSlide}</Text> */}
-            <Carousel
-              ref={carouselRef}
-              sliderWidth={screenWidth}
-              sliderHeight={screenWidth}
-              itemWidth={screenWidth - 80}
-              data={datas}
-              renderItem={_renderItem}
-              hasParallaxImages={true}
-            />
-          </View>
-          {/* <Pagination
-            dotsLength={datas.length}
-            activeDotIndex={activeSlide}
-            containerStyle={{
-              paddingVertical: 10,
-            }}
+
+        <View style={{flex: 1}}>
+          <Animated.FlatList
+            showsHorizontalScrollIndicator={false}
+            data={datas}
+            keyExtractor={item => item.key}
+            horizontal
+            contentContainerStyle={{alignItems: 'center'}}
+            snapToInterval={ITEM_SIZE}
+            decelerationRate={0}
+            bounces={false}
+            onScroll={Animated.event(
+              [{nativeEvent: {contentOffset: {x: scrollX}}}],
+              {useNativeDriver: true},
+            )}
+            scrollEventThrottle={16}
+            pagingEnabled
+            renderItem={({item, index}) => {
+              if (!item.image) {
+                return <View style={{width: SPACER_ITEM_SIZE}}></View>;
+              }
+              const inputRange = [
+                (index - 2) * ITEM_SIZE,
+                (index - 1) * ITEM_SIZE,
+                index * ITEM_SIZE,
+                // (index + 1) * ITEM_SIZE,
+              ];
+              const translateY = scrollX.interpolate({
+                inputRange,
+                outputRange: [0, -5, 0],
+              });
+              return (
+                <View style={{width: ITEM_SIZE}}>
+                  <Animated.View
+                    style={{
+                      marginHorizontal: SPACING,
+                      // padding: SPACING,
+                      padding: 5,
+                      alignItems: 'center',
+                      backgroundColor: 'white',
+                      borderRadius: 20,
+                      transform: [{translateY}],
+                    }}>
+                    <Image
+                      source={item.image}
+                      style={{
+                        width: '100%',
+                        height: ITEM_SIZE - 10,
+                        resizeMode: 'contain',
+                        borderRadius: 24,
+                      }}></Image>
+
+                    <View
+                      style={{
+                        position: 'absolute',
+                        backgroundColor: BaseColor.grey10,
+                        // top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        height: 80,
+
+                        marginHorizontal: 30,
+                        marginVertical: 20,
+                        borderRadius: 20,
+                        opacity: 0.8,
+                        // justifyContent: 'center',
+                        // alignItems: 'center',
+                      }}>
+                      <View style={{marginVertical: 10, marginHorizontal: 25}}>
+                        <Text
+                          style={{
+                            fontFamily: Fonts.type.LatoBlack,
+                            color: BaseColor.corn90,
+                            marginVertical: 5,
+                            fontSize: 16,
+                          }}>
+                          {item.project_name}
+                        </Text>
+                        <Text
+                          style={{
+                            fontFamily: Fonts.type.LatoBold,
+                            color: BaseColor.corn50,
+                            marginVertical: 5,
+                          }}>
+                          {item.location}
+                        </Text>
+                      </View>
+                    </View>
+                  </Animated.View>
+                </View>
+              );
+            }}></Animated.FlatList>
+          {/* <Indicator scrollX={scrollX} />
+          <ExpandingDot
+            data={datasIndicator}
+            expandingDotWidth={20}
+            scrollX={scrollX}
+            inActiveDotColor={'#347af0'}
+            activeDotColor={'#347af0'}
+            inActiveDotOpacity={0.5}
+            // dotStyle={styles.dotStyles}
             dotStyle={{
               width: 10,
               height: 10,
               borderRadius: 5,
-
-              backgroundColor: BaseColor.corn70,
+              marginHorizontal: 3,
             }}
-            inactiveDotStyle={{
-              backgroundColor: BaseColor.corn30,
-              // Define styles for inactive dots here
-            }}
-            inactiveDotOpacity={0.4}
-            inactiveDotScale={0.6}
+            containerStyle={styles.constainerStyles}
           /> */}
-        </ScrollView>
+        </View>
 
         <View>
           <View

@@ -1,7 +1,37 @@
 import {StyleSheet, Dimensions} from 'react-native';
 import {BaseColor, Fonts} from '@config';
 const {width: screenWidth} = Dimensions.get('window');
+const DOT_SIZE = 8;
+const DOT_SPACING = 8;
+const DOT_INDICATOR_SIZE = DOT_SIZE + DOT_SPACING;
 export default StyleSheet.create({
+  pagination: {
+    // position: 'absolute',
+    // top: 0,
+    // left: 0,
+    // bottom: 0,
+    // right: 0,
+    flex: 1,
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  dot: {
+    width: DOT_SIZE,
+    height: DOT_SIZE,
+    borderRadius: DOT_SIZE,
+    backgroundColor: 'black',
+    margin: DOT_SPACING,
+  },
+  dotIndicator: {
+    width: DOT_INDICATOR_SIZE,
+    height: DOT_INDICATOR_SIZE,
+    borderRadius: DOT_INDICATOR_SIZE,
+    borderWidth: 1,
+    borderColor: 'brown',
+    position: 'absolute',
+    // top:-DOT_SIZE /2,
+    left: DOT_SIZE * 10,
+  },
   textInput: {
     height: 46,
     backgroundColor: BaseColor.fieldColor,
