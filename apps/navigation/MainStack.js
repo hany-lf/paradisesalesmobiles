@@ -6,7 +6,7 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import {BaseColor} from '@config';
-
+import {Button} from '@components';
 import {
   BottomTabNavigatorMazi,
   tabBarFloat,
@@ -30,14 +30,6 @@ export const WalletMenu = () => (
   <BottomTabNavigatorMazi tabScreens={WalletTabScreens} />
 );
 
-const ModalScreen = () => (
-  <View style={{flex: 1, backgroundColor: 'blue'}}></View>
-);
-
-const CreateNewPlaceholder = () => (
-  <View style={{flex: 1, backgroundColor: 'blue'}}></View>
-);
-
 export const WalletTabScreens = {
   HomeScreen: {
     component: HomeScreen,
@@ -59,12 +51,29 @@ export const WalletTabScreens = {
   },
   CustomModal: {
     component: CustomModal,
+    // mode: 'modal',
     // component: CreateNewPlaceholder,
     options: {
-      title: 'Menu',
-      headerShown: false,
-      animationEnabled: true,
+      // title: 'Menu',
+      headerShown: true,
+      // animationEnabled: true,
       // mode: 'modal',
+      presentation: 'modal',
+      // tabBarStyle: {display: 'none'},
+      // headerLeft: () => (
+      //   <TouchableOpacity
+      //     onPress={
+      //       () => alert('hah n back')
+      //       // props.navigation.setOptions({
+      //       //   tabBarVisible: true,
+      //       // })
+      //     }>
+      //     {/* <View> */}
+      //     <Text>on back</Text>
+      //     {/* </View> */}
+      //   </TouchableOpacity>
+      // ),
+
       tabBarButton: ({focused, onPress, props, color}) =>
         CustomTabBarButton({
           onPress,
@@ -109,27 +118,42 @@ const MainStack = ({navigation}) => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
+        animationEnabled: false,
+        presentation: 'modal',
       }}>
-      <Stack.Screen
-        // name="HomeStack"
-        // component={DrawerStack}
-        name="HomeStack"
-        // component={HomeScreen}
-        component={WalletMenu}
-        options={{headerShown: false}}></Stack.Screen>
+      <Stack.Group>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="HomeStack"
+          // component={HomeScreen}
+          component={WalletMenu}
+          options={{
+            headerShown: false,
+            animationEnabled: 'true',
+          }}></Stack.Screen>
 
-      <Stack.Screen
-        // name="HomeStack"
-        // component={DrawerStack}
-        name="ForgotPassword"
-        component={ForgotPassword}
-        options={{headerShown: false}}></Stack.Screen>
-      <Stack.Screen
-        // name="HomeStack"
-        // component={DrawerStack}
-        name="Register"
-        component={Register}
-        options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="ForgotPassword"
+          component={ForgotPassword}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="Register"
+          component={Register}
+          options={{headerShown: false}}></Stack.Screen>
+      </Stack.Group>
+      <Stack.Group screenOptions={{presentation: 'modal'}}>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="CustomModal"
+          component={CustomModal}
+          options={{headerShown: false, animationEnabled: true}}></Stack.Screen>
+      </Stack.Group>
     </Stack.Navigator>
   );
 };

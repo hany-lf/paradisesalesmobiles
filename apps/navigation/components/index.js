@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Icon, Text} from '@components';
-import {View, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, StyleSheet, Button} from 'react-native';
 import {
   createBottomTabNavigator,
   BottomTabBar,
@@ -14,7 +14,7 @@ import {useSelector} from 'react-redux';
 import {useTheme} from '@react-navigation/native';
 // import styles from '../../screens/SignIn/styles';
 import {TabBg} from './TabBg';
-import {Button} from '../../components';
+// import {Button} from '../../components';
 import IconFontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import CustomModal from '../../screens/CustomModal';
 import {Fonts} from '../../config';
@@ -152,7 +152,7 @@ export const BottomTabNavigatorMazi = ({tabScreens = {}}) => {
         presentation: 'modal',
 
         headerShown: false,
-        // headerMode: 'screen',
+        headerMode: 'none',
         animationEnabled: false,
         tabBarShowIcon: true,
         tabBarShowLabel: true,
@@ -160,7 +160,7 @@ export const BottomTabNavigatorMazi = ({tabScreens = {}}) => {
         tabBarActiveTintColor: BaseColor.corn50,
         tabBarStyle: {
           //cek
-          position: 'absolute',
+          // position: 'absolute',
 
           elevation: 0,
           backgroundColor: BaseColor.corn10,
@@ -174,43 +174,33 @@ export const BottomTabNavigatorMazi = ({tabScreens = {}}) => {
 
           paddingBottom: 8,
         },
-        tabBarItemStyle: {
-          borderTopWidth: 0,
-
-          // backgroundColor: '#FFFFFF',
-          // backgroundColor: 'red',
-          // backgroundColor: 'transparent',
-
-          //   elevation: 30,
-        },
       }}>
       {Object.keys(tabScreens).map((name, index) => {
         const {options, component} = tabScreens[name];
         console.log('name tab', name);
         console.log('index tab', index);
+        console.log('component', component);
         return name == 'CustomModal' ? (
           <BottomTab.Screen
             key={index}
             name={name}
             component={component}
-            listeners={({navigation, route}) => (
-              {
-                tabPress: e => {
-                  console.log('ini yg diklik', e),
-                    // Prevent default action
-                    e.preventDefault();
-
-                  // Do something with the `navigation` object
-                  navigation.navigate('CustomModal');
-                },
+            // listeners={{tabPress: e => console.log('Tab press', e.target)}}
+            listeners={({navigation, route}) => ({
+              tabPress: e => {
+                console.log('ealah ini', e);
+                e.preventDefault();
+                navigation.navigate('CustomModal', {showModal: true});
               },
-              console.log('navigasi custom modal', navigation)
-            )}
+            })}
             options={{
-              tabBarIconStyle: {paddingVertical: 0, marginVertical: 0},
               ...options,
-              title: t(options.title),
+              tabBarVisibilityAnimationConfig: 'hide',
               animationEnabled: true,
+              title: t(options.title),
+              tabBarStyle: {display: 'none'},
+              headerShown: false,
+              tabBarIconStyle: {paddingVertical: 0, marginVertical: 0},
             }}
           />
         ) : (
