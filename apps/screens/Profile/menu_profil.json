@@ -1,0 +1,23 @@
+{
+  "menu_profil": [
+    {
+      "key": 1,
+      "nama_menu": "Settings",
+      "component": "SettingScreen",
+      "icon_menu": "cog"
+    },
+
+    {
+      "key": 2,
+      "nama_menu": "Edit Profile",
+      "component": "EditProfileScreen",
+      "icon_menu": "users-cog"
+    },
+    {
+      "key": 3,
+      "nama_menu": "Change password",
+      "component": "ChangePasswordScreen",
+      "icon_menu": "fingerprint"
+    }
+  ]
+}

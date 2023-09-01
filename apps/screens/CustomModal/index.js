@@ -1,6 +1,6 @@
 import RBSheet from 'react-native-raw-bottom-sheet';
 import PropTypes from 'prop-types';
-import {View, Modal, Pressable, FlatList} from 'react-native';
+import {View, Modal, Pressable, FlatList, TouchableOpacity} from 'react-native';
 import {Text, Button} from '@components';
 import React, {useState, useEffect, useRef} from 'react';
 import styles from './styles';
@@ -107,7 +107,25 @@ const CustomModal = props => {
               alignSelf: 'center',
               marginBottom: 10, //margin bottom untuk button bulet bawah
             }}>
-            <Button
+            <TouchableOpacity onPress={() => button()}>
+              <View
+                style={{
+                  backgroundColor: BaseColor.corn30,
+                  borderRadius: 35,
+                  width: 70,
+                  height: 70,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Icon
+                  name="times-circle"
+                  size={40}
+                  color={BaseColor.corn50}
+                  style={{margin: 0}}></Icon>
+              </View>
+            </TouchableOpacity>
+
+            {/* <Button
               onPress={() => button()}
               style={{
                 backgroundColor: BaseColor.corn30,
@@ -119,7 +137,7 @@ const CustomModal = props => {
                 name={'times-circle'}
                 size={30} //size maksimal 30 krn kalo 31 hilang
                 color={BaseColor.corn50}></Icon>
-            </Button>
+            </Button> */}
           </View>
         </Modal>
       </View>

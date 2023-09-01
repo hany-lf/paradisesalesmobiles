@@ -38,6 +38,7 @@ const ProjectScreen = props => {
         <View style={{marginBottom: 100}}>
           {datas.map((item, index) => (
             <View
+              key={index}
               // style={styles.item}
               style={{
                 width: '100%',
