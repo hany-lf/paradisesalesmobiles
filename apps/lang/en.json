@@ -1,4 +1,8 @@
 {
+  "credit_total": "Credit Total",
+  "bank_rate": "Bank Rate",
+  "time": "Time",
+  "calculator": "Calculator",
   "choose_project": "Choose Project",
   "confirm_password": "Password Confirmation",
   "full_name": "Full Name",

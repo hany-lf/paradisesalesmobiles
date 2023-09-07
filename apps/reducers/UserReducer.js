@@ -6,6 +6,7 @@ const initialState = {
   },
   user: null,
   userIDToken: null,
+  dataShowModal: null,
 };
 
 const userReducer = (state = initialState, action = {}) => {
@@ -50,6 +51,12 @@ const userReducer = (state = initialState, action = {}) => {
       return {
         // ...state,
         user: null,
+      };
+
+    case actionTypes.SHOW_MODAL:
+      return {
+        // ...state,
+        dataShowModal: action.data,
       };
 
     default:

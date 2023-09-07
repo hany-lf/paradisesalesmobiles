@@ -421,7 +421,10 @@ const Home = props => {
               nameicon={'download'}></ButtonMenuHome>
             <ButtonMenuHome
               title={'Calculator KPA/R'}
-              nameicon={'calculator'}></ButtonMenuHome>
+              nameicon={'calculator'}
+              onPress={() =>
+                navigation.navigate('CalculatorScreen')
+              }></ButtonMenuHome>
           </View>
 
           <View

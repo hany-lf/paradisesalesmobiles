@@ -28,8 +28,17 @@ const Profile = props => {
   const [data_menu_profil, setDataMenuProfil] = useState(
     menu_profil.menu_profil,
   );
+  // const login = user.login.success;
+  const {authentication} = UserAuth;
 
   useEffect(() => {}, [menu_profil]);
+  useEffect(() => {
+    if (user == null) {
+      props.navigation.navigate('SignIn');
+    }
+  });
+  // console.log('login', login);
+  console.log('userz', user);
 
   const onLogOut = () => {
     setLoading(true);
@@ -131,6 +140,7 @@ const Profile = props => {
             marginTop: 30,
           }}>
           <ButtonMenuHome
+            onPress={() => navigation.navigate('CalculatorScreen')}
             title={'Calculator KPA/R'}
             nameicon={'calculator'}></ButtonMenuHome>
           <ButtonMenuHome

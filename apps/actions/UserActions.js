@@ -1,7 +1,9 @@
 import UserController from '../controllers/UserController';
 import axios from 'axios';
 // import AlertCustom from '../components/AlertCustom';
-import {Alert, Platform} from 'react-native';
+import {Alert, Platform, Modal} from 'react-native';
+import React, {useState} from 'react';
+import UsernameNull from './modalAlert/usernameNull';
 
 export const actionTypes = {
   LOGIN: 'LOGIN',
@@ -37,6 +39,8 @@ export const actionTypes = {
   CHANGE_FOTO: 'CHANGE_FOTO',
 
   // LOAD_LOTNO: 'LOAD_LOTNO'
+
+  SHOW_MODAL: 'SHOW_MODAL',
 };
 export const LOGOUT = 'LOGOUT';
 export const LOGIN = 'LOGIN';
@@ -48,7 +52,7 @@ const loginRequest = () => ({
 
 const loginError = error => ({
   type: actionTypes.LOGIN_ERROR,
-  error,
+  error: error,
 });
 
 const loginSuccess = (user, data) => ({
@@ -155,6 +159,11 @@ const dataUpdate = (load, data) => ({
   load,
 });
 
+const showModal = error => ({
+  type: actionTypes.SHOW_MODAL,
+  data: error,
+});
+
 export const getdata = user => async dispatch => {
   console.log('status di user action', user);
   dispatch(dataRequest());
@@ -234,14 +243,16 @@ export const login = (email, password, token_firebase) => async dispatch => {
       //   ? Alert.alert('Sorry! Warning email tidak null', msgPesan)
       //   : Alert.prompt('Sorry! Warning ios email tidak null', msgPesan);
       Platform.OS == 'android'
-        ? Alert.alert('Sorry! Warning', msgPesan)
-        : Alert.prompt('Sorry! Warning', msgPesan);
+        ? Alert.alert('Incorrect Username', msgPesan)
+        : Alert.prompt('Incorrect Username', msgPesan);
 
       console.log('ini konsol eror', msgPesan);
+
       // kalo error email: munculnya {"email": ["The email format is invalid."]}
       // kalo error password: munculnya Wrong Password / User not found
-
-      dispatch(loginError(error));
+      dispatch(showModal({status: true, msgPesan, error: 'email_kosong'}));
+      // dispatch(loginError(error));
+      dispatch(loginError({status: true, msgPesan, error: 'email_kosong'}));
     } else if (error.response.data.Pesan.password != null) {
       const msgPesan = error.response.data.Pesan.password[0];
       console.log('msgpesan password tidk null', msgPesan);
@@ -260,8 +271,9 @@ export const login = (email, password, token_firebase) => async dispatch => {
       console.log('ini konsol eror', msgPesan);
       // kalo error email: munculnya {"email": ["The email format is invalid."]}
       // kalo error password: munculnya Wrong Password / User not found
-
-      dispatch(loginError(error));
+      dispatch(showModal({status: true, msgPesan, error: 'password_kosong'}));
+      // dispatch(loginError(error));
+      dispatch(loginError({status: true, msgPesan, error: 'password_kosong'}));
     } else {
       const msgPesan = error.response.data.Pesan;
       console.log('msgpesan password null', msgPesan);
@@ -277,8 +289,13 @@ export const login = (email, password, token_firebase) => async dispatch => {
       console.log('ini konsol eror', msgPesan);
       // kalo error email: munculnya {"email": ["The email format is invalid."]}
       // kalo error password: munculnya Wrong Password / User not found
-
-      dispatch(loginError(error));
+      dispatch(
+        showModal({status: true, msgPesan, error: 'error_email_or_pass'}),
+      );
+      // dispatch(loginError(error));
+      dispatch(
+        loginError({status: true, msgPesan, error: 'error_email_or_pass'}),
+      );
     }
   }
 };

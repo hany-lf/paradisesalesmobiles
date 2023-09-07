@@ -24,15 +24,17 @@ import {
   ActivityIndicator,
   Dimensions,
   ImageBackground,
+  Modal,
   // Button,
 } from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector, useDispatch, connect} from 'react-redux';
 import messaging from '@react-native-firebase/messaging';
 import intro5 from '@assets/images/OnboardingScreen.jpg';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import IconAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {useTranslation} from 'react-i18next';
 import {PermissionsAndroid} from 'react-native';
+import errorsSelector from '../../selectors/ErrorSelectors';
 
 const SignIn = props => {
   console.log('api url env', API_URL);
@@ -53,12 +55,44 @@ const SignIn = props => {
   const [token_firebase, setTokenFirebase] = useState('');
   const {navigation} = props;
   console.log('props', props);
-  // type Item = typeof data[0];
+  const user = useSelector(state => state.user);
+  console.log('datashow modal null', user.dataShowModal);
+  const psn =
+    user.dataShowModal === null
+      ? 'isinya null ya'
+      : user.dataShowModal.msgPesan;
+  const stts =
+    user.dataShowModal === null ? 'isinya null ya' : user.dataShowModal.status;
 
-  // const  _keyExtractor = (item: Item) => item.title;
+  // user.dataShowModal != null || user.dataShowModal != undefined
+  //   ? user.dataShowModal.msgPesan
+  //   : null;
+  const [showModalUsername, setModalShowUsername] = useState(false);
+  const [pesanModalUsername, setPesanModalUsername] = useState('');
+  const [typeErrorLogin, setTypeErrorLogin] = useState('');
+  console.log('user di sign in', user);
 
+  // const errors = useSelector(state =>
+  //   errorsSelector([actionTypes.LOGIN_ERROR], state),
+  // );
+  // console.log('error selector', errors);
   const passwordChanged = useCallback(value => setPassword(value), []);
   const emailChanged = useCallback(value => setEmail(value), []);
+
+  useEffect(() => {
+    console.log('user for reset? ', user.user);
+    if (user.user != null) {
+      // console.log('user', user);
+
+      // loadProject();
+      // props.navigation.navigate('MainStack');
+      props.navigation.navigate('MainStack');
+      // navigation.navigate('MainStack');
+    } else {
+      // setIntro(true); //tutup dulu sementara
+      console.log('truee');
+    }
+  }, []);
 
   const _onDone = () => {
     console.log('done');
@@ -213,6 +247,14 @@ const SignIn = props => {
     },
   ];
 
+  // const showModal = modal => {
+  //   const currentModal = {
+  //     showModal: true,
+  //     modalType: modal,
+  //   };
+  //   props.showModal({modal: currentModal});
+  // };
+
   const loginklik = () => {
     setLoading(true);
     setLoadingProses(true);
@@ -227,6 +269,20 @@ const SignIn = props => {
     loginUser();
     setLoadingProses(false);
     setLoading(false);
+
+    // changeShowModal({
+    //   status: stts,
+    //   pesan: psn,
+    //   type_error: user.dataShowModal.error,
+    // });
+    // user;
+    // showModal();
+  };
+
+  const changeShowModal = ({status, pesan, type_error}) => {
+    setModalShowUsername(status);
+    setPesanModalUsername(pesan);
+    setTypeErrorLogin(type_error);
   };
 
   const loginUser = useCallback(
@@ -234,8 +290,19 @@ const SignIn = props => {
     [email, password, token_firebase, dispatch],
   );
 
+  // const showModal = modal => {
+  //   const currentModal = {
+  //     showModal: true,
+  //     modalType: modal,
+  //   };
+  //   setModalShowUsername(currentModal.showModal);
+  //   console.log('show modal di sign in', currentModal.showModal);
+  //   props.showModal({modal: currentModal});
+  // };
+
   useEffect(() => {
     requestUserPermission();
+    // showModal();
   }, []);
 
   //untuk ubah disable button login
@@ -371,6 +438,96 @@ const SignIn = props => {
           </TouchableOpacity>
         </View>
       </View>
+
+      <View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={false}
+
+          // onRequestClose={() => {
+          //   Alert.alert('Modal has been closed.');
+          //   setModalShowUsername(!showModalUsername);
+          // }}
+        >
+          <View
+            style={{
+              backgroundColor: '#98804E80',
+              // opacity: 0.5,
+              height: Dimensions.get('screen').height,
+              // height: 100,
+              alignContent: 'center',
+
+              justifyContent: 'center',
+            }}>
+            <View
+              style={{
+                backgroundColor: BaseColor.whiteColor,
+                borderRadius: 10,
+                marginHorizontal: 20,
+
+                justifyContent: 'center',
+                padding: 10,
+              }}>
+              <Text
+                style={{
+                  justifyContent: 'center',
+                  color: BaseColor.redStateColor,
+                  fontFamily: Fonts.type.Lato,
+                  fontSize: 14,
+                  textAlign: 'center',
+                }}>
+                {typeErrorLogin == 'email_kosong'
+                  ? 'Incorrect username'
+                  : typeErrorLogin == 'password_kosong'
+                  ? 'Incorrect password'
+                  : pesanModalUsername == 'Wrong Password'
+                  ? 'Incorrect Password'
+                  : pesanModalUsername == 'User not found'
+                  ? `Can't find account`
+                  : 'Incorrect Username email tidak lengkap'}
+              </Text>
+              <Text
+                style={{
+                  justifyContent: 'center',
+                  color: BaseColor.redColor,
+                  fontFamily: Fonts.type.Lato,
+                  fontSize: 14,
+                  textAlign: 'center',
+                }}>
+                {pesanModalUsername}
+              </Text>
+              <TouchableOpacity
+                onPress={() => setModalShowUsername(!showModalUsername)}>
+                <View
+                  // small
+                  style={{
+                    borderRadius: 10,
+                    height: 35,
+                    width: 120,
+                    padding: 0,
+                    margin: 0,
+                    backgroundColor: BaseColor.corn50,
+                    alignSelf: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      justifyContent: 'center',
+                      color: BaseColor.whiteColor,
+                      fontFamily: Fonts.type.Lato,
+                      fontSize: 13,
+                      textAlign: 'center',
+                      margin: 3,
+                    }}>
+                    Try again
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      </View>
     </SafeAreaView>
   ) : (
     <AppIntroSlider
@@ -404,4 +561,9 @@ const SignIn = props => {
       renderItem={_renderItem}></AppIntroSlider>
   );
 };
-export default SignIn;
+
+const mapDispatchToProps = dispatch => ({
+  showModal: dataShowModal => dispatch(showModal(dataShowModal)),
+});
+
+export default connect(mapDispatchToProps, mapDispatchToProps)(SignIn);

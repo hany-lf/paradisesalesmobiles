@@ -22,6 +22,8 @@ import ProjectScreen from '../screens/ProjectScreen';
 import CustomModal from '../screens/CustomModal';
 import Notification from '../screens/Notification';
 import IconFontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import CalculatorScreen from '../screens/CalculatorScreen';
+import UsernameNull from '../actions/modalAlert/usernameNull';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -144,6 +146,18 @@ const MainStack = ({navigation}) => {
           // component={DrawerStack}
           name="Register"
           component={Register}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="CalculatorScreen"
+          component={CalculatorScreen}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="UsernameNull"
+          component={UsernameNull}
           options={{headerShown: false}}></Stack.Screen>
       </Stack.Group>
       <Stack.Group screenOptions={{presentation: 'modal'}}>

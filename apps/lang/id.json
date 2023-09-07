@@ -1,4 +1,8 @@
 {
+  "credit_total": "Total Kredit",
+  "bank_rate": "Bunga Bank",
+  "time": "Tahun",
+  "calculator": "Kalkulator",
   "choose_project": "Pilih Projek",
   "confirm_password": "Konfirmasi Password",
   "full_name": "Nama Lengkap",
