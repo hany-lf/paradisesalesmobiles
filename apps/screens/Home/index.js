@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {Button, Text, Icon} from '@components';
 
-import {ButtonMenuHome} from '../../components';
+import {ButtonMenuHome, CardHomePromoNews} from '../../components';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {UserAuth} from '@actions';
@@ -26,7 +26,7 @@ import Carousel, {ParallaxImage, Pagination} from 'react-native-snap-carousel';
 import {CardHomePromo} from '../../components';
 import {useSharedValue} from 'react-native-reanimated';
 import {ExpandingDot} from 'react-native-animated-pagination-dots';
-
+import {data_promo_dummy} from './data_promo_dummy.json';
 const SLIDER_1_FIRST_ITEM = 1;
 
 const Home = props => {
@@ -43,7 +43,8 @@ const Home = props => {
   const [datas, setDatas] = useState([]);
   const [datasIndicator, setDatasIndicator] = useState([]);
   const [images, setImages] = useState([]);
-
+  const data_promo = data_promo_dummy;
+  console.log('data promo ?', data_promo);
   const {width, height} = Dimensions.get('screen');
 
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -274,6 +275,118 @@ const Home = props => {
     );
   };
 
+  const _renderItemPromo = ({item, index}, separators) => {
+    return (
+      <TouchableOpacity
+        key={index}
+        onPress={() => alert('promo detail')}
+        style={{
+          marginHorizontal: SPACING,
+          // padding: SPACING,
+          padding: 5,
+        }}>
+        <View style={{width: 150, height: 200}}>
+          <Image
+            source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
+            // source={{
+            //   uri: 'https://i.stack.imgur.com/280rI.png',
+            // }}
+            style={{
+              resizeMode: 'cover',
+              borderRadius: 15,
+
+              width: '100%',
+              height: 200,
+            }}></Image>
+          <Text>{item.image}</Text>
+          <View
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              width: '100%',
+              height: 70,
+              borderRadius: 15,
+              padding: 10,
+              backgroundColor: BaseColor.whiteColor,
+            }}>
+            <Text
+              style={{
+                color: BaseColor.corn90,
+                fontFamily: Fonts.type.LatoBold,
+                fontSize: 12,
+                //   marg
+              }}>
+              {/* Step into your new elegance design home. */}
+              {item.descs}
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+      // <View>
+      //   <Image
+      //     width={100}
+      //     height={100}
+      //     source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}></Image>
+      //   {/* <Image
+      //     source={{
+      //       uri: 'https://i.stack.imgur.com/280rI.png',
+      //     }}
+      //     width={100}
+      //     height={100}></Image> */}
+      // </View>
+    );
+  };
+
+  const _renderItemNews = ({item, index}, separators) => {
+    return (
+      <TouchableOpacity
+        key={index}
+        onPress={() => alert('promo detail')}
+        style={{
+          marginHorizontal: SPACING,
+          // padding: SPACING,
+          padding: 5,
+        }}>
+        <View style={{width: 150, height: 200}}>
+          <Image
+            source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
+            // source={{
+            //   uri: 'https://i.stack.imgur.com/280rI.png',
+            // }}
+            style={{
+              resizeMode: 'cover',
+              borderRadius: 15,
+
+              width: '100%',
+              height: 200,
+            }}></Image>
+          <Text>{item.image}</Text>
+          <View
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              width: '100%',
+              height: 70,
+              borderRadius: 15,
+              padding: 10,
+              backgroundColor: BaseColor.whiteColor,
+            }}>
+            <Text
+              style={{
+                color: BaseColor.corn90,
+                fontFamily: Fonts.type.LatoBold,
+                fontSize: 12,
+                //   marg
+              }}>
+              {/* Step into your new elegance design home. */}
+              {item.descs}
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <SafeAreaView
       edges={['right', 'top', 'left']}
@@ -462,16 +575,18 @@ const Home = props => {
               </View>
 
               <View style={{marginHorizontal: 20, marginVertical: 10}}>
-                <CardHomePromo
-                  backgroundColor={BaseColor.corn50}
-                  title={'Step into your new elegance design home.'}
-                  subtitle={
-                    'Each apartment showcase contemporary architecture, high-end finished, and top-of the-line appliance.'
-                  }
-                  onPressSeeDetails={() => alert('ini onpress see details')}
-                  onPress={() => alert('ini onpress promo')}
-                  image={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}></CardHomePromo>
-                {/* <View style={{width: '20%', height: 100}}></View> */}
+                <FlatList
+                  data={data_promo}
+                  horizontal
+                  pagingEnabled={true}
+                  contentContainerStyle={{alignItems: 'center'}}
+                  showsHorizontalScrollIndicator={false}
+                  legacyImplementation={false}
+                  snapToInterval={ITEM_SIZE}
+                  decelerationRate={0}
+                  bounces={false}
+                  keyExtractor={item => item.key}
+                  renderItem={_renderItemPromo}></FlatList>
               </View>
             </View>
 
@@ -505,16 +620,18 @@ const Home = props => {
               </View>
 
               <View style={{marginHorizontal: 20, marginVertical: 10}}>
-                <CardHomePromo
-                  backgroundColor={BaseColor.corn50}
-                  title={'Step into your new elegance design home.'}
-                  subtitle={
-                    'Each apartment showcase contemporary architecture, high-end finished, and top-of the-line appliance.'
-                  }
-                  onPressSeeDetails={() => alert('ini onpress see details')}
-                  onPress={() => alert('ini onpress news update')}
-                  image={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}></CardHomePromo>
-                {/* <View style={{width: '20%', height: 100}}></View> */}
+                <FlatList
+                  data={data_promo}
+                  horizontal
+                  pagingEnabled={true}
+                  contentContainerStyle={{alignItems: 'center'}}
+                  showsHorizontalScrollIndicator={false}
+                  legacyImplementation={false}
+                  snapToInterval={ITEM_SIZE}
+                  decelerationRate={0}
+                  bounces={false}
+                  keyExtractor={item => item.key}
+                  renderItem={_renderItemNews}></FlatList>
               </View>
             </View>
           </View>
