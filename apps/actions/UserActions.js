@@ -22,6 +22,8 @@ export const actionTypes = {
   CHANGEPASS_ERROR: 'CHANGEPASS_ERROR',
   CHANGEPASS_SUCCESS: 'CHANGEPASS_SUCCESS',
 
+  EDIT_SUCCESS: 'EDIT_SUCCESS',
+
   EDIT: 'EDIT',
 
   REMOVE_USER: 'REMOVE_USER',
@@ -92,6 +94,12 @@ const changePassSuccess = user => ({
 const editRequest = edits => ({
   type: actionTypes.EDIT,
   edits,
+});
+
+const editSukses = ({status, pesan}) => ({
+  type: actionTypes.EDIT_SUCCESS,
+  pesan: pesan,
+  status: status,
 });
 
 const changeFoto = edits => ({
@@ -327,7 +335,9 @@ export const saveProfile = data => async dispatch => {
   console.log('user action save profile', data);
   const res = await UserController.saveProfile(data);
   console.log('res save profil', res);
+
   alert(res.Pesan);
+  dispatch(editSukses({status: true, pesan: res.Pesan}));
   dispatch(editRequest(res.Data));
 };
 

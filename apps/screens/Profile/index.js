@@ -144,12 +144,15 @@ const Profile = props => {
             title={'Calculator KPA/R'}
             nameicon={'calculator'}></ButtonMenuHome>
           <ButtonMenuHome
+            onPress={() => navigation.navigate('HelpCenter')}
             title={'Help center'}
             nameicon={'headset'}></ButtonMenuHome>
           <ButtonMenuHome
+            onPress={() => navigation.navigate('FAQ')}
             title={'FAQ'}
             nameicon={'question-circle'}></ButtonMenuHome>
           <ButtonMenuHome
+            onPress={() => navigation.navigate('AboutUs')}
             title={'About us'}
             nameicon={'book-reader'}></ButtonMenuHome>
         </View>
@@ -160,7 +163,8 @@ const Profile = props => {
           data={data_menu_profil}
           renderItem={({item, index}) => {
             return (
-              <TouchableOpacity onPress={() => alert(item.component)}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate(item.component)}>
                 <View
                   key={index}
                   style={{

@@ -3,13 +3,13 @@
     {
       "key": 1,
       "nama_menu": "Edit Profile",
-      "component": "EditProfileScreen",
+      "component": "EditProfile",
       "icon_menu": "users-cog"
     },
     {
       "key": 2,
       "nama_menu": "Change password",
-      "component": "ChangePasswordScreen",
+      "component": "ChangePasswordProfile",
       "icon_menu": "fingerprint"
     },
     {

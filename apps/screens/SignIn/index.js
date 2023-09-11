@@ -56,21 +56,21 @@ const SignIn = props => {
   const {navigation} = props;
   console.log('props', props);
   const user = useSelector(state => state.user);
-  console.log('datashow modal null', user.dataShowModal);
-  const psn =
-    user.dataShowModal === null
-      ? 'isinya null ya'
-      : user.dataShowModal.msgPesan;
-  const stts =
-    user.dataShowModal === null ? 'isinya null ya' : user.dataShowModal.status;
+  // console.log('datashow modal null', user.dataShowModal);
+  // const psn =
+  //   user.dataShowModal === null
+  //     ? 'isinya null ya'
+  //     : user.dataShowModal.msgPesan;
+  // const stts =
+  //   user.dataShowModal === null ? 'isinya null ya' : user.dataShowModal.status;
 
   // user.dataShowModal != null || user.dataShowModal != undefined
   //   ? user.dataShowModal.msgPesan
   //   : null;
-  const [showModalUsername, setModalShowUsername] = useState(false);
-  const [pesanModalUsername, setPesanModalUsername] = useState('');
-  const [typeErrorLogin, setTypeErrorLogin] = useState('');
-  console.log('user di sign in', user);
+  // const [showModalUsername, setModalShowUsername] = useState(false);
+  // const [pesanModalUsername, setPesanModalUsername] = useState('');
+  // const [typeErrorLogin, setTypeErrorLogin] = useState('');
+  // console.log('user di sign in', user);
 
   // const errors = useSelector(state =>
   //   errorsSelector([actionTypes.LOGIN_ERROR], state),
@@ -439,7 +439,7 @@ const SignIn = props => {
         </View>
       </View>
 
-      <View>
+      {/* <View>
         <Modal
           animationType="slide"
           transparent={true}
@@ -527,7 +527,7 @@ const SignIn = props => {
             </View>
           </View>
         </Modal>
-      </View>
+      </View> */}
     </SafeAreaView>
   ) : (
     <AppIntroSlider

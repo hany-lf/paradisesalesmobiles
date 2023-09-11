@@ -1,0 +1,34 @@
+{
+  "menu_faq": [
+    {
+      "key": 1,
+      "title": "General information",
+      "icon_menu": "question-circle"
+    },
+    {
+      "key": 2,
+      "title": "Project details of Paradise Property",
+      "icon_menu": "question-circle"
+    },
+    {
+      "key": 3,
+      "title": "Developer & team",
+      "icon_menu": "question-circle"
+    },
+    {
+      "key": 4,
+      "title": "Property ownership of Paradise Property",
+      "icon_menu": "question-circle"
+    },
+    {
+      "key": 5,
+      "title": "Property financing",
+      "icon_menu": "question-circle"
+    },
+    {
+      "key": 6,
+      "title": "Investment & hospitality",
+      "icon_menu": "question-circle"
+    }
+  ]
+}

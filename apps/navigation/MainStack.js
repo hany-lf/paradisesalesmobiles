@@ -24,6 +24,11 @@ import Notification from '../screens/Notification';
 import IconFontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import CalculatorScreen from '../screens/CalculatorScreen';
 import UsernameNull from '../actions/modalAlert/usernameNull';
+import HelpCenter from '../screens/HelpCenter';
+import FAQ from '../screens/FAQ';
+import AboutUs from '../screens/AboutUs';
+import EditProfile from '../screens/EditProfile';
+import ChangePasswordProfile from '../screens/ChangePasswordProfile';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -158,6 +163,37 @@ const MainStack = ({navigation}) => {
           // component={DrawerStack}
           name="UsernameNull"
           component={UsernameNull}
+          options={{headerShown: false}}></Stack.Screen>
+
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="HelpCenter"
+          component={HelpCenter}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="FAQ"
+          component={FAQ}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="AboutUs"
+          component={AboutUs}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="EditProfile"
+          component={EditProfile}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="ChangePasswordProfile"
+          component={ChangePasswordProfile}
           options={{headerShown: false}}></Stack.Screen>
       </Stack.Group>
       <Stack.Group screenOptions={{presentation: 'modal'}}>

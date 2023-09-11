@@ -7,6 +7,7 @@ const initialState = {
   user: null,
   userIDToken: null,
   dataShowModal: null,
+  editSukses: {},
 };
 
 const userReducer = (state = initialState, action = {}) => {
@@ -38,6 +39,18 @@ const userReducer = (state = initialState, action = {}) => {
         // ...action.edits,
         user: action.edits,
         // pict: action.edits,
+      };
+
+    case actionTypes.EDIT_SUCCESS:
+      return {
+        ...state,
+        // ...action.edits,
+        // user: action.edits,
+        // pict: action.edits,
+        editSukses: {
+          status: action.status,
+          pesan: action.pesan,
+        },
       };
     case actionTypes.CHANGE_FOTO:
       return {

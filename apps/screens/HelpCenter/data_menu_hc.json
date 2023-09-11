@@ -1,0 +1,22 @@
+{
+  "menu_helpcenter": [
+    {
+      "key": 1,
+      "nama_menu": "Chat Us",
+      "component": "ChatUsScreen",
+      "icon_menu": "whatsapp"
+    },
+    {
+      "key": 2,
+      "nama_menu": "Email Us",
+      "component": "EmailUsScreen",
+      "icon_menu": "mail-bulk"
+    },
+    {
+      "key": 3,
+      "nama_menu": "Rate Us",
+      "component": "RateUsScreen",
+      "icon_menu": "star"
+    }
+  ]
+}
