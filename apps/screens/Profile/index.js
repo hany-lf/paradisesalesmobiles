@@ -118,7 +118,8 @@ const Profile = props => {
                 fontSize: 16,
                 paddingVertical: 5,
               }}>
-              {user.UserId}
+              {/* {user.UserId}  */}
+              {user.name}
             </Text>
             <Text
               style={{
@@ -127,6 +128,7 @@ const Profile = props => {
                 fontSize: 16,
               }}>
               {user.Group}
+              {/* ini harusnya tetep kesimpen di reducer selector, coba ya. kalo ga bisa juga terpaksa minta sama API buat save Group juga saat callback sukses save profil */}
             </Text>
           </View>
         </View>

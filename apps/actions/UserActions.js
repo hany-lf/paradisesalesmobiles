@@ -337,7 +337,13 @@ export const saveProfile = data => async dispatch => {
   console.log('res save profil', res);
 
   alert(res.Pesan);
-  dispatch(editSukses({status: true, pesan: res.Pesan}));
+
+  if (res.Error == false) {
+    dispatch(editSukses({status: true, pesan: res.Pesan}));
+  } else {
+    dispatch(editSukses({status: false, pesan: res.Pesan}));
+  }
+
   dispatch(editRequest(res.Data));
 };
 

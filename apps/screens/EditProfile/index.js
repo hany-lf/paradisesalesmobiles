@@ -1,4 +1,4 @@
-import {Text, SafeAreaView, Header, Icon} from '@components';
+import {Text, SafeAreaView, Header, Icon, Button} from '@components';
 import {BaseStyle, BaseColor, Fonts} from '../../config';
 import {useTranslation} from 'react-i18next';
 import {
@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   FlatList,
   useWindowDimensions,
+  Modal,
+  Dimensions,
 } from 'react-native';
 import RenderHtml from 'react-native-render-html';
 
@@ -31,19 +33,30 @@ const EditProfile = props => {
 
   const editProfilStatus = useSelector(state => editSuksesSelector(state));
   console.log('edit sttus', editProfilStatus);
+  const [klikButtonConfirm, setKlikButtonConfirm] = useState(false);
 
   const [email, setEmail] = useState(user.user);
   const [name, setName] = useState(user.name);
   const [phone, setPhone] = useState(user.handphone);
 
+  const [visibileModalEdit, setVisibleModalEdit] =
+    editProfilStatus != undefined
+      ? useState(editProfilStatus.status)
+      : useState(false);
   // useEffect(() => {
   //   if (user === null) {
   //     props.navigation.navigate('Auth');
   //   }
   // });
 
+  const klikConfirm = () => {
+    saveProfile();
+    setKlikButtonConfirm(true);
+  };
+
   const saveProfiles = useCallback(
     () =>
+      // setKlikButtonConfirm(true),
       dispatch(saveProfile({emails: user.user, name, phone, genders: 'Male'})),
     [{emails: user.user, name, phone, genders: 'Male'}, dispatch],
   );
@@ -154,15 +167,111 @@ const EditProfile = props => {
           />
         </View>
 
-        <TouchableOpacity onPress={() => saveProfiles()}>
-          <View>
-            <Text>Confirm</Text>
-          </View>
-        </TouchableOpacity>
-        <View>
-          <Text>edit profile</Text>
-        </View>
+        <Button
+          full
+          onPress={() => klikConfirm()}
+          backgroundColor={BaseColor.corn50}
+          style={{height: 50, borderRadius: 15}}>
+          <Text
+            style={{
+              justifyContent: 'center',
+              color: BaseColor.whiteColor,
+              fontFamily: Fonts.type.Lato,
+              fontSize: 13,
+              textAlign: 'center',
+              margin: 3,
+            }}>
+            Confirm
+          </Text>
+        </Button>
       </ScrollView>
+
+      {editProfilStatus != undefined && klikButtonConfirm == true ? (
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={visibileModalEdit}
+
+          // onRequestClose={() => {
+          //   Alert.alert('Modal has been closed.');
+          //   setModalShowUsername(!showModalUsername);
+          // }}
+        >
+          <View
+            style={{
+              // backgroundColor: BaseColor.corn50,
+              backgroundColor: 'rgba(152, 128, 78, 0.8)', //modal transparan
+              // opacity: 0.5,
+              height: Dimensions.get('screen').height,
+              // height: 100,
+              alignContent: 'center',
+
+              justifyContent: 'center',
+            }}>
+            <View
+              style={{
+                backgroundColor: BaseColor.whiteColor,
+                borderRadius: 10,
+                marginHorizontal: 20,
+
+                justifyContent: 'center',
+                padding: 10,
+              }}>
+              <Text
+                style={{
+                  justifyContent: 'center',
+                  color: BaseColor.greenStateColor,
+                  fontFamily: Fonts.type.Lato,
+                  fontSize: 14,
+                  textAlign: 'center',
+                  marginTop: 10,
+                  marginBottom: 5,
+                }}>
+                {/* {editProfilStatus.Pesan} */}
+                Successfully updated
+              </Text>
+              <Text
+                style={{
+                  justifyContent: 'center',
+                  color: BaseColor.corn70,
+                  fontFamily: Fonts.type.Lato,
+                  fontSize: 14,
+                  textAlign: 'center',
+                  marginTop: 5,
+                  marginBottom: 15,
+                }}>
+                {editProfilStatus.pesan}
+              </Text>
+              <TouchableOpacity onPress={() => setVisibleModalEdit(false)}>
+                <View
+                  // small
+                  style={{
+                    borderRadius: 10,
+                    height: 35,
+                    width: 120,
+                    padding: 0,
+                    margin: 0,
+                    backgroundColor: BaseColor.corn50,
+                    alignSelf: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      justifyContent: 'center',
+                      color: BaseColor.whiteColor,
+                      fontFamily: Fonts.type.Lato,
+                      fontSize: 13,
+                      textAlign: 'center',
+                      margin: 3,
+                    }}>
+                    Okay
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      ) : null}
     </SafeAreaView>
   );
 };

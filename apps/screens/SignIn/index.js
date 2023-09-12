@@ -89,7 +89,7 @@ const SignIn = props => {
       props.navigation.navigate('MainStack');
       // navigation.navigate('MainStack');
     } else {
-      // setIntro(true); //tutup dulu sementara
+      setIntro(true); //tutup dulu sementara
       console.log('truee');
     }
   }, []);
@@ -267,8 +267,8 @@ const SignIn = props => {
     console.log('cekdata', cekdata);
 
     loginUser();
-    setLoadingProses(false);
-    setLoading(false);
+    // setLoadingProses(false);
+    // setLoading(false);
 
     // changeShowModal({
     //   status: stts,
@@ -288,6 +288,8 @@ const SignIn = props => {
   const loginUser = useCallback(
     () => dispatch(login(email, password, token_firebase)),
     [email, password, token_firebase, dispatch],
+    // setLoadingProses(false),
+    // setLoading(false),
   );
 
   // const showModal = modal => {
@@ -400,7 +402,7 @@ const SignIn = props => {
             medium
             round
             disabled={disableUser}
-            loading={loading}
+            // loading={loading}
             style={{marginTop: 15}}
             backgroundColor={disableUser ? BaseColor.corn30 : BaseColor.corn70}
             onPress={loginklik}>
