@@ -8,6 +8,7 @@ import {
   useWindowDimensions,
   Modal,
   Dimensions,
+  Alert,
 } from 'react-native';
 import RenderHtml from 'react-native-render-html';
 
@@ -17,9 +18,15 @@ import getUser from '../../selectors/UserSelectors';
 
 import {TextInput} from '../../components';
 import React, {useCallback, useEffect, useState, useRef} from 'react';
-import {saveProfile, actionTypes} from '../../actions/UserActions';
+import {
+  saveProfile,
+  actionTypes,
+  saveFotoProfil,
+} from '../../actions/UserActions';
 import {useSelector, useDispatch, connect} from 'react-redux';
 import editSuksesSelector from '../../selectors/EditProfilSelectors';
+import ImagePicker from 'react-native-image-crop-picker';
+// import ReactNativeBlobUtil from 'react-native-blob-util';
 
 const EditProfile = props => {
   const {t} = useTranslation();
@@ -38,6 +45,7 @@ const EditProfile = props => {
   const [email, setEmail] = useState(user.user);
   const [name, setName] = useState(user.name);
   const [phone, setPhone] = useState(user.handphone);
+  const [images, setImage] = useState([]);
 
   const [visibileModalEdit, setVisibleModalEdit] =
     editProfilStatus != undefined
@@ -50,7 +58,7 @@ const EditProfile = props => {
   // });
 
   const klikConfirm = () => {
-    saveProfile();
+    saveProfiles();
     setKlikButtonConfirm(true);
   };
 
@@ -60,6 +68,114 @@ const EditProfile = props => {
       dispatch(saveProfile({emails: user.user, name, phone, genders: 'Male'})),
     [{emails: user.user, name, phone, genders: 'Male'}, dispatch],
   );
+
+  const savePhoto = useCallback(() =>
+    dispatch(saveFotoProfil({image: images, email: user.user})),
+  );
+
+  const handlePhotoPick = () => {
+    console.log('datImage', images);
+    Alert.alert(
+      'Select a Photo',
+      'Choose the place where you want to get a photo',
+      [
+        {text: 'Gallery', onPress: () => fromGallery()},
+        {text: 'Camera', onPress: () => fromCamera()},
+        {
+          text: 'Cancel',
+          onPress: () => console.log('User Cancel'),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+
+  const fromCamera = () => {
+    ImagePicker.openCamera({
+      width: 500,
+      height: 500,
+      cropping: true,
+    })
+      .then(images => {
+        console.log('received image', images);
+
+        setImage([
+          {
+            uri: images.path,
+            width: images.width,
+            height: images.height,
+            mime: images.mime,
+          },
+        ]);
+        // savePhoto();
+        // uploadPhoto();
+        // setImage(prevState => ({
+        //   image: [
+        //     ...prevState.image,
+        //     {
+        //       uri: image.path,
+        //       width: image.width,
+        //       height: image.height,
+        //       mime: image.mime,
+        //     },
+        //   ],
+        // }));
+      })
+      .catch(e => console.log('tag', e));
+  };
+
+  const fromGallery = (cropping, mediaType = 'photo') => {
+    // let imageList = [];
+
+    ImagePicker.openPicker({
+      width: 500,
+      height: 500,
+      cropping: true,
+      multiple: false,
+    })
+      .then(images => {
+        console.log('received images', images);
+        setImage([
+          {
+            uri: images.path,
+            width: images.width,
+            height: images.height,
+            mime: images.mime,
+          },
+        ]);
+        // savePhoto();
+        // uploadPhoto();
+        // image.map(image => {
+        //   imageList.push({
+        //     uri: image.path,
+        //     width: image.width,
+        //     height: image.height,
+        //     mime: image.mime,
+        //   });
+        // });
+        // console.log('received images', image);
+        // console.log('received images >', imageList);
+        // setImage(imageList);
+        // for (var i = 0; i < image.length; i++) {
+        //   setImage({
+        //     images: [
+        //       {
+        //         uri: image[i].path,
+        //         width: image[i].width,
+        //         height: image[i].height,
+        //         mime: image[i].mime,
+        //       },
+        //     ],
+        //   });
+        // }
+      })
+      .catch(e => console.log('tag', e));
+  };
+
+  useEffect(() => {
+    images.length != 0 ? savePhoto() : null;
+  }, [images]);
 
   return (
     <SafeAreaView
@@ -86,17 +202,33 @@ const EditProfile = props => {
       <ScrollView style={{marginHorizontal: 20}}>
         {user ? (
           user.pict ? (
-            <View style={{alignItems: 'center'}}>
-              <View style={{width: 100, height: 100}}>
-                <Image
-                  source={{uri: user.pict}}
-                  style={{
-                    width: 100,
-                    height: 100,
-                    resizeMode: 'contain',
-                  }}></Image>
+            <TouchableOpacity onPress={() => handlePhotoPick()}>
+              <View style={{alignItems: 'center'}}>
+                <View style={{width: 100, height: 100}}>
+                  <Image
+                    source={{uri: user.pict}}
+                    style={{
+                      width: 100,
+                      height: 100,
+                      resizeMode: 'contain',
+                      borderRadius: 50,
+                    }}></Image>
+                </View>
+
+                {/* <TouchableOpacity>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Icon
+                    name={'camera'}
+                    size={23}
+                    solid
+                    color={BaseColor.corn30}></Icon>
+                  <View style={{marginHorizontal: 10}}>
+                    <Text>Change Photo Profil</Text>
+                  </View>
+                </View>
+              </TouchableOpacity> */}
               </View>
-            </View>
+            </TouchableOpacity>
           ) : (
             <View style={{alignItems: 'center'}}>
               <TouchableOpacity>
