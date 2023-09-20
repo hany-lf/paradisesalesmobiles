@@ -4,7 +4,7 @@ import axios from 'axios';
 class UserController {
   constructor() {
     // this.basePath = '/login_mobile';
-    basePath = 'http://dev.ifca.co.id:8080/apiciputra/api'; //lokal
+    basePath = 'http://dev.ifca.co.id:8080/apiparadise/api'; //lokal
   }
 
   login = async (email, password, token_firebase) => {
@@ -18,9 +18,10 @@ class UserController {
         data: {
           email,
           password,
-          device: 'ios',
+          device: 'mobile',
           mac: 'mac',
           token_firebase: token_firebase,
+          apps_type: 'S',
         },
       });
       // alert(result.Pesan);

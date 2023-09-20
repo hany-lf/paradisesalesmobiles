@@ -39,6 +39,7 @@ const ProjectScreen = props => {
         <View style={{marginBottom: 100}}>
           {datas.map((item, index) => (
             <TouchableOpacity
+              key={index}
               onPress={() => navigation.navigate('ProjectDetails', item)}>
               <View
                 key={index}

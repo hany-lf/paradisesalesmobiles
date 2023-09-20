@@ -251,8 +251,8 @@ export const login = (email, password, token_firebase) => async dispatch => {
       //   ? Alert.alert('Sorry! Warning email tidak null', msgPesan)
       //   : Alert.prompt('Sorry! Warning ios email tidak null', msgPesan);
       Platform.OS == 'android'
-        ? Alert.alert('Incorrect Username', msgPesan)
-        : Alert.prompt('Incorrect Username', msgPesan);
+        ? Alert.alert('Incorrect Username', JSON.stringify(msgPesan))
+        : Alert.prompt('Incorrect Username', JSON.stringify(msgPesan));
 
       console.log('ini konsol eror', msgPesan);
 
@@ -273,8 +273,8 @@ export const login = (email, password, token_firebase) => async dispatch => {
       //     );
 
       Platform.OS == 'android'
-        ? Alert.alert('Sorry! Warning', msgPesan)
-        : Alert.prompt('Sorry! Warning', msgPesan);
+        ? Alert.alert('Sorry! Warning', JSON.stringify(msgPesan))
+        : Alert.prompt('Sorry! Warning', JSON.stringify(msgPesan));
 
       console.log('ini konsol eror', msgPesan);
       // kalo error email: munculnya {"email": ["The email format is invalid."]}
@@ -291,8 +291,8 @@ export const login = (email, password, token_firebase) => async dispatch => {
       //   : Alert.prompt('Sorry! Warning password dan email deh ios', msgPesan);
 
       Platform.OS == 'android'
-        ? Alert.alert('Sorry! Warning', msgPesan)
-        : Alert.prompt('Sorry! Warning', msgPesan);
+        ? Alert.alert('Sorry! Warning', JSON.stringify(msgPesan))
+        : Alert.prompt('Sorry! Warning', JSON.stringify(msgPesan));
 
       console.log('ini konsol eror', msgPesan);
       // kalo error email: munculnya {"email": ["The email format is invalid."]}

@@ -29,7 +29,7 @@ import RenderHTML, {
   TBlock,
   CustomBlockRenderer,
 } from 'react-native-render-html';
-import WebView from 'react-native-webview';
+import {WebView} from 'react-native-webview';
 
 const FixedIFrameRenderer: CustomBlockRenderer = props => {
   const iframeProps = useHtmlIframeProps(props);
@@ -314,11 +314,11 @@ const ProjectDetails = props => {
             }}
             style={{marginTop: 20}}
           /> */}
-          <RenderHTML
+          {/* <RenderHTML
             {...htmlConfig}
             source={{html: htmlContent}}
             contentWidth={Dimensions.get('window').width}
-          />
+          /> */}
         </View>
       </ScrollView>
     </SafeAreaView>

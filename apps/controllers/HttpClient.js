@@ -7,7 +7,7 @@ import axios from 'axios';
   timeouts and middleware used for each request.
 */
 const client = axios.create({
-  baseURL: 'http://dev.ifca.co.id:8080/apiciputra/api',
+  baseURL: 'http://dev.ifca.co.id:8080/apiparadise/api',
   // baseURL: "http://35.198.219.220:2121/alfaAPI/approval",
 
   timeout: 10000,
