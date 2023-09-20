@@ -82,6 +82,7 @@ android {
         versionName "1.0"
          vectorDrawables.useSupportLibrary = true
          targetSdkVersion rootProject.ext.compileSdkVersion
+         multiDexEnabled true //Add this line
     }
     signingConfigs {
         debug {
@@ -126,6 +127,11 @@ dependencies {
     implementation project(':react-native-splash-screen')
     implementation project(':react-native-vector-icons')
 
+     implementation project(':react-native-webview')
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    implementation "com.facebook.react:react-native:+"  // From node_modules
+    
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

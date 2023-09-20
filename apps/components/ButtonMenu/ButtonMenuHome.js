@@ -36,7 +36,15 @@ const ButtonMenuHome = props => {
       <Text
         body2
         semibold
-        style={[styles.title, {textAlign: 'center'}]}
+        style={[
+          styles.title,
+          {
+            textAlign: 'center',
+            // alignItems: 'center',
+            // alignContent: 'center',
+            // alignSelf: 'center',
+          },
+        ]}
         numberOfLines={2}>
         {title}
       </Text>

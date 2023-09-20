@@ -1,6 +1,7 @@
 package com.paradisesalesmobiles;
 
 import android.app.Application;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;

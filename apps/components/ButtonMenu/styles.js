@@ -12,7 +12,7 @@ export default StyleSheet.create({
   },
   container: {
     width: 75,
-    height: 75,
+    height: 80,
     // borderTopLeftRadius: 8,
     // borderTopRightRadius: 8,
     borderRadius: 16,

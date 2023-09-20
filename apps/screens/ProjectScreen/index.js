@@ -1,6 +1,7 @@
 import {Text, Header, Icon} from '@components';
 import data_dummy from '../Home/data_dummy.json';
-import {View, ScrollView, Image} from 'react-native';
+
+import {View, ScrollView, Image, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BaseStyle, Fonts, BaseColor} from '@config';
@@ -37,74 +38,77 @@ const ProjectScreen = props => {
       <ScrollView>
         <View style={{marginBottom: 100}}>
           {datas.map((item, index) => (
-            <View
-              key={index}
-              // style={styles.item}
-              style={{
-                width: '100%',
-                height: 300,
-                paddingHorizontal: 30,
-                marginVertical: 10,
-                // marginHorizontal
-              }}>
-              {/* <Text>{item.image}</Text> */}
-              <Image
-                // source={{uri: item.image}}
-                source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
-                // src={item.image}
-                // source={}
-                // containerStyle={styles.imageContainer}
-                // style={styles.image}
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ProjectDetails', item)}>
+              <View
+                key={index}
+                // style={styles.item}
                 style={{
                   width: '100%',
-                  // width: 300,
                   height: 300,
-                  // marginTop: 10,
-                  // paddingTop: 10,
-                  // ...StyleSheet.absoluteFillObject,
-                  resizeMode: 'cover',
-                  borderRadius: 25,
-                }}
-              />
-
-              <View
-                style={{
-                  position: 'absolute',
-                  backgroundColor: BaseColor.grey10,
-                  // top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  height: 80,
-
-                  marginHorizontal: 55,
-                  marginVertical: 20,
-                  borderRadius: 20,
-                  opacity: 0.8,
-                  // justifyContent: 'center',
-                  // alignItems: 'center',
+                  paddingHorizontal: 30,
+                  marginVertical: 10,
+                  // marginHorizontal
                 }}>
-                <View style={{marginVertical: 10, marginHorizontal: 25}}>
-                  <Text
-                    style={{
-                      fontFamily: Fonts.type.LatoBlack,
-                      color: BaseColor.corn90,
-                      marginVertical: 5,
-                      fontSize: 16,
-                    }}>
-                    {item.project_name}
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: Fonts.type.LatoBold,
-                      color: BaseColor.corn50,
-                      marginVertical: 5,
-                    }}>
-                    {item.location}
-                  </Text>
+                {/* <Text>{item.image}</Text> */}
+                <Image
+                  // source={{uri: item.image}}
+                  source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
+                  // src={item.image}
+                  // source={}
+                  // containerStyle={styles.imageContainer}
+                  // style={styles.image}
+                  style={{
+                    width: '100%',
+                    // width: 300,
+                    height: 300,
+                    // marginTop: 10,
+                    // paddingTop: 10,
+                    // ...StyleSheet.absoluteFillObject,
+                    resizeMode: 'cover',
+                    borderRadius: 25,
+                  }}
+                />
+
+                <View
+                  style={{
+                    position: 'absolute',
+                    backgroundColor: BaseColor.grey10,
+                    // top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    height: 80,
+
+                    marginHorizontal: 55,
+                    marginVertical: 20,
+                    borderRadius: 20,
+                    opacity: 0.8,
+                    // justifyContent: 'center',
+                    // alignItems: 'center',
+                  }}>
+                  <View style={{marginVertical: 10, marginHorizontal: 25}}>
+                    <Text
+                      style={{
+                        fontFamily: Fonts.type.LatoBlack,
+                        color: BaseColor.corn90,
+                        marginVertical: 5,
+                        fontSize: 16,
+                      }}>
+                      {item.project_name}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: Fonts.type.LatoBold,
+                        color: BaseColor.corn50,
+                        marginVertical: 5,
+                      }}>
+                      {item.location}
+                    </Text>
+                  </View>
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>

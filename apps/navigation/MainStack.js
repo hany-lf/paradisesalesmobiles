@@ -29,6 +29,7 @@ import FAQ from '../screens/FAQ';
 import AboutUs from '../screens/AboutUs';
 import EditProfile from '../screens/EditProfile';
 import ChangePasswordProfile from '../screens/ChangePasswordProfile';
+import ProjectDetails from '../screens/ProjectScreen/ProjectDetails';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -194,6 +195,12 @@ const MainStack = ({navigation}) => {
           // component={DrawerStack}
           name="ChangePasswordProfile"
           component={ChangePasswordProfile}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="ProjectDetails"
+          component={ProjectDetails}
           options={{headerShown: false}}></Stack.Screen>
       </Stack.Group>
       <Stack.Group screenOptions={{presentation: 'modal'}}>

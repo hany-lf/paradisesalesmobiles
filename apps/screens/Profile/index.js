@@ -85,7 +85,12 @@ const Profile = props => {
           {user != null ? (
             <Image
               source={{uri: user.pict}}
-              style={{width: 80, height: 80, margin: 10}}></Image>
+              style={{
+                width: 80,
+                height: 80,
+                margin: 10,
+                borderRadius: 40,
+              }}></Image>
           ) : (
             <View
               style={{
