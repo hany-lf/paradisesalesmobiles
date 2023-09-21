@@ -23,6 +23,10 @@ import IframeRenderer, {iframeModel} from '@native-html/iframe-plugin';
 import RenderHTML from 'react-native-render-html';
 import WebView from 'react-native-webview';
 
+import Features from './Modals/Features';
+import Gallery from './Modals/Gallery';
+import {data_gallery} from './data_gallery.json';
+
 const ProjectDetails = props => {
   console.log('props dari project', props);
   const {t} = useTranslation();
@@ -31,9 +35,11 @@ const ProjectDetails = props => {
   const {width} = Dimensions.get('screen').width;
   const paramsDetail = props.route.params;
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [visibleFeatures, setVisibleFeatures] = useState(false);
+  const [visibleGallery, setVisibleGallery] = useState(false);
   const source_video = 'https://www.youtube.com/watch?v=R8JLo2EB3Wk&t=8s';
-
+  // const gallery = data_gallery;
+  const [gallery, setGallery] = useState(data_gallery);
   const onStateChange = useCallback(state => {
     if (state === 'ended') {
       setPlaying(false);
@@ -51,6 +57,11 @@ const ProjectDetails = props => {
 
   const customHTMLElementModels = {
     iframe: iframeModel,
+  };
+
+  const clik = () => {
+    console.log('cek vis', visibleFeatures);
+    setVisibleFeatures(true);
   };
 
   return (
@@ -213,9 +224,11 @@ const ProjectDetails = props => {
               marginTop: 30,
             }}>
             <ButtonMenuHome
+              onPress={() => clik()}
               title={'Features'}
               nameicon={'gem'}></ButtonMenuHome>
             <ButtonMenuHome
+              onPress={() => setVisibleGallery(true)}
               title={'Gallery'}
               nameicon={'images'}></ButtonMenuHome>
             <ButtonMenuHome
@@ -410,6 +423,38 @@ const ProjectDetails = props => {
             </View>
           </Modal>
         </View>
+
+        {/* // modal features */}
+        <Features
+          onRequestClose={() => {
+            setVisibleFeatures(false);
+          }}
+          visible={visibleFeatures}
+          icon={
+            <TouchableOpacity onPress={() => setVisibleFeatures(false)}>
+              <Icon
+                name={'arrow-left'}
+                size={18}
+                color={BaseColor.corn90}></Icon>
+            </TouchableOpacity>
+          }
+          datas={paramsDetail}></Features>
+
+        {/* // modal gallery  */}
+        <Gallery
+          onRequestClose={() => {
+            setVisibleGallery(false);
+          }}
+          visible={visibleGallery}
+          icon={
+            <TouchableOpacity onPress={() => setVisibleGallery(false)}>
+              <Icon
+                name={'arrow-left'}
+                size={18}
+                color={BaseColor.corn90}></Icon>
+            </TouchableOpacity>
+          }
+          datas={gallery}></Gallery>
       </ScrollView>
     </SafeAreaView>
   );

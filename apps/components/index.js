@@ -5,6 +5,7 @@ export {default as TextInputNumber} from './TextInput/TextInputNumber';
 export {default as Icon} from './Icon';
 export {default as Button} from './Button';
 export {default as Text} from './Text';
+export {default as Image} from './Image';
 export {default as ButtonMenuHome} from './ButtonMenu/ButtonMenuHome';
 export {default as CardHomePromo} from './Card/CardHomePromo';
 export {default as CardHomePromoNews} from './Card/CardHomePromoNews';
