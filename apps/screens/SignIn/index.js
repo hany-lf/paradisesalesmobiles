@@ -29,6 +29,7 @@ import {
 } from 'react-native';
 import {useSelector, useDispatch, connect} from 'react-redux';
 import messaging from '@react-native-firebase/messaging';
+import {firebase} from '@react-native-firebase/messaging';
 import intro5 from '@assets/images/OnboardingScreen.jpg';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import IconAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -320,15 +321,23 @@ const SignIn = props => {
   // PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
 
   const requestUserPermission = async () => {
+    await messaging().registerDeviceForRemoteMessages();
     const authStatus = await messaging().requestPermission();
+
     const enabled =
       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
     if (enabled) {
+      registerAppWithFCM();
       getFcmToken();
+
       console.log('Authorization status:', authStatus);
     }
+  };
+
+  const registerAppWithFCM = async () => {
+    await messaging().registerDeviceForRemoteMessages();
   };
 
   const getFcmToken = async () => {

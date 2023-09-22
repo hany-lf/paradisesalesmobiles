@@ -36,7 +36,7 @@ class UserController {
         return result;
       }
     } catch (error) {
-      console.log('error login aja', error.response);
+      console.log('error login aja', error);
       console.log('if errorz', error.response.data.Pesan);
 
       // if (error.response.data.Error == true) {

@@ -18,6 +18,7 @@ const client = axios.create({
     // Authorization:
     //   'Bearer d_B1Y4S7z0cnsuyDC97X3B:APA91bEhaqCf4aYeuEXxLen9IEpwD_rq1DORzcYXEtmoDIPVlK5d9WLdB6ngxOSrVtkvWTSLFci5lB-4YaNzeMsdInAJBb7_jYiqp9oBzwIURP_ME_bjmj9tMrZCxwxBLNOt7s7hiLq4',
   },
+  data: undefined,
   // headers: {
   //   Accept: 'application/json',
   //   'content-type': 'application/x-www-form-urlencoded',
