@@ -26,6 +26,8 @@ import WebView from 'react-native-webview';
 import Features from './Modals/Features';
 import Gallery from './Modals/Gallery';
 import {data_gallery} from './data_gallery.json';
+import {data_floorplan} from './data_floorplan.json';
+import Floorplan from './Modals/Floorplan';
 
 const ProjectDetails = props => {
   console.log('props dari project', props);
@@ -37,9 +39,11 @@ const ProjectDetails = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [visibleFeatures, setVisibleFeatures] = useState(false);
   const [visibleGallery, setVisibleGallery] = useState(false);
+  const [visibleFloorplan, setVisibleFloorplan] = useState(false);
   const source_video = 'https://www.youtube.com/watch?v=R8JLo2EB3Wk&t=8s';
   // const gallery = data_gallery;
   const [gallery, setGallery] = useState(data_gallery);
+  const [floorplan, setFloorplan] = useState(data_floorplan);
   const onStateChange = useCallback(state => {
     if (state === 'ended') {
       setPlaying(false);
@@ -232,6 +236,7 @@ const ProjectDetails = props => {
               title={'Gallery'}
               nameicon={'images'}></ButtonMenuHome>
             <ButtonMenuHome
+              onPress={() => setVisibleFloorplan(true)}
               title={'Floor Plan'}
               nameicon={'houzz'}></ButtonMenuHome>
             <ButtonMenuHome
@@ -423,7 +428,6 @@ const ProjectDetails = props => {
             </View>
           </Modal>
         </View>
-
         {/* // modal features */}
         <Features
           onRequestClose={() => {
@@ -439,7 +443,6 @@ const ProjectDetails = props => {
             </TouchableOpacity>
           }
           datas={paramsDetail}></Features>
-
         {/* // modal gallery  */}
         <Gallery
           onRequestClose={() => {
@@ -455,6 +458,20 @@ const ProjectDetails = props => {
             </TouchableOpacity>
           }
           datas={gallery}></Gallery>
+        <Floorplan
+          onRequestClose={() => {
+            setVisibleFloorplan(false);
+          }}
+          visible={visibleFloorplan}
+          icon={
+            <TouchableOpacity onPress={() => setVisibleFloorplan(false)}>
+              <Icon
+                name={'arrow-left'}
+                size={18}
+                color={BaseColor.corn90}></Icon>
+            </TouchableOpacity>
+          }
+          datas={floorplan}></Floorplan>
       </ScrollView>
     </SafeAreaView>
   );
