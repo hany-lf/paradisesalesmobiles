@@ -530,6 +530,10 @@ const Home = props => {
               title={'NUP Online'}
               nameicon={'clipboard-check'}></ButtonMenuHome>
             <ButtonMenuHome
+              goToProject={true}
+              onPress={() =>
+                navigation.navigate('ChooseProject', {goTo: 'DownloadBrochure'})
+              }
               title={'Download'}
               nameicon={'download'}></ButtonMenuHome>
             <ButtonMenuHome

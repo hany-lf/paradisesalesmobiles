@@ -14,7 +14,8 @@ import IconFontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {BaseColor} from '../../config';
 
 const ButtonMenuHome = props => {
-  let {date, title, image, style, onPress, loading, nameicon} = props;
+  let {date, title, image, style, onPress, loading, nameicon, goToProject} =
+    props;
   const {colors} = useTheme();
   if (loading) {
     return <Loading style={style} />;

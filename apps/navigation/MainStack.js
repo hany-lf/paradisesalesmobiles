@@ -30,6 +30,10 @@ import AboutUs from '../screens/AboutUs';
 import EditProfile from '../screens/EditProfile';
 import ChangePasswordProfile from '../screens/ChangePasswordProfile';
 import ProjectDetails from '../screens/ProjectScreen/ProjectDetails';
+import DownloadBrochure from '../screens/Download';
+import ChooseProject from '../screens/ChooseProject';
+import SignIn from '../screens/SignIn';
+import ResetPass from '../screens/ResetPass';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -202,6 +206,30 @@ const MainStack = ({navigation}) => {
           name="ProjectDetails"
           component={ProjectDetails}
           options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="ChooseProject"
+          component={ChooseProject}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="DownloadBrochure"
+          component={DownloadBrochure}
+          options={{headerShown: false}}></Stack.Screen>
+        {/* <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="SignIn"
+          component={SignIn}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="ResetPass"
+          component={ResetPass}
+          options={{headerShown: false}}></Stack.Screen> */}
       </Stack.Group>
       <Stack.Group screenOptions={{presentation: 'modal'}}>
         <Stack.Screen

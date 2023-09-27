@@ -119,6 +119,12 @@ const Navigator = props => {
           component={CustomModal}
           options={{animationEnabled: true}}
         /> */}
+        {/* ---- Sign yang ini untuk kalo abis resetpass backto screen sign in berhasil */}
+        <RootStack.Screen
+          name="SignIn"
+          component={SignIn}
+          options={{headerShown: false}}></RootStack.Screen>
+        {/* ---- Sign yang ini untuk kalo abis resetpass backto screen sign in berhasil */}
         <RootStack.Screen
           name="ForgotPassword"
           component={ForgotPassword}
