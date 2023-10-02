@@ -34,6 +34,7 @@ import DownloadBrochure from '../screens/Download';
 import ChooseProject from '../screens/ChooseProject';
 import SignIn from '../screens/SignIn';
 import ResetPass from '../screens/ResetPass';
+import PromoScreen from '../screens/PromoScreen';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -218,18 +219,12 @@ const MainStack = ({navigation}) => {
           name="DownloadBrochure"
           component={DownloadBrochure}
           options={{headerShown: false}}></Stack.Screen>
-        {/* <Stack.Screen
-          // name="HomeStack"
-          // component={DrawerStack}
-          name="SignIn"
-          component={SignIn}
-          options={{headerShown: false}}></Stack.Screen>
         <Stack.Screen
           // name="HomeStack"
           // component={DrawerStack}
-          name="ResetPass"
-          component={ResetPass}
-          options={{headerShown: false}}></Stack.Screen> */}
+          name="PromoScreen"
+          component={PromoScreen}
+          options={{headerShown: false}}></Stack.Screen>
       </Stack.Group>
       <Stack.Group screenOptions={{presentation: 'modal'}}>
         <Stack.Screen

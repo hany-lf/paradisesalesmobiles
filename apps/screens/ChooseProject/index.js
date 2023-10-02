@@ -7,17 +7,55 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {BaseStyle, Fonts, BaseColor} from '@config';
 import {useTranslation} from 'react-i18next';
 
+import {useSelector, useDispatch, connect} from 'react-redux';
+import getUser from '../../selectors/UserSelectors';
+import axios from 'axios';
+import {API_URL} from '@env';
+
 const ChooseProject = props => {
   console.log('data dummy', data_dummy);
   const datas = data_dummy.data_dummy;
   console.log('image', datas[0].image);
   const {navigation} = props;
   const {t} = useTranslation();
+  const user = useSelector(state => getUser(state));
   console.log('props dari home di choose project', props);
   const goToScreen = props.route.params.goTo;
+  console.log('goto???', goToScreen);
+  const [dataProject, setDataProject] = useState([]);
   useEffect(() => {
     goTo();
-  });
+    getDataProject();
+  }, []);
+
+  const getDataProject = () => {
+    const config = {
+      method: 'get',
+      // url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/groupMenu?approval_user=MGR',
+      url: API_URL + '/project/index',
+      headers: {
+        'content-type': 'application/json',
+        // 'X-Requested-With': 'XMLHttpRequest',
+        Authorization: `Bearer ${user.Token}`,
+      },
+      // params: {approval_user: user.userIDToken.UserId},
+      params: {group_cd: user.Group},
+    };
+    console.log('formdaata get project', config);
+
+    axios(config)
+      .then(result => {
+        // let load = {
+        //   success: true,
+        // };
+        const pasing = result.data.Data;
+        console.log('data di chooseproject', pasing);
+        setDataProject(pasing);
+      })
+      .catch(error =>
+        console.log('error getdata project error', error.response),
+      );
+  };
 
   const goTo = () => {};
   return (
@@ -39,12 +77,13 @@ const ChooseProject = props => {
         }}
         style={{height: 80}}
         onPressLeft={() => {
-          navigation.goBack();
+          // navigation.goBack();
+          navigation.navigate('HomeScreen');
         }}
       />
       <ScrollView>
         <View style={{marginBottom: 100}}>
-          {datas.map((item, index) => (
+          {dataProject.map((item, index) => (
             <TouchableOpacity
               key={index}
               onPress={() => navigation.navigate(goToScreen, item)}>
@@ -60,8 +99,8 @@ const ChooseProject = props => {
                 }}>
                 {/* <Text>{item.image}</Text> */}
                 <Image
-                  // source={{uri: item.image}}
-                  source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
+                  source={{uri: item.picture_path}}
+                  // source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
                   // src={item.image}
                   // source={}
                   // containerStyle={styles.imageContainer}
@@ -103,7 +142,7 @@ const ChooseProject = props => {
                         marginVertical: 5,
                         fontSize: 16,
                       }}>
-                      {item.project_name}
+                      {item.descs}
                     </Text>
                     <Text
                       style={{
@@ -111,7 +150,7 @@ const ChooseProject = props => {
                         color: BaseColor.corn50,
                         marginVertical: 5,
                       }}>
-                      {item.location}
+                      {item.descs}
                     </Text>
                   </View>
                 </View>

@@ -10,6 +10,10 @@ import {BaseStyle, Fonts, BaseColor, BaseSetting} from '../../config';
 import {ButtonMenuHome} from '@components';
 import {Icon} from '../../components';
 import dummy_menu from './dummy_menu.json';
+import {useSelector, useDispatch, connect} from 'react-redux';
+import getUser from '../../selectors/UserSelectors';
+import axios from 'axios';
+import {API_URL} from '@env';
 const CustomModal = props => {
   const isFocused = useIsFocused();
   const {navigation} = props;
@@ -23,22 +27,48 @@ const CustomModal = props => {
   const [showModal, setShowModal] = useState(props.route.params.showModal);
   const [modalVisible, setModalVisible] = useState(true);
   const [dummyMenu, setDummyMenu] = useState(dummy_menu.data_menu);
-  console.log('dumy menu', dummy_menu);
+  const [dataMenu, setDataMenu] = useState([]);
+  const user = useSelector(state => getUser(state));
+  console.log('user di menu', user);
+  console.log('isfokus', isFocused);
   useEffect(() => {
     if (isFocused) {
       setModalVisible(true);
-      //  getInitialData();
-      // showModalProps == true
-      //   ? setModalVisible(modalVisible)
-      //   : setModalVisible(!modalVisible);
+      getMenuUser();
     }
     console.log('cek useeffect');
+  }, [isFocused]);
 
-    // if (props.route.params.showModal == true) {
-    //   console.log('ngeset modal visible true');
-    //   setModalVisible(showModal);
-    // }
-  }, [isFocused, dummy_menu]);
+  // useEffect(() => {
+  //   getMenuUser();
+  // }, []);
+
+  const getMenuUser = () => {
+    const config = {
+      method: 'get',
+      // url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/groupMenu?approval_user=MGR',
+      url: API_URL + '/menu/index',
+      headers: {
+        'content-type': 'application/json',
+        // 'X-Requested-With': 'XMLHttpRequest',
+        Authorization: `Bearer ${user.Token}`,
+      },
+      // params: {approval_user: user.userIDToken.UserId},
+      params: {group_cd: user.Group},
+    };
+    console.log('formdaata change pass', config);
+
+    axios(config)
+      .then(result => {
+        // let load = {
+        //   success: true,
+        // };
+        const pasing = result.data.Data;
+        console.log('data di getmenu', pasing);
+        setDataMenu(pasing);
+      })
+      .catch(error => console.log('error getdata menu error', error.response));
+  };
 
   const button = () => {
     console.log('c');
@@ -46,6 +76,15 @@ const CustomModal = props => {
     navigation.navigate('HomeScreen');
     // setModalVisible(!modalVisible);
     // setModalVisible(!modalVisible);
+  };
+
+  const goToScreen = item => {
+    console.log('is project', item.isProject);
+    if (item.isProject == 1) {
+      navigation.navigate('ChooseProject', {goTo: item.URL});
+    } else {
+      navigation.navigate(item.URL);
+    }
   };
 
   return (
@@ -77,7 +116,7 @@ const CustomModal = props => {
                 justifyContent: 'center',
               }}>
               <FlatList
-                data={dummyMenu}
+                data={dataMenu}
                 numColumns={4}
                 renderItem={({item, index}) => {
                   return (
@@ -89,8 +128,9 @@ const CustomModal = props => {
                         paddingBottom: 15,
                       }}>
                       <ButtonMenuHome
-                        title={item.menu_name}
-                        nameicon={item.icon_name}
+                        onPress={() => goToScreen(item)}
+                        title={item.Title}
+                        nameicon={item.IconClass}
                       />
                     </View>
                   );

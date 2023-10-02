@@ -6,6 +6,11 @@ import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BaseStyle, Fonts, BaseColor} from '@config';
 import {useTranslation} from 'react-i18next';
+import React, {useEffect, useState, useCallback, useRef} from 'react';
+import {useSelector, useDispatch, connect} from 'react-redux';
+import getUser from '../../selectors/UserSelectors';
+import axios from 'axios';
+import {API_URL} from '@env';
 
 const ProjectScreen = props => {
   console.log('data dummy', data_dummy);
@@ -13,6 +18,40 @@ const ProjectScreen = props => {
   console.log('image', datas[0].image);
   const {navigation} = props;
   const {t} = useTranslation();
+  const user = useSelector(state => getUser(state));
+  const [projectData, setProjectData] = useState([]);
+  useEffect(() => {
+    getProject();
+  }, []);
+
+  const getProject = () => {
+    try {
+      const config = {
+        method: 'get',
+        // url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/groupMenu?approval_user=MGR',
+        url: API_URL + '/project/index',
+        headers: {
+          'content-type': 'application/json',
+          // 'X-Requested-With': 'XMLHttpRequest',
+          Authorization: `Bearer ${user.Token}`,
+        },
+        // params: {approval_user: user.userIDToken.UserId},
+        //  params: {group_cd: user.Group},
+      };
+      console.log('formdaata get project', config);
+      axios(config)
+        .then(result => {
+          const pasing = result.data.Data;
+          console.log('data di project', pasing);
+          setProjectData(pasing);
+        })
+        .catch(error =>
+          console.log('error getdata project error', error.response),
+        );
+    } catch (error) {
+      console.log('ini konsol eror', error);
+    }
+  };
   return (
     <SafeAreaView
       edges={['right', 'top', 'left']}
@@ -37,12 +76,12 @@ const ProjectScreen = props => {
       />
       <ScrollView>
         <View style={{marginBottom: 100}}>
-          {datas.map((item, index) => (
+          {projectData.map((item, index) => (
             <TouchableOpacity
               key={index}
               onPress={() => navigation.navigate('ProjectDetails', item)}>
               <View
-                key={index}
+                // key={index}
                 // style={styles.item}
                 style={{
                   width: '100%',
@@ -53,8 +92,8 @@ const ProjectScreen = props => {
                 }}>
                 {/* <Text>{item.image}</Text> */}
                 <Image
-                  // source={{uri: item.image}}
-                  source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
+                  source={{uri: item.picture_url}}
+                  // source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
                   // src={item.image}
                   // source={}
                   // containerStyle={styles.imageContainer}
@@ -96,7 +135,7 @@ const ProjectScreen = props => {
                         marginVertical: 5,
                         fontSize: 16,
                       }}>
-                      {item.project_name}
+                      {item.descs}
                     </Text>
                     <Text
                       style={{

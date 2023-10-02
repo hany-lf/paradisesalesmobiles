@@ -50,11 +50,42 @@ const DownloadBrochure = props => {
     getData();
   });
   const getData = () => {
+    const projectNo = paramsData;
+    console.log('cek projek no', projectNo);
     const dataBrosur = dummy_brochure.data;
 
     dataBrosur.forEach((item, id) => {
+      console.log('item databrosur project no', item.project_no);
+      console.log('params prject_nno', paramsData.project_no);
       item.project_no === paramsData.project_no ? setDataBrosur(item) : null;
     });
+
+    //  const config = {
+    //    method: 'get',
+    //    // url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/groupMenu?approval_user=MGR',
+    //    url: API_URL + '/project/index',
+    //    headers: {
+    //      'content-type': 'application/json',
+    //      // 'X-Requested-With': 'XMLHttpRequest',
+    //      Authorization: `Bearer ${user.Token}`,
+    //    },
+    //    // params: {approval_user: user.userIDToken.UserId},
+    //    params: {group_cd: user.Group},
+    //  };
+    //  console.log('formdaata get project', config);
+
+    //  axios(config)
+    //    .then(result => {
+    //      // let load = {
+    //      //   success: true,
+    //      // };
+    //      const pasing = result.data.Data;
+    //      console.log('data di chooseproject', pasing);
+    //      setDataProject(pasing);
+    //    })
+    //    .catch(error =>
+    //      console.log('error getdata project error', error.response),
+    //    );
   };
 
   const sendReq_ = () => {
@@ -149,7 +180,7 @@ const DownloadBrochure = props => {
                   marginVertical: 5,
                   fontSize: 16,
                 }}>
-                {paramsData.project_name}
+                {paramsData.entity_name}
               </Text>
               <Text
                 style={{
