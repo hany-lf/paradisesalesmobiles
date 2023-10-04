@@ -35,6 +35,7 @@ import ChooseProject from '../screens/ChooseProject';
 import SignIn from '../screens/SignIn';
 import ResetPass from '../screens/ResetPass';
 import PromoScreen from '../screens/PromoScreen';
+import NewsScreen from '../screens/NewsScreen';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -224,6 +225,12 @@ const MainStack = ({navigation}) => {
           // component={DrawerStack}
           name="PromoScreen"
           component={PromoScreen}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="NewsScreen"
+          component={NewsScreen}
           options={{headerShown: false}}></Stack.Screen>
       </Stack.Group>
       <Stack.Group screenOptions={{presentation: 'modal'}}>
