@@ -8,6 +8,7 @@ const initialState = {
   userIDToken: null,
   dataShowModal: null,
   editSukses: {},
+  errorLogin: {},
 };
 
 const userReducer = (state = initialState, action = {}) => {
@@ -24,6 +25,10 @@ const userReducer = (state = initialState, action = {}) => {
         ...state,
         user: action.user,
         userIDToken: action.user,
+      };
+    case actionTypes.LOGIN_ERROR:
+      return {
+        errorLogin: action.errorLogin,
       };
     case actionTypes.LOGOUT:
       return {

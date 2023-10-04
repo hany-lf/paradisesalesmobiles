@@ -54,7 +54,7 @@ const loginRequest = () => ({
 
 const loginError = error => ({
   type: actionTypes.LOGIN_ERROR,
-  error: error,
+  errorLogin: error,
 });
 
 const loginSuccess = (user, data) => ({

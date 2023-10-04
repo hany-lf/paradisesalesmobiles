@@ -56,7 +56,9 @@ const SignIn = props => {
   const [token_firebase, setTokenFirebase] = useState('');
   const {navigation} = props;
   console.log('props', props);
+  const userError = useSelector(state => state.user);
   const user = useSelector(state => state.user);
+  console.log('user di sig in', userError);
   // console.log('datashow modal null', user.dataShowModal);
   // const psn =
   //   user.dataShowModal === null
@@ -82,6 +84,7 @@ const SignIn = props => {
 
   useEffect(() => {
     console.log('user for reset? ', user.user);
+    console.log('usr error', user.errorLogin);
     if (user.user != null) {
       // console.log('user', user);
 
@@ -257,8 +260,9 @@ const SignIn = props => {
   // };
 
   const loginklik = () => {
-    setLoading(true);
     setLoadingProses(true);
+    setLoading(true);
+
     // alert('alert sign in');
     const cekdata = {
       email,
@@ -268,8 +272,15 @@ const SignIn = props => {
     console.log('cekdata', cekdata);
 
     loginUser();
-    // setLoadingProses(false);
-    // setLoading(false);
+
+    setTimeout(() => {
+      setLoadingProses(false);
+      setLoading(false);
+    }, 3000);
+    // if (userError.errorLogin.status == true) {
+    //   setLoadingProses(false);
+    //   setLoading(false);
+    // }
 
     // changeShowModal({
     //   status: stts,
