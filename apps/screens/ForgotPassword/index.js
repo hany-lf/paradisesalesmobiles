@@ -49,7 +49,8 @@ const ForgotPassword = props => {
   });
 
   const resetPass = () => {
-    setSuksesEmail(true); // setelah sukses reset, kasih ini biar muncul screen sukses
+    Alert.alert('Maaf fungsi ini belum berfungsi');
+    // setSuksesEmail(true); // setelah sukses reset, kasih ini biar muncul screen sukses
   };
   return (
     <SafeAreaView

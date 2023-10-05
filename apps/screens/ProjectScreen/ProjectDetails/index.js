@@ -243,9 +243,10 @@ const ProjectDetails = props => {
             <ButtonMenuHome
               title={'Surrounding Area'}
               nameicon={'map-marker-alt'}
-              onPress={() =>
-                navigation.navigate('CalculatorScreen')
-              }></ButtonMenuHome>
+              // onPress={() =>
+              //   navigation.navigate('CalculatorScreen')
+              // }
+            ></ButtonMenuHome>
           </View>
         </View>
         {/* /// VIDEO  */}
