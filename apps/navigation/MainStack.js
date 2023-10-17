@@ -36,6 +36,9 @@ import SignIn from '../screens/SignIn';
 import ResetPass from '../screens/ResetPass';
 import PromoScreen from '../screens/PromoScreen';
 import NewsScreen from '../screens/NewsScreen';
+import PromoModal from '../screens/PromoScreen/Modal/PromoModal';
+import UnitEnquiry from '../screens/UnitEnquiry';
+import UnitEnquiryList from '../screens/UnitEnquiryList';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -229,8 +232,26 @@ const MainStack = ({navigation}) => {
         <Stack.Screen
           // name="HomeStack"
           // component={DrawerStack}
+          name="PromoModal"
+          component={PromoModal}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
           name="NewsScreen"
           component={NewsScreen}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="UnitEnquiryScreen"
+          component={UnitEnquiry}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="UnitEnquiryList"
+          component={UnitEnquiryList}
           options={{headerShown: false}}></Stack.Screen>
       </Stack.Group>
       <Stack.Group screenOptions={{presentation: 'modal'}}>

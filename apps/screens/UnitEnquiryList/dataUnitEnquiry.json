@@ -1,0 +1,61 @@
+{
+  "unit_enquiry": [
+    {
+      "key": 1,
+      "unit_descs": "E-10",
+      "icon_name": "door-open",
+      "unit_type": "Deluxe",
+      "status_unit": "A"
+    },
+
+    {
+      "key": 2,
+      "unit_descs": "E-10",
+      "icon_name": "door-open",
+      "unit_type": "Deluxe",
+      "status_unit": "A"
+    },
+    {
+      "key": 3,
+      "unit_descs": "E-10",
+      "icon_name": "door-closed",
+      "unit_type": "Deluxe",
+      "status_unit": "B"
+    },
+    {
+      "key": 4,
+      "unit_descs": "E-10",
+      "icon_name": "door-open",
+      "unit_type": "Deluxe",
+      "status_unit": "A"
+    },
+    {
+      "key": 5,
+      "unit_descs": "E-10",
+      "icon_name": "door-closed",
+      "unit_type": "Deluxe",
+      "status_unit": "NA"
+    },
+    {
+      "key": 6,
+      "unit_descs": "E-10",
+      "icon_name": "door-closed",
+      "unit_type": "Deluxe",
+      "status_unit": "NA"
+    },
+    {
+      "key": 7,
+      "unit_descs": "E-10",
+      "icon_name": "door-closed",
+      "unit_type": "Deluxe",
+      "status_unit": "NA"
+    },
+    {
+      "key": 8,
+      "unit_descs": "E-10",
+      "icon_name": "door-open",
+      "unit_type": "Deluxe",
+      "status_unit": "A"
+    }
+  ]
+}

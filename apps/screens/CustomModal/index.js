@@ -135,7 +135,7 @@ const CustomModal = props => {
                     </View>
                   );
                 }}
-                keyExtractor={item => item.key}
+                keyExtractor={item => item.MenuID}
               />
             </View>
           </View>
