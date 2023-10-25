@@ -267,7 +267,7 @@ const DownloadBrochure = props => {
                 </Text>
               </View>
             </View>
-            {/* --- border  */}
+            {/* --- border divider  */}
             <View
               style={{
                 borderWidth: 0.3,

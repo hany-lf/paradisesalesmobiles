@@ -39,6 +39,8 @@ import NewsScreen from '../screens/NewsScreen';
 import PromoModal from '../screens/PromoScreen/Modal/PromoModal';
 import UnitEnquiry from '../screens/UnitEnquiry';
 import UnitEnquiryList from '../screens/UnitEnquiryList';
+import UnitInfo from '../screens/UnitInfo';
+import UnitInfoModal from '../screens/UnitInfo/Modal/UnitInfoModal';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -252,6 +254,18 @@ const MainStack = ({navigation}) => {
           // component={DrawerStack}
           name="UnitEnquiryList"
           component={UnitEnquiryList}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="UnitInfo"
+          component={UnitInfo}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="UnitInfoModal"
+          component={UnitInfoModal}
           options={{headerShown: false}}></Stack.Screen>
       </Stack.Group>
       <Stack.Group screenOptions={{presentation: 'modal'}}>

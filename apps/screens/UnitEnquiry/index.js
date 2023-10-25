@@ -24,9 +24,13 @@ import {Modal} from 'react-native';
 
 import {useIsFocused} from '@react-navigation/native';
 import styles from './styles';
+import {API_URL} from '@env';
+import getUser from '../../selectors/UserSelectors';
+import {useSelector, useDispatch, connect} from 'react-redux';
+import axios from 'axios';
 const UnitEnquiry = props => {
   const {t} = useTranslation();
-  //   const dummyFAQ = dummy_faq.menu_faq;
+  const user = useSelector(state => getUser(state));
   const {navigation} = props;
   const {width} = useWindowDimensions().width;
   console.log('params dari choose project', props.route.params);
@@ -39,12 +43,43 @@ const UnitEnquiry = props => {
   const [dataBrosurFetch, setDataBrosur] = useState([]);
   const [emailCust, setEmailCust] = useState('');
   const [phoneCust, setPhoneCust] = useState('');
+  const [data_LotType, setData_LotType] = useState([]);
 
   const isFocused = useIsFocused();
   useEffect(() => {
-    getData();
-  });
-  const getData = () => {};
+    getData_LotType();
+  }, []);
+  const getData_LotType = () => {
+    const project_no = paramsData.project_no;
+    const entity_cd = paramsData.entity_cd;
+    console.log('entity_cd', entity_cd);
+    try {
+      const config = {
+        method: 'get',
+        // url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/groupMenu?approval_user=MGR',
+        url: API_URL + '/unit-enquiry/lot-type',
+        headers: {
+          'content-type': 'application/json',
+          // 'X-Requested-With': 'XMLHttpRequest',
+          Authorization: `Bearer ${user.Token}`,
+        },
+        // params: {approval_user: user.userIDToken.UserId},
+        params: {entity_cd: entity_cd, project_no: project_no},
+      };
+      console.log('formdaata get lot type', config);
+      axios(config)
+        .then(result => {
+          const pasing = result.data.Data;
+          console.log('data di lot type', pasing);
+          setData_LotType(pasing);
+        })
+        .catch(error =>
+          console.log('error getdata lot type error', error.response),
+        );
+    } catch (error) {
+      console.log('ini konsol eror lot type', error);
+    }
+  };
 
   const sendReq_ = () => {};
 
@@ -135,133 +170,169 @@ const UnitEnquiry = props => {
           </View>
         </View>
 
-        <View
-          style={{
-            backgroundColor: BaseColor.corn10,
-            borderRadius: 15,
-            marginVertical: 10,
-            marginHorizontal: 20,
-            // marginRight: 20,
-          }}>
-          <View>
+        {data_LotType.length != 0 ? (
+          data_LotType.map((item, index) => (
             <View
+              key={index}
               style={{
-                flexDirection: 'row',
-                // justifyContent: 'space-between',
-                margin: 10,
+                backgroundColor: BaseColor.corn10,
+                borderRadius: 15,
+                marginVertical: 10,
+                marginHorizontal: 20,
+                // marginRight: 20,
               }}>
-              <Image
-                source={{uri: paramsData.picture_url}}
-                style={{
-                  width: 150,
-                  height: 150,
-                  borderRadius: 15,
-                }}></Image>
               <View>
-                <View style={{marginLeft: 20}}>
-                  <View>
-                    <Text style={{fontFamily: Fonts.type.LatoBold}}>
-                      2BR Suites
-                    </Text>
-                  </View>
-                  <View
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    // justifyContent: 'space-between',
+                    margin: 10,
+                  }}>
+                  <Image
+                    source={{uri: paramsData.picture_url}} //ini sementara pake picture dari params data, sbnrnya ada pict url nya masing2 lot type
                     style={{
-                      flexDirection: 'row',
-                      marginTop: 15,
-                    }}>
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      <Text
-                        style={{
-                          fontFamily: Fonts.type.Lato,
-                          color: BaseColor.corn50,
-                        }}>
-                        6
-                      </Text>
-                      <View
-                        style={{
-                          width: 10,
-                          height: 10,
-                          backgroundColor: 'yellow',
-                          marginHorizontal: 5,
-                        }}></View>
-                    </View>
-
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      <Text
-                        style={{
-                          fontFamily: Fonts.type.Lato,
-                          color: BaseColor.corn50,
-                        }}>
-                        6
-                      </Text>
-                      <View
-                        style={{
-                          width: 10,
-                          height: 10,
-                          backgroundColor: 'red',
-                          marginHorizontal: 5,
-                        }}></View>
-                    </View>
-
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      <Text
-                        style={{
-                          fontFamily: Fonts.type.Lato,
-                          color: BaseColor.corn50,
-                        }}>
-                        6
-                      </Text>
-                      <View
-                        style={{
-                          width: 10,
-                          height: 10,
-                          backgroundColor: 'green',
-                          marginHorizontal: 5,
-                        }}></View>
-                    </View>
-                  </View>
+                      width: 150,
+                      height: 150,
+                      borderRadius: 15,
+                    }}></Image>
                   <View>
-                    <Text
+                    <View style={{marginLeft: 20}}>
+                      <View>
+                        <Text style={{fontFamily: Fonts.type.LatoBold}}>
+                          {item.descs}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          marginTop: 15,
+                        }}>
+                        <View
+                          style={{flexDirection: 'row', alignItems: 'center'}}>
+                          <Text
+                            style={{
+                              fontFamily: Fonts.type.Lato,
+                              color: BaseColor.corn50,
+                            }}>
+                            6
+                          </Text>
+                          <View
+                            style={{
+                              width: 10,
+                              height: 10,
+                              backgroundColor: 'yellow',
+                              marginHorizontal: 5,
+                            }}></View>
+                        </View>
+
+                        <View
+                          style={{flexDirection: 'row', alignItems: 'center'}}>
+                          <Text
+                            style={{
+                              fontFamily: Fonts.type.Lato,
+                              color: BaseColor.corn50,
+                            }}>
+                            6
+                          </Text>
+                          <View
+                            style={{
+                              width: 10,
+                              height: 10,
+                              backgroundColor: 'red',
+                              marginHorizontal: 5,
+                            }}></View>
+                        </View>
+
+                        <View
+                          style={{flexDirection: 'row', alignItems: 'center'}}>
+                          <Text
+                            style={{
+                              fontFamily: Fonts.type.Lato,
+                              color: BaseColor.corn50,
+                            }}>
+                            6
+                          </Text>
+                          <View
+                            style={{
+                              width: 10,
+                              height: 10,
+                              backgroundColor: 'green',
+                              marginHorizontal: 5,
+                            }}></View>
+                        </View>
+                      </View>
+                      <View>
+                        <Text
+                          style={{
+                            fontFamily: Fonts.type.Lato,
+                            color: BaseColor.corn50,
+                            marginVertical: 5,
+                          }}>
+                          50.2cm
+                        </Text>
+                      </View>
+                    </View>
+
+                    <Button
+                      onPress={() =>
+                        navigation.navigate('UnitEnquiryList', item)
+                      }
                       style={{
-                        fontFamily: Fonts.type.Lato,
-                        color: BaseColor.corn50,
-                        marginVertical: 5,
-                      }}>
-                      50.2cm
-                    </Text>
+                        backgroundColor: BaseColor.corn50,
+                        // width: '80%',
+                        marginLeft: 20,
+                        paddingHorizontal: 40,
+                        // marginHorizontal: 20,
+                        height: 40,
+                        marginTop: 15,
+                      }}
+                      rounded
+                      //   medium
+                    >
+                      <Text
+                        style={{
+                          color: BaseColor.whiteColor,
+                          fontSize: 12,
+
+                          fontFamily: Fonts.type.Lato,
+                        }}>
+                        Choose Unit
+                      </Text>
+                    </Button>
                   </View>
                 </View>
-
-                <Button
-                  onPress={() =>
-                    navigation.navigate('UnitEnquiryList', paramsData)
-                  }
+              </View>
+            </View>
+          ))
+        ) : (
+          <View
+            style={{
+              backgroundColor: BaseColor.corn10,
+              borderRadius: 15,
+              marginVertical: 10,
+              marginHorizontal: 20,
+              // marginRight: 20,
+            }}>
+            <View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignSelf: 'center',
+                  // justifyContent: 'space-between',
+                  margin: 10,
+                }}>
+                <Text
                   style={{
-                    backgroundColor: BaseColor.corn50,
-                    // width: '80%',
-                    marginLeft: 20,
-                    paddingHorizontal: 40,
-                    // marginHorizontal: 20,
-                    height: 40,
-                    marginTop: 15,
-                  }}
-                  rounded
-                  //   medium
-                >
-                  <Text
-                    style={{
-                      color: BaseColor.whiteColor,
-                      fontSize: 12,
-
-                      fontFamily: Fonts.type.Lato,
-                    }}>
-                    Choose Unit
-                  </Text>
-                </Button>
+                    fontFamily: Fonts.type.Lato,
+                    fontSize: 14,
+                    color: BaseColor.corn70,
+                  }}>
+                  No Data Available
+                </Text>
               </View>
             </View>
           </View>
-        </View>
+        )}
       </ScrollView>
 
       {/* <Modal visible={showModal} animationType="slide" transparent={false}>

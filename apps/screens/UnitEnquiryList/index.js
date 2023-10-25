@@ -26,12 +26,18 @@ import {useIsFocused} from '@react-navigation/native';
 import styles from './styles';
 import GridUnit from '../../components/GridUnit/GridUnit';
 import dataUnitEnquiry from './dataUnitEnquiry.json';
+import {API_URL} from '@env';
+import getUser from '../../selectors/UserSelectors';
+import {useSelector, useDispatch, connect} from 'react-redux';
+import axios from 'axios';
+
 const UnitEnquiryList = props => {
   const {t} = useTranslation();
   //   const dummyFAQ = dummy_faq.menu_faq;
   const {navigation} = props;
+  const user = useSelector(state => getUser(state));
   const {width} = useWindowDimensions().width;
-  console.log('params dari choose project', props.route.params);
+  console.log('params dari list enquiry', props.route.params);
   // const paramsData = props.route.params;
   const [paramsData, setParamsData] = useState(props.route.params);
   const [showModal, setShowModal] = useState(false);
@@ -41,15 +47,41 @@ const UnitEnquiryList = props => {
   const [dataBrosurFetch, setDataBrosur] = useState([]);
   const [emailCust, setEmailCust] = useState('');
   const [phoneCust, setPhoneCust] = useState('');
-  const [dataUnitDummy, setDataUnitDummy] = useState(
-    dataUnitEnquiry.unit_enquiry,
-  );
-  console.log('set data unit', dataUnitDummy);
+
+  const [dataListEnquiry, setDataListEnquiry] = useState([]);
   const isFocused = useIsFocused();
   useEffect(() => {
-    getData();
-  });
-  const getData = () => {};
+    getDataListEnquiry();
+  }, []);
+  const getDataListEnquiry = () => {
+    const lot_type = paramsData.lot_type;
+    try {
+      const config = {
+        method: 'get',
+        // url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/groupMenu?approval_user=MGR',
+        url: API_URL + '/unit-enquiry/pm-lot',
+        headers: {
+          'content-type': 'application/json',
+          // 'X-Requested-With': 'XMLHttpRequest',
+          Authorization: `Bearer ${user.Token}`,
+        },
+        // params: {approval_user: user.userIDToken.UserId},
+        params: {lot_type: lot_type},
+      };
+      console.log('formdaata get pm lot', config);
+      axios(config)
+        .then(result => {
+          const pasing = result.data.Data;
+          console.log('data di lot type', pasing);
+          setDataListEnquiry(pasing);
+        })
+        .catch(error =>
+          console.log('error getdata pm lot type error', error.response),
+        );
+    } catch (error) {
+      console.log('ini konsol eror pm lot type', error);
+    }
+  };
 
   const sendReq_ = () => {};
 
@@ -291,7 +323,7 @@ const UnitEnquiryList = props => {
             alignItems: 'center',
           }}>
           <FlatList
-            data={dataUnitDummy}
+            data={dataListEnquiry}
             numColumns={4}
             renderItem={({item, index}) => {
               return (
@@ -303,16 +335,38 @@ const UnitEnquiryList = props => {
                     paddingBottom: 15,
                   }}>
                   <GridUnit
-                    // onPress={() => goToScreen(item)}
-                    title={item.unit_descs}
-                    nameicon={item.icon_name}
-                    type={item.unit_type}
-                    status_unit={item.status_unit}
+                    onPress={() =>
+                      navigation.navigate('UnitInfo', {
+                        item,
+                        unittype: paramsData.descs,
+                      })
+                    }
+                    title={item.descs}
+                    nameicon={
+                      item.status == 'B'
+                        ? 'door-closed'
+                        : item.status == 'A'
+                        ? 'door-open'
+                        : item.status == 'S' //ini status nya ngambil darimana
+                        ? 'door-closed'
+                        : 'times'
+                    }
+                    type={item.zone_cd} //sementara zone_code
+                    status_unit={
+                      // item.lot_no
+                      item.status == 'B'
+                        ? 'B'
+                        : item.status == 'A'
+                        ? 'A'
+                        : item.status == 'S' //ini status nya ngambil darimana
+                        ? 'NA'
+                        : 'NA'
+                    } //status unit untuk warna warna nya
                   />
                 </View>
               );
             }}
-            keyExtractor={item => item.key}
+            keyExtractor={item => item.lot_no}
           />
         </View>
       </ScrollView>
@@ -354,7 +408,7 @@ const UnitEnquiryList = props => {
                     color: BaseColor.corn70,
                     fontSize: 16,
                   }}>
-                  Unit Details
+                  {t('unit_details')}
                 </Text>
               </View>
             </View>
