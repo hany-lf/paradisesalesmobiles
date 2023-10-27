@@ -36,7 +36,7 @@ const CustomModal = props => {
       setModalVisible(true);
       getMenuUser();
     }
-    console.log('cek useeffect');
+    console.log('cek useeffect', isFocused);
   }, [isFocused]);
 
   // useEffect(() => {
@@ -66,13 +66,14 @@ const CustomModal = props => {
         const pasing = result.data.Data;
         console.log('data di getmenu', pasing);
         setDataMenu(pasing);
+        setModalVisible(true);
       })
       .catch(error => console.log('error getdata menu error', error.response));
   };
 
   const button = () => {
     console.log('c');
-    setModalVisible(!modalVisible);
+    setModalVisible(false);
     navigation.navigate('HomeScreen');
     // setModalVisible(!modalVisible);
     // setModalVisible(!modalVisible);
@@ -91,7 +92,7 @@ const CustomModal = props => {
     <SafeAreaView
       edges={['right', 'top', 'left']}
       style={[BaseStyle.safeAreaView, {backgroundColor: BaseColor.whiteColor}]}>
-      <View>
+      <View style={{backgroundColor: 'red'}}>
         <Modal animationType="slide" transparent={true} visible={modalVisible}>
           <View
             style={{

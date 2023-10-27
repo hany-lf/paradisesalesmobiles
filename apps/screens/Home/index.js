@@ -27,6 +27,8 @@ import {CardHomePromo} from '../../components';
 import {useSharedValue} from 'react-native-reanimated';
 import {ExpandingDot} from 'react-native-animated-pagination-dots';
 import {data_promo_dummy} from './data_promo_dummy.json';
+import axios from 'axios';
+import {API_URL} from '@env';
 const SLIDER_1_FIRST_ITEM = 1;
 
 const Home = props => {
@@ -44,7 +46,7 @@ const Home = props => {
   const [datasIndicator, setDatasIndicator] = useState([]);
   const [images, setImages] = useState([]);
   const data_promo = data_promo_dummy;
-  console.log('data promo ?', data_promo);
+  // console.log('data promo ?', data_promo);
   const {width, height} = Dimensions.get('screen');
 
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -57,6 +59,9 @@ const Home = props => {
   const DOT_SIZE = 8;
   const DOT_SPACING = 8;
   const DOT_INDICATOR_SIZE = DOT_SIZE + DOT_SPACING;
+
+  const [dataPromo, setDataPromo] = useState([]);
+  const [dataNews, setDataNews] = useState([]);
 
   useEffect(() => {
     if (user == null) {
@@ -138,6 +143,73 @@ const Home = props => {
       title: 'E-commerce',
       navigate: 'ECommerceMenu',
     },
+  };
+
+  useEffect(() => {
+    getDataPromo();
+    getDataNews();
+  }, []);
+
+  const getDataPromo = () => {
+    try {
+      const config = {
+        method: 'get',
+        // url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/groupMenu?approval_user=MGR',
+        url: API_URL + '/promo/index',
+        headers: {
+          'content-type': 'application/json',
+          // 'X-Requested-With': 'XMLHttpRequest',
+          Authorization: `Bearer ${user.Token}`,
+        },
+        // params: {approval_user: user.userIDToken.UserId},
+        params: {},
+      };
+      console.log('formdaata get promo di home', config);
+      axios(config)
+        .then(result => {
+          const pasing = result.data.Data;
+          const filterdata = pasing.filter(
+            pasing => pasing.status == 'Active' && pasing.banner == 'Y',
+          );
+          console.log('data di promo', filterdata);
+          setDataPromo(filterdata);
+        })
+        .catch(error =>
+          console.log('error getdata promo error', error.response),
+        );
+    } catch (error) {
+      console.log('ini konsol eror promo', error);
+    }
+  };
+
+  const getDataNews = () => {
+    try {
+      const config = {
+        method: 'get',
+        // url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/groupMenu?approval_user=MGR',
+        url: API_URL + '/news/index',
+        headers: {
+          'content-type': 'application/json',
+          // 'X-Requested-With': 'XMLHttpRequest',
+          Authorization: `Bearer ${user.Token}`,
+        },
+        // params: {approval_user: user.userIDToken.UserId},
+        params: {},
+      };
+      console.log('formdaata get news di home', config);
+      axios(config)
+        .then(result => {
+          const pasing = result.data.Data;
+          const filterdata = pasing.filter(pasing => pasing.status == 'Active');
+          console.log('data di news', filterdata);
+          setDataNews(filterdata);
+        })
+        .catch(error =>
+          console.log('error getdata news error', error.response),
+        );
+    } catch (error) {
+      console.log('ini konsol eror news', error);
+    }
   };
 
   const menuChoosed = useSelector(state => state.application.menu);
@@ -279,7 +351,7 @@ const Home = props => {
     return (
       <TouchableOpacity
         key={index}
-        onPress={() => alert('promo detail')}
+        onPress={() => navigation.navigate('PromoWithoutModal', {datas: item})}
         style={{
           marginHorizontal: SPACING,
           // padding: SPACING,
@@ -287,6 +359,7 @@ const Home = props => {
         }}>
         <View style={{width: 150, height: 200}}>
           <Image
+            // source={{uri: item.url_image}} //sementara di tutup dulu ya, krn belum ada datanya
             source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
             // source={{
             //   uri: 'https://i.stack.imgur.com/280rI.png',
@@ -298,7 +371,7 @@ const Home = props => {
               width: '100%',
               height: 200,
             }}></Image>
-          <Text>{item.image}</Text>
+
           <View
             style={{
               position: 'absolute',
@@ -310,6 +383,7 @@ const Home = props => {
               backgroundColor: BaseColor.whiteColor,
             }}>
             <Text
+              numberOfLines={3}
               style={{
                 color: BaseColor.corn90,
                 fontFamily: Fonts.type.LatoBold,
@@ -317,7 +391,7 @@ const Home = props => {
                 //   marg
               }}>
               {/* Step into your new elegance design home. */}
-              {item.descs}
+              {item.promo_title}
             </Text>
           </View>
         </View>
@@ -341,7 +415,7 @@ const Home = props => {
     return (
       <TouchableOpacity
         key={index}
-        onPress={() => alert('promo detail')}
+        onPress={() => navigation.navigate('NewsWithoutModal', {datas: item})}
         style={{
           marginHorizontal: SPACING,
           // padding: SPACING,
@@ -360,7 +434,7 @@ const Home = props => {
               width: '100%',
               height: 200,
             }}></Image>
-          <Text>{item.image}</Text>
+          {/* <Text>{item.image}</Text> */}
           <View
             style={{
               position: 'absolute',
@@ -372,6 +446,7 @@ const Home = props => {
               backgroundColor: BaseColor.whiteColor,
             }}>
             <Text
+              numberOfLines={3}
               style={{
                 color: BaseColor.corn90,
                 fontFamily: Fonts.type.LatoBold,
@@ -379,7 +454,7 @@ const Home = props => {
                 //   marg
               }}>
               {/* Step into your new elegance design home. */}
-              {item.descs}
+              {item.news_title}
             </Text>
           </View>
         </View>
@@ -568,19 +643,24 @@ const Home = props => {
                 <Text style={{fontSize: 17, fontFamily: Fonts.type.Lato}}>
                   Promo & Offers
                 </Text>
-                <Text
-                  style={{
-                    fontSize: 15,
-                    fontFamily: Fonts.type.Lato,
-                    color: BaseColor.corn50,
-                  }}>
-                  See all
-                </Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('ChooseProject', {goTo: 'PromoScreen'})
+                  }>
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontFamily: Fonts.type.Lato,
+                      color: BaseColor.corn50,
+                    }}>
+                    See all
+                  </Text>
+                </TouchableOpacity>
               </View>
 
               <View style={{marginHorizontal: 20, marginVertical: 10}}>
                 <FlatList
-                  data={data_promo}
+                  data={dataPromo}
                   horizontal
                   pagingEnabled={true}
                   contentContainerStyle={{alignItems: 'center'}}
@@ -589,7 +669,7 @@ const Home = props => {
                   snapToInterval={ITEM_SIZE}
                   decelerationRate={0}
                   bounces={false}
-                  keyExtractor={item => item.key}
+                  keyExtractor={item => item.rowID}
                   renderItem={_renderItemPromo}></FlatList>
               </View>
             </View>
@@ -613,19 +693,24 @@ const Home = props => {
                 <Text style={{fontSize: 17, fontFamily: Fonts.type.Lato}}>
                   News & Update
                 </Text>
-                <Text
-                  style={{
-                    fontSize: 15,
-                    fontFamily: Fonts.type.Lato,
-                    color: BaseColor.corn50,
-                  }}>
-                  See all
-                </Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('ChooseProject', {goTo: 'NewsScreen'})
+                  }>
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontFamily: Fonts.type.Lato,
+                      color: BaseColor.corn50,
+                    }}>
+                    See all
+                  </Text>
+                </TouchableOpacity>
               </View>
 
               <View style={{marginHorizontal: 20, marginVertical: 10}}>
                 <FlatList
-                  data={data_promo}
+                  data={dataNews}
                   horizontal
                   pagingEnabled={true}
                   contentContainerStyle={{alignItems: 'center'}}
@@ -634,7 +719,7 @@ const Home = props => {
                   snapToInterval={ITEM_SIZE}
                   decelerationRate={0}
                   bounces={false}
-                  keyExtractor={item => item.key}
+                  keyExtractor={item => item.rowID}
                   renderItem={_renderItemNews}></FlatList>
               </View>
             </View>

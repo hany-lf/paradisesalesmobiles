@@ -5,13 +5,15 @@ import {
   Modal,
   Dimensions,
   ScrollView,
+  Image,
 } from 'react-native';
 import React, {useState} from 'react';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BaseStyle, Fonts, BaseColor} from '@config';
-
+import {useTranslation} from 'react-i18next';
 const NewsModal = props => {
+  const {t} = useTranslation();
   const {onPress, datas, visibleMod, icon, ...attrs} = props;
   console.log('attrs ?', attrs);
   console.log('datas nya', datas);
@@ -34,12 +36,12 @@ const NewsModal = props => {
         shadowRadius: 4,
         elevation: 5,
       }}>
-      <Modal {...attrs} animationType="slide" transparent={false}>
+      <Modal {...attrs} animationType="slide" transparent={true}>
         <View
           style={[
             styles.centeredView,
             {
-              // backgroundColor: BaseColor.redColor,
+              backgroundColor: BaseColor.whiteColor,
               borderTopRightRadius: 25,
               borderTopLeftRadius: 25,
             },
@@ -65,7 +67,7 @@ const NewsModal = props => {
                     color: BaseColor.corn70,
                     fontSize: 16,
                   }}>
-                  cek news modal
+                  {t('news_detail')}
                 </Text>
               </View>
             </View>
@@ -94,15 +96,34 @@ const NewsModal = props => {
                     // shadowRadius: 4,
                     // elevation: 5,
                   }}>
-                  <Text
-                    numberOfLines={0} // ini wajib ada kalo menggunakan Text dari component
-                    style={{
-                      textAlign: 'justify',
-                      fontFamily: Fonts.type.Lato,
-                      width: '100%',
-                    }}>
-                    {datas.news_descs.replace(/(<([^>]+)>)/gi, '')}
-                  </Text>
+                  <View
+                  // style={{width: 200, height: 100}}
+                  >
+                    <Image
+                      //   source={{uri: detailNews.url_image}}
+                      source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
+                      style={{
+                        width: '100%',
+                        // width: 300,
+                        height: 200,
+                        // marginTop: 10,
+                        // paddingTop: 10,
+                        // ...StyleSheet.absoluteFillObject,
+                        resizeMode: 'contain',
+                        borderRadius: 25,
+                      }}></Image>
+                  </View>
+                  <View style={{marginVertical: 20}}>
+                    <Text
+                      numberOfLines={0} // ini wajib ada kalo menggunakan Text dari component
+                      style={{
+                        textAlign: 'justify',
+                        fontFamily: Fonts.type.Lato,
+                        width: '100%',
+                      }}>
+                      {datas.news_descs.replace(/(<([^>]+)>)/gi, '')}
+                    </Text>
+                  </View>
                 </View>
               </View>
             </ScrollView>

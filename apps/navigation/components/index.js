@@ -180,7 +180,7 @@ export const BottomTabNavigatorMazi = ({tabScreens = {}}) => {
         console.log('name tab', name);
         console.log('index tab', index);
         console.log('component', component);
-        return name == 'CustomModal' ? (
+        return name === 'CustomModal' ? (
           <BottomTab.Screen
             key={index}
             name={name}

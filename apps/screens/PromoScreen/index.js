@@ -1,6 +1,13 @@
 import {Text, Header, Icon} from '@components';
 
-import {View, ScrollView, Image, TouchableOpacity, Modal} from 'react-native';
+import {
+  useWindowDimensions,
+  View,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Modal,
+} from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BaseStyle, Fonts, BaseColor} from '@config';
@@ -11,23 +18,65 @@ import getUser from '../../selectors/UserSelectors';
 import axios from 'axios';
 import {API_URL} from '@env';
 import PromoModal from './Modal/PromoModal';
+import moment from 'moment';
 const PromoScreen = props => {
+  const [showPromo, setShowPromo] = useState(false);
+
   const {navigation} = props;
   const {t} = useTranslation();
   const user = useSelector(state => getUser(state));
-  const [showPromo, setShowPromo] = useState(false);
 
-  const showModalPromo = () => {
+  const [dataPromo, setDataPromo] = useState([]);
+  const [paramsData, setParamsData] = useState(props.route.params);
+  console.log('params data', paramsData);
+  const {width} = useWindowDimensions();
+  const [itemsParams, setItemsParams] = useState();
+
+  useEffect(() => {
+    getDataPromo();
+  }, []);
+
+  const getDataPromo = () => {
+    const entity_cd = paramsData.entity_cd;
+    const project_no = paramsData.project_no;
+    try {
+      const config = {
+        method: 'get',
+        // url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/groupMenu?approval_user=MGR',
+        url: API_URL + '/promo/index',
+        headers: {
+          'content-type': 'application/json',
+          // 'X-Requested-With': 'XMLHttpRequest',
+          Authorization: `Bearer ${user.Token}`,
+        },
+        // params: {approval_user: user.userIDToken.UserId},
+        params: {entity_cd: entity_cd, project_no: project_no},
+      };
+      console.log('formdaata get promo', config);
+      axios(config)
+        .then(result => {
+          const pasing = result.data.Data;
+          const filterdata = pasing.filter(pasing => pasing.status == 'Active');
+          console.log('data di promo', filterdata);
+          setDataPromo(filterdata);
+        })
+        .catch(error =>
+          console.log('error getdata promo error', error.response),
+        );
+    } catch (error) {
+      console.log('ini konsol eror promo', error);
+    }
+  };
+
+  const showModalPromo = item => {
     setShowPromo(true);
+    setItemsParams(item);
   };
 
   const closeShowModalPromo = () => {
     setShowPromo(false);
   };
 
-  const dataPromo = [
-    {title: 'tes', descs: 'ini decs', date: '27 agustus 2023'},
-  ];
   return (
     <SafeAreaView
       edges={['right', 'top', 'left']}
@@ -51,74 +100,84 @@ const PromoScreen = props => {
         }}
       />
       <ScrollView>
-        <TouchableOpacity onPress={() => showModalPromo()}>
-          <View
-            style={{
-              backgroundColor: BaseColor.corn10,
-              borderRadius: 15,
-              // width: '100%',
-              marginHorizontal: 20,
-              // flex: 1,
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                // justifyContent: 'space-evenly',
-                justifyContent: 'space-around',
-                // width: '100%',
-                marginHorizontal: 5,
-              }}>
+        {dataPromo.length != 0 ? (
+          dataPromo.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              style={{marginVertical: 10}}
+              onPress={() => showModalPromo(item)}>
               <View
                 style={{
-                  width: '50%',
-                  marginVertical: 10,
-                  marginHorizontal: 10,
+                  backgroundColor: BaseColor.corn10,
+                  borderRadius: 15,
+                  // width: '100%',
+                  marginHorizontal: 20,
+                  // flex: 1,
                 }}>
-                <Text
+                <View
                   style={{
-                    fontSize: 14,
-                    fontFamily: Fonts.type.LatoBold,
-                    color: BaseColor.corn70,
+                    flexDirection: 'row',
+                    // justifyContent: 'space-evenly',
+                    justifyContent: 'space-around',
+                    // width: '100%',
+                    marginHorizontal: 5,
                   }}>
-                  Dapatkan diskon akhir tahun sekarang juga!
-                </Text>
-
-                <Text
-                  numberOfLines={4}
-                  style={{
-                    marginTop: 5,
-                    fontSize: 12,
-                    fontFamily: Fonts.type.Lato,
-                    color: BaseColor.corn70,
-                  }}>
-                  Lorem ipsum dolor sit amet consectetur. Est et euismod eget
-                  nam amet quam sed. Sed purus vitae aliquam arcu commodo et non
-                  et.
-                </Text>
-                <View style={{justifyContent: 'flex-end', flex: 1}}>
-                  <Text
+                  <View
                     style={{
-                      fontSize: 10,
-                      fontFamily: Fonts.type.Lato,
-                      color: BaseColor.corn50,
+                      width: '50%',
+                      marginVertical: 10,
+                      marginHorizontal: 10,
                     }}>
-                    27 Agustus 2023
-                  </Text>
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        fontFamily: Fonts.type.LatoBold,
+                        color: BaseColor.corn70,
+                      }}>
+                      {item.promo_title}
+                    </Text>
+
+                    <Text
+                      numberOfLines={4}
+                      style={{
+                        marginTop: 5,
+                        fontSize: 12,
+                        fontFamily: Fonts.type.Lato,
+                        color: BaseColor.corn70,
+                      }}>
+                      {item.promo_descs.replace(/(<([^>]+)>)/gi, '')}
+                    </Text>
+                    <View style={{justifyContent: 'flex-end', flex: 1}}>
+                      <Text
+                        style={{
+                          fontSize: 10,
+                          fontFamily: Fonts.type.Lato,
+                          color: BaseColor.corn50,
+                        }}>
+                        {moment(item.date_created).format('MMMM Do YYYY')}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={{marginVertical: 10, marginHorizontal: 10}}>
+                    <Image
+                      source={{uri: item.url_image}}
+                      // source={require('@assets/images/promonews/promo2.png')}
+                      style={{
+                        width: 150,
+                        height: 150,
+                        resizeMode: 'contain',
+                        borderRadius: 15,
+                      }}></Image>
+                  </View>
                 </View>
               </View>
-              <View style={{marginVertical: 10, marginHorizontal: 10}}>
-                <Image
-                  source={require('@assets/images/promonews/promo2.png')}
-                  style={{
-                    width: 150,
-                    height: 150,
-                    resizeMode: 'contain',
-                    borderRadius: 15,
-                  }}></Image>
-              </View>
-            </View>
+            </TouchableOpacity>
+          ))
+        ) : (
+          <View>
+            <Text>Data not available</Text>
           </View>
-        </TouchableOpacity>
+        )}
       </ScrollView>
 
       <PromoModal
@@ -131,7 +190,7 @@ const PromoScreen = props => {
             <Icon name={'arrow-left'} size={18} color={BaseColor.corn90}></Icon>
           </TouchableOpacity>
         }
-        datas={dataPromo}></PromoModal>
+        datas={itemsParams}></PromoModal>
     </SafeAreaView>
   );
 };

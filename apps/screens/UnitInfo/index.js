@@ -279,7 +279,7 @@ const UnitInfo = props => {
                   fontFamily: Fonts.type.Lato,
                   color: BaseColor.corn70,
                 }}>
-                1 Master Bedroom
+                1 Bedroom
               </Text>
             </View>
             <View
@@ -290,7 +290,7 @@ const UnitInfo = props => {
               }}>
               <Icon
                 style={{marginRight: 15}}
-                name={'bed'}
+                name={'shower'}
                 size={13}
                 color={BaseColor.corn70}></Icon>
               <Text
@@ -310,7 +310,7 @@ const UnitInfo = props => {
               }}>
               <Icon
                 style={{marginRight: 15}}
-                name={'bed'}
+                name={'archive'}
                 size={13}
                 color={BaseColor.corn70}></Icon>
               <Text
@@ -319,7 +319,67 @@ const UnitInfo = props => {
                   fontFamily: Fonts.type.Lato,
                   color: BaseColor.corn70,
                 }}>
-                Bedroom
+                Kitchen table top & lower cabinet
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginVertical: 5,
+              }}>
+              <Icon
+                style={{marginRight: 15}}
+                name={'fire-alt'}
+                size={13}
+                color={BaseColor.corn70}></Icon>
+              <Text
+                style={{
+                  fontSize: 13,
+                  fontFamily: Fonts.type.Lato,
+                  color: BaseColor.corn70,
+                }}>
+                Stove
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginVertical: 5,
+              }}>
+              <Icon
+                style={{marginRight: 15}}
+                name={'fax'}
+                size={13}
+                color={BaseColor.corn70}></Icon>
+              <Text
+                style={{
+                  fontSize: 13,
+                  fontFamily: Fonts.type.Lato,
+                  color: BaseColor.corn70,
+                }}>
+                Telephone & Internet outlet
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginVertical: 5,
+              }}>
+              <Icon
+                style={{marginRight: 15}}
+                name={'pager'}
+                size={13}
+                color={BaseColor.corn70}></Icon>
+              <Text
+                style={{
+                  fontSize: 13,
+                  fontFamily: Fonts.type.Lato,
+                  color: BaseColor.corn70,
+                }}>
+                Air Conditioner
               </Text>
             </View>
           </View>

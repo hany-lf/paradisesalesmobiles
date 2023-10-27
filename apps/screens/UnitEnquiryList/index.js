@@ -211,7 +211,7 @@ const UnitEnquiryList = props => {
                 </View>
               </View>
 
-              <Button
+              {/* <Button
                 onPress={() => setShowModal(true)}
                 style={{
                   backgroundColor: BaseColor.corn50,
@@ -230,7 +230,7 @@ const UnitEnquiryList = props => {
                   }}>
                   See details
                 </Text>
-              </Button>
+              </Button> */}
             </View>
           </View>
         </View>

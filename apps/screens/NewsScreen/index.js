@@ -18,7 +18,6 @@ import getUser from '../../selectors/UserSelectors';
 import axios from 'axios';
 import {API_URL} from '@env';
 import NewsModal from './Modal/NewsModal';
-import RenderHtml from 'react-native-render-html';
 import moment from 'moment';
 const NewsScreen = props => {
   const {navigation} = props;
@@ -102,7 +101,10 @@ const NewsScreen = props => {
       <ScrollView>
         {dataNews.length != 0 ? (
           dataNews.map((item, index) => (
-            <TouchableOpacity key={index} onPress={() => showModalNews(item)}>
+            <TouchableOpacity
+              key={index}
+              onPress={() => showModalNews(item)}
+              style={{marginVertical: 10}}>
               <View
                 style={{
                   backgroundColor: BaseColor.corn10,

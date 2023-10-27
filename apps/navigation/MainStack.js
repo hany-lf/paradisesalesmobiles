@@ -37,6 +37,8 @@ import ResetPass from '../screens/ResetPass';
 import PromoScreen from '../screens/PromoScreen';
 import NewsScreen from '../screens/NewsScreen';
 import PromoModal from '../screens/PromoScreen/Modal/PromoModal';
+import PromoWithoutModal from '../screens/PromoScreen/WithoutModal';
+import NewsWithoutModal from '../screens/NewsScreen/WithoutModal';
 import UnitEnquiry from '../screens/UnitEnquiry';
 import UnitEnquiryList from '../screens/UnitEnquiryList';
 import UnitInfo from '../screens/UnitInfo';
@@ -240,8 +242,20 @@ const MainStack = ({navigation}) => {
         <Stack.Screen
           // name="HomeStack"
           // component={DrawerStack}
+          name="PromoWithoutModal"
+          component={PromoWithoutModal}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
           name="NewsScreen"
           component={NewsScreen}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="NewsWithoutModal"
+          component={NewsWithoutModal}
           options={{headerShown: false}}></Stack.Screen>
         <Stack.Screen
           // name="HomeStack"
