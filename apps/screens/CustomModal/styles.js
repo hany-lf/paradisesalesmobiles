@@ -2,6 +2,15 @@ import {StyleSheet, Dimensions} from 'react-native';
 import {BaseColor, Fonts} from '@config';
 const {width: screenWidth} = Dimensions.get('window');
 const styles = StyleSheet.create({
+  background: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   centeredView: {
     flex: 1,
     justifyContent: 'center',

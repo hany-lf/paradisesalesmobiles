@@ -1,6 +1,16 @@
 import RBSheet from 'react-native-raw-bottom-sheet';
 import PropTypes from 'prop-types';
-import {View, Modal, Pressable, FlatList, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Modal,
+  Pressable,
+  FlatList,
+  TouchableOpacity,
+  Dimensions,
+  ImageBackground,
+  Animated,
+  Easing,
+} from 'react-native';
 import {Text, Button} from '@components';
 import React, {useState, useEffect, useRef} from 'react';
 import styles from './styles';
@@ -31,11 +41,70 @@ const CustomModal = props => {
   const user = useSelector(state => getUser(state));
   console.log('user di menu', user);
   console.log('isfokus', isFocused);
+
+  //tes
+  // const animatedValue = useState(new Animated.Value(0));
+
+  // const bottom = animatedValue.current.interpolate({
+  //   inputRange:[0,1],
+  //   outputRange: [-height, 0]
+  // })
+
+  // useEffect(() =>{
+  //   if(isFocused) {
+  //     Animated.timing(animatedValue.current,{
+  //       toValue:1,
+  //       duration:200,
+  //       easing: Easing.bezier(0.28,0,0.63,1),
+  //       useNativeDriver: false //'bottom' is not supported by native animated module
+  //     }).start()
+  //   }
+  //   else{
+  //     Animated.timing(animatedValue.current, {
+  //       toValue:0,
+
+  //       duration:100,
+  //       easing:Easing.cubic,
+  //       useNativeDriver: false
+  //     }).start()
+  //   }
+  // },[isFocused])
+
+  const {height, width} = Dimensions.get('window');
+  const SCREEN_HEIGHT = Math.round(height);
+  const SCREEN_WIDTH = Math.round(width);
+  // Animation
+  // const startValue = new Animated.Value(Math.round(height + height * 0.3));
+  // const endValue = Math.round(height - height * 0.3);
+  // const duration = 1000;
+
+  const startValue = new Animated.Value(Math.round(height));
+  // const endValue = Math.round(height - height * 2);
+  const endValue = -1500;
+  console.log('envalue apa', endValue);
+  const duration = 1000;
+
+  const _showBottomView = key => {
+    const toValue = key === 'HIDE' ? height : endValue;
+
+    // Animated.timing(startValue, {
+    //   toValue,
+    //   duration: duration,
+    //   useNativeDriver: true,
+    // }).start();
+    navigation.navigate('HomeScreen');
+  };
+
   useEffect(() => {
     if (isFocused) {
       setModalVisible(true);
       getMenuUser();
     }
+    Animated.timing(startValue, {
+      toValue: endValue,
+      duration: duration,
+      useNativeDriver: true,
+    }).start();
     console.log('cek useeffect', isFocused);
   }, [isFocused]);
 
@@ -92,8 +161,29 @@ const CustomModal = props => {
     <SafeAreaView
       edges={['right', 'top', 'left']}
       style={[BaseStyle.safeAreaView, {backgroundColor: BaseColor.whiteColor}]}>
-      <View style={{backgroundColor: 'red'}}>
-        <Modal animationType="slide" transparent={true} visible={modalVisible}>
+      <ImageBackground
+        source={require('@assets/images/OnboardFirst.png')}
+        style={{width: '100%'}}>
+        {/* Bottom view */}
+
+        <Animated.View
+          style={[
+            {
+              // position: 'absolute',
+              height: height,
+              width: width,
+
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderTopRightRadius: 23,
+              borderTopLeftRadius: 23,
+              transform: [
+                {
+                  translateY: startValue,
+                },
+              ],
+            },
+          ]}>
           <View
             style={{
               position: 'absolute',
@@ -148,7 +238,9 @@ const CustomModal = props => {
               alignSelf: 'center',
               marginBottom: 10, //margin bottom untuk button bulet bawah
             }}>
-            <TouchableOpacity onPress={() => button()}>
+            <TouchableOpacity
+              // onPress={() => button()}
+              onPress={() => _showBottomView('HIDE')}>
               <View
                 style={{
                   backgroundColor: BaseColor.corn30,
@@ -180,8 +272,8 @@ const CustomModal = props => {
                 color={BaseColor.corn50}></Icon>
             </Button> */}
           </View>
-        </Modal>
-      </View>
+        </Animated.View>
+      </ImageBackground>
     </SafeAreaView>
   );
 };
