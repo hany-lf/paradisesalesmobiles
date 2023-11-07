@@ -143,7 +143,7 @@ const ProjectScreen = props => {
                         color: BaseColor.corn50,
                         marginVertical: 5,
                       }}>
-                      {item.location}
+                      {item.caption_address}
                     </Text>
                   </View>
                 </View>

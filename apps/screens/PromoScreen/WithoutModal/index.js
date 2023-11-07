@@ -1,5 +1,12 @@
 import {Text, Button, Icon, Header} from '@components';
-import {View, TouchableOpacity, Modal, ScrollView, Image} from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Modal,
+  ScrollView,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useState} from 'react';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -7,7 +14,7 @@ import {BaseStyle, Fonts, BaseColor} from '@config';
 import {useTranslation} from 'react-i18next';
 import moment from 'moment';
 import ImageViewer from 'react-native-image-zoom-viewer';
-
+import ReactNativeBlobUtil from 'react-native-blob-util';
 const PromoWithoutModal = props => {
   const {navigation} = props;
   //   const {onPress, datas, visibleMod, icon, ...attrs} = props;
@@ -29,6 +36,47 @@ const PromoWithoutModal = props => {
     console.log('image zoom', image);
     setShowImage(true);
     setDataImage(data);
+  };
+
+  const _saveImages = uri => {
+    console.log('urii??', uri);
+    let dirs = ReactNativeBlobUtil.fs.dirs;
+    ReactNativeBlobUtil.config({
+      // add this option that makes response data to be stored as a file,
+      // this is much more performant.
+      fileCache: true,
+      addAndroidDownloads: {
+        path: dirs.DownloadDir + '/' + 'Promo',
+        // path: dirs.DownloadDir + '/' + item.doc_no + '.' + extension, //ini pake extensi yang sama kayak url
+        useDownloadManager: true,
+        // Show notification when response data transmitted
+        notification: true,
+        // Title of download notification
+        title: 'Image Promo Apps Paradise Mobiles',
+        // File description (not notification description)
+        description: 'downloading content...',
+        // mime: 'application/pdf',
+        // Make the file scannable  by media scanner
+        mediaScannable: true,
+      },
+    })
+      .fetch('GET', uri, {
+        //some headers ..
+      })
+      .then(res => {
+        // the temp file path
+        console.log('The file saved to ', res.path());
+        imageView = (
+          <Image
+            source={{
+              uri:
+                Platform.OS === 'android'
+                  ? 'file://' + res.path()
+                  : '' + res.path(),
+            }}
+          />
+        );
+      });
   };
   return (
     <SafeAreaView
@@ -121,6 +169,43 @@ const PromoWithoutModal = props => {
             }}></Icon>
         </TouchableOpacity> */}
         <ImageViewer
+          // onSave={dataImage}
+          // onSaveToCamera={() => alert('halo')}
+          loadingRender={() => (
+            <ActivityIndicator
+              style={{
+                justifyContent: 'center',
+                alignSelf: 'center',
+              }}
+              size="large"
+              color="#FFFFFF"
+            />
+          )}
+          useNativeDriver={true}
+          renderHeader={index => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => setShowImage(false)}
+              style={{backgroundColor: 'black', marginTop: 20, marginLeft: 20}}>
+              <Icon
+                name={'times'}
+                color={BaseColor.whiteColor}
+                style={{
+                  fontSize: 16,
+                }}></Icon>
+            </TouchableOpacity>
+          )}
+          // saveToLocalByLongPress={true}
+          imageUrls={dataImage}
+          enableSwipeDown={true}
+          onSwipeDown={() => setShowImage(false)}
+          onSave={uri => _saveImages(uri)}
+          menuContext={{
+            saveToLocal: 'Save Image',
+            cancel: 'Cancel',
+          }}
+        />
+        {/* <ImageViewer
           renderHeader={() => {
             <TouchableOpacity
               onPress={() => setShowImage(false)}
@@ -136,7 +221,7 @@ const PromoWithoutModal = props => {
           imageUrls={dataImage}
           enableSwipeDown={true}
           onSwipeDown={() => setShowImage(false)}
-        />
+        /> */}
       </Modal>
     </SafeAreaView>
   );

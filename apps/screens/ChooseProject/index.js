@@ -150,7 +150,7 @@ const ChooseProject = props => {
                         color: BaseColor.corn50,
                         marginVertical: 5,
                       }}>
-                      halo
+                      {item.caption_address}
                     </Text>
                   </View>
                 </View>

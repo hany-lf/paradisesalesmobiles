@@ -37,7 +37,7 @@
     "react-native-animatable": "^1.4.0",
     "react-native-animated-pagination-dots": "^0.1.73",
     "react-native-app-intro-slider": "^4.0.4",
-    "react-native-blob-util": "^0.19.1",
+    "react-native-blob-util": "^0.19.2",
     "react-native-bouncy-checkbox": "^3.0.7",
     "react-native-dotenv": "^3.4.9",
     "react-native-fast-image": "^8.6.3",

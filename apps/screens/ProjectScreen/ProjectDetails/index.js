@@ -150,7 +150,7 @@ const ProjectDetails = props => {
                 }}>
                 {/* {item.location} */}
                 {/* lokasi */}
-                {paramsDetail.location}
+                {paramsDetail.caption_address}
               </Text>
             </View>
           </View>
@@ -286,6 +286,7 @@ const ProjectDetails = props => {
           <View
             style={{
               marginHorizontal: 20,
+
               // borderRadius: 15,
               marginTop: 15,
               // backgroundColor: 'yellow',
@@ -301,49 +302,44 @@ const ProjectDetails = props => {
               Location
             </Text>
 
-            <RenderHTML
-              renderers={renderers}
-              WebView={WebView}
-              contentWidth={width}
-              customHTMLElementModels={customHTMLElementModels}
-              defaultWebViewProps={
-                {
-                  /* Any prop you want to pass to all WebViews */
+            <View style={{flex: 1}}>
+              <RenderHTML
+                renderers={renderers}
+                WebView={WebView}
+                contentWidth={Dimensions.get('window').width - 35}
+                customHTMLElementModels={customHTMLElementModels}
+                defaultWebViewProps={
+                  {
+                    /* Any prop you want to pass to all WebViews */
+                  }
                 }
-              }
-              renderersProps={{
-                iframe: {
-                  scalesPageToFit: true,
-                  webViewProps: {
-                    /* Any prop you want to pass to iframe WebViews */
+                renderersProps={{
+                  iframe: {
+                    scalesPageToFit: true,
+                    webViewProps: {
+                      /* Any prop you want to pass to iframe WebViews */
+                    },
                   },
-                },
-              }}
-              source={{
-                html:
-                  // `<!DOCTYPE html>
-                  //             <html>
-                  //             <body>
+                }}
+                source={{
+                  html:
+                    // `<!DOCTYPE html>
+                    //             <html>
+                    //             <body>
 
-                  //             <h1>The iframe element</h1>
+                    //             <h1>The iframe element</h1>
 
-                  //             <iframe width="100%" height="315"
-                  //                 src="https://stackoverflow.com/questions/64057689/iframe-not-showing-in-react-native-webview">
-                  //             </iframe>
+                    //             <iframe width="100%" height="315"
+                    //                 src="https://stackoverflow.com/questions/64057689/iframe-not-showing-in-react-native-webview">
+                    //             </iframe>
 
-                  //             </body>
-                  //             </html>`,
-                  `<!DOCTYPE html>
-                            <html>
-                            <body>
-                            
-                            <h1>The iframe element</h1>
-                            
-                         <div class="mapouter"><div class="gmap_canvas"><iframe class="gmap_iframe" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=University of Oxford&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe><a href="https://connectionsgame.org/">Connections NYT</a></div><style>.mapouter{position:relative;text-align:right;width:600px;height:400px;}.gmap_canvas {overflow:hidden;background:none!important;width:600px;height:400px;}.gmap_iframe {width:600px!important;height:400px!important;}</style></div>
-                            </body>
-                            </html>`,
-                // ' <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15282225.79979123!2d73.7250245393691!3d20.750301298393563!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30635ff06b92b791%3A0xd78c4fa1854213a6!2sIndia!5e0!3m2!1sen!2sin!4v1587818542745!5m2!1sen!2sin" width="600" height="450" frameborder="0" style={{border:0}} allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>',
-              }}></RenderHTML>
+                    //             </body>
+                    //             </html>`,
+
+                    `<iframe src="https://embed.waze.com/iframe?zoom=16&lat=-6.290109&lon=106.806752&ct=livemap" width="600" height="450" allowfullscreen></iframe>`,
+                  // ' <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15282225.79979123!2d73.7250245393691!3d20.750301298393563!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30635ff06b92b791%3A0xd78c4fa1854213a6!2sIndia!5e0!3m2!1sen!2sin!4v1587818542745!5m2!1sen!2sin" width="600" height="450" frameborder="0" style={{border:0}} allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>',
+                }}></RenderHTML>
+            </View>
           </View>
         </View>
         {/* // --- modal project detail overview */}

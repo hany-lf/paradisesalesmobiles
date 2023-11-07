@@ -4,7 +4,8 @@
       "key": 1,
       "project_no": 1,
 
-      "image": "https://i.imgur.com/UYiroysl.jpg",
+      "imagess": "https://i.imgur.com/UYiroysl.jpg",
+      "image": "require(`../../../../assets/images/unitgalleries/gallery/PK-Principal-Antasari-Place-16-Sept-2022-1-1-35-scaled.jpg`)",
 
       "project_name": " 31 Sudirman Suites",
       "location": "Makassar, Indonesia",

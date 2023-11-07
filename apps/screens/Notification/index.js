@@ -1,8 +1,11 @@
-import {Text, SafeAreaView, Header, Icon} from '@components';
+import {Text, SafeAreaView, Header, Icon, ComingSoon} from '@components';
 import {BaseStyle, BaseColor} from '../../config';
 import {useTranslation} from 'react-i18next';
+import {View} from 'react-native';
+
 const Notification = props => {
   const {t} = useTranslation();
+  const {navigation} = props;
   return (
     <SafeAreaView
       edges={['right', 'top', 'left']}
@@ -25,7 +28,14 @@ const Notification = props => {
           navigation.goBack();
         }}
       />
-      <Text>inni notif</Text>
+
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+        }}>
+        <ComingSoon></ComingSoon>
+      </View>
     </SafeAreaView>
   );
 };
