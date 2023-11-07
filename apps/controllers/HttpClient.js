@@ -1,13 +1,7 @@
 import axios from 'axios';
-// import {API_URL} from 'react-native-dotenv';
 
-/*
-  Base client config for your application.
-  Here you can define your base url, headers,
-  timeouts and middleware used for each request.
-*/
 const client = axios.create({
-  baseURL: 'http://dev.ifca.co.id:8080/apiparadise/api',
+  baseURL: 'https://dev.ifca.co.id/apiparadise/api',
   // baseURL: "http://35.198.219.220:2121/alfaAPI/approval",
 
   timeout: 10000,
@@ -19,7 +13,7 @@ const client = axios.create({
     //   'Bearer d_B1Y4S7z0cnsuyDC97X3B:APA91bEhaqCf4aYeuEXxLen9IEpwD_rq1DORzcYXEtmoDIPVlK5d9WLdB6ngxOSrVtkvWTSLFci5lB-4YaNzeMsdInAJBb7_jYiqp9oBzwIURP_ME_bjmj9tMrZCxwxBLNOt7s7hiLq4',
   },
   data: undefined,
-  // headers: {
+  // headers: {P
   //   Accept: 'application/json',
   //   'content-type': 'application/x-www-form-urlencoded',
   //   // Authorization: 'Bearer ' + token_firebase,

@@ -16,6 +16,7 @@ import {
   useWindowDimensions,
   Alert,
   Linking,
+  Dimensions,
 } from 'react-native';
 import RenderHtml from 'react-native-render-html';
 import React, {useState, useEffect} from 'react';
@@ -25,6 +26,8 @@ import ContactBrochure from './Modals/ContactBrochure';
 import dummy_brochure from './dummy_brochure.json';
 import {useIsFocused} from '@react-navigation/native';
 import styles from './styles';
+import {useSelector, useDispatch, connect} from 'react-redux';
+import getUser from '../../selectors/UserSelectors';
 const DownloadBrochure = props => {
   const {t} = useTranslation();
   //   const dummyFAQ = dummy_faq.menu_faq;
@@ -37,6 +40,8 @@ const DownloadBrochure = props => {
   const [project_name, setProjectName] = useState(
     props.route.params.project_name,
   );
+  const [showAlert, setShowAlert] = useState(false);
+  const user = useSelector(state => getUser(state));
   const [dataBrosurFetch, setDataBrosur] = useState([]);
   const [emailCust, setEmailCust] = useState('');
   const [phoneCust, setPhoneCust] = useState('');
@@ -89,17 +94,23 @@ const DownloadBrochure = props => {
   };
 
   const sendReq_ = () => {
+    const datasend = {
+      hp: user.handphone,
+      email: user.user,
+    };
+    console.log('datasend', datasend);
+    setShowAlert(true);
     // console.log('email cust', emailCust);
-    console.log('phone cust', phoneCust);
-    // Alert.alert('kirim whatsap');
-    // Linking.tel('wa.me/6282236203286');
-    // const project_name = paramsData.project_name;
-    const noHp = '82236203286'; // ini ambil dari nomor admin sales nya
-    // const descs_ =
-    //   'Halo, saya tertarik untuk mendownload brosur ' +
-    //   project_name +
-    //   '. Terimakasih.';
-    Linking.openURL('https://wa.me/+62' + noHp + '?text=' + messageCust);
+    // console.log('phone cust', phoneCust);
+    // // Alert.alert('kirim whatsap');
+    // // Linking.tel('wa.me/6282236203286');
+    // // const project_name = paramsData.project_name;
+    // const noHp = '82236203286'; // ini ambil dari nomor admin sales nya
+    // // const descs_ =
+    // //   'Halo, saya tertarik untuk mendownload brosur ' +
+    // //   project_name +
+    // //   '. Terimakasih.';
+    // Linking.openURL('https://wa.me/+62' + noHp + '?text=' + messageCust);
   };
 
   return (
@@ -285,29 +296,40 @@ const DownloadBrochure = props => {
                   Request a Brochure
                 </Text>
 
-                <TextInput
-                  style={[
-                    // BaseStyle.textInput,/
-                    {marginVertical: 30, height: 100},
-                  ]}
-                  onChangeText={text => setMessage(text)}
-                  //   onChangeText={text => console.log('type', text)}
-                  autoCorrect={false}
-                  placeholder={t('your_message')}
-                  value={messageCust}
-                  selectionColor={BaseColor.primary}
-                  multiline
-                  numberOfLines={4}
-                  position={'left'}
-                  icon={
-                    <Icon
-                      style={{marginHorizontal: 10}}
-                      name={'whatsapp'}
-                      size={24}
-                      color={BaseColor.corn50}
-                    />
-                  }
-                />
+                <View style={{marginVertical: 30}}>
+                  <Text
+                    style={{
+                      fontFamily: Fonts.type.LatoBold,
+                      fontSize: 12,
+                      color: BaseColor.corn70,
+                      marginBottom: 15,
+                    }}>
+                    Your Name
+                  </Text>
+                  <TextInput
+                    // style={[
+                    //   // BaseStyle.textInput,/
+                    //   {marginVertical: 30},
+                    // ]}
+                    onChangeText={text => setMessage(text)}
+                    //   onChangeText={text => console.log('type', text)}
+                    autoCorrect={false}
+                    placeholder={t('your_name')}
+                    value={user.name}
+                    selectionColor={BaseColor.primary}
+                    // multiline
+                    // numberOfLines={4}
+                    position={'left'}
+                    icon={
+                      <Icon
+                        style={{marginHorizontal: 10}}
+                        name={'user'}
+                        size={16}
+                        color={BaseColor.corn50}
+                      />
+                    }
+                  />
+                </View>
 
                 <Button
                   onPress={() => sendReq_()}
@@ -336,6 +358,83 @@ const DownloadBrochure = props => {
         {/* <Button onPress={() => close()} style={{backgroundColor: 'red'}}>
         <Text>close</Text>
       </Button> */}
+      </Modal>
+
+      {/* tutup brosur  */}
+
+      {/* //modal alert custom  */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showAlert}
+
+        // onRequestClose={() => {
+        //   Alert.alert('Modal has been closed.');
+        //   setModalShowUsername(!showModalUsername);
+        // }}
+      >
+        <View
+          style={{
+            // backgroundColor: BaseColor.corn50,
+            backgroundColor: 'rgba(152, 128, 78, 0.8)', //modal transparan
+            // opacity: 0.5,
+            height: Dimensions.get('screen').height,
+            // height: 100,
+            alignContent: 'center',
+
+            justifyContent: 'center',
+          }}>
+          <View
+            style={{
+              backgroundColor: BaseColor.whiteColor,
+              borderRadius: 10,
+              marginHorizontal: 20,
+
+              justifyContent: 'center',
+              padding: 10,
+            }}>
+            <Text
+              style={{
+                justifyContent: 'center',
+                color: BaseColor.greenStateColor,
+                fontFamily: Fonts.type.Lato,
+                fontSize: 14,
+                textAlign: 'center',
+                marginTop: 10,
+                marginBottom: 5,
+              }}>
+              {/* {editProfilStatus.Pesan} */}
+              Successfully request a brochure
+            </Text>
+
+            <TouchableOpacity onPress={() => setShowAlert(false)}>
+              <View
+                // small
+                style={{
+                  borderRadius: 10,
+                  height: 35,
+                  width: 120,
+                  padding: 0,
+                  margin: 0,
+                  backgroundColor: BaseColor.corn50,
+                  alignSelf: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    justifyContent: 'center',
+                    color: BaseColor.whiteColor,
+                    fontFamily: Fonts.type.Lato,
+                    fontSize: 13,
+                    textAlign: 'center',
+                    margin: 3,
+                  }}>
+                  Okay
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
       </Modal>
     </SafeAreaView>
   );

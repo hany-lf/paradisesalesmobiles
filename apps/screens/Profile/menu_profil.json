@@ -15,7 +15,7 @@
     {
       "key": 3,
       "nama_menu": "Privacy policy",
-      "component": "Privacypolicy",
+      "component": "PrivacyPolicy",
       "icon_menu": "key"
     }
   ]

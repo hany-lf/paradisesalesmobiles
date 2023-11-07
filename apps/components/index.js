@@ -16,3 +16,4 @@ export {default as HeaderAnimated} from './Header/Animated';
 export {default as HeaderText} from './Header/Text';
 export {default as ModalFilter} from './ModalFilter';
 export {SafeAreaView} from 'react-native-safe-area-context';
+export {default as ComingSoon} from './ComingSoon';

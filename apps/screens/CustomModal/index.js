@@ -80,7 +80,9 @@ const CustomModal = props => {
 
   const startValue = new Animated.Value(Math.round(height));
   // const endValue = Math.round(height - height * 2);
-  const endValue = -1500;
+  const endValue = 2;
+
+  // const endValue = Math.round(height * 0.5);
   console.log('envalue apa', endValue);
   const duration = 1000;
 

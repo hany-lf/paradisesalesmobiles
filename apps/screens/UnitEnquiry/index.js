@@ -116,7 +116,7 @@ const UnitEnquiry = props => {
             marginVertical: 10,
             // marginHorizontal
           }}>
-          {/* <Text>{item.image}</Text> */}
+          {/* <Text>{paramsData.picture_url}</Text> */}
           <Image
             source={{uri: paramsData.picture_url}}
             style={{
@@ -156,7 +156,7 @@ const UnitEnquiry = props => {
                   marginVertical: 5,
                   fontSize: 16,
                 }}>
-                {paramsData.entity_name}
+                {paramsData.descs}
               </Text>
               <Text
                 style={{

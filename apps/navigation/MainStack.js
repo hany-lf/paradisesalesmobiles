@@ -43,6 +43,7 @@ import UnitEnquiry from '../screens/UnitEnquiry';
 import UnitEnquiryList from '../screens/UnitEnquiryList';
 import UnitInfo from '../screens/UnitInfo';
 import UnitInfoModal from '../screens/UnitInfo/Modal/UnitInfoModal';
+import PrivacyPolicy from '../screens/PrivacyPolicy';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -280,6 +281,12 @@ const MainStack = ({navigation}) => {
           // component={DrawerStack}
           name="UnitInfoModal"
           component={UnitInfoModal}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="PrivacyPolicy"
+          component={PrivacyPolicy}
           options={{headerShown: false}}></Stack.Screen>
       </Stack.Group>
       <Stack.Group screenOptions={{presentation: 'modal'}}>

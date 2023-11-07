@@ -1,10 +1,18 @@
 import httpClient from './HttpClient';
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import axios from 'axios';
+// import * as https from 'https';
+
+// const httpsAgent = new https.Agent({
+//   rejectUnauthorized: false,
+// });
 class UserController {
   constructor() {
     // this.basePath = '/login_mobile';
-    basePath = 'http://dev.ifca.co.id:8080/apiparadise/api'; //lokal
+    basePath = 'https://dev.ifca.co.id/apiparadise/api'; //lokal
+    // httpsAgent = new https.Agent({
+    //   rejectUnauthorized: false,
+    // });
   }
 
   login = async (email, password, token_firebase) => {
@@ -14,6 +22,7 @@ class UserController {
     try {
       const result = await httpClient.request({
         url: `/auth/login`,
+        // httpsAgent: httpsAgent,
         method: 'POST',
         data: {
           email,
@@ -36,7 +45,7 @@ class UserController {
         return result;
       }
     } catch (error) {
-      console.log('error login aja', error);
+      console.log('error login aja', error.response.data.Pesan);
       console.log('if errorz', error.response.data.Pesan);
 
       // if (error.response.data.Error == true) {

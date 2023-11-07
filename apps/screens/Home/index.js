@@ -8,6 +8,7 @@ import {
   FlatList,
   useWindowDimensions,
   Platform,
+  RefreshControl,
 } from 'react-native';
 import {Button, Text, Icon} from '@components';
 
@@ -16,7 +17,7 @@ import {ButtonMenuHome, CardHomePromoNews} from '../../components';
 import {useDispatch, useSelector} from 'react-redux';
 import {UserAuth} from '@actions';
 import getUser from '../../selectors/UserSelectors';
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import styles from './styles';
 import ActionButton from 'react-native-action-button';
@@ -62,6 +63,17 @@ const Home = props => {
 
   const [dataPromo, setDataPromo] = useState([]);
   const [dataNews, setDataNews] = useState([]);
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getDataPromo();
+    getDataNews();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   useEffect(() => {
     if (user == null) {
@@ -423,7 +435,8 @@ const Home = props => {
         }}>
         <View style={{width: 150, height: 200}}>
           <Image
-            source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
+            source={{uri: item.url_image}}
+            // source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
             // source={{
             //   uri: 'https://i.stack.imgur.com/280rI.png',
             // }}
@@ -466,7 +479,10 @@ const Home = props => {
     <SafeAreaView
       edges={['right', 'top', 'left']}
       style={[BaseStyle.safeAreaView, {backgroundColor: BaseColor.whiteColor}]}>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <View style={{marginTop: 40}}>
           <View
             style={{
