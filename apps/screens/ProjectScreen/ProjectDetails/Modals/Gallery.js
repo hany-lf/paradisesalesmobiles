@@ -124,7 +124,9 @@ const Gallery = props => {
             <ScrollView>
               <View style={{marginHorizontal: 10, marginVertical: 20}}>
                 {datas.map((item, index) => (
-                  <View style={{marginHorizontal: 10, marginVertical: 10}}>
+                  <View
+                    style={{marginHorizontal: 10, marginVertical: 10}}
+                    key={index}>
                     <TouchableOpacity onPress={() => zoomImage(datas)}>
                       {/* <Text>{item.image}</Text> */}
                       <Image
@@ -132,7 +134,7 @@ const Gallery = props => {
                         // source={require(item.image)}
                         // source={item.image}
                         // alt={item.image}
-                        source={require(`../../../../assets/images/unitgalleries/gallery/PK-Principal-Antasari-Place-16-Sept-2022-1-1-35-scaled.jpg`)}
+                        source={require(`@assets/images/unitgalleries/gallery/PK-Principal-Antasari-Place-16-Sept-2022-1-1-35-scaled.jpg`)}
                         style={{
                           width: '100%',
                           height: 200,

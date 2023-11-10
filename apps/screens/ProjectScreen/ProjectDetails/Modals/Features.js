@@ -1,9 +1,10 @@
 import {Text, Button, Icon} from '@components';
-import {View, TouchableOpacity, Modal} from 'react-native';
+import {View, TouchableOpacity, Modal, FlatList} from 'react-native';
 import React, {useState} from 'react';
 import styles from './styles';
-
+import {ButtonMenuHome} from '@components';
 import {BaseStyle, Fonts, BaseColor} from '@config';
+import dummy_feature from './dummy_features.json';
 
 const Features = props => {
   const {onPress, datas, visibleMod, icon, ...attrs} = props;
@@ -13,6 +14,8 @@ const Features = props => {
   const [visibleModal, setVisibleModal] = useState(visibleMod);
   console.log('visiblemodaldifeature', visibleModal);
 
+  const [dataFeatures, setDataFeatures] = useState(dummy_feature.data);
+  console.log('datafeature', dataFeatures);
   const close = () => {
     setVisibleModal(false);
   };
@@ -60,30 +63,77 @@ const Features = props => {
               borderStyle: 'solid',
             }}></View>
 
-          <View style={{marginHorizontal: 30, marginVertical: 20}}>
-            <Text style={{textAlign: 'justify', fontFamily: Fonts.type.Lato}}>
-              Lorem ipsum dolor sit amet consectetur. Nibh scelerisque tristique
-              facilisi lectus ullamcorper. Commodo sed egestas ut ullamcorper
-              vulputate enim dui. Nec tristique venenatis euismod ut volutpat
-              sapien consectetur eu. Ornare pharetra netus pellentesque sit at
-              aliquam scelerisque. Non aliquet libero bibendum sagittis est
-              sapien tempor. Viverra nullam mollis nulla lacus scelerisque. Est
-              magna massa libero orci egestas. Nibh in et egestas odio platea
-              sit. Nulla adipiscing aliquet ac hac aliquam nunc neque. Sed
-              euismod leo adipiscing donec metus pretium fermentum in. Euismod
-              turpis ullamcorper egestas lorem. Ut tellus posuere lacus pharetra
-              orci et ac. Curabitur massa volutpat ac volutpat porttitor. Amet
-              venenatis neque tempus dui ultrices viverra. Orci sit adipiscing
-              congue lectus eu consectetur ornare. Dignissim ullamcorper lacinia
-              eget porttitor volutpat dui faucibus. Dictum quam convallis in
-              suspendisse diam volutpat diam. Rutrum tempus suspendisse nunc
-              aliquam scelerisque mauris integer sit arcu. Egestas sagittis
-              velit nunc dolor praesent. Diam sem maecenas eleifend ut. Tellus
-              pretium vestibulum nisi ac urna neque viverra ac. Viverra fames
-              scelerisque laoreet nisi ut viverra. Nunc nunc ipsum nisl mi
-              facilisis mattis ac. Mi sed est ut non lobortis. Dignissim elit
-              molestie vulputate pellentesque phasellus diam turpis leo.
-            </Text>
+          <View style={{marginHorizontal: 20, marginVertical: 20}}>
+            <FlatList
+              keyExtractor={item => item.key}
+              numColumns={4}
+              horizontal={false}
+              data={dataFeatures}
+              renderItem={({item, index}) => {
+                return (
+                  <View>
+                    <ButtonMenuHome
+                      style={{
+                        margin: 7,
+                        backgroundColor: BaseColor.whiteColor,
+                        borderWidth: 0.5,
+                        borderColor: BaseColor.corn30,
+                        borderStyle: 'solid',
+                      }}
+                      onPress={() => clik()}
+                      title={item.title}
+                      typeIcon={'MCI'}
+                      nameicon={item.icon}></ButtonMenuHome>
+                  </View>
+                );
+              }}></FlatList>
+            {/* <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <ButtonMenuHome
+                style={{
+                  backgroundColor: BaseColor.whiteColor,
+                  borderWidth: 0.5,
+                  borderColor: BaseColor.corn30,
+                  borderStyle: 'solid',
+                }}
+                onPress={() => clik()}
+                title={'Playground'}
+                typeIcon={'MCI'}
+                nameicon={'slide'}></ButtonMenuHome>
+              <ButtonMenuHome
+                style={{
+                  backgroundColor: BaseColor.whiteColor,
+                  borderWidth: 0.5,
+                  borderColor: BaseColor.corn30,
+                  borderStyle: 'solid',
+                }}
+                onPress={() => clik()}
+                title={'Swimming Pool'}
+                typeIcon={'MCI'}
+                nameicon={'pool'}></ButtonMenuHome>
+              <ButtonMenuHome
+                style={{
+                  backgroundColor: BaseColor.whiteColor,
+                  borderWidth: 0.5,
+                  borderColor: BaseColor.corn30,
+                  borderStyle: 'solid',
+                }}
+                onPress={() => clik()}
+                title={'Park'}
+                typeIcon={'MCI'}
+                nameicon={'sprout-outline'}></ButtonMenuHome>
+              <ButtonMenuHome
+                style={{
+                  backgroundColor: BaseColor.whiteColor,
+                  borderWidth: 0.5,
+                  borderColor: BaseColor.corn30,
+                  borderStyle: 'solid',
+                }}
+                onPress={() => clik()}
+                title={'CCTV'}
+                typeIcon={'MCI'}
+                nameicon={'cctv'}></ButtonMenuHome>
+            </View> */}
           </View>
         </View>
       </View>

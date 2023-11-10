@@ -11,11 +11,21 @@ import {
 import styles from './styles';
 import Loading from './Loading';
 import IconFontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {BaseColor} from '../../config';
 
 const ButtonMenuHome = props => {
-  let {date, title, image, style, onPress, loading, nameicon, goToProject} =
-    props;
+  let {
+    date,
+    title,
+    image,
+    style,
+    onPress,
+    loading,
+    nameicon,
+    goToProject,
+    typeIcon,
+  } = props;
   const {colors} = useTheme();
   if (loading) {
     return <Loading style={style} />;
@@ -33,7 +43,15 @@ const ButtonMenuHome = props => {
         style,
       ]}
       onPress={onPress}>
-      <IconFontAwesome5 name={nameicon} solid size={20}></IconFontAwesome5>
+      {typeIcon == 'MCI' ? (
+        <MaterialCommunityIcons
+          name={nameicon}
+          solid
+          size={20}></MaterialCommunityIcons>
+      ) : (
+        <IconFontAwesome5 name={nameicon} solid size={20}></IconFontAwesome5>
+      )}
+
       <Text
         body2
         semibold

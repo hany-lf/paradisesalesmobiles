@@ -28,6 +28,7 @@ import Gallery from './Modals/Gallery';
 import {data_gallery} from './data_gallery.json';
 import {data_floorplan} from './data_floorplan.json';
 import Floorplan from './Modals/Floorplan';
+import Surrounding from './Modals/Surrounding';
 
 const ProjectDetails = props => {
   console.log('props dari project', props);
@@ -40,6 +41,7 @@ const ProjectDetails = props => {
   const [visibleFeatures, setVisibleFeatures] = useState(false);
   const [visibleGallery, setVisibleGallery] = useState(false);
   const [visibleFloorplan, setVisibleFloorplan] = useState(false);
+  const [visibleSurrounding, setVisibleSurrounding] = useState(false);
   const source_video = 'https://www.youtube.com/watch?v=R8JLo2EB3Wk&t=8s';
   // const gallery = data_gallery;
   const [gallery, setGallery] = useState(data_gallery);
@@ -241,6 +243,7 @@ const ProjectDetails = props => {
               title={'Floor Plan'}
               nameicon={'houzz'}></ButtonMenuHome>
             <ButtonMenuHome
+              onPress={() => setVisibleSurrounding(true)}
               title={'Surrounding Area'}
               nameicon={'map-marker-alt'}
               // onPress={() =>
@@ -480,6 +483,20 @@ const ProjectDetails = props => {
             </TouchableOpacity>
           }
           datas={floorplan}></Floorplan>
+        <Surrounding
+          onRequestClose={() => {
+            setVisibleSurrounding(false);
+          }}
+          visible={visibleSurrounding}
+          icon={
+            <TouchableOpacity onPress={() => setVisibleSurrounding(false)}>
+              <Icon
+                name={'arrow-left'}
+                size={18}
+                color={BaseColor.corn90}></Icon>
+            </TouchableOpacity>
+          }
+          datas={floorplan}></Surrounding>
       </ScrollView>
     </SafeAreaView>
   );

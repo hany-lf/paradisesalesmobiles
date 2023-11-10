@@ -59,7 +59,7 @@ const Floorplan = props => {
           <ScrollView>
             <View style={{marginHorizontal: 30, marginVertical: 20}}>
               {datas.map((item, index) => (
-                <View style={{marginHorizontal: 10}}>
+                <View style={{marginHorizontal: 10}} key={index}>
                   <Text key={index}>{item.image}</Text>
                   <Image
                     // source={{uri: item.image}}

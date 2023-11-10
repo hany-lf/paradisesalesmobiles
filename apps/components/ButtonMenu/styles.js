@@ -20,7 +20,7 @@ export default StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     ...Platform.select({
       android: {
-        elevation: 1,
+        elevation: 2,
       },
       default: {
         shadowColor: 'rgba(0,0,0, .2)',
