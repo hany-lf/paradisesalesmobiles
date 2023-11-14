@@ -185,17 +185,31 @@ const NewsWithoutModal = props => {
           )}
           useNativeDriver={true}
           renderHeader={index => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => setShowImage(false)}
-              style={{backgroundColor: 'black', marginTop: 20, marginLeft: 20}}>
-              <Icon
-                name={'times'}
-                color={BaseColor.whiteColor}
+            <View style={{marginTop: 50}}>
+              <TouchableOpacity
+                key={index}
+                onPress={() => setShowImage(false)}
                 style={{
-                  fontSize: 16,
-                }}></Icon>
-            </TouchableOpacity>
+                  backgroundColor: 'black',
+                  marginTop: 20,
+                  marginLeft: 20,
+                }}>
+                <View
+                  style={{
+                    width: 30,
+                    height: 30,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Icon
+                    name={'times'}
+                    color={BaseColor.whiteColor}
+                    style={{
+                      fontSize: 16,
+                    }}></Icon>
+                </View>
+              </TouchableOpacity>
+            </View>
           )}
           // saveToLocalByLongPress={true}
           imageUrls={dataImage}

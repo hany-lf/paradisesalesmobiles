@@ -532,7 +532,7 @@ const Home = props => {
                     style={{
                       marginHorizontal: SPACING,
                       // padding: SPACING,
-                      padding: 5,
+                      padding: Platform.OS == 'ios' ? 4 : 5,
                       alignItems: 'center',
                       backgroundColor: 'white',
                       borderRadius: 20,
@@ -542,7 +542,10 @@ const Home = props => {
                       source={item.image}
                       style={{
                         width: '100%',
-                        height: ITEM_SIZE - 10,
+                        height:
+                          Platform.OS == 'ios'
+                            ? ITEM_SIZE - 18
+                            : ITEM_SIZE - 10,
                         resizeMode: 'contain',
                         borderRadius: 24,
                       }}></Image>

@@ -296,7 +296,7 @@ const DownloadBrochure = props => {
                   Request a Brochure
                 </Text>
 
-                <View style={{marginVertical: 30}}>
+                <View style={{marginTop: 15, marginBottom: 10}}>
                   <Text
                     style={{
                       fontFamily: Fonts.type.LatoBold,
@@ -325,6 +325,65 @@ const DownloadBrochure = props => {
                         style={{marginHorizontal: 10}}
                         name={'user'}
                         size={16}
+                        color={BaseColor.corn50}
+                      />
+                    }
+                  />
+                </View>
+                <View style={{marginTop: 15, marginBottom: 10}}>
+                  <Text
+                    style={{
+                      fontFamily: Fonts.type.LatoBold,
+                      fontSize: 12,
+                      color: BaseColor.corn70,
+                      marginBottom: 15,
+                    }}>
+                    Email
+                  </Text>
+                  <TextInput
+                    style={[BaseStyle.textInput]}
+                    // onChangeText={text => setEmailCust(text)}
+                    onChangeText={text => console.log('type', text)}
+                    autoCorrect={false}
+                    placeholder={t('your_email')}
+                    value={emailCust}
+                    selectionColor={BaseColor.primary}
+                    position={'left'}
+                    icon={
+                      <Icon
+                        style={{marginHorizontal: 10}}
+                        name={'envelope'}
+                        size={24}
+                        color={BaseColor.corn50}
+                      />
+                    }
+                  />
+                </View>
+                <View style={{marginTop: 15, marginBottom: 10}}>
+                  <Text
+                    style={{
+                      fontFamily: Fonts.type.LatoBold,
+                      fontSize: 12,
+                      color: BaseColor.corn70,
+                      marginBottom: 15,
+                    }}>
+                    Phone Number
+                  </Text>
+                  <TextInput
+                    style={[BaseStyle.textInput]}
+                    // onChangeText={text => setPhoneCust(text)}
+                    onChangeText={test => console.log('phone type', test)}
+                    autoCorrect={false}
+                    placeholder={t('your_phone_number')}
+                    value={phoneCust}
+                    selectionColor={BaseColor.primary}
+                    position={'left'}
+                    keyboardType={'phone-pad'}
+                    icon={
+                      <Icon
+                        style={{marginHorizontal: 10}}
+                        name={'whatsapp'}
+                        size={24}
                         color={BaseColor.corn50}
                       />
                     }

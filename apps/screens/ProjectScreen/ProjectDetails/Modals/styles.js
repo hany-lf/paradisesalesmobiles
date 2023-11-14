@@ -35,7 +35,9 @@ export default StyleSheet.create({
     fontFamily: Fonts.type.Lato,
   },
   text: {
-    color: '#ffffff',
+    color: BaseColor.corn50,
+    fontFamily: Fonts.type.Lato,
+    fontSize: 14,
   },
   inner: {
     padding: 24,
@@ -72,7 +74,7 @@ export default StyleSheet.create({
     flex: 1,
     // justifyContent: 'center',
     // alignItems: 'center',
-    marginTop: 22,
+    marginTop: Platform.OS == 'ios' ? 30 : 22,
   },
   modalView: {
     margin: 20,
@@ -108,5 +110,35 @@ export default StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
+  },
+  badgeSurrounding: {
+    width: 100,
+    padding: 10,
+    //   height: 20,
+    backgroundColor: BaseColor.whiteColor,
+    borderColor: BaseColor.corn50,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    alignItems: 'center',
+    borderRadius: 15,
+    marginHorizontal: 15,
+    marginBottom: 15,
+    // marginVertical: 20,
+  },
+  shadowimageSurrounding: {
+    width: 100,
+    height: 100,
+    borderRadius: 15,
+    ...Platform.select({
+      android: {
+        elevation: 3,
+      },
+      default: {
+        shadowColor: BaseColor.corn50,
+        shadowOffset: {height: 0, width: 0},
+        shadowOpacity: 3,
+        shadowRadius: 3,
+      },
+    }),
   },
 });

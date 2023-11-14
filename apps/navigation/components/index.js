@@ -2,7 +2,13 @@
 
 import React from 'react';
 import {Icon, Text} from '@components';
-import {View, TouchableOpacity, StyleSheet, Button} from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  Button,
+  Platform,
+} from 'react-native';
 import {
   createBottomTabNavigator,
   BottomTabBar,
@@ -166,13 +172,13 @@ export const BottomTabNavigatorMazi = ({tabScreens = {}}) => {
           backgroundColor: BaseColor.corn10,
           // backgroundColor:BaseColor.whiteColor
           borderRadius: 15,
-          height: 60,
+          height: Platform.OS == 'ios' ? 100 : 60,
           ...styles.shadow,
         },
         tabBarLabelStyle: {
           fontSize: 11,
 
-          paddingBottom: 8,
+          paddingBottom: Platform.OS == 'ios' ? 18 : 8,
         },
       }}>
       {Object.keys(tabScreens).map((name, index) => {

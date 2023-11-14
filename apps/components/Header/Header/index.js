@@ -1,7 +1,7 @@
 import Text from '@components/Text';
 import PropTypes from 'prop-types';
 import React, {useEffect} from 'react';
-import {StatusBar, TouchableOpacity, View} from 'react-native';
+import {StatusBar, TouchableOpacity, View, useColorScheme} from 'react-native';
 // import {useDarkMode} from 'react-native-dark-mode';
 // import {}
 import {DarkTheme, useTheme} from '@react-navigation/native';
@@ -30,10 +30,15 @@ export default function Header(props) {
     barStyle,
     _numberOfLines,
   } = props;
-  const isDarkMode = useTheme();
+  // const isDarkMode = useTheme();
+  const isDarkMode = useColorScheme() === 'dark';
 
   useEffect(() => {
+    console.log('cek header ini ngruh ga');
     let option = isDarkMode ? 'light-content' : 'dark-content';
+    console.log('opsion darkmode statusbar', isDarkMode);
+    console.log('opsion header statusbar', option);
+    console.log('opsion forcedark statusbar', forceDark);
     if (forceDark) {
       option = 'light-content';
     }

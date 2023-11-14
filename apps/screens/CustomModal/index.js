@@ -10,6 +10,7 @@ import {
   ImageBackground,
   Animated,
   Easing,
+  Platform,
 } from 'react-native';
 import {Text, Button} from '@components';
 import React, {useState, useEffect, useRef} from 'react';
@@ -189,7 +190,7 @@ const CustomModal = props => {
           <View
             style={{
               position: 'absolute',
-              bottom: 0,
+              bottom: Platform.OS == 'ios' ? 100 : 0,
               // left: 0,
               // right: 0,
               backgroundColor: BaseColor.corn30,
@@ -236,7 +237,7 @@ const CustomModal = props => {
           <View
             style={{
               position: 'absolute',
-              bottom: 0,
+              bottom: Platform.OS == 'ios' ? 100 : 0,
               alignSelf: 'center',
               marginBottom: 10, //margin bottom untuk button bulet bawah
             }}>
