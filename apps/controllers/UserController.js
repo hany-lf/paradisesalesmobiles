@@ -171,7 +171,7 @@ class UserController {
 
     try {
       const result = await httpClient.request({
-        url: `/auth/changePhoto`,
+        url: `/profile/change-photo`,
         // url: `/changephoto_mobile`,
         method: 'POST',
         data: {
@@ -182,6 +182,7 @@ class UserController {
 
       return result;
     } catch (error) {
+      console.log('error change photo', error.response);
       return Promise.reject(error);
     }
   };

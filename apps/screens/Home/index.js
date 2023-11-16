@@ -45,6 +45,7 @@ const Home = props => {
     useState(SLIDER_1_FIRST_ITEM);
   const [datas, setDatas] = useState([]);
   const [datasIndicator, setDatasIndicator] = useState([]);
+  const [dataProject, setProjectData] = useState([]);
   const [images, setImages] = useState([]);
   const data_promo = data_promo_dummy;
   // console.log('data promo ?', data_promo);
@@ -70,6 +71,7 @@ const Home = props => {
     setRefreshing(true);
     getDataPromo();
     getDataNews();
+    getProject();
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
@@ -137,10 +139,53 @@ const Home = props => {
     },
   ];
 
-  useEffect(() => {
-    setDatasIndicator(data_dummy);
-    setDatas([{key: 'left-spacer'}, ...data_dummy, {key: 'right-spacer'}]);
-  }, []);
+  // useEffect(() => {
+  //   getProject();
+  // }, []);
+
+  const getProject = () => {
+    try {
+      const config = {
+        method: 'get',
+        // url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/groupMenu?approval_user=MGR',
+        url: API_URL + '/project/index',
+        headers: {
+          'content-type': 'application/json',
+          // 'X-Requested-With': 'XMLHttpRequest',
+          Authorization: `Bearer ${user.Token}`,
+        },
+        // params: {approval_user: user.userIDToken.UserId},
+        //  params: {group_cd: user.Group},
+      };
+      console.log('formdaata get project', config);
+      axios(config)
+        .then(result => {
+          const pasing = result.data.Data;
+          console.log('data di project', pasing);
+          // setProjectData(pasing);
+          setProjectData([
+            {RowID: 'left-spacer'}, //harus ada left spacer dan right spacer biar tetep presisi posisinya
+            ...pasing,
+            {RowID: 'right-spacer'},
+          ]);
+        })
+        .catch(error =>
+          console.log('error getdata project error', error.response),
+        );
+    } catch (error) {
+      console.log('ini konsol eror', error);
+    }
+  };
+
+  // useEffect(() => {
+  //   // setDatasIndicator(dataProject);
+  //   setProjectData([
+  //     {RowID: 'left-spacer'},
+  //     ...dataProject,
+  //     {RowID: 'right-spacer'},
+  //   ]);
+  //   console.log('dataprojek spacer', dataProject);
+  // }, []);
 
   const MENUS = {
     news: {
@@ -158,6 +203,7 @@ const Home = props => {
   };
 
   useEffect(() => {
+    getProject();
     getDataPromo();
     getDataNews();
   }, []);
@@ -499,8 +545,8 @@ const Home = props => {
         <View style={{flex: 1}}>
           <Animated.FlatList
             showsHorizontalScrollIndicator={false}
-            data={datas}
-            keyExtractor={item => item.key}
+            data={dataProject}
+            keyExtractor={item => item.RowID}
             horizontal
             contentContainerStyle={{alignItems: 'center'}}
             snapToInterval={ITEM_SIZE}
@@ -513,7 +559,7 @@ const Home = props => {
             scrollEventThrottle={16}
             pagingEnabled
             renderItem={({item, index}) => {
-              if (!item.image) {
+              if (!item.picture_url) {
                 return <View style={{width: SPACER_ITEM_SIZE}}></View>;
               }
               const inputRange = [
@@ -539,7 +585,8 @@ const Home = props => {
                       transform: [{translateY}],
                     }}>
                     <Image
-                      source={item.image}
+                      // source={item.picture_url}
+                      source={{uri: item.picture_url}}
                       style={{
                         width: '100%',
                         height:
@@ -575,7 +622,7 @@ const Home = props => {
                             marginVertical: 5,
                             fontSize: 16,
                           }}>
-                          {item.project_name}
+                          {item.descs}
                         </Text>
                         <Text
                           style={{
@@ -583,7 +630,7 @@ const Home = props => {
                             color: BaseColor.corn50,
                             marginVertical: 5,
                           }}>
-                          {item.location}
+                          {item.caption_address}
                         </Text>
                       </View>
                     </View>
@@ -617,12 +664,12 @@ const Home = props => {
               justifyContent: 'space-evenly',
               marginTop: 30,
             }}>
-            <ButtonMenuHome
+            {/* <ButtonMenuHome
               title={'My Unit'}
               nameicon={'building'}></ButtonMenuHome>
             <ButtonMenuHome
               title={'NUP Online'}
-              nameicon={'clipboard-check'}></ButtonMenuHome>
+              nameicon={'clipboard-check'}></ButtonMenuHome> */}
             <ButtonMenuHome
               goToProject={true}
               onPress={() =>

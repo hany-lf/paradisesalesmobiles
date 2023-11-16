@@ -44,6 +44,7 @@ import UnitEnquiryList from '../screens/UnitEnquiryList';
 import UnitInfo from '../screens/UnitInfo';
 import UnitInfoModal from '../screens/UnitInfo/Modal/UnitInfoModal';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
+import RequestBrosur from '../screens/Download/RequestBrosur';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -227,6 +228,12 @@ const MainStack = ({navigation}) => {
           // component={DrawerStack}
           name="DownloadBrochure"
           component={DownloadBrochure}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="RequestBrosur"
+          component={RequestBrosur}
           options={{headerShown: false}}></Stack.Screen>
         <Stack.Screen
           // name="HomeStack"
