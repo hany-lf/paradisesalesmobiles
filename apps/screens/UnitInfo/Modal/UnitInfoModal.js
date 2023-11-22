@@ -62,33 +62,29 @@ const UnitInfoModal = props => {
 
           <View style={{marginHorizontal: 30, marginVertical: 20}}>
             <Image
-              style={{alignSelf: 'center'}}
-              width={100}
-              height={100}
-              source={require('@assets/images/floorplan/unitplan.png')}></Image>
-            {/* <Text style={{textAlign: 'justify', fontFamily: Fonts.type.Lato}}>
-              Lorem ipsum dolor sit amet consectetur. Nibh scelerisque tristique
-              facilisi lectus ullamcorper. Commodo sed egestas ut ullamcorper
-              vulputate enim dui. Nec tristique venenatis euismod ut volutpat
-              sapien consectetur eu. Ornare pharetra netus pellentesque sit at
-              aliquam scelerisque. Non aliquet libero bibendum sagittis est
-              sapien tempor. Viverra nullam mollis nulla lacus scelerisque. Est
-              magna massa libero orci egestas. Nibh in et egestas odio platea
-              sit. Nulla adipiscing aliquet ac hac aliquam nunc neque. Sed
-              euismod leo adipiscing donec metus pretium fermentum in. Euismod
-              turpis ullamcorper egestas lorem. Ut tellus posuere lacus pharetra
-              orci et ac. Curabitur massa volutpat ac volutpat porttitor. Amet
-              venenatis neque tempus dui ultrices viverra. Orci sit adipiscing
-              congue lectus eu consectetur ornare. Dignissim ullamcorper lacinia
-              eget porttitor volutpat dui faucibus. Dictum quam convallis in
-              suspendisse diam volutpat diam. Rutrum tempus suspendisse nunc
-              aliquam scelerisque mauris integer sit arcu. Egestas sagittis
-              velit nunc dolor praesent. Diam sem maecenas eleifend ut. Tellus
-              pretium vestibulum nisi ac urna neque viverra ac. Viverra fames
-              scelerisque laoreet nisi ut viverra. Nunc nunc ipsum nisl mi
-              facilisis mattis ac. Mi sed est ut non lobortis. Dignissim elit
-              molestie vulputate pellentesque phasellus diam turpis leo.
-            </Text> */}
+              style={{
+                alignSelf: 'center',
+                width: '100%',
+                height: 200,
+                resizeMode: 'contain',
+              }}
+              source={require('@assets/images/unitgalleries/gallery/1BR-3.jpg')}></Image>
+            <Image
+              style={{
+                alignSelf: 'center',
+                width: '100%',
+                height: 200,
+                resizeMode: 'contain',
+              }}
+              source={require('@assets/images/unitgalleries/gallery/2BR-2.jpg')}></Image>
+            <Image
+              style={{
+                alignSelf: 'center',
+                width: '100%',
+                height: 200,
+                resizeMode: 'contain',
+              }}
+              source={require('@assets/images/unitgalleries/gallery/STD-2.jpg')}></Image>
           </View>
         </View>
       </View>

@@ -130,11 +130,11 @@ const Gallery = props => {
                     <TouchableOpacity onPress={() => zoomImage(datas)}>
                       {/* <Text>{item.image}</Text> */}
                       <Image
-                        // source={{uri: item.image}}
+                        source={{uri: item.url}}
                         // source={require(item.image)}
                         // source={item.image}
                         // alt={item.image}
-                        source={require(`@assets/images/unitgalleries/gallery/PK-Principal-Antasari-Place-16-Sept-2022-1-1-35-scaled.jpg`)}
+                        // source={require(`@assets/images/unitgalleries/gallery/PK-Principal-Antasari-Place-16-Sept-2022-1-1-35-scaled.jpg`)}
                         style={{
                           width: '100%',
                           height: 200,

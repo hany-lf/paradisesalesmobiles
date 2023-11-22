@@ -10,6 +10,7 @@ import {
   Alert,
   StyleSheet,
   Modal,
+  useWindowDimensions,
 } from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -17,7 +18,7 @@ import {BaseStyle, Fonts, BaseColor} from '@config';
 import {useTranslation} from 'react-i18next';
 import {ButtonMenuHome} from '../../../components';
 import YoutubePlayer from 'react-native-youtube-iframe';
-import React, {useState, useCallback, useRef} from 'react';
+import React, {useState, useCallback, useRef, useEffect} from 'react';
 
 import IframeRenderer, {iframeModel} from '@native-html/iframe-plugin';
 import RenderHTML from 'react-native-render-html';
@@ -29,13 +30,17 @@ import {data_gallery} from './data_gallery.json';
 import {data_floorplan} from './data_floorplan.json';
 import Floorplan from './Modals/Floorplan';
 import Surrounding from './Modals/Surrounding';
+import axios from 'axios';
+import {API_URL} from '@env';
+import {useSelector, useDispatch, connect} from 'react-redux';
+import getUser from '../../../selectors/UserSelectors';
 
 const ProjectDetails = props => {
   console.log('props dari project', props);
   const {t} = useTranslation();
   const {navigation} = props;
   const [playing, setPlaying] = useState(false);
-  const {width} = Dimensions.get('screen').width;
+
   const paramsDetail = props.route.params;
   const [modalVisible, setModalVisible] = useState(false);
   const [visibleFeatures, setVisibleFeatures] = useState(false);
@@ -46,6 +51,16 @@ const ProjectDetails = props => {
   // const gallery = data_gallery;
   const [gallery, setGallery] = useState(data_gallery);
   const [floorplan, setFloorplan] = useState(data_floorplan);
+  const user = useSelector(state => getUser(state));
+  const [dataProjectDetail, setDataProjectDetail] = useState([]);
+  const [galleryProject, setGalleryProject] = useState([]);
+  const [overviewProject, setOverviewProject] = useState([]);
+  const [featureProject, setFeatureProject] = useState([]);
+  const [planProject, setPlanProject] = useState([]);
+  const [surroundingProject, setSurroundingProject] = useState([]);
+  const [downloadProject, setDownloadProject] = useState([]);
+  const {width} = useWindowDimensions().width;
+  const [itemsOverview, setItemsOverview] = useState([]);
   const onStateChange = useCallback(state => {
     if (state === 'ended') {
       setPlaying(false);
@@ -68,6 +83,51 @@ const ProjectDetails = props => {
   const clik = () => {
     console.log('cek vis', visibleFeatures);
     setVisibleFeatures(true);
+  };
+
+  useEffect(() => {
+    getProjectDetails();
+  }, []);
+
+  const getProjectDetails = () => {
+    const entity_cd = paramsDetail.entity_cd;
+    const project_no = paramsDetail.project_no;
+    try {
+      const config = {
+        method: 'get',
+        // url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/groupMenu?approval_user=MGR',
+        url: API_URL + '/project/project-details',
+        headers: {
+          'content-type': 'application/json',
+          // 'X-Requested-With': 'XMLHttpRequest',
+          Authorization: `Bearer ${user.Token}`,
+        },
+        params: {entity_cd: entity_cd, project_no: project_no},
+      };
+      console.log('formdaata get project', config);
+      axios(config)
+        .then(result => {
+          const pasing = result.data.Data;
+          console.log('data di project', pasing);
+          setDataProjectDetail(pasing);
+          setGalleryProject(pasing.gallery);
+          setOverviewProject(pasing.overview);
+          setFeatureProject(pasing.feature);
+          setPlanProject(pasing.plan);
+          setSurroundingProject(pasing.surrounding);
+          setDownloadProject(pasing.download);
+        })
+        .catch(error =>
+          console.log('error getdata project error', error.response),
+        );
+    } catch (error) {
+      console.log('ini konsol eror', error);
+    }
+  };
+
+  const showModalOverview = item => {
+    setModalVisible(true);
+    setItemsOverview(item);
   };
 
   return (
@@ -160,69 +220,90 @@ const ProjectDetails = props => {
         <View style={{marginHorizontal: 20, marginTop: 20}}>
           <Text
             style={{
-              fontSize: 12,
-              fontFamily: Fonts.type.Lato,
+              fontSize: 14,
+              fontFamily: Fonts.type.LatoBold,
               color: BaseColor.corn90,
               marginVertical: 5,
             }}>
             Overview
           </Text>
-          <Text
-            style={{
-              fontSize: 12,
-              fontFamily: Fonts.type.Lato,
-              color: BaseColor.corn90,
-              marginVertical: 5,
-            }}>
-            Lorem ipsum dolor sit amet consectetur. Pharetra lacus hendrerit
-            purus urna orci lectus. Enim enim elementum nunc praesent maecenas
-            vulputate nunc. Quisque ac sed lectus eu adipiscing tellus lacus
-            diam.
-          </Text>
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
-            <View
-              style={{
-                flexDirection: 'row',
-                marginVertical: 5,
-                //   alignSelf: 'center',
-                //   alignContent: 'center',
-                //   justifyContent: 'center',
-                //   alignItems: 'center',
-              }}>
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontFamily: Fonts.type.Lato,
-                  color: BaseColor.corn90,
-                  marginBottom: 2,
-                  marginRight: 5,
-                  alignSelf: 'center',
-                  // alignContent: 'center',
-                  // justifyContent: 'center',
-                  // alignItems: 'center',
-                  borderBottomWidth: 0.5,
-                  borderBottomColor: BaseColor.corn90,
-                }}>
-                Show more
-              </Text>
-              <Icon
-                style={
-                  {
-                    // alignSelf: 'center',
-                    // alignContent: 'center',
-                    // justifyContent: 'center',
-                    // alignItems: 'center',
-                  }
-                }
-                // name="angle-left"
+          {overviewProject != null || overviewProject.length != 0 ? (
+            overviewProject.map((item, index) => (
+              // <View>
 
-                name="chevron-right"
-                size={18}
-                color={BaseColor.corn70}
-                enableRTL={true}
-              />
-            </View>
-          </TouchableOpacity>
+              // <RenderHTML
+              //   contentWidth={width}
+              //   source={{
+              //     html: item.overview_info,
+              //   }}
+              // />
+
+              // </View>
+              <View key={index}>
+                <Text
+                  style={{
+                    fontSize: 14,
+                    fontFamily: Fonts.type.Lato,
+                    color: BaseColor.corn90,
+                    marginVertical: 5,
+                  }}>
+                  {item.overview_info.replace(/(<([^>]+)>)/gi, '')}
+                </Text>
+                <TouchableOpacity onPress={() => showModalOverview(item)}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      marginVertical: 5,
+
+                      alignItems: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontFamily: Fonts.type.Lato,
+                        color: BaseColor.corn90,
+                        marginBottom: 2,
+                        marginRight: 5,
+                        alignSelf: 'center',
+                        // alignContent: 'center',
+                        // justifyContent: 'center',
+                        // alignItems: 'center',
+                        borderBottomWidth: 0.5,
+                        borderBottomColor: BaseColor.corn90,
+                      }}>
+                      Show more
+                    </Text>
+                    <Icon
+                      style={
+                        {
+                          // alignSelf: 'center',
+                          // alignContent: 'center',
+                          // justifyContent: 'center',
+                          // alignItems: 'center',
+                        }
+                      }
+                      // name="angle-left"
+
+                      name="chevron-right"
+                      size={14}
+                      color={BaseColor.corn70}
+                      enableRTL={true}
+                    />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            ))
+          ) : (
+            <Text
+              style={{
+                fontSize: 12,
+                fontFamily: Fonts.type.Lato,
+                color: BaseColor.corn90,
+                marginVertical: 5,
+              }}>
+              No data overview
+            </Text>
+          )}
 
           <View
             style={{
@@ -244,7 +325,7 @@ const ProjectDetails = props => {
               nameicon={'houzz'}></ButtonMenuHome>
             <ButtonMenuHome
               onPress={() => setVisibleSurrounding(true)}
-              title={'Surrounding Area'}
+              title={'Surrounding'}
               nameicon={'map-marker-alt'}
               // onPress={() =>
               //   navigation.navigate('CalculatorScreen')
@@ -270,12 +351,14 @@ const ProjectDetails = props => {
             }}>
             Video
           </Text>
+
           <YoutubePlayer
             height={200}
             play={playing}
-            videoId="R8JLo2EB3Wk"
+            videoId="835bZBB4mZg"
             onChangeState={onStateChange}
             style={{borderRadius: 15}}
+            useLocalHTML={true}
           />
           {/* <Button
             onPress={() => togglePlaying}
@@ -311,36 +394,8 @@ const ProjectDetails = props => {
                 WebView={WebView}
                 contentWidth={Dimensions.get('window').width - 35}
                 customHTMLElementModels={customHTMLElementModels}
-                defaultWebViewProps={
-                  {
-                    /* Any prop you want to pass to all WebViews */
-                  }
-                }
-                renderersProps={{
-                  iframe: {
-                    scalesPageToFit: true,
-                    webViewProps: {
-                      /* Any prop you want to pass to iframe WebViews */
-                    },
-                  },
-                }}
                 source={{
-                  html:
-                    // `<!DOCTYPE html>
-                    //             <html>
-                    //             <body>
-
-                    //             <h1>The iframe element</h1>
-
-                    //             <iframe width="100%" height="315"
-                    //                 src="https://stackoverflow.com/questions/64057689/iframe-not-showing-in-react-native-webview">
-                    //             </iframe>
-
-                    //             </body>
-                    //             </html>`,
-
-                    `<iframe src="https://embed.waze.com/iframe?zoom=16&lat=-6.290109&lon=106.806752&ct=livemap" width="600" height="450" allowfullscreen></iframe>`,
-                  // ' <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15282225.79979123!2d73.7250245393691!3d20.750301298393563!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30635ff06b92b791%3A0xd78c4fa1854213a6!2sIndia!5e0!3m2!1sen!2sin!4v1587818542745!5m2!1sen!2sin" width="600" height="450" frameborder="0" style={{border:0}} allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>',
+                  html: `<iframe src="https://embed.waze.com/iframe?zoom=16&lat=-6.290109&lon=106.806752&ct=livemap" width="600" height="450" allowfullscreen></iframe>`,
                 }}></RenderHTML>
             </View>
           </View>
@@ -402,40 +457,25 @@ const ProjectDetails = props => {
                   }}></View>
               </View>
               {/* <View style={styles.modalView}> */}
-              <View style={{marginHorizontal: 30, marginVertical: 20}}>
-                <Text
-                  style={{textAlign: 'justify', fontFamily: Fonts.type.Lato}}>
-                  Lorem ipsum dolor sit amet consectetur. Nibh scelerisque
-                  tristique facilisi lectus ullamcorper. Commodo sed egestas ut
-                  ullamcorper vulputate enim dui. Nec tristique venenatis
-                  euismod ut volutpat sapien consectetur eu. Ornare pharetra
-                  netus pellentesque sit at aliquam scelerisque. Non aliquet
-                  libero bibendum sagittis est sapien tempor. Viverra nullam
-                  mollis nulla lacus scelerisque. Est magna massa libero orci
-                  egestas. Nibh in et egestas odio platea sit. Nulla adipiscing
-                  aliquet ac hac aliquam nunc neque. Sed euismod leo adipiscing
-                  donec metus pretium fermentum in. Euismod turpis ullamcorper
-                  egestas lorem. Ut tellus posuere lacus pharetra orci et ac.
-                  Curabitur massa volutpat ac volutpat porttitor. Amet venenatis
-                  neque tempus dui ultrices viverra. Orci sit adipiscing congue
-                  lectus eu consectetur ornare. Dignissim ullamcorper lacinia
-                  eget porttitor volutpat dui faucibus. Dictum quam convallis in
-                  suspendisse diam volutpat diam. Rutrum tempus suspendisse nunc
-                  aliquam scelerisque mauris integer sit arcu. Egestas sagittis
-                  velit nunc dolor praesent. Diam sem maecenas eleifend ut.
-                  Tellus pretium vestibulum nisi ac urna neque viverra ac.
-                  Viverra fames scelerisque laoreet nisi ut viverra. Nunc nunc
-                  ipsum nisl mi facilisis mattis ac. Mi sed est ut non lobortis.
-                  Dignissim elit molestie vulputate pellentesque phasellus diam
-                  turpis leo.
-                </Text>
-                {/* <Text style={styles.modalText}>Hello World!</Text>
+              {itemsOverview.length != 0 ? (
+                <View style={{marginHorizontal: 30, marginVertical: 20}}>
+                  <Text
+                    style={{
+                      textAlign: 'justify',
+                      fontFamily: Fonts.type.Lato,
+                    }}>
+                    {itemsOverview.overview_info.replace(/(<([^>]+)>)/gi, '')}
+                  </Text>
+                  {/* <Text style={styles.modalText}>Hello World!</Text>
                 <Button
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}>
                   <Text style={styles.textStyle}>Hide Modal</Text>
                 </Button> */}
-              </View>
+                </View>
+              ) : (
+                <Text>No data overview</Text>
+              )}
             </View>
           </Modal>
         </View>
@@ -453,7 +493,7 @@ const ProjectDetails = props => {
                 color={BaseColor.corn90}></Icon>
             </TouchableOpacity>
           }
-          datas={paramsDetail}></Features>
+          datas={featureProject}></Features>
         {/* // modal gallery  */}
         <Gallery
           onRequestClose={() => {
@@ -468,7 +508,7 @@ const ProjectDetails = props => {
                 color={BaseColor.corn90}></Icon>
             </TouchableOpacity>
           }
-          datas={gallery}></Gallery>
+          datas={galleryProject}></Gallery>
         <Floorplan
           onRequestClose={() => {
             setVisibleFloorplan(false);
@@ -482,7 +522,7 @@ const ProjectDetails = props => {
                 color={BaseColor.corn90}></Icon>
             </TouchableOpacity>
           }
-          datas={floorplan}></Floorplan>
+          datas={planProject}></Floorplan>
         <Surrounding
           onRequestClose={() => {
             setVisibleSurrounding(false);
@@ -496,7 +536,7 @@ const ProjectDetails = props => {
                 color={BaseColor.corn90}></Icon>
             </TouchableOpacity>
           }
-          datas={floorplan}></Surrounding>
+          datas={surroundingProject}></Surrounding>
       </ScrollView>
     </SafeAreaView>
   );

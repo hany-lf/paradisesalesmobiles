@@ -40,6 +40,7 @@
     "react-native-blob-util": "^0.19.2",
     "react-native-bouncy-checkbox": "^3.0.7",
     "react-native-dotenv": "^3.4.9",
+    "react-native-element-dropdown": "^2.10.0",
     "react-native-fast-image": "^8.6.3",
     "react-native-gesture-handler": "^2.12.1",
     "react-native-image-crop-picker": "^0.40.0",

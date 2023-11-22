@@ -1,6 +1,14 @@
 import {Text, Header, Icon, Button} from '@components';
 
-import {View, ScrollView, Image, TouchableOpacity, Modal} from 'react-native';
+import {
+  View,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Modal,
+  ActivityIndicator,
+  Animated,
+} from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BaseStyle, Fonts, BaseColor} from '@config';
@@ -11,14 +19,25 @@ import getUser from '../../selectors/UserSelectors';
 import axios from 'axios';
 import {API_URL} from '@env';
 import UnitInfoModal from './Modal/UnitInfoModal';
+import ImageViewer from 'react-native-image-zoom-viewer';
+import ReactNativeBlobUtil from 'react-native-blob-util';
+import UnitInfoDetailsModal from './Modal/UnitInfoDetailsModal';
 
 const UnitInfo = props => {
   const {navigation} = props;
   const {t} = useTranslation();
   const user = useSelector(state => getUser(state));
   const [showPromo, setShowPromo] = useState(false);
-  const [paramsData, setParamsData] = useState(props.route.params);
+  const [modalVisibile, setModalVisible] = useState(false);
+  const [paramsData, setParamsData] = useState(props.route.params.paramsData);
+  const [itemsData, setItemsData] = useState(props.route.params.item);
+  const [dataImage, setDataImage] = useState([]);
+  const [showImage, setShowImage] = useState(false);
+  let [toggled, setToggled] = useState(false);
+  const height = useRef(new Animated.Value(1)).current;
+
   console.log('params data untuk unit info', paramsData);
+  console.log('items data untuk unit info', itemsData);
   const showModalPromo = () => {
     setShowPromo(true);
   };
@@ -30,6 +49,69 @@ const UnitInfo = props => {
   const dataPromo = [
     {title: 'tes', descs: 'ini decs', date: '27 agustus 2023'},
   ];
+
+  const zoomImage = image => {
+    const data = [{url: image}];
+    console.log('image zoom', image);
+    setShowImage(true);
+    setDataImage(data);
+  };
+
+  const _saveImages = uri => {
+    console.log('urii??', uri);
+    let dirs = ReactNativeBlobUtil.fs.dirs;
+    ReactNativeBlobUtil.config({
+      // add this option that makes response data to be stored as a file,
+      // this is much more performant.
+      fileCache: true,
+      addAndroidDownloads: {
+        path: dirs.DownloadDir + '/' + 'Promo',
+        // path: dirs.DownloadDir + '/' + item.doc_no + '.' + extension, //ini pake extensi yang sama kayak url
+        useDownloadManager: true,
+        // Show notification when response data transmitted
+        notification: true,
+        // Title of download notification
+        title: 'Image News Apps Paradise Mobiles',
+        // File description (not notification description)
+        description: 'downloading content...',
+        // mime: 'application/pdf',
+        // Make the file scannable  by media scanner
+        mediaScannable: true,
+      },
+    })
+      .fetch('GET', uri, {
+        //some headers ..
+      })
+      .then(res => {
+        // the temp file path
+        console.log('The file saved to ', res.path());
+        imageView = (
+          <Image
+            source={{
+              uri:
+                Platform.OS === 'android'
+                  ? 'file://' + res.path()
+                  : '' + res.path(),
+            }}
+          />
+        );
+      });
+  };
+
+  // useEffect(() => {}, [toggled]);
+
+  const toggledShowMore = () => {
+    Animated.timing(height, {
+      toValue: toggled ? 2 : 0,
+      duration: 600,
+    }).start();
+
+    setToggled(toggled => !toggled);
+  };
+
+  const dataDummyDetails =
+    'Lokasi terbaik, berada di Jantung Jakarta Selatan, di Perempatan Pangeran Antasari dan TB Simatupang. Akses mudah, dengan Akses JORR 1 dan 2, sehingga mudah menuju ke berbagai area sekitar lainnya. Semua yang kamu butuhkan tersedia, Fitness Center, kolam renang, serta fasilitas untuk anak-anak seperti sekolah, area playground dalam satu area tempat tinggal. Konsultasi kelas dunia, dalam merancang dan merencanakan produknya INPP berorientasi pada pendekatan yang berfokus pada konsumen. yang dihasilkan harus sesuai kebutuhan, Kebiasaan, dan kapabilitas konsumen. Tipe unit smart dan modern, selalu konsisten dalam mengimplementasikan startegi bisnis yang kreatif dan inovatifuntuk menghasilkan Iconic Lifestyle Destination.';
+
   return (
     <SafeAreaView
       edges={['right', 'top', 'left']}
@@ -66,7 +148,8 @@ const UnitInfo = props => {
           }}>
           <View style={{marginVertical: 10, marginHorizontal: 10}}>
             <Image
-              source={require('@assets/images/promonews/promo2.png')}
+              // source={require('@assets/images/promonews/promo2.png')}
+              source={{uri: paramsData.picture_url}}
               style={{
                 width: 150,
                 height: 150,
@@ -86,7 +169,7 @@ const UnitInfo = props => {
                 fontFamily: Fonts.type.LatoBold,
                 color: BaseColor.corn70,
               }}>
-              {paramsData.unittype}
+              {paramsData.descs}
             </Text>
 
             <Text
@@ -97,7 +180,7 @@ const UnitInfo = props => {
                 fontFamily: Fonts.type.Lato,
                 color: BaseColor.corn70,
               }}>
-              Unit E-10
+              Unit {itemsData.lot_no}
             </Text>
             <View
               style={{
@@ -121,7 +204,7 @@ const UnitInfo = props => {
                     fontFamily: Fonts.type.Lato,
                     color: BaseColor.corn70,
                   }}>
-                  2 Bedroom
+                  {paramsData.qty_room} Bedroom
                 </Text>
               </View>
               <View
@@ -140,7 +223,7 @@ const UnitInfo = props => {
                     fontFamily: Fonts.type.Lato,
                     color: BaseColor.corn70,
                   }}>
-                  1 Bathroom
+                  {paramsData.qty_bath} Bathroom
                 </Text>
               </View>
             </View>
@@ -151,7 +234,8 @@ const UnitInfo = props => {
                   fontFamily: Fonts.type.Lato,
                   color: BaseColor.corn70,
                 }}>
-                68 SQM Nett / 80.2 SQM Semi gross
+                {itemsData.build_up_area} SQM Nett / {itemsData.land_area} SQM
+                Semi gross
               </Text>
             </View>
             <Button
@@ -194,20 +278,30 @@ const UnitInfo = props => {
             }}>
             {t('unit_details')}
           </Text>
-
+          {/* <Animated.View
+            style={{
+              // backgroundColor: 'blue',
+              height: height.interpolate({
+                inputRange: [0, 1],
+                outputRange: [70, 200],
+              }),
+            }}>
+            {console.log('togle', toggled)} */}
           <Text
+            numberOfLines={4}
             style={{
               fontFamily: Fonts.type.Lato,
               color: BaseColor.corn70,
               fontSize: 14,
+              textAlign: 'justify',
             }}>
-            Lorem ipsum dolor sit amet consectetur. Pharetra lacus hendrerit
-            purus urna orci lectus. Enim enim elementum nunc praesent maecenas
-            vulputate nunc. Quisque ac sed lectus eu adipiscing tellus lacus
-            diam.
+            {dataDummyDetails}
           </Text>
+          {/* </Animated.View> */}
 
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
+          {/* <TouchableOpacity onPress={() => setModalVisible(true)}>
+           */}
+          <TouchableOpacity onPress={() => setModalVisible()}>
             <View
               style={{
                 flexDirection: 'row',
@@ -406,15 +500,82 @@ const UnitInfo = props => {
             }}>
             Unit Plan
           </Text>
-
+          {/* <TouchableOpacity
+            onPress={() =>
+              zoomImage(require('@assets/images/floorplan/STD-1.jpg'))
+            }> */}
           <Image
-            style={{alignSelf: 'center'}}
-            width={100}
-            height={100}
-            source={require('@assets/images/floorplan/unitplan.png')}></Image>
+            style={{
+              alignSelf: 'center',
+              resizeMode: 'contain',
+              width: '100%',
+              height: 200,
+            }}
+            source={require('@assets/images/floorplan/STD-1.jpg')}></Image>
+          {/* </TouchableOpacity> */}
         </View>
       </ScrollView>
-
+      <Modal visible={showImage} transparent={true}>
+        {/* <TouchableOpacity onPress={() => setShowImage(false)}>
+          <Icon
+            name={'times'}
+            color={BaseColor.blackColor}
+            style={{
+              fontSize: 14,
+            }}></Icon>
+        </TouchableOpacity> */}
+        <ImageViewer
+          // onSave={dataImage}
+          // onSaveToCamera={() => alert('halo')}
+          loadingRender={() => (
+            <ActivityIndicator
+              style={{
+                justifyContent: 'center',
+                alignSelf: 'center',
+              }}
+              size="large"
+              color="#FFFFFF"
+            />
+          )}
+          useNativeDriver={true}
+          renderHeader={index => (
+            <View style={{marginTop: 50}}>
+              <TouchableOpacity
+                key={index}
+                onPress={() => setShowImage(false)}
+                style={{
+                  backgroundColor: 'black',
+                  marginTop: 20,
+                  marginLeft: 20,
+                }}>
+                <View
+                  style={{
+                    width: 30,
+                    height: 30,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Icon
+                    name={'times'}
+                    color={BaseColor.whiteColor}
+                    style={{
+                      fontSize: 16,
+                    }}></Icon>
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
+          // saveToLocalByLongPress={true}
+          imageUrls={dataImage}
+          enableSwipeDown={true}
+          onSwipeDown={() => setShowImage(false)}
+          onSave={uri => _saveImages(uri)}
+          menuContext={{
+            saveToLocal: 'Save Image',
+            cancel: 'Cancel',
+          }}
+        />
+      </Modal>
       <UnitInfoModal
         onRequestClose={() => {
           setShowPromo(false);
@@ -426,6 +587,17 @@ const UnitInfo = props => {
           </TouchableOpacity>
         }
         datas={dataPromo}></UnitInfoModal>
+      <UnitInfoDetailsModal
+        onRequestClose={() => {
+          setModalVisible(false);
+        }}
+        visible={modalVisibile}
+        icon={
+          <TouchableOpacity onPress={() => setModalVisible(false)}>
+            <Icon name={'arrow-left'} size={18} color={BaseColor.corn90}></Icon>
+          </TouchableOpacity>
+        }
+        datas={dataDummyDetails}></UnitInfoDetailsModal>
     </SafeAreaView>
   );
 };

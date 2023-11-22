@@ -9,13 +9,13 @@ import {
   ActivityIndicator,
   Dimensions,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './styles';
 
 import {BaseStyle, Fonts, BaseColor} from '@config';
 import {ScrollView} from 'react-native-gesture-handler';
 import ImageViewer from 'react-native-image-zoom-viewer';
-
+import {useIsFocused} from '@react-navigation/native';
 const Surrounding = props => {
   const {onPress, datas, icon, ...attrs} = props;
   console.log('attrs ?', attrs);
@@ -23,6 +23,36 @@ const Surrounding = props => {
 
   const [dataImage, setDataImage] = useState([]);
   const [showImage, setShowImage] = useState(false);
+  // const [setdatasFilter, setDataFilter] = useState([]);
+  const isFocused = useIsFocused();
+
+  let type = datas.map((item, i) => {
+    return item.amenities_type;
+  });
+  console.log('type amen', type);
+  const setDataFilter = [];
+  const datasFilter = new Set(
+    datas.reduce((all, foo) => [...all, ...foo.amenities_type], []),
+  );
+  setDataFilter.push(...datasFilter);
+  console.log('cekk', ...datasFilter); //untuk memfilter amenities type aja dan jgn ada yang sama
+  console.log('cekk tess', setDataFilter); //untuk memfilter amenities type aja dan jgn ada yang sama
+
+  // useEffect(() => {
+  //   console.log('isfockus', isFocused);
+  //   if (isFocused) {
+  //     datasFilterProccess();
+  //   }
+  // }, []);
+
+  // const datasFilterProccess = () => {
+  //   const datasFilter = new Set(
+  //     datas.reduce((all, foo) => [...all, ...foo.amenities_type], []),
+  //   );
+  //   console.log('cekk', datasFilter); //untuk memfilter amenities type aja dan jgn ada yang sama
+
+  //   setDataFilter(datasFilter);
+  // };
 
   const zoomImage = items => {
     console.log('items', items);
@@ -129,341 +159,39 @@ const Surrounding = props => {
               {/* ----- */}
               <View>
                 {/* <View> */}
-                <View style={{marginVertical: 10}}>
-                  <View style={styles.badgeSurrounding}>
-                    <Text style={styles.text}>Shopping</Text>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-around',
-                    }}>
-                    <View>
-                      <View style={styles.shadowimageSurrounding}>
-                        <Image
-                          source={require('@assets/images/surrounding/mallpim.jpeg')}
-                          style={{
-                            width: 100,
-                            height: 100,
-                            resizeMode: 'cover',
-                            borderRadius: 15,
-                          }}></Image>
-                      </View>
-                      <View style={{width: 100, marginTop: 8}}>
-                        <Text style={[styles.text, {textAlign: 'center'}]}>
-                          Pondok Indah Mall (PIM)
-                        </Text>
+
+                {/* {setDataFilter.map((itemType, indexType) => (
+                  <View key={indexType} style={{marginBottom: 10}}>
+                    <View
+                      style={[styles.badgeSurrounding, {marginVertical: 5}]}>
+                      <Text>{itemType == 'H' ? 'Hospital' : 'null dulu'}</Text>
+                      <Text style={styles.text}>
+                        {itemType == 'I'
+                          ? 'Infrastruct'
+                          : itemType == 'S'
+                          ? 'School'
+                          : itemType == 'H'
+                          ? 'Hospital'
+                          : itemType == 'O'
+                          ? 'Shopping'
+                          : '.'}
+                      </Text>
+                    </View>
+                    {datas.map((item, index) => (
+                      <View style={{marginTop: 0}} key={index}>
+                        {itemType === item.amenities_type ? (
+                          <Text style={[styles.text, {marginLeft: 20}]}>
+                            {item.amenities_info.replace(/(<([^>]+)>)/gi, '')}
+                          </Text>
+                        ) : null}
                         <Text style={[styles.text, {textAlign: 'center'}]}>
                           7km
                         </Text>
                       </View>
-                    </View>
-
-                    <View>
-                      <View style={styles.shadowimageSurrounding}>
-                        <Image
-                          source={require('@assets/images/surrounding/mallpim.jpeg')}
-                          style={{
-                            width: 100,
-                            height: 100,
-                            resizeMode: 'cover',
-                            borderRadius: 15,
-                          }}></Image>
-                      </View>
-                      <View style={{width: 100, marginTop: 8}}>
-                        <Text style={[styles.text, {textAlign: 'center'}]}>
-                          Cilandak Town Square
-                        </Text>
-                        <Text style={[styles.text, {textAlign: 'center'}]}>
-                          1.6km
-                        </Text>
-                      </View>
-                    </View>
-                    <View>
-                      <View style={styles.shadowimageSurrounding}>
-                        <Image
-                          source={require('@assets/images/surrounding/mallpim.jpeg')}
-                          style={{
-                            width: 100,
-                            height: 100,
-                            resizeMode: 'cover',
-                            borderRadius: 15,
-                          }}></Image>
-                      </View>
-                      <View style={{width: 100, marginTop: 8}}>
-                        <Text style={[styles.text, {textAlign: 'center'}]}>
-                          Blok M Plaza
-                        </Text>
-                        <Text style={[styles.text, {textAlign: 'center'}]}>
-                          6.6km
-                        </Text>
-                      </View>
-                    </View>
+                    ))}
                   </View>
-                </View>
+                ))} */}
 
-                <View style={{marginVertical: 10}}>
-                  <View style={styles.badgeSurrounding}>
-                    <Text style={styles.text}>School</Text>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-around',
-                    }}>
-                    <View>
-                      <View style={styles.shadowimageSurrounding}>
-                        <Image
-                          source={require('@assets/images/surrounding/mallpim.jpeg')}
-                          style={{
-                            width: 100,
-                            height: 100,
-                            resizeMode: 'cover',
-                            borderRadius: 15,
-                          }}></Image>
-                      </View>
-                      <View style={{width: 100, marginTop: 8}}>
-                        <Text style={[styles.text, {textAlign: 'center'}]}>
-                          High Scope International School
-                        </Text>
-                        <Text style={[styles.text, {textAlign: 'center'}]}>
-                          2.8km
-                        </Text>
-                      </View>
-                    </View>
-                    <View>
-                      <View style={styles.shadowimageSurrounding}>
-                        <Image
-                          source={require('@assets/images/surrounding/mallpim.jpeg')}
-                          style={{
-                            width: 100,
-                            height: 100,
-                            resizeMode: 'cover',
-                            borderRadius: 15,
-                          }}></Image>
-                      </View>
-                      <View style={{width: 100, marginTop: 8}}>
-                        <Text style={[styles.text, {textAlign: 'center'}]}>
-                          Sekolah Cikal
-                        </Text>
-                        <Text style={[styles.text, {textAlign: 'center'}]}>
-                          7km
-                        </Text>
-                      </View>
-                    </View>
-                    <View>
-                      <View style={styles.shadowimageSurrounding}>
-                        <Image
-                          source={require('@assets/images/surrounding/mallpim.jpeg')}
-                          style={{
-                            width: 100,
-                            height: 100,
-                            resizeMode: 'cover',
-                            borderRadius: 15,
-                          }}></Image>
-                      </View>
-
-                      <View style={{width: 100, marginTop: 8}}>
-                        <Text style={[styles.text, {textAlign: 'center'}]}>
-                          Jakarta Intercultural School
-                        </Text>
-                        <Text style={[styles.text, {textAlign: 'center'}]}>
-                          3.5km
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                </View>
-
-                <View style={{marginVertical: 10}}>
-                  <View style={styles.badgeSurrounding}>
-                    <Text style={styles.text}>School</Text>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-around',
-                    }}>
-                    <View>
-                      <View style={styles.shadowimageSurrounding}>
-                        <Image
-                          source={require('@assets/images/surrounding/mallpim.jpeg')}
-                          style={{
-                            width: 100,
-                            height: 100,
-                            resizeMode: 'cover',
-                            borderRadius: 15,
-                          }}></Image>
-                      </View>
-                      <View style={{width: 100, marginTop: 8}}>
-                        <Text style={[styles.text, {textAlign: 'center'}]}>
-                          High Scope International School
-                        </Text>
-                        <Text style={[styles.text, {textAlign: 'center'}]}>
-                          2.8km
-                        </Text>
-                      </View>
-                    </View>
-
-                    <View>
-                      <View style={styles.shadowimageSurrounding}>
-                        <Image
-                          source={require('@assets/images/surrounding/mallpim.jpeg')}
-                          style={{
-                            width: 100,
-                            height: 100,
-                            resizeMode: 'cover',
-                            borderRadius: 15,
-                          }}></Image>
-                      </View>
-                      <View style={{width: 100, marginTop: 8}}>
-                        <Text style={[styles.text, {textAlign: 'center'}]}>
-                          High Scope International School
-                        </Text>
-                        <Text style={[styles.text, {textAlign: 'center'}]}>
-                          2.8km
-                        </Text>
-                      </View>
-                    </View>
-
-                    <View>
-                      <View style={styles.shadowimageSurrounding}>
-                        <Image
-                          source={require('@assets/images/surrounding/mallpim.jpeg')}
-                          style={{
-                            width: 100,
-                            height: 100,
-                            resizeMode: 'cover',
-                            borderRadius: 15,
-                          }}></Image>
-                      </View>
-                      <View style={{width: 100, marginTop: 8}}>
-                        <Text style={[styles.text, {textAlign: 'center'}]}>
-                          Sekolah CIKAL
-                        </Text>
-                        <Text style={[styles.text, {textAlign: 'center'}]}>
-                          2.8km
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                </View>
-
-                {/* <View>
-                  <View
-                    style={{
-                      width: 100,
-                      padding: 10,
-                      //   height: 20,
-                      backgroundColor: 'orange',
-                      alignItems: 'center',
-                      borderRadius: 15,
-                    }}>
-                    <Text>Health</Text>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-around',
-                    }}>
-                    <View
-                      style={{
-                        width: 100,
-                        height: 100,
-                        borderRadius: 15,
-                        ...Platform.select({
-                          android: {
-                            elevation: 3,
-                          },
-                          default: {
-                            shadowColor: BaseColor.corn90,
-                            shadowOffset: {height: 0, width: 0},
-                            shadowOpacity: 3,
-                            shadowRadius: 3,
-                          },
-                        }),
-                      }}>
-                      <Image
-                        source={require('@assets/images/surrounding/mallpim.jpeg')}
-                        style={{
-                          width: 100,
-                          height: 100,
-                          resizeMode: 'cover',
-                          borderRadius: 15,
-                        }}></Image>
-                      <View style={{width: 100}}>
-                        <Text style={{textAlign: 'center'}}>
-                          RS Pondok Indah
-                        </Text>
-                        <Text style={{textAlign: 'center'}}>4.4km</Text>
-                      </View>
-                    </View>
-                    <View
-                      style={{
-                        width: 100,
-                        height: 100,
-                        borderRadius: 15,
-                        ...Platform.select({
-                          android: {
-                            elevation: 3,
-                          },
-                          default: {
-                            shadowColor: BaseColor.corn90,
-                            shadowOffset: {height: 0, width: 0},
-                            shadowOpacity: 3,
-                            shadowRadius: 3,
-                          },
-                        }),
-                      }}>
-                      <Image
-                        source={require('@assets/images/surrounding/mallpim.jpeg')}
-                        style={{
-                          width: 100,
-                          height: 100,
-                          resizeMode: 'cover',
-                          borderRadius: 15,
-                        }}></Image>
-                      <View style={{width: 100}}>
-                        <Text style={{textAlign: 'center'}}>
-                          Brawijaya Hospital
-                        </Text>
-                        <Text style={{textAlign: 'center'}}>7.1km</Text>
-                      </View>
-                    </View>
-                    <View
-                      style={{
-                        width: 100,
-                        height: 100,
-                        borderRadius: 15,
-                        ...Platform.select({
-                          android: {
-                            elevation: 3,
-                          },
-                          default: {
-                            shadowColor: BaseColor.corn90,
-                            shadowOffset: {height: 0, width: 0},
-                            shadowOpacity: 3,
-                            shadowRadius: 3,
-                          },
-                        }),
-                      }}>
-                      <Image
-                        source={require('@assets/images/surrounding/mallpim.jpeg')}
-                        style={{
-                          width: 100,
-                          height: 100,
-                          resizeMode: 'cover',
-                          borderRadius: 15,
-                        }}></Image>
-                      <View style={{width: 100}}>
-                        <Text style={{textAlign: 'center'}}>
-                          Klinik Mata Nusantara - Eye Care
-                        </Text>
-                        <Text style={{textAlign: 'center'}}>3km</Text>
-                      </View>
-                    </View>
-                  </View>
-                </View> */}
                 {/* </View> */}
               </View>
             </ScrollView>

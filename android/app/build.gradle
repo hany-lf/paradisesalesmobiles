@@ -8,7 +8,7 @@ apply plugin: 'com.google.gms.google-services' // <- Add this line
  project.ext.react = [
     enableHermes: false,  // clean and rebuild if changing
 ]
-apply from: "../../node_modules/react-native/react.gradle"
+//apply from: "../../node_modules/react-native/react.gradle"
 
 react {
     /* Folders */
@@ -82,7 +82,7 @@ def enableHermes = project.ext.react.get("enableHermes", false);
 android {
     ndkVersion rootProject.ext.ndkVersion
 
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion 33
 
     namespace "com.paradisesalesmobiles"
     defaultConfig {

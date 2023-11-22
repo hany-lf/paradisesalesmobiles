@@ -164,7 +164,7 @@ const UnitEnquiry = props => {
                   color: BaseColor.corn50,
                   marginVertical: 5,
                 }}>
-                {paramsData.location}
+                {paramsData.caption_address}
               </Text>
             </View>
           </View>
@@ -189,7 +189,7 @@ const UnitEnquiry = props => {
                     margin: 10,
                   }}>
                   <Image
-                    source={{uri: paramsData.picture_url}} //ini sementara pake picture dari params data, sbnrnya ada pict url nya masing2 lot type
+                    source={{uri: item.picture_url}} //ini sementara pake picture dari params data, sbnrnya ada pict url nya masing2 lot type
                     style={{
                       width: 150,
                       height: 150,
@@ -202,7 +202,8 @@ const UnitEnquiry = props => {
                           {item.descs}
                         </Text>
                       </View>
-                      <View
+
+                      {/* <View
                         style={{
                           flexDirection: 'row',
                           marginTop: 15,
@@ -260,17 +261,59 @@ const UnitEnquiry = props => {
                               marginHorizontal: 5,
                             }}></View>
                         </View>
+                      </View> */}
+
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          marginVertical: 2,
+                          marginTop: 10,
+                        }}>
+                        <Icon
+                          style={{marginRight: 5}}
+                          name={'shower'}
+                          size={14}
+                          color={BaseColor.corn50}></Icon>
+                        <Text
+                          style={{
+                            fontSize: 14,
+                            fontFamily: Fonts.type.Lato,
+                            color: BaseColor.corn50,
+                          }}>
+                          {item.qty_bath} bathroom
+                        </Text>
                       </View>
-                      <View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          marginVertical: 2,
+                        }}>
+                        <Icon
+                          style={{marginRight: 5}}
+                          name={'bed'}
+                          size={14}
+                          color={BaseColor.corn50}></Icon>
+                        <Text
+                          style={{
+                            fontSize: 14,
+                            fontFamily: Fonts.type.Lato,
+                            color: BaseColor.corn50,
+                          }}>
+                          {item.qty_room} bedroom
+                        </Text>
+                      </View>
+                      {/* <View>
                         <Text
                           style={{
                             fontFamily: Fonts.type.Lato,
                             color: BaseColor.corn50,
                             marginVertical: 5,
                           }}>
-                          50.2cm
+                          {item.luas == null ? 0 : item.luas} m2
                         </Text>
-                      </View>
+                      </View> */}
                     </View>
 
                     <Button

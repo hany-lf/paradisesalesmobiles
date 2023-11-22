@@ -57,7 +57,7 @@ export default StyleSheet.create({
   title: {
     width: '100%',
     // paddingTop: 5,
-    padding: 5,
+    padding: 3,
     fontSize: 12,
     fontFamily: Fonts.type.Lato,
     color: BaseColor.corn70,
