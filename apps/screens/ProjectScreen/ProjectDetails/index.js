@@ -22,7 +22,7 @@ import React, {useState, useCallback, useRef, useEffect} from 'react';
 
 import IframeRenderer, {iframeModel} from '@native-html/iframe-plugin';
 import RenderHTML from 'react-native-render-html';
-import WebView from 'react-native-webview';
+import {WebView} from 'react-native-webview';
 
 import Features from './Modals/Features';
 import Gallery from './Modals/Gallery';
@@ -34,7 +34,8 @@ import axios from 'axios';
 import {API_URL} from '@env';
 import {useSelector, useDispatch, connect} from 'react-redux';
 import getUser from '../../../selectors/UserSelectors';
-
+import MapView from 'react-native-maps';
+import {Marker} from 'react-native-maps';
 const ProjectDetails = props => {
   console.log('props dari project', props);
   const {t} = useTranslation();
@@ -42,6 +43,8 @@ const ProjectDetails = props => {
   const [playing, setPlaying] = useState(false);
 
   const paramsDetail = props.route.params;
+  const entity_cd = paramsDetail.entity_cd;
+  const project_no = paramsDetail.project_no;
   const [modalVisible, setModalVisible] = useState(false);
   const [visibleFeatures, setVisibleFeatures] = useState(false);
   const [visibleGallery, setVisibleGallery] = useState(false);
@@ -52,6 +55,7 @@ const ProjectDetails = props => {
   const [gallery, setGallery] = useState(data_gallery);
   const [floorplan, setFloorplan] = useState(data_floorplan);
   const user = useSelector(state => getUser(state));
+
   const [dataProjectDetail, setDataProjectDetail] = useState([]);
   const [galleryProject, setGalleryProject] = useState([]);
   const [overviewProject, setOverviewProject] = useState([]);
@@ -61,6 +65,8 @@ const ProjectDetails = props => {
   const [downloadProject, setDownloadProject] = useState([]);
   const {width} = useWindowDimensions().width;
   const [itemsOverview, setItemsOverview] = useState([]);
+  const [webViewKey, setwebViewKey] = useState(1);
+  const [regionChange, setRegion] = useState('');
   const onStateChange = useCallback(state => {
     if (state === 'ended') {
       setPlaying(false);
@@ -90,8 +96,6 @@ const ProjectDetails = props => {
   }, []);
 
   const getProjectDetails = () => {
-    const entity_cd = paramsDetail.entity_cd;
-    const project_no = paramsDetail.project_no;
     try {
       const config = {
         method: 'get',
@@ -128,6 +132,10 @@ const ProjectDetails = props => {
   const showModalOverview = item => {
     setModalVisible(true);
     setItemsOverview(item);
+  };
+
+  const onRegionChange = region => {
+    setRegion(region);
   };
 
   return (
@@ -378,7 +386,7 @@ const ProjectDetails = props => {
               // backgroundColor: 'yellow',
               marginBottom: 0,
             }}>
-            <Text
+            {/* <Text
               style={{
                 fontFamily: Fonts.type.LatoBold,
                 fontSize: 14,
@@ -386,18 +394,55 @@ const ProjectDetails = props => {
                 marginVertical: 15,
               }}>
               Location
-            </Text>
+            </Text> */}
+            {/* <View>
+              <MapView
+                //             {markers.map((marker, index) => (
+                //   <Marker
+                //     key={index}
+                //     coordinate={marker.latlng}
+                //     title={marker.title}
+                //     description={marker.description}
+                //   />
+                // ))}
+                // region={regionChange}
+                // onRegionChange={onRegionChange}
+                style={{width: '100%', height: 300}}
+                initialRegion={{
+                  latitude: -6.2092,
+                  longitude: 106.85138,
+                  latitudeDelta: 0.04,
+                  longitudeDelta: 0.05,
+                }}>
+                <Marker
+                  coordinate={{latitude: -6.2092, longitude: 106.85138}}
+                  image={{uri: 'custom_pin'}}
+                  style={{width: 50, height: 50}}
+                />
+              </MapView>
+            </View> */}
 
-            <View style={{flex: 1}}>
-              <RenderHTML
-                renderers={renderers}
-                WebView={WebView}
-                contentWidth={Dimensions.get('window').width - 35}
-                customHTMLElementModels={customHTMLElementModels}
-                source={{
-                  html: `<iframe src="https://embed.waze.com/iframe?zoom=16&lat=-6.290109&lon=106.806752&ct=livemap" width="600" height="450" allowfullscreen></iframe>`,
-                }}></RenderHTML>
-            </View>
+            {/* <WebView
+              javaScriptEnabled={true}
+              domStorageEnabled={true}
+              map
+              style={{flex: 1}}
+              allowsPreserveOrigin
+              webPolicies={{
+                forms: 'https://*.other-domain.com',
+              }}
+              source={{uri: 'https://google.com/'}}
+            /> */}
+            {/* <RenderHTML
+              javaScriptEnabled={true}
+              domS
+              renderers={renderers}
+              WebView={WebView}
+              contentWidth={Dimensions.get('window').width - 35}
+              customHTMLElementModels={customHTMLElementModels}
+              source={{
+                html: `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15865.742481636988!2d106.85165925!3d-6.206128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f4711cac0e99%3A0x47c98448b038a7d8!2sManggarai!5e0!3m2!1sid!2sid!4v1700646090231!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`,
+              }}></RenderHTML> */}
           </View>
         </View>
         {/* // --- modal project detail overview */}

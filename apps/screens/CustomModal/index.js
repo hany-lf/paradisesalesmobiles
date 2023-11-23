@@ -116,6 +116,8 @@ const CustomModal = props => {
   // }, []);
 
   const getMenuUser = () => {
+    const grupCd = user.Group;
+    console.log('grupCd', user.Group);
     const config = {
       method: 'get',
       // url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/groupMenu?approval_user=MGR',
@@ -126,7 +128,7 @@ const CustomModal = props => {
         Authorization: `Bearer ${user.Token}`,
       },
       // params: {approval_user: user.userIDToken.UserId},
-      params: {group_cd: user.Group},
+      params: {group_cd: grupCd},
     };
     console.log('formdaata change pass', config);
 

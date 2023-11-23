@@ -36,6 +36,8 @@ const UnitEnquiry = props => {
   console.log('params dari choose project', props.route.params);
   // const paramsData = props.route.params;
   const [paramsData, setParamsData] = useState(props.route.params);
+  const project_no = paramsData.project_no;
+  const entity_cd = paramsData.entity_cd;
   const [showModal, setShowModal] = useState(false);
   const [project_name, setProjectName] = useState(
     props.route.params.project_name,
@@ -50,8 +52,6 @@ const UnitEnquiry = props => {
     getData_LotType();
   }, []);
   const getData_LotType = () => {
-    const project_no = paramsData.project_no;
-    const entity_cd = paramsData.entity_cd;
     console.log('entity_cd', entity_cd);
     try {
       const config = {

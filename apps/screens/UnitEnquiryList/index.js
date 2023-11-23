@@ -44,6 +44,9 @@ const UnitEnquiryList = props => {
   console.log('params dari list enquiry', props.route.params);
   // const paramsData = props.route.params;
   const [paramsData, setParamsData] = useState(props.route.params);
+  const lot_type = paramsData.lot_type;
+  const entity_cd = paramsData.entity_cd;
+  const project_no = paramsData.project_no;
   const [showModal, setShowModal] = useState(false);
   const [project_name, setProjectName] = useState(
     props.route.params.project_name,
@@ -75,9 +78,6 @@ const UnitEnquiryList = props => {
   }, []);
 
   const getDataListEnquiry = () => {
-    const lot_type = paramsData.lot_type;
-    const entity_cd = paramsData.entity_cd;
-    const project_no = paramsData.project_no;
     try {
       const config = {
         method: 'get',
@@ -230,7 +230,7 @@ const UnitEnquiryList = props => {
                       marginTop: 15,
                       marginHorizontal: 15,
                     }}>
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    {/* <View style={{flexDirection: 'row', alignItems: 'center'}}>
                       <Text
                         style={{
                           fontFamily: Fonts.type.Lato,
@@ -279,17 +279,17 @@ const UnitEnquiryList = props => {
                           backgroundColor: 'green',
                           marginHorizontal: 5,
                         }}></View>
-                    </View>
+                    </View> */}
                   </View>
                   <View style={{marginHorizontal: 15, marginVertical: 5}}>
-                    <Text
+                    {/* <Text
                       style={{
                         fontFamily: Fonts.type.Lato,
                         color: BaseColor.corn50,
                         marginVertical: 5,
                       }}>
-                      50.2cm
-                    </Text>
+                      
+                    </Text> */}
                   </View>
                 </View>
 

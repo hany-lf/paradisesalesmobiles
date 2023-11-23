@@ -417,11 +417,7 @@ const Home = props => {
         }}>
         <View style={{width: 150, height: 200}}>
           <Image
-            // source={{uri: item.url_image}} //sementara di tutup dulu ya, krn belum ada datanya
-            source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
-            // source={{
-            //   uri: 'https://i.stack.imgur.com/280rI.png',
-            // }}
+            source={{uri: item.url_image}}
             style={{
               resizeMode: 'cover',
               borderRadius: 15,
