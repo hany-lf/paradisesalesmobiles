@@ -150,12 +150,20 @@ const NewsWithoutModal = props => {
                   }}></Image>
               </TouchableOpacity>
             </View>
+
             <View style={{marginVertical: 20}}>
               <Text
-                style={{textAlign: 'justify', fontFamily: Fonts.type.Lato}}
+                style={{
+                  textAlign: 'justify',
+                  fontFamily: Fonts.type.Lato,
+                }}
                 numberOfLines={0} // ini wajib ada kalo menggunakan Text dari component
               >
-                {detailNews.news_descs.replace(/(<([^>]+)>)/gi, '')}
+                {detailNews.news_descs
+                  .replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '')
+                  .replace(/(&nbsp;)/g, ' ')
+                  .replace(/(&ndash;)/g, '-')
+                  .replace(/(&amp;)/g, `&`)}
               </Text>
             </View>
           </View>

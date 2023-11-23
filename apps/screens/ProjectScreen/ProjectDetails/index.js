@@ -255,7 +255,11 @@ const ProjectDetails = props => {
                     color: BaseColor.corn90,
                     marginVertical: 5,
                   }}>
-                  {item.overview_info.replace(/(<([^>]+)>)/gi, '')}
+                  {item.overview_info
+                    .replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '')
+                    .replace(/(&nbsp;)/g, ' ')
+                    .replace(/(&ndash;)/g, '-')
+                    .replace(/(&amp;)/g, `&`)}
                 </Text>
                 <TouchableOpacity onPress={() => showModalOverview(item)}>
                   <View
@@ -509,7 +513,11 @@ const ProjectDetails = props => {
                       textAlign: 'justify',
                       fontFamily: Fonts.type.Lato,
                     }}>
-                    {itemsOverview.overview_info.replace(/(<([^>]+)>)/gi, '')}
+                    {itemsOverview.overview_info
+                      .replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '')
+                      .replace(/(&nbsp;)/g, ' ')
+                      .replace(/(&ndash;)/g, '-')
+                      .replace(/(&amp;)/g, `&`)}
                   </Text>
                   {/* <Text style={styles.modalText}>Hello World!</Text>
                 <Button

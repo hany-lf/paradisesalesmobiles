@@ -67,6 +67,7 @@ const NewsScreen = props => {
   };
 
   const showModalNews = item => {
+    console.log('item modal news', item);
     setShowNews(true);
     setItemsParams(item);
   };
@@ -146,7 +147,11 @@ const NewsScreen = props => {
                         color: BaseColor.corn70,
                         // textAlign: 'justify',
                       }}>
-                      {item.news_descs.replace(/(<([^>]+)>)/gi, '')}
+                      {item.news_descs
+                        .replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '')
+                        .replace(/(&nbsp;)/g, ' ')
+                        .replace(/(&ndash;)/g, '-')
+                        .replace(/(&amp;)/g, `&`)}
                     </Text>
 
                     <View style={{justifyContent: 'flex-end', flex: 1}}>

@@ -153,7 +153,11 @@ const PromoWithoutModal = props => {
               <Text
                 numberOfLines={0} // ini wajib ada kalo menggunakan Text dari component
                 style={{textAlign: 'justify', fontFamily: Fonts.type.Lato}}>
-                {detailPromo.promo_descs.replace(/(<([^>]+)>)/gi, '')}
+                {detailPromo.promo_descs
+                  .replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '')
+                  .replace(/(&nbsp;)/g, ' ')
+                  .replace(/(&ndash;)/g, '-')
+                  .replace(/(&amp;)/g, `&`)}
               </Text>
             </View>
           </View>

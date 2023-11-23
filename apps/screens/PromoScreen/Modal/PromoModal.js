@@ -1,10 +1,10 @@
 import {Text, Button, Icon} from '@components';
 import {View, TouchableOpacity, Modal, ScrollView, Image} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 import {BaseStyle, Fonts, BaseColor} from '@config';
-
+import moment from 'moment';
 const PromoModal = props => {
   const {t} = useTranslation();
   const {onPress, datas, visibleMod, icon, ...attrs} = props;
@@ -17,6 +17,7 @@ const PromoModal = props => {
   const close = () => {
     setVisibleModal(false);
   };
+
   return datas == null ? null : (
     <View
       style={{
@@ -76,9 +77,29 @@ const PromoModal = props => {
                 <View
                 // style={{width: 200, height: 100}}
                 >
+                  <View style={{marginBottom: 25}}>
+                    <Text
+                      style={{
+                        color: BaseColor.corn70,
+                        fontFamily: Fonts.type.LatoBold,
+                        fontSize: 16,
+                      }}>
+                      {datas.promo_title}
+                    </Text>
+                    <Text
+                      style={{
+                        color: BaseColor.corn70,
+                        fontFamily: Fonts.type.Lato,
+                        fontSize: 11,
+                        marginVertical: 5,
+                      }}>
+                      Created date:
+                      {moment(datas.date_created).format('DD MMM YYYY - hh:mm')}
+                    </Text>
+                  </View>
                   <Image
-                    //   source={{uri: detailPromo.url_image}}
-                    source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
+                    source={{uri: datas.url_image}}
+                    // source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
                     style={{
                       width: '100%',
                       // width: 300,
@@ -93,7 +114,11 @@ const PromoModal = props => {
                 <View style={{marginVertical: 20}}>
                   <Text
                     style={{textAlign: 'justify', fontFamily: Fonts.type.Lato}}>
-                    {datas.promo_descs.replace(/(<([^>]+)>)/gi, '')}
+                    {datas.promo_descs
+                      .replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '')
+                      .replace(/(&nbsp;)/g, ' ')
+                      .replace(/(&ndash;)/g, '-')
+                      .replace(/(&amp;)/g, `&`)}
                   </Text>
                 </View>
               </View>

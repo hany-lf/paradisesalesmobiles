@@ -145,7 +145,11 @@ const PromoScreen = props => {
                         fontFamily: Fonts.type.Lato,
                         color: BaseColor.corn70,
                       }}>
-                      {item.promo_descs.replace(/(<([^>]+)>)/gi, '')}
+                      {item.promo_descs
+                        .replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '')
+                        .replace(/(&nbsp;)/g, ' ')
+                        .replace(/(&ndash;)/g, '-')
+                        .replace(/(&amp;)/g, `&`)}
                     </Text>
                     <View style={{justifyContent: 'flex-end', flex: 1}}>
                       <Text
