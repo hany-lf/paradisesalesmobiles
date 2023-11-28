@@ -163,8 +163,10 @@ const NewsModal = props => {
                       source={{uri: datas.url_image}}
                       style={{
                         width: '100%',
-                        // width: 300,
-                        height: 200,
+                        height: Dimensions.get('window').height / 2.5,
+                        // width: '100%',
+                        // // width: 300,
+                        // height: 200,
                         // marginTop: 10,
                         // paddingTop: 10,
                         // ...StyleSheet.absoluteFillObject,

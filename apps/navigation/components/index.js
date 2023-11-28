@@ -76,7 +76,7 @@ export const CustomTabBarButton = ({
 
       <TouchableOpacity
         style={{
-          top: -40.5,
+          top: -35.5,
           justifyContent: 'center',
           alignItems: 'center',
           width: 70,

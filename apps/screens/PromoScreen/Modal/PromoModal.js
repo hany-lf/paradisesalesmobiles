@@ -1,5 +1,12 @@
 import {Text, Button, Icon} from '@components';
-import {View, TouchableOpacity, Modal, ScrollView, Image} from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Modal,
+  ScrollView,
+  Image,
+  Dimensions,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
@@ -101,9 +108,11 @@ const PromoModal = props => {
                     source={{uri: datas.url_image}}
                     // source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
                     style={{
+                      // width: '100%',
+                      // // width: 300,
+                      // height: 200,
                       width: '100%',
-                      // width: 300,
-                      height: 200,
+                      height: Dimensions.get('window').height / 2.5,
                       // marginTop: 10,
                       // paddingTop: 10,
                       // ...StyleSheet.absoluteFillObject,

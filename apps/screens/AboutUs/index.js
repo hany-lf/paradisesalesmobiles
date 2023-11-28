@@ -7,11 +7,12 @@ import {
   FlatList,
   useWindowDimensions,
 } from 'react-native';
-import RenderHtml from 'react-native-render-html';
+import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
 import data_about from './data_aboutus.json';
 import {ScrollView} from 'react-native-gesture-handler';
 const AboutUs = props => {
   const {t} = useTranslation();
+  const systemFonts = [...defaultSystemFonts, global.fontRegular];
   //   const dummyFAQ = dummy_faq.menu_faq;
   const {navigation} = props;
   const {width} = useWindowDimensions().width;
@@ -50,7 +51,18 @@ const AboutUs = props => {
             console.log('item source', item.descs);
             return (
               <View>
-                <RenderHtml contentWidth={width} source={{html: item.descs}} />
+                <RenderHtml
+                  contentWidth={width}
+                  source={{html: item.descs}}
+                  systemFonts={systemFonts}
+                  tagsStyles={{
+                    p: {
+                      color: BaseColor.corn70,
+                      fontSize: 12,
+                      fontFamily: Fonts.type.LatoBold,
+                    },
+                  }}
+                />
 
                 <Text style={{fontFamily: Fonts.type.LatoBold, fontSize: 15}}>
                   Our Contact
@@ -58,11 +70,41 @@ const AboutUs = props => {
                 <RenderHtml
                   contentWidth={width}
                   source={{html: item.contact}}
+                  systemFonts={systemFonts}
+                  tagsStyles={{
+                    p: {
+                      color: BaseColor.corn70,
+                      fontSize: 12,
+                      fontFamily: Fonts.type.LatoBold,
+                    },
+                  }}
                 />
 
-                <RenderHtml contentWidth={width} source={{html: item.email}} />
+                <RenderHtml
+                  contentWidth={width}
+                  source={{html: item.email}}
+                  systemFonts={systemFonts}
+                  tagsStyles={{
+                    p: {
+                      color: BaseColor.corn70,
+                      fontSize: 12,
+                      fontFamily: Fonts.type.LatoBold,
+                    },
+                  }}
+                />
 
-                <RenderHtml contentWidth={width} source={{html: item.phone}} />
+                <RenderHtml
+                  contentWidth={width}
+                  source={{html: item.phone}}
+                  systemFonts={systemFonts}
+                  tagsStyles={{
+                    p: {
+                      color: BaseColor.corn70,
+                      fontSize: 12,
+                      fontFamily: Fonts.type.LatoBold,
+                    },
+                  }}
+                />
               </View>
             );
             // (

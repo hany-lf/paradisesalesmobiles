@@ -58,7 +58,7 @@ export default StyleSheet.create({
     width: '100%',
     // paddingTop: 5,
     padding: 3,
-    fontSize: 12,
+    fontSize: 10,
     fontFamily: Fonts.type.Lato,
     color: BaseColor.corn70,
     // alignItems: 'center',

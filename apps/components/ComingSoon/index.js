@@ -43,25 +43,28 @@ export default function ComingSoon(props) {
 
   return (
     <View style={{alignItems: 'center'}}>
-      <Animatable.View
-        // name={'hour'}
+      <Image
+        source={require('@assets/images/work-in-progress.png')}
+        style={{width: 100, height: 100}}></Image>
+      {/* <Animatable.View
+    
         animation="swing"
         easing="linear"
-        // easing="ease"
+   
         iterationCount="infinite"
         style={{textAlign: 'center'}}>
-        {/* ❤️halo */}
+       
         <Icon name={'hourglass-half'} color={BaseColor.corn70} size={24}></Icon>
-      </Animatable.View>
+      </Animatable.View> */}
       <View>
-        <Text
+        {/* <Text
           style={{
             fontSize: 14,
             color: BaseColor.corn70,
             fontFamily: Fonts.type.Lato,
           }}>
           Coming Soon
-        </Text>
+        </Text> */}
       </View>
     </View>
   );

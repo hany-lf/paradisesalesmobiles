@@ -6,6 +6,7 @@ import {
   ScrollView,
   Image,
   ActivityIndicator,
+  Dimensions,
 } from 'react-native';
 import React, {useState} from 'react';
 import styles from './styles';
@@ -139,8 +140,7 @@ const PromoWithoutModal = props => {
                   // source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
                   style={{
                     width: '100%',
-                    // width: 300,
-                    height: 200,
+                    height: Dimensions.get('window').height / 2.5,
                     // marginTop: 10,
                     // paddingTop: 10,
                     // ...StyleSheet.absoluteFillObject,

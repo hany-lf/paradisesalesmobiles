@@ -16,6 +16,7 @@ export default StyleSheet.create({
     borderBottomColor: BaseColor.corn70,
     borderBottomWidth: 1,
     textAlign: 'center',
+    color: BaseColor.corn70,
   },
   contain: {
     padding: 20,

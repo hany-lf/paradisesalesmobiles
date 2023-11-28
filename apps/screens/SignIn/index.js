@@ -434,15 +434,16 @@ const SignIn = props => {
             )}
           </Button>
         </View>
-        <View
+        {/* <View
           style={{flexDirection: 'row', alignSelf: 'center', marginTop: 30}}>
           <Text
             style={{
               fontFamily: Fonts.type.Lato,
 
               textAlign: 'center',
+              color: BaseColor.corn70,
             }}>
-            Don't have account?
+            Don't have account?{' '}s
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Register')}>
             <View>
@@ -458,7 +459,7 @@ const SignIn = props => {
               </Text>
             </View>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
 
       {/* <View>

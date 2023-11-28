@@ -11,6 +11,7 @@ import {
   StyleSheet,
   Modal,
   useWindowDimensions,
+  Linking,
 } from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -225,17 +226,19 @@ const ProjectDetails = props => {
             </View>
           </View>
         </ImageBackground>
+
+        {/* -- overview  */}
         <View style={{marginHorizontal: 20, marginTop: 20}}>
           <Text
             style={{
               fontSize: 14,
               fontFamily: Fonts.type.LatoBold,
-              color: BaseColor.corn90,
+              color: BaseColor.corn70,
               marginVertical: 5,
             }}>
             Overview
           </Text>
-          {overviewProject != null || overviewProject.length != 0 ? (
+          {overviewProject.length != 0 ? (
             overviewProject.map((item, index) => (
               // <View>
 
@@ -310,13 +313,16 @@ const ProjectDetails = props => {
               style={{
                 fontSize: 12,
                 fontFamily: Fonts.type.Lato,
-                color: BaseColor.corn90,
+                color: BaseColor.corn70,
                 marginVertical: 5,
               }}>
               No data overview
             </Text>
           )}
+        </View>
 
+        {/* --- grid features dll  */}
+        <View style={{marginHorizontal: 20, marginTop: 20}}>
           <View
             style={{
               flexDirection: 'row',
@@ -343,6 +349,102 @@ const ProjectDetails = props => {
               //   navigation.navigate('CalculatorScreen')
               // }
             ></ButtonMenuHome>
+          </View>
+        </View>
+
+        {/* /// VIDEO  */}
+        <View
+          style={{
+            marginHorizontal: 20,
+            // borderRadius: 15,
+            marginTop: 15,
+            // backgroundColor: 'yellow',
+            marginBottom: 0,
+          }}>
+          <Text
+            style={{
+              fontFamily: Fonts.type.LatoBold,
+              fontSize: 14,
+              color: BaseColor.corn70,
+              marginVertical: 15,
+            }}>
+            Contact
+          </Text>
+
+          <View>
+            <View
+              style={{
+                backgroundColor: BaseColor.corn30,
+                borderRadius: 15,
+                padding: 10,
+                marginBottom: 10,
+              }}>
+              <Text
+                style={{
+                  fontFamily: Fonts.type.Lato,
+                  color: BaseColor.corn70,
+                  fontSize: 12,
+                  textAlign: 'center',
+                }}>
+                Address: Antasari Place, Jakarta Selatan
+              </Text>
+              <Text
+                style={{
+                  fontFamily: Fonts.type.Lato,
+                  color: BaseColor.corn70,
+                  fontSize: 12,
+                  textAlign: 'center',
+                }}>
+                Phone: 0818-712-042
+              </Text>
+              <Text
+                style={{
+                  fontFamily: Fonts.type.Lato,
+                  color: BaseColor.corn70,
+                  fontSize: 12,
+                  textAlign: 'center',
+                }}>
+                Email: admin@antasariplace.co.id
+              </Text>
+            </View>
+
+            <Text
+              style={{
+                textAlign: 'center',
+                fontFamily: Fonts.type.LatoBold,
+                color: BaseColor.corn70,
+                fontSize: 12,
+              }}>
+              ARE YOU INTERESTED? IT'S TIME TO DISCOVER YOUR HOME
+            </Text>
+
+            <View style={{alignItems: 'center', marginTop: 8}}>
+              <Button
+                style={{
+                  backgroundColor: BaseColor.corn10,
+                  width: '50%',
+                  height: 40,
+                }}
+                onPress={() =>
+                  Linking.openURL('https://maps.app.goo.gl/DWx16Q5hJNevr49V8')
+                }>
+                <View style={{flexDirection: 'row'}}>
+                  <Text
+                    style={{
+                      fontFamily: Fonts.type.LatoBold,
+                      color: BaseColor.corn70,
+                      fontSize: 12,
+                      paddingRight: 5,
+                    }}>
+                    Find Location
+                  </Text>
+                  <Icon
+                    name={'location-arrow'}
+                    color={BaseColor.corn70}
+                    size={14}></Icon>
+                </View>
+              </Button>
+            </View>
           </View>
         </View>
         {/* /// VIDEO  */}

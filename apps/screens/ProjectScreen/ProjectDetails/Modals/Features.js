@@ -73,6 +73,7 @@ const Features = props => {
                 return (
                   <View>
                     <ButtonMenuHome
+                      disabled={true}
                       style={{
                         margin: 7,
                         backgroundColor: BaseColor.whiteColor,
@@ -80,7 +81,8 @@ const Features = props => {
                         borderColor: BaseColor.corn30,
                         borderStyle: 'solid',
                       }}
-                      onPress={() => clik()}
+                      // onPress={() => clik()}
+                      // disabled={disabled}
                       title={item.title}
                       typeIcon={'MCI'}
                       nameicon={item.icon}></ButtonMenuHome>

@@ -25,6 +25,7 @@ const ButtonMenuHome = props => {
     nameicon,
     goToProject,
     typeIcon,
+    disabled,
   } = props;
   const {colors} = useTheme();
   if (loading) {
@@ -32,6 +33,7 @@ const ButtonMenuHome = props => {
   }
   return (
     <TouchableOpacity
+      disabled={disabled}
       style={[
         styles.container,
         {
@@ -46,10 +48,15 @@ const ButtonMenuHome = props => {
       {typeIcon == 'MCI' ? (
         <MaterialCommunityIcons
           name={nameicon}
+          color={BaseColor.corn70}
           solid
           size={20}></MaterialCommunityIcons>
       ) : (
-        <IconFontAwesome5 name={nameicon} solid size={20}></IconFontAwesome5>
+        <IconFontAwesome5
+          name={nameicon}
+          solid
+          size={20}
+          color={BaseColor.corn70}></IconFontAwesome5>
       )}
 
       <Text
@@ -78,6 +85,7 @@ ButtonMenuHome.propTypes = {
   title: PropTypes.string,
   nameicon: PropTypes.string,
   onPress: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 
 ButtonMenuHome.defaultProps = {
@@ -87,6 +95,7 @@ ButtonMenuHome.defaultProps = {
   title: '',
   title: '',
   onPress: () => {},
+  disabled: false,
 };
 
 export default ButtonMenuHome;
