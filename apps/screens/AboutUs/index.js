@@ -1,6 +1,7 @@
 import {Text, SafeAreaView, Header, Icon} from '@components';
 import {BaseStyle, BaseColor, Fonts} from '../../config';
 import {useTranslation} from 'react-i18next';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   TouchableOpacity,
@@ -8,21 +9,64 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
-import data_about from './data_aboutus.json';
+// import data_about from './data_aboutus.json';
 import {ScrollView} from 'react-native-gesture-handler';
+import axios from 'axios';
+import {API_URL} from '@env';
+import getUser from '../../selectors/UserSelectors';
+import {useDispatch, useSelector} from 'react-redux';
+
 const AboutUs = props => {
   const {t} = useTranslation();
   const systemFonts = [...defaultSystemFonts, global.fontRegular];
   //   const dummyFAQ = dummy_faq.menu_faq;
   const {navigation} = props;
   const {width} = useWindowDimensions().width;
-  console.log('descs', data_about.data_about[0].descs);
+  const user = useSelector(state => getUser(state));
+  // console.log('descs', data_about.data_about[0].descs);
+  const [dataAbout, setDataAbout] = useState([]);
   //   const source = {
   //     // html: data_about.data_about[0].descs,
   //     html: data_about.data_about,
   //   };
 
-  const source = data_about.data_about;
+  // const source = data_about.data_about;
+
+  useEffect(() => {
+    getDataAbout();
+  }, []);
+
+  const getDataAbout = () => {
+    // const entity_cd = paramsData.entity_cd;
+    // const project_no = paramsData.project_no;
+    try {
+      const config = {
+        method: 'get',
+        // url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/groupMenu?approval_user=MGR',
+        url: API_URL + '/about-us/index',
+        headers: {
+          'content-type': 'application/json',
+          // 'X-Requested-With': 'XMLHttpRequest',
+          Authorization: `Bearer ${user.Token}`,
+        },
+        // params: {approval_user: user.userIDToken.UserId},
+        params: {},
+      };
+      console.log('formdaata get lot type', config);
+      axios(config)
+        .then(result => {
+          const pasing = result.data.Data;
+
+          setDataAbout(pasing);
+        })
+        .catch(error =>
+          console.log('error getdata about error', error.response),
+        );
+    } catch (error) {
+      console.log('ini konsol eror about', error);
+    }
+  };
+
   return (
     <SafeAreaView
       edges={['right', 'top', 'left']}
@@ -47,19 +91,20 @@ const AboutUs = props => {
       />
       <ScrollView>
         <View style={{marginHorizontal: 20, flex: 1}}>
-          {source.map((item, index) => {
-            console.log('item source', item.descs);
+          {dataAbout.map((item, index) => {
+            console.log('item source', item.about_descs);
             return (
               <View>
                 <RenderHtml
                   contentWidth={width}
-                  source={{html: item.descs}}
+                  source={{html: item.about_descs}}
                   systemFonts={systemFonts}
                   tagsStyles={{
                     p: {
                       color: BaseColor.corn70,
                       fontSize: 12,
                       fontFamily: Fonts.type.LatoBold,
+                      textAlign: 'justify',
                     },
                   }}
                 />
@@ -69,7 +114,7 @@ const AboutUs = props => {
                 </Text>
                 <RenderHtml
                   contentWidth={width}
-                  source={{html: item.contact}}
+                  source={{html: item.address}}
                   systemFonts={systemFonts}
                   tagsStyles={{
                     p: {
@@ -82,7 +127,7 @@ const AboutUs = props => {
 
                 <RenderHtml
                   contentWidth={width}
-                  source={{html: item.email}}
+                  source={{html: item.contact_info}}
                   systemFonts={systemFonts}
                   tagsStyles={{
                     p: {
