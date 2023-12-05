@@ -13,7 +13,7 @@ import React, {useEffect, useState} from 'react';
 import styles from './styles';
 
 import {BaseStyle, Fonts, BaseColor} from '@config';
-import {ScrollView} from 'react-native-gesture-handler';
+import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import {useIsFocused} from '@react-navigation/native';
 const Surrounding = props => {
@@ -118,6 +118,7 @@ const Surrounding = props => {
               backgroundColor: BaseColor.whiteColor,
               borderTopRightRadius: 25,
               borderTopLeftRadius: 25,
+              paddingBottom: 30,
             },
           ]}>
           <View>
@@ -152,22 +153,20 @@ const Surrounding = props => {
                 borderColor: BaseColor.corn70,
                 borderStyle: 'solid',
               }}></View>
+
             <ScrollView
               style={{
-                height: Dimensions.get('screen').height,
+                marginTop: 10,
+                // backgroundColor: 'yellow',
               }}>
-              {/* ----- */}
-              <View>
-                {/* <View> */}
-
-                {/* {setDataFilter.map((itemType, indexType) => (
+              <View style={{marginBottom: 50}}>
+                {setDataFilter.map((itemType, indexType) => (
                   <View key={indexType} style={{marginBottom: 10}}>
                     <View
                       style={[styles.badgeSurrounding, {marginVertical: 5}]}>
-                      <Text>{itemType == 'H' ? 'Hospital' : 'null dulu'}</Text>
                       <Text style={styles.text}>
                         {itemType == 'I'
-                          ? 'Infrastruct'
+                          ? 'Infrastructure'
                           : itemType == 'S'
                           ? 'School'
                           : itemType == 'H'
@@ -184,15 +183,10 @@ const Surrounding = props => {
                             {item.amenities_info.replace(/(<([^>]+)>)/gi, '')}
                           </Text>
                         ) : null}
-                        <Text style={[styles.text, {textAlign: 'center'}]}>
-                          7km
-                        </Text>
                       </View>
                     ))}
                   </View>
-                ))} */}
-
-                {/* </View> */}
+                ))}
               </View>
             </ScrollView>
           </View>
@@ -201,53 +195,6 @@ const Surrounding = props => {
         {/* <Button onPress={() => close()} style={{backgroundColor: 'red'}}>
         <Text>close</Text>
       </Button> */}
-      </Modal>
-      <Modal visible={showImage} transparent={true}>
-        {/* <TouchableOpacity onPress={() => setShowImage(false)}>
-          <Icon
-            name={'times'}
-            color={BaseColor.blackColor}
-            style={{
-              fontSize: 14,
-            }}></Icon>
-        </TouchableOpacity> */}
-        <ImageViewer
-          // onSave={dataImage}
-          // onSaveToCamera={() => alert('halo')}
-          loadingRender={() => (
-            <ActivityIndicator
-              style={{
-                justifyContent: 'center',
-                alignSelf: 'center',
-              }}
-              size="large"
-              color="#FFFFFF"
-            />
-          )}
-          useNativeDriver={true}
-          renderHeader={index => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => setShowImage(false)}
-              style={{backgroundColor: 'black', marginTop: 20, marginLeft: 20}}>
-              <Icon
-                name={'times'}
-                color={BaseColor.whiteColor}
-                style={{
-                  fontSize: 16,
-                }}></Icon>
-            </TouchableOpacity>
-          )}
-          // saveToLocalByLongPress={true}
-          imageUrls={dataImage}
-          enableSwipeDown={true}
-          onSwipeDown={() => setShowImage(false)}
-          onSave={uri => _saveImages(uri)}
-          menuContext={{
-            saveToLocal: 'Save Image',
-            cancel: 'Cancel',
-          }}
-        />
       </Modal>
     </ScrollView>
   );

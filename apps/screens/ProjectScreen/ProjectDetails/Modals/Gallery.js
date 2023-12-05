@@ -27,7 +27,7 @@ const Gallery = props => {
     console.log('items', items);
 
     const arr = items.map((str, index) => ({
-      url: str.image,
+      url: str.gallery_url,
     }));
     console.log('arr??', arr);
     const data = arr;
@@ -130,7 +130,7 @@ const Gallery = props => {
                     <TouchableOpacity onPress={() => zoomImage(datas)}>
                       {/* <Text>{item.image}</Text> */}
                       <Image
-                        source={{uri: item.url}}
+                        source={{uri: item.gallery_url}}
                         // source={require(item.image)}
                         // source={item.image}
                         // alt={item.image}

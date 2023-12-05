@@ -112,7 +112,7 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   badgeSurrounding: {
-    width: 100,
+    width: 120,
     padding: 10,
     //   height: 20,
     backgroundColor: BaseColor.whiteColor,

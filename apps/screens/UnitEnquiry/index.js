@@ -46,11 +46,28 @@ const UnitEnquiry = props => {
   const [emailCust, setEmailCust] = useState('');
   const [phoneCust, setPhoneCust] = useState('');
   const [data_LotType, setData_LotType] = useState([]);
+  const [countUnit, setCountUnit] = useState([]);
+  const [countUnitAvailable, setCountUnitAvailable] = useState([]);
+  const [countUnitNotAvailable, setCountUnitNotAvailable] = useState([]);
+  const [countUnitBooked, setCountUnitBooked] = useState([]);
 
   const isFocused = useIsFocused();
   useEffect(() => {
     getData_LotType();
+    getCountUnit();
   }, []);
+
+  const groupBy = (objectArray, property) => {
+    return objectArray.reduce(function (accumulator, currentObject) {
+      let key = currentObject[property];
+      if (!accumulator[key]) {
+        accumulator[key] = [];
+      }
+      accumulator[key].push(currentObject);
+      return accumulator;
+    }, {});
+  };
+
   const getData_LotType = () => {
     console.log('entity_cd', entity_cd);
     try {
@@ -71,7 +88,46 @@ const UnitEnquiry = props => {
         .then(result => {
           const pasing = result.data.Data;
           console.log('data di lot type', pasing);
+
           setData_LotType(pasing);
+        })
+        .catch(error =>
+          console.log('error getdata lot type error', error.response),
+        );
+    } catch (error) {
+      console.log('ini konsol eror lot type', error);
+    }
+  };
+
+  const getCountUnit = () => {
+    console.log('entity_cd', entity_cd);
+    try {
+      const config = {
+        method: 'get',
+        // url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/groupMenu?approval_user=MGR',
+        url: API_URL + '/unit-enquiry/count-unit',
+        headers: {
+          'content-type': 'application/json',
+          // 'X-Requested-With': 'XMLHttpRequest',
+          Authorization: `Bearer ${user.Token}`,
+        },
+        // params: {approval_user: user.userIDToken.UserId},
+        params: {entity_cd: entity_cd, project_no: project_no},
+      };
+      console.log('formdaata get lot type', config);
+      axios(config)
+        .then(result => {
+          const pasing = result.data.Data;
+
+          const available = pasing.available;
+          const not_available = pasing.not_available;
+          const booked = pasing.booked;
+          console.log('data di lot type', pasing);
+          setCountUnit(pasing);
+
+          setCountUnitAvailable(available);
+          setCountUnitNotAvailable(not_available);
+          setCountUnitBooked(booked);
         })
         .catch(error =>
           console.log('error getdata lot type error', error.response),
@@ -170,6 +226,8 @@ const UnitEnquiry = props => {
           </View>
         </View>
 
+        {console.log('count unitttt', countUnit)}
+
         {data_LotType.length != 0 ? (
           data_LotType.map((item, index) => (
             <View
@@ -203,20 +261,23 @@ const UnitEnquiry = props => {
                         </Text>
                       </View>
 
-                      {/* <View
+                      <View
                         style={{
                           flexDirection: 'row',
                           marginTop: 15,
                         }}>
                         <View
                           style={{flexDirection: 'row', alignItems: 'center'}}>
-                          <Text
+                          {/* <Text
                             style={{
                               fontFamily: Fonts.type.Lato,
                               color: BaseColor.corn50,
                             }}>
                             6
-                          </Text>
+                          </Text> */}
+
+                          {/* <Text>0</Text> */}
+
                           <View
                             style={{
                               width: 10,
@@ -228,13 +289,6 @@ const UnitEnquiry = props => {
 
                         <View
                           style={{flexDirection: 'row', alignItems: 'center'}}>
-                          <Text
-                            style={{
-                              fontFamily: Fonts.type.Lato,
-                              color: BaseColor.corn50,
-                            }}>
-                            6
-                          </Text>
                           <View
                             style={{
                               width: 10,
@@ -246,13 +300,20 @@ const UnitEnquiry = props => {
 
                         <View
                           style={{flexDirection: 'row', alignItems: 'center'}}>
-                          <Text
-                            style={{
-                              fontFamily: Fonts.type.Lato,
-                              color: BaseColor.corn50,
-                            }}>
-                            6
-                          </Text>
+                          {countUnitBooked
+                            .filter(
+                              itemCount => itemCount.type == item.lot_type,
+                            )
+                            .map((countTotal, indexTotal) => (
+                              <Text
+                                key={indexTotal}
+                                style={{
+                                  fontFamily: Fonts.type.Lato,
+                                  color: BaseColor.corn50,
+                                }}>
+                                {countTotal.total}
+                              </Text>
+                            ))}
                           <View
                             style={{
                               width: 10,
@@ -261,7 +322,7 @@ const UnitEnquiry = props => {
                               marginHorizontal: 5,
                             }}></View>
                         </View>
-                      </View> */}
+                      </View>
 
                       <View
                         style={{

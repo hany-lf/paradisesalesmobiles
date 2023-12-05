@@ -14,7 +14,9 @@ const Features = props => {
   const [visibleModal, setVisibleModal] = useState(visibleMod);
   console.log('visiblemodaldifeature', visibleModal);
 
-  const [dataFeatures, setDataFeatures] = useState(dummy_feature.data);
+  // const [dataFeatures, setDataFeatures] = useState(dummy_feature.data);
+  const [dataFeatures, setDataFeatures] = useState(datas);
+
   console.log('datafeature', dataFeatures);
   const close = () => {
     setVisibleModal(false);
@@ -64,7 +66,7 @@ const Features = props => {
             }}></View>
 
           <View style={{marginHorizontal: 20, marginVertical: 20}}>
-            <FlatList
+            {/* <FlatList
               keyExtractor={item => item.key}
               numColumns={4}
               horizontal={false}
@@ -88,54 +90,23 @@ const Features = props => {
                       nameicon={item.icon}></ButtonMenuHome>
                   </View>
                 );
-              }}></FlatList>
-            {/* <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <ButtonMenuHome
+              }}></FlatList> */}
+            {datas.map((item, index) => (
+              // <Text>{item.feature_info}</Text>
+              <Text
+                key={index}
                 style={{
-                  backgroundColor: BaseColor.whiteColor,
-                  borderWidth: 0.5,
-                  borderColor: BaseColor.corn30,
-                  borderStyle: 'solid',
-                }}
-                onPress={() => clik()}
-                title={'Playground'}
-                typeIcon={'MCI'}
-                nameicon={'slide'}></ButtonMenuHome>
-              <ButtonMenuHome
-                style={{
-                  backgroundColor: BaseColor.whiteColor,
-                  borderWidth: 0.5,
-                  borderColor: BaseColor.corn30,
-                  borderStyle: 'solid',
-                }}
-                onPress={() => clik()}
-                title={'Swimming Pool'}
-                typeIcon={'MCI'}
-                nameicon={'pool'}></ButtonMenuHome>
-              <ButtonMenuHome
-                style={{
-                  backgroundColor: BaseColor.whiteColor,
-                  borderWidth: 0.5,
-                  borderColor: BaseColor.corn30,
-                  borderStyle: 'solid',
-                }}
-                onPress={() => clik()}
-                title={'Park'}
-                typeIcon={'MCI'}
-                nameicon={'sprout-outline'}></ButtonMenuHome>
-              <ButtonMenuHome
-                style={{
-                  backgroundColor: BaseColor.whiteColor,
-                  borderWidth: 0.5,
-                  borderColor: BaseColor.corn30,
-                  borderStyle: 'solid',
-                }}
-                onPress={() => clik()}
-                title={'CCTV'}
-                typeIcon={'MCI'}
-                nameicon={'cctv'}></ButtonMenuHome>
-            </View> */}
+                  fontFamily: Fonts.type.Lato,
+                  color: BaseColor.corn70,
+                  fontSize: 12,
+                }}>
+                {item.feature_info
+                  .replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '')
+                  .replace(/(&nbsp;)/g, ' ')
+                  .replace(/(&ndash;)/g, '-')
+                  .replace(/(&amp;)/g, `&`)}
+              </Text>
+            ))}
           </View>
         </View>
       </View>

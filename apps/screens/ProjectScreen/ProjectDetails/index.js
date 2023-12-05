@@ -64,6 +64,7 @@ const ProjectDetails = props => {
   const [planProject, setPlanProject] = useState([]);
   const [surroundingProject, setSurroundingProject] = useState([]);
   const [downloadProject, setDownloadProject] = useState([]);
+  const [projectAddress, setProjectAddress] = useState([]);
   const {width} = useWindowDimensions().width;
   const [itemsOverview, setItemsOverview] = useState([]);
   const [webViewKey, setwebViewKey] = useState(1);
@@ -121,6 +122,7 @@ const ProjectDetails = props => {
           setPlanProject(pasing.plan);
           setSurroundingProject(pasing.surrounding);
           setDownloadProject(pasing.download);
+          setProjectAddress(pasing.project);
         })
         .catch(error =>
           console.log('error getdata project error', error.response),
@@ -138,6 +140,24 @@ const ProjectDetails = props => {
   const onRegionChange = region => {
     setRegion(region);
   };
+
+  const htmlContent = `
+    <html>
+        <body>
+            <div class="section">
+                <div class="wrapper">
+                    <h1>The TITLE</h1>
+                    <div class="post-wrapper">
+                        <div class="post-rich-text w-richtext">
+                            <p>Check out this video to see it in action.</p>
+                            <iframe allowfullscreen="true" frameborder="0" scrolling="no" src="https://www.youtube.com/embed/OfLV5h-1rRI?si=JJiTuK-IPjJWeG9o" width="300" height="200"></iframe>
+                            <p>And there’s even more to come... </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </html>`;
 
   return (
     <SafeAreaView
@@ -371,81 +391,81 @@ const ProjectDetails = props => {
             Contact
           </Text>
 
-          <View>
-            <View
-              style={{
-                backgroundColor: BaseColor.corn30,
-                borderRadius: 15,
-                padding: 10,
-                marginBottom: 10,
-              }}>
-              <Text
+          {projectAddress.map((item, index) => (
+            <View>
+              <View
                 style={{
-                  fontFamily: Fonts.type.Lato,
-                  color: BaseColor.corn70,
-                  fontSize: 12,
-                  textAlign: 'center',
+                  backgroundColor: BaseColor.corn30,
+                  borderRadius: 15,
+                  padding: 10,
+                  marginBottom: 10,
                 }}>
-                Address: Antasari Place, Jakarta Selatan
-              </Text>
-              <Text
-                style={{
-                  fontFamily: Fonts.type.Lato,
-                  color: BaseColor.corn70,
-                  fontSize: 12,
-                  textAlign: 'center',
-                }}>
-                Phone: 0818-712-042
-              </Text>
-              <Text
-                style={{
-                  fontFamily: Fonts.type.Lato,
-                  color: BaseColor.corn70,
-                  fontSize: 12,
-                  textAlign: 'center',
-                }}>
-                Email: admin@antasariplace.co.id
-              </Text>
-            </View>
+                <Text
+                  style={{
+                    fontFamily: Fonts.type.Lato,
+                    color: BaseColor.corn70,
+                    fontSize: 12,
+                    textAlign: 'center',
+                  }}>
+                  Address: {item.coordinat_address}
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: Fonts.type.Lato,
+                    color: BaseColor.corn70,
+                    fontSize: 12,
+                    textAlign: 'center',
+                  }}>
+                  Phone: {item.wa_no}
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: Fonts.type.Lato,
+                    color: BaseColor.corn70,
+                    fontSize: 12,
+                    textAlign: 'center',
+                  }}>
+                  Email: {item.email_add}
+                </Text>
+              </View>
 
-            <Text
-              style={{
-                textAlign: 'center',
-                fontFamily: Fonts.type.LatoBold,
-                color: BaseColor.corn70,
-                fontSize: 12,
-              }}>
-              ARE YOU INTERESTED? IT'S TIME TO DISCOVER YOUR HOME
-            </Text>
-
-            <View style={{alignItems: 'center', marginTop: 8}}>
-              <Button
+              <Text
                 style={{
-                  backgroundColor: BaseColor.corn10,
-                  width: '50%',
-                  height: 40,
-                }}
-                onPress={() =>
-                  Linking.openURL('https://maps.app.goo.gl/DWx16Q5hJNevr49V8')
-                }>
-                <View style={{flexDirection: 'row'}}>
-                  <Text
-                    style={{
-                      fontFamily: Fonts.type.LatoBold,
-                      color: BaseColor.corn70,
-                      fontSize: 12,
-                      paddingRight: 5,
-                    }}>
-                    Find Location
-                  </Text>
-                  <Icon
-                    name={'location-arrow'}
-                    color={BaseColor.corn70}
-                    size={14}></Icon>
-                </View>
-              </Button>
+                  textAlign: 'center',
+                  fontFamily: Fonts.type.LatoBold,
+                  color: BaseColor.corn70,
+                  fontSize: 12,
+                }}>
+                ARE YOU INTERESTED? IT'S TIME TO DISCOVER YOUR HOME
+              </Text>
+
+              <View style={{alignItems: 'center', marginTop: 8}}>
+                <Button
+                  style={{
+                    backgroundColor: BaseColor.corn10,
+                    width: '50%',
+                    height: 40,
+                  }}
+                  onPress={() => Linking.openURL(item.coordinat_project)}>
+                  <View style={{flexDirection: 'row'}}>
+                    <Text
+                      style={{
+                        fontFamily: Fonts.type.LatoBold,
+                        color: BaseColor.corn70,
+                        fontSize: 12,
+                        paddingRight: 5,
+                      }}>
+                      Find Location
+                    </Text>
+                    <Icon
+                      name={'location-arrow'}
+                      color={BaseColor.corn70}
+                      size={14}></Icon>
+                  </View>
+                </Button>
+              </View>
             </View>
-          </View>
+          ))}
         </View>
         {/* /// VIDEO  */}
         <View
@@ -466,14 +486,23 @@ const ProjectDetails = props => {
             Video
           </Text>
 
-          <YoutubePlayer
-            height={200}
-            play={playing}
-            videoId="835bZBB4mZg"
-            onChangeState={onStateChange}
-            style={{borderRadius: 15}}
-            useLocalHTML={true}
-          />
+          {overviewProject.length != 0 ? (
+            overviewProject.map((item, index) => (
+              <YoutubePlayer
+                key={index}
+                height={200}
+                play={playing}
+                videoId={item.youtube_link}
+                // videoId="OfLV5h-1rRI"
+                onChangeState={onStateChange}
+                style={{borderRadius: 15}}
+                useLocalHTML={true}
+              />
+            ))
+          ) : (
+            <Text>No Url Id Youtube</Text>
+          )}
+
           {/* <Button
             onPress={() => togglePlaying}
             style={{backgroundColor: 'red'}}>
@@ -611,6 +640,7 @@ const ProjectDetails = props => {
               {itemsOverview.length != 0 ? (
                 <View style={{marginHorizontal: 30, marginVertical: 20}}>
                   <Text
+                    numberOfLines={0}
                     style={{
                       textAlign: 'justify',
                       fontFamily: Fonts.type.Lato,
