@@ -601,7 +601,7 @@ const Home = props => {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        height: 95,
+                        // height: Platform.OS == 'android' ? 95 : 110, //height ditutup agar responsive tulisan besar kotak abu nya
 
                         marginHorizontal: 30,
                         marginVertical: 20,
@@ -610,7 +610,11 @@ const Home = props => {
                         // justifyContent: 'center',
                         // alignItems: 'center',
                       }}>
-                      <View style={{marginVertical: 10, marginHorizontal: 25}}>
+                      <View
+                        style={{
+                          marginVertical: 10,
+                          marginHorizontal: 25,
+                        }}>
                         <Text
                           style={{
                             fontFamily: Fonts.type.LatoBlack,
