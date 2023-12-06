@@ -146,17 +146,19 @@ const UnitInfo = props => {
             // width: '100%',
             marginHorizontal: 5,
           }}>
-          <View style={{marginVertical: 10, marginHorizontal: 10}}>
-            <Image
-              // source={require('@assets/images/promonews/promo2.png')}
-              source={{uri: paramsData.picture_url}}
-              style={{
-                width: 150,
-                height: 150,
-                resizeMode: 'contain',
-                borderRadius: 15,
-              }}></Image>
-          </View>
+          <TouchableOpacity onPress={() => zoomImage(paramsData.picture_url)}>
+            <View style={{marginVertical: 10, marginHorizontal: 10}}>
+              <Image
+                // source={require('@assets/images/promonews/promo2.png')}
+                source={{uri: paramsData.picture_url}}
+                style={{
+                  width: 150,
+                  height: 150,
+                  resizeMode: 'contain',
+                  borderRadius: 15,
+                }}></Image>
+            </View>
+          </TouchableOpacity>
           <View
             style={{
               width: '50%',
@@ -539,31 +541,17 @@ const UnitInfo = props => {
           )}
           useNativeDriver={true}
           renderHeader={index => (
-            <View style={{marginTop: 50}}>
-              <TouchableOpacity
-                key={index}
-                onPress={() => setShowImage(false)}
+            <TouchableOpacity
+              key={index}
+              onPress={() => setShowImage(false)}
+              style={{backgroundColor: 'black', marginTop: 20, marginLeft: 20}}>
+              <Icon
+                name={'times'}
+                color={BaseColor.whiteColor}
                 style={{
-                  backgroundColor: 'black',
-                  marginTop: 20,
-                  marginLeft: 20,
-                }}>
-                <View
-                  style={{
-                    width: 30,
-                    height: 30,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                  <Icon
-                    name={'times'}
-                    color={BaseColor.whiteColor}
-                    style={{
-                      fontSize: 16,
-                    }}></Icon>
-                </View>
-              </TouchableOpacity>
-            </View>
+                  fontSize: 16,
+                }}></Icon>
+            </TouchableOpacity>
           )}
           // saveToLocalByLongPress={true}
           imageUrls={dataImage}

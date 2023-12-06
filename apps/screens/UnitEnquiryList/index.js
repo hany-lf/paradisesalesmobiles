@@ -590,25 +590,36 @@ const UnitEnquiryList = props => {
           )}
           useNativeDriver={true}
           renderHeader={index => (
+            // <TouchableOpacity
+            //   key={index}
+            //   onPress={() => setShowImage(false)}
+            //   style={{
+            //     backgroundColor: BaseColor.whiteColor,
+            //     top: 10,
+            //     left: 20,
+            //     width: 50,
+            //     borderRadius: 5,
+            //     alignItems: 'center',
+            //   }}>
+            //   <View>
+            //     <Icon
+            //       name={'times'}
+            //       color={BaseColor.corn50}
+            //       style={{
+            //         fontSize: 20,
+            //       }}></Icon>
+            //   </View>
+            // </TouchableOpacity>
             <TouchableOpacity
               key={index}
               onPress={() => setShowImage(false)}
-              style={{
-                backgroundColor: BaseColor.whiteColor,
-                top: 10,
-                left: 20,
-                width: 50,
-                borderRadius: 5,
-                alignItems: 'center',
-              }}>
-              <View>
-                <Icon
-                  name={'times'}
-                  color={BaseColor.corn50}
-                  style={{
-                    fontSize: 20,
-                  }}></Icon>
-              </View>
+              style={{backgroundColor: 'black', marginTop: 20, marginLeft: 20}}>
+              <Icon
+                name={'times'}
+                color={BaseColor.whiteColor}
+                style={{
+                  fontSize: 16,
+                }}></Icon>
             </TouchableOpacity>
           )}
           // saveToLocalByLongPress={true}

@@ -601,7 +601,7 @@ const Home = props => {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        height: 80,
+                        height: 95,
 
                         marginHorizontal: 30,
                         marginVertical: 20,

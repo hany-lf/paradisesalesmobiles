@@ -99,7 +99,7 @@ const ChooseProject = props => {
                 }}>
                 {/* <Text>{item.image}</Text> */}
                 <Image
-                  source={{uri: item.picture_path}}
+                  source={{uri: item.picture_url}}
                   // source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
                   // src={item.image}
                   // source={}
