@@ -6,15 +6,19 @@ import {
   ScrollView,
   Image,
   Dimensions,
+  useWindowDimensions,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 import {BaseStyle, Fonts, BaseColor} from '@config';
 import moment from 'moment';
+import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
 const PromoModal = props => {
   const {t} = useTranslation();
   const {onPress, datas, visibleMod, icon, ...attrs} = props;
+  const systemFonts = [...defaultSystemFonts, global.fontRegular];
+  const {width} = useWindowDimensions().width;
   console.log('attrs ?', attrs);
   console.log('datas nya', datas);
   console.log('visiblemodal', visibleMod);
@@ -45,6 +49,7 @@ const PromoModal = props => {
               backgroundColor: BaseColor.whiteColor,
               borderTopRightRadius: 25,
               borderTopLeftRadius: 25,
+              paddingBottom: 40,
             },
           ]}>
           <View>
@@ -121,14 +126,44 @@ const PromoModal = props => {
                     }}></Image>
                 </View>
                 <View style={{marginVertical: 20}}>
-                  <Text
+                  <RenderHtml
+                    contentWidth={width}
+                    source={{html: datas.promo_descs}}
+                    systemFonts={systemFonts}
+                    tagsStyles={{
+                      p: {
+                        color: BaseColor.corn70,
+                        fontSize: 12,
+                        fontFamily: Fonts.type.LatoBold,
+                        textAlign: 'justify',
+                      },
+                    }}
+                  />
+                  {/* <Text
                     style={{textAlign: 'justify', fontFamily: Fonts.type.Lato}}>
                     {datas.promo_descs
                       .replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '')
                       .replace(/(&nbsp;)/g, ' ')
                       .replace(/(&ndash;)/g, '-')
                       .replace(/(&amp;)/g, `&`)}
-                  </Text>
+                  </Text> */}
+                </View>
+                <Text>Syarat dan Ketentuan</Text>
+
+                <View style={{marginVertical: 20}}>
+                  <RenderHtml
+                    contentWidth={width}
+                    source={{html: datas.tnc_descs}}
+                    systemFonts={systemFonts}
+                    tagsStyles={{
+                      p: {
+                        color: BaseColor.corn70,
+                        fontSize: 12,
+                        fontFamily: Fonts.type.LatoBold,
+                        textAlign: 'justify',
+                      },
+                    }}
+                  />
                 </View>
               </View>
             </ScrollView>

@@ -7,6 +7,7 @@ import {
   Image,
   ActivityIndicator,
   Dimensions,
+  useWindowDimensions,
 } from 'react-native';
 import React, {useState} from 'react';
 import styles from './styles';
@@ -16,9 +17,11 @@ import {useTranslation} from 'react-i18next';
 import moment from 'moment';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import ReactNativeBlobUtil from 'react-native-blob-util';
-
+import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
 const NewsWithoutModal = props => {
   const {navigation} = props;
+  const systemFonts = [...defaultSystemFonts, global.fontRegular];
+  const {width} = useWindowDimensions().width;
   //   const {onPress, datas, visibleMod, icon, ...attrs} = props;
   //   console.log('attrs ?', attrs);
   //   console.log('datas nya', datas);
@@ -155,7 +158,20 @@ const NewsWithoutModal = props => {
             </View>
 
             <View style={{marginVertical: 20}}>
-              <Text
+              <RenderHtml
+                contentWidth={width}
+                source={{html: detailNews.news_descs}}
+                systemFonts={systemFonts}
+                tagsStyles={{
+                  p: {
+                    color: BaseColor.corn70,
+                    fontSize: 12,
+                    fontFamily: Fonts.type.LatoBold,
+                    textAlign: 'justify',
+                  },
+                }}
+              />
+              {/* <Text
                 style={{
                   textAlign: 'justify',
                   fontFamily: Fonts.type.Lato,
@@ -167,7 +183,7 @@ const NewsWithoutModal = props => {
                   .replace(/(&nbsp;)/g, ' ')
                   .replace(/(&ndash;)/g, '-')
                   .replace(/(&amp;)/g, `&`)}
-              </Text>
+              </Text> */}
             </View>
           </View>
         </ScrollView>

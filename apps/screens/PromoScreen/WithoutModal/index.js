@@ -7,6 +7,7 @@ import {
   Image,
   ActivityIndicator,
   Dimensions,
+  useWindowDimensions,
 } from 'react-native';
 import React, {useState} from 'react';
 import styles from './styles';
@@ -16,8 +17,11 @@ import {useTranslation} from 'react-i18next';
 import moment from 'moment';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import ReactNativeBlobUtil from 'react-native-blob-util';
+import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
 const PromoWithoutModal = props => {
   const {navigation} = props;
+  const systemFonts = [...defaultSystemFonts, global.fontRegular];
+  const {width} = useWindowDimensions().width;
   //   const {onPress, datas, visibleMod, icon, ...attrs} = props;
   //   console.log('attrs ?', attrs);
   //   console.log('datas nya', datas);
@@ -26,6 +30,7 @@ const PromoWithoutModal = props => {
   //   console.log('visiblemodaldifeature', visibleModal);
   const {t} = useTranslation();
   const [detailPromo, setDetailPromo] = useState(props.route.params.datas);
+
   const [dataImage, setDataImage] = useState([]);
   const [showImage, setShowImage] = useState(false);
   console.log('detil prmo', detailPromo);
@@ -150,7 +155,20 @@ const PromoWithoutModal = props => {
               </TouchableOpacity>
             </View>
             <View style={{marginVertical: 20}}>
-              <Text
+              <RenderHtml
+                contentWidth={width}
+                source={{html: detailPromo.promo_descs}}
+                systemFonts={systemFonts}
+                tagsStyles={{
+                  p: {
+                    color: BaseColor.corn70,
+                    fontSize: 12,
+                    fontFamily: Fonts.type.LatoBold,
+                    textAlign: 'justify',
+                  },
+                }}
+              />
+              {/* <Text
                 numberOfLines={0} // ini wajib ada kalo menggunakan Text dari component
                 style={{textAlign: 'justify', fontFamily: Fonts.type.Lato}}>
                 {detailPromo.promo_descs
@@ -158,7 +176,24 @@ const PromoWithoutModal = props => {
                   .replace(/(&nbsp;)/g, ' ')
                   .replace(/(&ndash;)/g, '-')
                   .replace(/(&amp;)/g, `&`)}
-              </Text>
+              </Text> */}
+            </View>
+            <Text>Syarat dan Ketentuan</Text>
+
+            <View style={{marginVertical: 20}}>
+              <RenderHtml
+                contentWidth={width}
+                source={{html: detailPromo.tnc_descs}}
+                systemFonts={systemFonts}
+                tagsStyles={{
+                  p: {
+                    color: BaseColor.corn70,
+                    fontSize: 12,
+                    fontFamily: Fonts.type.LatoBold,
+                    textAlign: 'justify',
+                  },
+                }}
+              />
             </View>
           </View>
         </ScrollView>

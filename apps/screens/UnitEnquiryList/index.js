@@ -47,6 +47,7 @@ const UnitEnquiryList = props => {
   const lot_type = paramsData.lot_type;
   const entity_cd = paramsData.entity_cd;
   const project_no = paramsData.project_no;
+  const property_cd = paramsData.property_cd;
   const [showModal, setShowModal] = useState(false);
   const [project_name, setProjectName] = useState(
     props.route.params.project_name,
@@ -90,7 +91,8 @@ const UnitEnquiryList = props => {
         },
         // params: {approval_user: user.userIDToken.UserId},
         params: {
-          lot_type: lot_type,
+          // lot_type: lot_type,
+          property_cd: property_cd,
           entity_cd: entity_cd,
           project_no: project_no,
         },
@@ -172,7 +174,7 @@ const UnitEnquiryList = props => {
       style={[BaseStyle.safeAreaView, {backgroundColor: BaseColor.whiteColor}]}>
       <Header
         // title={t('unit_enquiry_list')}
-        title={paramsData.descs}
+        title={paramsData.property_cd}
         renderLeft={() => {
           return (
             <Icon

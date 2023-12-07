@@ -26,6 +26,7 @@
     "@react-navigation/stack": "^6.3.17",
     "axios": "^1.4.0",
     "deprecated-react-native-prop-types": "^4.2.1",
+    "entities": "^4.5.0",
     "i18next": "^23.4.4",
     "moment": "^2.29.4",
     "node-fetch": "^2.6.1",

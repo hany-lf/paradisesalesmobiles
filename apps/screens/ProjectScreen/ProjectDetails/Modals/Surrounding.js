@@ -8,6 +8,7 @@ import {
   Image,
   ActivityIndicator,
   Dimensions,
+  useWindowDimensions,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import styles from './styles';
@@ -16,8 +17,12 @@ import {BaseStyle, Fonts, BaseColor} from '@config';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import {useIsFocused} from '@react-navigation/native';
+import entities from 'entities';
+import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
 const Surrounding = props => {
   const {onPress, datas, icon, ...attrs} = props;
+  const systemFonts = [...defaultSystemFonts, global.fontRegular];
+  const {width} = useWindowDimensions().width;
   console.log('attrs ?', attrs);
   console.log('datas nya', datas);
 
@@ -108,6 +113,14 @@ const Surrounding = props => {
         );
       });
   };
+
+  // Fungsi untuk memeriksa apakah tag <a> ada dalam teks HTML
+  const hasATag = html => {
+    // Decode HTML entities dan hapus tag <a> dari teks
+    const decodedText = entities.decodeHTML(html);
+    return decodedText.includes('<a');
+  };
+
   return (
     <ScrollView>
       <Modal {...attrs} animationType="slide" transparent={true}>
@@ -164,25 +177,74 @@ const Surrounding = props => {
                   <View key={indexType} style={{marginBottom: 10}}>
                     <View
                       style={[styles.badgeSurrounding, {marginVertical: 5}]}>
-                      <Text style={styles.text}>
-                        {itemType == 'I'
-                          ? 'Infrastructure'
-                          : itemType == 'S'
-                          ? 'School'
-                          : itemType == 'H'
-                          ? 'Hospital'
-                          : itemType == 'O'
-                          ? 'Shopping'
-                          : '.'}
-                      </Text>
+                      <Icon
+                        name={
+                          itemType == 'I'
+                            ? 'bus'
+                            : itemType == 'S'
+                            ? 'school'
+                            : itemType == 'H'
+                            ? 'hospital'
+                            : itemType == 'O'
+                            ? 'store'
+                            : 'time'
+                        }
+                        size={16}
+                        color={BaseColor.corn70}
+                        style={{margin: 5}}></Icon>
+
+                      <View
+                        style={{
+                          borderBottomColor: BaseColor.corn70,
+                          borderBottomWidth: 1,
+                          borderStyle: 'solid',
+                        }}>
+                        <Text style={styles.textBold}>
+                          {itemType == 'I'
+                            ? 'Infrastructure'
+                            : itemType == 'S'
+                            ? 'School'
+                            : itemType == 'H'
+                            ? 'Hospital'
+                            : itemType == 'O'
+                            ? 'Shopping'
+                            : '.'}
+                        </Text>
+                      </View>
                     </View>
                     {datas.map((item, index) => (
                       <View style={{marginTop: 0}} key={index}>
                         {itemType === item.amenities_type ? (
-                          <Text style={[styles.text, {marginLeft: 20}]}>
-                            {item.amenities_info.replace(/(<([^>]+)>)/gi, '')}
-                          </Text>
-                        ) : null}
+                          <RenderHtml
+                            contentWidth={width}
+                            source={{html: item.amenities_info}}
+                            systemFonts={systemFonts}
+                            tagsStyles={{
+                              p: {
+                                color: BaseColor.corn70,
+                                fontSize: 12,
+                                fontFamily: Fonts.type.LatoBold,
+                                textAlign: 'justify',
+                              },
+                            }}
+                          />
+                        ) : // <Text style={[styles.text, {marginLeft: 20}]}>
+                        //   {hasATag(item.amenities_info)}
+                        //   {/* {item.amenities_info.replace(
+                        //     /<(?!a\s*\/?)[^>]+>/g,
+                        //     '',
+                        //   )} */}
+                        //   {/* {item.amenities_info
+                        //     // .replace(/(<([^>]+)>)/gi, '')
+                        //     .replace(
+                        //       /<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim,
+                        //       '',
+                        //     )
+                        //     .replace(/(&nbsp;)/g, ' ')
+                        //     .replace(/(&ndash;)/g, '-')
+                        //     .replace(/(&amp;)/g, `&`)} */}
+                        // </Text>
+                        null}
                       </View>
                     ))}
                   </View>

@@ -7,6 +7,7 @@ import {
   ScrollView,
   Image,
   ActivityIndicator,
+  useWindowDimensions,
 } from 'react-native';
 import React, {useState} from 'react';
 import styles from './styles';
@@ -16,10 +17,12 @@ import {useTranslation} from 'react-i18next';
 import moment from 'moment';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import ReactNativeBlobUtil from 'react-native-blob-util';
-
+import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
 const NewsModal = props => {
   const {t} = useTranslation();
   const {onPress, datas, visibleMod, icon, ...attrs} = props;
+  const systemFonts = [...defaultSystemFonts, global.fontRegular];
+  const {width} = useWindowDimensions().width;
   console.log('attrs ?', attrs);
   console.log('datas nya', datas);
   console.log('visiblemodal', visibleMod);
@@ -99,6 +102,7 @@ const NewsModal = props => {
               backgroundColor: BaseColor.whiteColor,
               borderTopRightRadius: 25,
               borderTopLeftRadius: 25,
+              paddingBottom: 40,
             },
           ]}>
           <View>
@@ -177,7 +181,20 @@ const NewsModal = props => {
                 </View>
 
                 <View style={{marginVertical: 20}}>
-                  <Text
+                  <RenderHtml
+                    contentWidth={width}
+                    source={{html: datas.news_descs}}
+                    systemFonts={systemFonts}
+                    tagsStyles={{
+                      p: {
+                        color: BaseColor.corn70,
+                        fontSize: 12,
+                        fontFamily: Fonts.type.LatoBold,
+                        textAlign: 'justify',
+                      },
+                    }}
+                  />
+                  {/* <Text
                     style={{
                       textAlign: 'justify',
                       fontFamily: Fonts.type.Lato,
@@ -189,7 +206,7 @@ const NewsModal = props => {
                       .replace(/(&nbsp;)/g, ' ')
                       .replace(/(&ndash;)/g, '-')
                       .replace(/(&amp;)/g, `&`)}
-                  </Text>
+                  </Text> */}
                 </View>
               </View>
               <Modal visible={showImage} transparent={true}>

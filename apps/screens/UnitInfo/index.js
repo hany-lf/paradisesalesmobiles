@@ -206,7 +206,7 @@ const UnitInfo = props => {
                     fontFamily: Fonts.type.Lato,
                     color: BaseColor.corn70,
                   }}>
-                  {paramsData.qty_room} Bedroom
+                  {paramsData.qty_bedroom} Bedroom
                 </Text>
               </View>
               <View
@@ -225,7 +225,7 @@ const UnitInfo = props => {
                     fontFamily: Fonts.type.Lato,
                     color: BaseColor.corn70,
                   }}>
-                  {paramsData.qty_bath} Bathroom
+                  {paramsData.qty_bathroom} Bathroom
                 </Text>
               </View>
             </View>
@@ -365,7 +365,7 @@ const UnitInfo = props => {
                 marginVertical: 5,
               }}>
               <Icon
-                style={{marginRight: 15}}
+                style={{marginRight: 10}}
                 name={'bed'}
                 size={13}
                 color={BaseColor.corn70}></Icon>
@@ -375,7 +375,7 @@ const UnitInfo = props => {
                   fontFamily: Fonts.type.Lato,
                   color: BaseColor.corn70,
                 }}>
-                1 Bedroom
+                {paramsData.qty_bedroom} Bedroom
               </Text>
             </View>
             <View
@@ -395,7 +395,7 @@ const UnitInfo = props => {
                   fontFamily: Fonts.type.Lato,
                   color: BaseColor.corn70,
                 }}>
-                1 Bathroom
+                {paramsData.qty_bathroom} Bathroom
               </Text>
             </View>
             <View

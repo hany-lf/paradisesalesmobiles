@@ -257,7 +257,7 @@ const UnitEnquiry = props => {
                     <View style={{marginLeft: 20}}>
                       <View>
                         <Text style={{fontFamily: Fonts.type.LatoBold}}>
-                          {item.descs}
+                          {item.property_cd}
                         </Text>
                       </View>
 
@@ -342,7 +342,7 @@ const UnitEnquiry = props => {
                             fontFamily: Fonts.type.Lato,
                             color: BaseColor.corn50,
                           }}>
-                          {item.qty_bath} bathroom
+                          {item.qty_bathroom} bathroom
                         </Text>
                       </View>
                       <View
@@ -362,7 +362,7 @@ const UnitEnquiry = props => {
                             fontFamily: Fonts.type.Lato,
                             color: BaseColor.corn50,
                           }}>
-                          {item.qty_room} bedroom
+                          {item.qty_bedroom} bedroom
                         </Text>
                       </View>
                       {/* <View>
