@@ -1,12 +1,13 @@
 import {Text, SafeAreaView, Header, Icon} from '@components';
 import {BaseStyle, BaseColor, Fonts} from '../../config';
 import {useTranslation} from 'react-i18next';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   View,
   TouchableOpacity,
   FlatList,
   useWindowDimensions,
+  RefreshControl,
 } from 'react-native';
 import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
 // import data_about from './data_aboutus.json';
@@ -25,6 +26,7 @@ const AboutUs = props => {
   const user = useSelector(state => getUser(state));
   // console.log('descs', data_about.data_about[0].descs);
   const [dataAbout, setDataAbout] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
   //   const source = {
   //     // html: data_about.data_about[0].descs,
   //     html: data_about.data_about,
@@ -35,7 +37,13 @@ const AboutUs = props => {
   useEffect(() => {
     getDataAbout();
   }, []);
-
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getDataAbout();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
   const getDataAbout = () => {
     // const entity_cd = paramsData.entity_cd;
     // const project_no = paramsData.project_no;
@@ -71,25 +79,28 @@ const AboutUs = props => {
     <SafeAreaView
       edges={['right', 'top', 'left']}
       style={[BaseStyle.safeAreaView, {backgroundColor: BaseColor.whiteColor}]}>
-      <Header
-        title={t('about_us')}
-        renderLeft={() => {
-          return (
-            <Icon
-              // name="angle-left"
-              name="arrow-left"
-              size={18}
-              color={BaseColor.corn70}
-              enableRTL={true}
-            />
-          );
-        }}
-        style={{height: 80}}
-        onPressLeft={() => {
-          navigation.goBack();
-        }}
-      />
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+        <Header
+          title={t('about_us')}
+          renderLeft={() => {
+            return (
+              <Icon
+                // name="angle-left"
+                name="arrow-left"
+                size={18}
+                color={BaseColor.corn70}
+                enableRTL={true}
+              />
+            );
+          }}
+          style={{height: 80}}
+          onPressLeft={() => {
+            navigation.goBack();
+          }}
+        />
         <View style={{marginHorizontal: 20, flex: 1}}>
           {dataAbout.map((item, index) => {
             console.log('item source', item.about_descs);

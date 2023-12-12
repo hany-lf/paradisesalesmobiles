@@ -16,9 +16,10 @@ import {
   useWindowDimensions,
   Alert,
   Linking,
+  RefreshControl,
 } from 'react-native';
 import RenderHtml from 'react-native-render-html';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Modal} from 'react-native';
 
@@ -50,6 +51,7 @@ const UnitEnquiry = props => {
   const [countUnitAvailable, setCountUnitAvailable] = useState([]);
   const [countUnitNotAvailable, setCountUnitNotAvailable] = useState([]);
   const [countUnitBooked, setCountUnitBooked] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -139,6 +141,15 @@ const UnitEnquiry = props => {
 
   const sendReq_ = () => {};
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getData_LotType();
+    getCountUnit();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
+
   return (
     <SafeAreaView
       edges={['right', 'top', 'left']}
@@ -161,7 +172,10 @@ const UnitEnquiry = props => {
           navigation.goBack();
         }}
       />
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <View
           //   key={index}
           // style={styles.item}

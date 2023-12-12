@@ -118,11 +118,18 @@ export default StyleSheet.create({
     marginBottom: 15,
     textAlign: 'center',
   },
+  header: {
+    backgroundColor: '#000',
+    // marginLeft: 20,
+    paddingLeft: 20,
+    // top: 40,
+    width: '100%',
+    zIndex: 9999,
+  },
   badgeSurrounding: {
     flexDirection: 'row',
     width: '40%',
-    padding: 10,
-
+    // paddingLeft: 10,
     //   height: 20,
     // backgroundColor: BaseColor.redColor,
     // borderBottomColor: BaseColor.corn50,
@@ -131,7 +138,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     borderRadius: 15,
     // marginHorizontal: 15,
-    marginBottom: 15,
+    marginBottom: 0,
     // marginVertical: 20,
   },
   shadowimageSurrounding: {

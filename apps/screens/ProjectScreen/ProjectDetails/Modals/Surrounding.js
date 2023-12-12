@@ -23,6 +23,7 @@ const Surrounding = props => {
   const {onPress, datas, icon, ...attrs} = props;
   const systemFonts = [...defaultSystemFonts, global.fontRegular];
   const {width} = useWindowDimensions().width;
+  const {widthRender} = useWindowDimensions();
   console.log('attrs ?', attrs);
   console.log('datas nya', datas);
 
@@ -114,16 +115,9 @@ const Surrounding = props => {
       });
   };
 
-  // Fungsi untuk memeriksa apakah tag <a> ada dalam teks HTML
-  const hasATag = html => {
-    // Decode HTML entities dan hapus tag <a> dari teks
-    const decodedText = entities.decodeHTML(html);
-    return decodedText.includes('<a');
-  };
-
   return (
     <ScrollView>
-      <Modal {...attrs} animationType="slide" transparent={true}>
+      <Modal {...attrs} animationType="slide" transparent={false}>
         <View
           style={[
             styles.centeredView,
@@ -172,7 +166,7 @@ const Surrounding = props => {
                 marginTop: 10,
                 // backgroundColor: 'yellow',
               }}>
-              <View style={{marginBottom: 50}}>
+              <View style={{marginBottom: 10, marginLeft: 15}}>
                 {setDataFilter.map((itemType, indexType) => (
                   <View key={indexType} style={{marginBottom: 10}}>
                     <View
@@ -201,13 +195,13 @@ const Surrounding = props => {
                         }}>
                         <Text style={styles.textBold}>
                           {itemType == 'I'
-                            ? 'Infrastructure'
+                            ? 'INFRASTRUCTURE'
                             : itemType == 'S'
-                            ? 'School'
+                            ? 'SCHOOL'
                             : itemType == 'H'
-                            ? 'Hospital'
+                            ? 'HOSPITAL'
                             : itemType == 'O'
-                            ? 'Shopping'
+                            ? 'SHOPPING'
                             : '.'}
                         </Text>
                       </View>
@@ -216,7 +210,7 @@ const Surrounding = props => {
                       <View style={{marginTop: 0}} key={index}>
                         {itemType === item.amenities_type ? (
                           <RenderHtml
-                            contentWidth={width}
+                            contentWidth={widthRender}
                             source={{html: item.amenities_info}}
                             systemFonts={systemFonts}
                             tagsStyles={{

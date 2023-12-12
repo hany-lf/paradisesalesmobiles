@@ -12315,6 +12315,11 @@ react-native-image-zoom-viewer@^3.0.1:
   dependencies:
     react-native-image-pan-zoom "^2.1.12"
 
+react-native-images-preview@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-images-preview/-/react-native-images-preview-0.0.1.tgz#5d446547a0ec6a5c5400c88c8fe2301b06829f71"
+  integrity sha512-OQwjXyOrNiYYR5XeQ64s7cvQI6QS7/+XsWMchhGDxi7bE8QEmAyUc02+60Ity6sQpC0YNFLRzPCIjWtUJFlVZw==
+
 react-native-maps@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-1.8.0.tgz#1f2471dec6f406725d22f2545f326c6fb6d9abf9"

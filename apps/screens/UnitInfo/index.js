@@ -8,9 +8,10 @@ import {
   Modal,
   ActivityIndicator,
   Animated,
+  Platform,
 } from 'react-native';
 import styles from './styles';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {BaseStyle, Fonts, BaseColor} from '@config';
 import {useTranslation} from 'react-i18next';
 import React, {useEffect, useState, useCallback, useRef} from 'react';
@@ -35,6 +36,7 @@ const UnitInfo = props => {
   const [showImage, setShowImage] = useState(false);
   let [toggled, setToggled] = useState(false);
   const height = useRef(new Animated.Value(1)).current;
+  const insets = useSafeAreaInsets();
 
   console.log('params data untuk unit info', paramsData);
   console.log('items data untuk unit info', itemsData);
@@ -112,6 +114,23 @@ const UnitInfo = props => {
   const dataDummyDetails =
     'Lokasi terbaik, berada di Jantung Jakarta Selatan, di Perempatan Pangeran Antasari dan TB Simatupang. Akses mudah, dengan Akses JORR 1 dan 2, sehingga mudah menuju ke berbagai area sekitar lainnya. Semua yang kamu butuhkan tersedia, Fitness Center, kolam renang, serta fasilitas untuk anak-anak seperti sekolah, area playground dalam satu area tempat tinggal. Konsultasi kelas dunia, dalam merancang dan merencanakan produknya INPP berorientasi pada pendekatan yang berfokus pada konsumen. yang dihasilkan harus sesuai kebutuhan, Kebiasaan, dan kapabilitas konsumen. Tipe unit smart dan modern, selalu konsisten dalam mengimplementasikan startegi bisnis yang kreatif dan inovatifuntuk menghasilkan Iconic Lifestyle Destination.';
 
+  const renderHeader = () => (
+    <View
+      style={[
+        styles.header,
+        Platform.OS === 'ios' ? {paddingTop: insets.top} : {paddingTop: 10},
+      ]}>
+      <TouchableOpacity onPress={() => setShowImage(false)}>
+        <Icon
+          name={'times'}
+          color={BaseColor.whiteColor}
+          style={{
+            fontSize: 16,
+          }}></Icon>
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
     <SafeAreaView
       edges={['right', 'top', 'left']}
@@ -171,7 +190,7 @@ const UnitInfo = props => {
                 fontFamily: Fonts.type.LatoBold,
                 color: BaseColor.corn70,
               }}>
-              {paramsData.descs}
+              {paramsData.property_cd}
             </Text>
 
             <Text
@@ -240,7 +259,9 @@ const UnitInfo = props => {
                 Semi gross
               </Text>
             </View>
-            <Button
+
+            {/* ----- di comment dulu karena data nya masih bingung ngambil yg mana  */}
+            {/* <Button
               onPress={() => setShowPromo(true)}
               style={{
                 backgroundColor: BaseColor.corn50,
@@ -256,7 +277,7 @@ const UnitInfo = props => {
                 }}>
                 See gallery
               </Text>
-            </Button>
+            </Button> */}
           </View>
         </View>
 
@@ -490,7 +511,7 @@ const UnitInfo = props => {
             marginVertical: 20,
           }}></View>
 
-        <View>
+        {/* <View>
           <Text
             style={{
               fontFamily: Fonts.type.LatoBold,
@@ -502,10 +523,10 @@ const UnitInfo = props => {
             }}>
             Unit Plan
           </Text>
-          {/* <TouchableOpacity
+          <TouchableOpacity
             onPress={() =>
               zoomImage(require('@assets/images/floorplan/STD-1.jpg'))
-            }> */}
+            }>
           <Image
             style={{
               alignSelf: 'center',
@@ -514,46 +535,13 @@ const UnitInfo = props => {
               height: 200,
             }}
             source={require('@assets/images/floorplan/STD-1.jpg')}></Image>
-          {/* </TouchableOpacity> */}
-        </View>
+          </TouchableOpacity>
+        </View> */}
       </ScrollView>
-      <Modal visible={showImage} transparent={true}>
-        {/* <TouchableOpacity onPress={() => setShowImage(false)}>
-          <Icon
-            name={'times'}
-            color={BaseColor.blackColor}
-            style={{
-              fontSize: 14,
-            }}></Icon>
-        </TouchableOpacity> */}
+      <Modal visible={showImage} transparent={true} animationType="slide">
+        {renderHeader()}
         <ImageViewer
-          // onSave={dataImage}
-          // onSaveToCamera={() => alert('halo')}
-          loadingRender={() => (
-            <ActivityIndicator
-              style={{
-                justifyContent: 'center',
-                alignSelf: 'center',
-              }}
-              size="large"
-              color="#FFFFFF"
-            />
-          )}
           useNativeDriver={true}
-          renderHeader={index => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => setShowImage(false)}
-              style={{backgroundColor: 'black', marginTop: 20, marginLeft: 20}}>
-              <Icon
-                name={'times'}
-                color={BaseColor.whiteColor}
-                style={{
-                  fontSize: 16,
-                }}></Icon>
-            </TouchableOpacity>
-          )}
-          // saveToLocalByLongPress={true}
           imageUrls={dataImage}
           enableSwipeDown={true}
           onSwipeDown={() => setShowImage(false)}
@@ -564,6 +552,7 @@ const UnitInfo = props => {
           }}
         />
       </Modal>
+
       <UnitInfoModal
         onRequestClose={() => {
           setShowPromo(false);

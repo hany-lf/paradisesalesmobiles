@@ -12,6 +12,7 @@ import {
   Modal,
   useWindowDimensions,
   Linking,
+  RefreshControl,
 } from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -37,6 +38,8 @@ import {useSelector, useDispatch, connect} from 'react-redux';
 import getUser from '../../../selectors/UserSelectors';
 import MapView from 'react-native-maps';
 import {Marker} from 'react-native-maps';
+import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
+
 const ProjectDetails = props => {
   console.log('props dari project', props);
   const {t} = useTranslation();
@@ -66,9 +69,14 @@ const ProjectDetails = props => {
   const [downloadProject, setDownloadProject] = useState([]);
   const [projectAddress, setProjectAddress] = useState([]);
   const {width} = useWindowDimensions().width;
+  const {widthRender} = useWindowDimensions();
+  const systemFonts = [...defaultSystemFonts, global.fontRegular];
+
   const [itemsOverview, setItemsOverview] = useState([]);
   const [webViewKey, setwebViewKey] = useState(1);
   const [regionChange, setRegion] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
+
   const onStateChange = useCallback(state => {
     if (state === 'ended') {
       setPlaying(false);
@@ -159,11 +167,22 @@ const ProjectDetails = props => {
         </body>
     </html>`;
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getProjectDetails();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
+
   return (
     <SafeAreaView
       edges={['right', 'top', 'left']}
       style={[BaseStyle.safeAreaView, {backgroundColor: BaseColor.whiteColor}]}>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <ImageBackground
           source={{uri: paramsDetail.picture_url}}
           // source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
@@ -271,7 +290,24 @@ const ProjectDetails = props => {
 
               // </View>
               <View key={index}>
-                <Text
+                <RenderHtml
+                  key={index}
+                  contentWidth={widthRender}
+                  source={{html: item.overview_info}}
+                  systemFonts={systemFonts}
+                  tagsStyles={{
+                    p: {
+                      color: BaseColor.corn70,
+                      fontSize: 12,
+                      fontFamily: Fonts.type.LatoBold,
+                      textAlign: 'justify',
+                    },
+                    img: {
+                      paddingVertical: 20,
+                    },
+                  }}
+                />
+                {/* <Text
                   style={{
                     fontSize: 14,
                     fontFamily: Fonts.type.Lato,
@@ -283,7 +319,7 @@ const ProjectDetails = props => {
                     .replace(/(&nbsp;)/g, ' ')
                     .replace(/(&ndash;)/g, '-')
                     .replace(/(&amp;)/g, `&`)}
-                </Text>
+                </Text> */}
                 <TouchableOpacity onPress={() => showModalOverview(item)}>
                   <View
                     style={{
@@ -359,7 +395,7 @@ const ProjectDetails = props => {
               nameicon={'images'}></ButtonMenuHome>
             <ButtonMenuHome
               onPress={() => setVisibleFloorplan(true)}
-              title={'Floor Plan'}
+              title={'Unit Plan'}
               nameicon={'houzz'}></ButtonMenuHome>
             <ButtonMenuHome
               onPress={() => setVisibleSurrounding(true)}
@@ -639,7 +675,23 @@ const ProjectDetails = props => {
               {/* <View style={styles.modalView}> */}
               {itemsOverview.length != 0 ? (
                 <View style={{marginHorizontal: 30, marginVertical: 20}}>
-                  <Text
+                  <RenderHtml
+                    contentWidth={widthRender}
+                    source={{html: itemsOverview.overview_info}}
+                    systemFonts={systemFonts}
+                    tagsStyles={{
+                      p: {
+                        color: BaseColor.corn70,
+                        fontSize: 12,
+                        fontFamily: Fonts.type.LatoBold,
+                        textAlign: 'justify',
+                      },
+                      img: {
+                        paddingVertical: 20,
+                      },
+                    }}
+                  />
+                  {/* <Text
                     numberOfLines={0}
                     style={{
                       textAlign: 'justify',
@@ -650,7 +702,7 @@ const ProjectDetails = props => {
                       .replace(/(&nbsp;)/g, ' ')
                       .replace(/(&ndash;)/g, '-')
                       .replace(/(&amp;)/g, `&`)}
-                  </Text>
+                  </Text> */}
                   {/* <Text style={styles.modalText}>Hello World!</Text>
                 <Button
                   style={[styles.button, styles.buttonClose]}

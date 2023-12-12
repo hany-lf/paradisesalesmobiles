@@ -35,7 +35,10 @@ const FAQ = props => {
           data={dummyFAQ}
           renderItem={({item, index}) => {
             return (
-              <TouchableOpacity onPress={() => alert(item.title)}>
+              <TouchableOpacity
+                disabled={true}
+                // onPress={() => alert(item.title)}
+              >
                 <View
                   key={index}
                   style={{

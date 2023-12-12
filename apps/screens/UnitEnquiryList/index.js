@@ -1,12 +1,4 @@
-import {
-  Text,
-  SafeAreaView,
-  Header,
-  Icon,
-  Image,
-  Button,
-  TextInput,
-} from '@components';
+import {Text, Header, Icon, Image, Button, TextInput} from '@components';
 import {BaseStyle, BaseColor, Fonts} from '../../config';
 import {useTranslation} from 'react-i18next';
 import {
@@ -17,9 +9,11 @@ import {
   Alert,
   Linking,
   ActivityIndicator,
+  RefreshControl,
+  Platform,
 } from 'react-native';
 import RenderHtml from 'react-native-render-html';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Modal} from 'react-native';
 
@@ -34,6 +28,7 @@ import axios from 'axios';
 import {Dropdown} from 'react-native-element-dropdown';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import ReactNativeBlobUtil from 'react-native-blob-util';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const UnitEnquiryList = props => {
   const {t} = useTranslation();
@@ -63,6 +58,8 @@ const UnitEnquiryList = props => {
   const [levelNo, setLevelNo] = useState([]);
   const [dataImage, setDataImage] = useState([]);
   const [showImage, setShowImage] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const insets = useSafeAreaInsets();
   // const renderLabel = () => {
   //   if (value || isFocus) {
   //     return (
@@ -168,6 +165,31 @@ const UnitEnquiryList = props => {
       });
   };
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getDataListEnquiry();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
+
+  const renderHeader = () => (
+    <View
+      style={[
+        styles.header,
+        Platform.OS === 'ios' ? {paddingTop: insets.top} : {paddingTop: 10},
+      ]}>
+      <TouchableOpacity onPress={() => setShowImage(false)}>
+        <Icon
+          name={'times'}
+          color={BaseColor.whiteColor}
+          style={{
+            fontSize: 16,
+          }}></Icon>
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
     <SafeAreaView
       edges={['right', 'top', 'left']}
@@ -191,7 +213,10 @@ const UnitEnquiryList = props => {
           navigation.goBack();
         }}
       />
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         {/* --- header atas gambar --- */}
         <TouchableOpacity onPress={() => zoomImage(paramsData.picture_url)}>
           <View
@@ -222,17 +247,61 @@ const UnitEnquiryList = props => {
               <View
                 style={{
                   flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginRight: 15,
+                  justifyContent: 'space-around',
+                  // marginRight: 15,
+                  marginBottom: 10,
+                  marginTop: 10,
                 }}>
-                <View>
-                  <View
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginVertical: 2,
+                    // marginTop: 10,
+                  }}>
+                  <Icon
+                    style={{marginRight: 5}}
+                    name={'shower'}
+                    size={14}
+                    color={BaseColor.corn50}></Icon>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontFamily: Fonts.type.Lato,
+                      color: BaseColor.corn50,
+                    }}>
+                    {paramsData.qty_bathroom} bathroom
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginVertical: 2,
+                  }}>
+                  <Icon
+                    style={{marginRight: 5}}
+                    name={'bed'}
+                    size={14}
+                    color={BaseColor.corn50}></Icon>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontFamily: Fonts.type.Lato,
+                      color: BaseColor.corn50,
+                    }}>
+                    {paramsData.qty_bedroom} bedroom
+                  </Text>
+                </View>
+                {/* ------ DIBAWAH INI SCRIPT UNTUK COUNT UNIT YG BERWARNA MERAH KUNING HIJAU DAN ADA BUTTON DETAIL JIKA DIPERLUKAN */}
+
+                {/* <View
                     style={{
                       flexDirection: 'row',
                       marginTop: 15,
-                      marginHorizontal: 15,
-                    }}>
-                    {/* <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      // marginHorizontal: 15,
+                    }}> */}
+                {/* <View style={{flexDirection: 'row', alignItems: 'center'}}>
                       <Text
                         style={{
                           fontFamily: Fonts.type.Lato,
@@ -282,9 +351,10 @@ const UnitEnquiryList = props => {
                           marginHorizontal: 5,
                         }}></View>
                     </View> */}
-                  </View>
-                  <View style={{marginHorizontal: 15, marginVertical: 5}}>
-                    {/* <Text
+
+                {/* </View> */}
+                {/* <View style={{marginHorizontal: 15, marginVertical: 5}}> */}
+                {/* <Text
                       style={{
                         fontFamily: Fonts.type.Lato,
                         color: BaseColor.corn50,
@@ -292,29 +362,28 @@ const UnitEnquiryList = props => {
                       }}>
                       
                     </Text> */}
-                  </View>
-                </View>
+                {/* </View> */}
 
                 {/* <Button
-                onPress={() => setShowModal(true)}
-                style={{
-                  backgroundColor: BaseColor.corn50,
-                  marginLeft: 20,
-                  paddingHorizontal: 40,
-                  height: 40,
-                  marginTop: 15,
-                  borderRadius: 15,
-                }}>
-                <Text
+                  onPress={() => setShowModal(true)}
                   style={{
-                    color: BaseColor.whiteColor,
-                    fontSize: 12,
-
-                    fontFamily: Fonts.type.Lato,
+                    backgroundColor: BaseColor.corn50,
+                    marginLeft: 20,
+                    paddingHorizontal: 40,
+                    height: 40,
+                    marginTop: 15,
+                    borderRadius: 15,
                   }}>
-                  See details
-                </Text>
-              </Button> */}
+                  <Text
+                    style={{
+                      color: BaseColor.whiteColor,
+                      fontSize: 12,
+
+                      fontFamily: Fonts.type.Lato,
+                    }}>
+                    See details
+                  </Text>
+                </Button> */}
               </View>
             </View>
           </View>
@@ -568,63 +637,12 @@ const UnitEnquiryList = props => {
           </View>
         </View>
       </Modal>
-      <Modal visible={showImage} transparent={true}>
-        {/* <TouchableOpacity onPress={() => setShowImage(false)}>
-          <Icon
-            name={'times'}
-            color={BaseColor.blackColor}
-            style={{
-              fontSize: 14,
-            }}></Icon>
-        </TouchableOpacity> */}
+
+      <Modal visible={showImage} transparent={true} animationType="slide">
+        {renderHeader()}
+
         <ImageViewer
-          // onSave={dataImage}
-          // onSaveToCamera={() => alert('halo')}
-          loadingRender={() => (
-            <ActivityIndicator
-              style={{
-                justifyContent: 'center',
-                alignSelf: 'center',
-              }}
-              size="large"
-              color="#FFFFFF"
-            />
-          )}
           useNativeDriver={true}
-          renderHeader={index => (
-            // <TouchableOpacity
-            //   key={index}
-            //   onPress={() => setShowImage(false)}
-            //   style={{
-            //     backgroundColor: BaseColor.whiteColor,
-            //     top: 10,
-            //     left: 20,
-            //     width: 50,
-            //     borderRadius: 5,
-            //     alignItems: 'center',
-            //   }}>
-            //   <View>
-            //     <Icon
-            //       name={'times'}
-            //       color={BaseColor.corn50}
-            //       style={{
-            //         fontSize: 20,
-            //       }}></Icon>
-            //   </View>
-            // </TouchableOpacity>
-            <TouchableOpacity
-              key={index}
-              onPress={() => setShowImage(false)}
-              style={{backgroundColor: 'black', marginTop: 20, marginLeft: 20}}>
-              <Icon
-                name={'times'}
-                color={BaseColor.whiteColor}
-                style={{
-                  fontSize: 16,
-                }}></Icon>
-            </TouchableOpacity>
-          )}
-          // saveToLocalByLongPress={true}
           imageUrls={dataImage}
           enableSwipeDown={true}
           onSwipeDown={() => setShowImage(false)}

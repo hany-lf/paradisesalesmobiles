@@ -2,6 +2,14 @@ import {StyleSheet} from 'react-native';
 import {BaseColor, Fonts} from '@config';
 
 export default StyleSheet.create({
+  header: {
+    backgroundColor: '#000',
+    // marginLeft: 20,
+    paddingLeft: 20,
+    // top: 40,
+    width: '100%',
+    zIndex: 9999,
+  },
   container: {
     backgroundColor: 'white',
     padding: 16,

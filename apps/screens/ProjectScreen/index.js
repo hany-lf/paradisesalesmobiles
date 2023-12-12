@@ -1,7 +1,13 @@
 import {Text, Header, Icon} from '@components';
 import data_dummy from '../Home/data_dummy.json';
 
-import {View, ScrollView, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  RefreshControl,
+} from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BaseStyle, Fonts, BaseColor} from '@config';
@@ -20,10 +26,17 @@ const ProjectScreen = props => {
   const {t} = useTranslation();
   const user = useSelector(state => getUser(state));
   const [projectData, setProjectData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
     getProject();
   }, []);
-
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getProject();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
   const getProject = () => {
     try {
       const config = {
@@ -74,7 +87,10 @@ const ProjectScreen = props => {
           navigation.goBack();
         }}
       />
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <View style={{marginBottom: 100}}>
           {projectData.map((item, index) => (
             <TouchableOpacity

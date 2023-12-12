@@ -1,12 +1,19 @@
 import {Text, Button, Icon, Image} from '@components';
 // import Image from '../../../../components/Image';
-import {View, TouchableOpacity, Modal, ActivityIndicator} from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Modal,
+  ActivityIndicator,
+  Platform,
+} from 'react-native';
 import React, {useState} from 'react';
 import styles from './styles';
-
+import {useTranslation} from 'react-i18next';
 import {BaseStyle, Fonts, BaseColor} from '@config';
 import {ScrollView} from 'react-native-gesture-handler';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const Floorplan = props => {
   const {onPress, datas, icon, ...attrs} = props;
@@ -14,10 +21,10 @@ const Floorplan = props => {
   console.log('datas nya', datas);
   const images = datas.data_floorplan;
   console.log('imagess flooorplan', images);
-
+  const {t} = useTranslation();
   const [dataImage, setDataImage] = useState([]);
   const [showImage, setShowImage] = useState(false);
-
+  const insets = useSafeAreaInsets();
   const zoomImage = items => {
     console.log('items', items);
 
@@ -72,9 +79,37 @@ const Floorplan = props => {
         );
       });
   };
+
+  const renderHeader = () => (
+    <View
+      style={[
+        styles.header,
+        Platform.OS === 'ios' ? {paddingTop: insets.top} : {paddingTop: 10},
+      ]}>
+      <TouchableOpacity onPress={() => setShowImage(false)}>
+        <Icon
+          name={'times'}
+          color={BaseColor.whiteColor}
+          style={{
+            fontSize: 16,
+          }}></Icon>
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
-    <View>
-      <Modal {...attrs} animationType="slide" transparent={true}>
+    <View
+      style={{
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+      }}>
+      <Modal {...attrs} animationType="slide" transparent={false}>
         <View
           style={[
             styles.centeredView,
@@ -82,6 +117,7 @@ const Floorplan = props => {
               backgroundColor: BaseColor.whiteColor,
               borderTopRightRadius: 25,
               borderTopLeftRadius: 25,
+              paddingBottom: 40,
             },
           ]}>
           <View>
@@ -105,7 +141,7 @@ const Floorplan = props => {
                     color: BaseColor.corn70,
                     fontSize: 16,
                   }}>
-                  Floorplan
+                  {t('plan_project')}
                 </Text>
               </View>
             </View>
@@ -117,112 +153,75 @@ const Floorplan = props => {
                 borderStyle: 'solid',
               }}></View>
             <ScrollView>
-              <View style={{marginHorizontal: 10, marginVertical: 20}}>
-                {datas.map((item, index) => (
-                  <View
-                    style={{marginHorizontal: 10, marginVertical: 10}}
-                    key={index}>
-                    <TouchableOpacity onPress={() => zoomImage(datas)}>
-                      {/* <Text>{item.image}</Text> */}
-                      <Image
-                        source={{uri: item.plan_url}}
-                        // source={require(item.image)}
-                        // source={item.image}
-                        // alt={item.image}
-                        // source={require(`@assets/images/unitgalleries/gallery/PK-Principal-Antasari-Place-16-Sept-2022-1-1-35-scaled.jpg`)}
-                        style={{
-                          width: '100%',
-                          height: 200,
-                          resizeMode: 'contain',
-                          borderRadius: 20,
-                          ...Platform.select({
-                            android: {
-                              elevation: 1,
-                            },
-                            default: {
-                              shadowColor: BaseColor.corn90,
-                              shadowOffset: {height: 0, width: 0},
-                              shadowOpacity: 3,
-                              shadowRadius: 3,
-                            },
-                          }),
-                        }}></Image>
-                    </TouchableOpacity>
-                  </View>
-                ))}
-              </View>
-            </ScrollView>
-            {/* <ScrollView>
-            <View style={{marginHorizontal: 30, marginVertical: 20}}>
-              {datas.map((item, index) => (
-                <View style={{marginHorizontal: 10}} key={index}>
-                  <Text key={index}>{item.plan_url}</Text>
-                  <Image
-                    source={{uri: item.plan_url}}
-                    // source={item.plan_url}
-                    style={{
-                      width: '100%',
-                      height: 400,
-                      resizeMode: 'cover',
-                      // borderRadius: 50,
-                    }}></Image>
+              <View
+                style={[
+                  styles.centeredView,
+                  {
+                    backgroundColor: BaseColor.whiteColor,
+                    borderTopRightRadius: 25,
+                    borderTopLeftRadius: 25,
+                  },
+                ]}>
+                <View>
+                  {datas.map((item, index) => (
+                    <View
+                      style={{
+                        marginHorizontal: 10,
+                        marginVertical: 10,
+                        // backgroundColor: 'yellow',
+                        borderRadius: 10,
+                      }}
+                      key={index}>
+                      <TouchableOpacity onPress={() => zoomImage(datas)}>
+                        {/* <Text>{item.image}</Text> */}
+                        <Image
+                          source={{uri: item.plan_url}}
+                          // source={require(item.image)}
+                          // source={item.image}
+                          // alt={item.image}
+                          // source={require(`@assets/images/unitgalleries/gallery/PK-Principal-Antasari-Place-16-Sept-2022-1-1-35-scaled.jpg`)}
+                          style={{
+                            width: '100%',
+                            height: 200,
+                            resizeMode: 'contain',
+                            borderRadius: 10,
+                            // ...Platform.select({
+                            //   android: {
+                            //     elevation: 1,
+                            //   },
+                            //   default: {
+                            //     shadowColor: BaseColor.corn90,
+                            //     shadowOffset: {height: 0, width: 0},
+                            //     shadowOpacity: 3,
+                            //     shadowRadius: 3,
+                            //   },
+                            // }),
+                          }}></Image>
+                      </TouchableOpacity>
+                    </View>
+                  ))}
                 </View>
-              ))}
-            </View>
-          </ScrollView> */}
+              </View>
+              <Modal
+                visible={showImage}
+                transparent={true}
+                animationType="slide">
+                {renderHeader()}
+                <ImageViewer
+                  useNativeDriver={true}
+                  imageUrls={dataImage}
+                  enableSwipeDown={true}
+                  onSwipeDown={() => setShowImage(false)}
+                  onSave={uri => _saveImages(uri)}
+                  menuContext={{
+                    saveToLocal: 'Save Image',
+                    cancel: 'Cancel',
+                  }}
+                />
+              </Modal>
+            </ScrollView>
           </View>
         </View>
-
-        {/* <Button onPress={() => close()} style={{backgroundColor: 'red'}}>
-        <Text>close</Text>
-      </Button> */}
-      </Modal>
-      <Modal visible={showImage} transparent={true}>
-        {/* <TouchableOpacity onPress={() => setShowImage(false)}>
-          <Icon
-            name={'times'}
-            color={BaseColor.blackColor}
-            style={{
-              fontSize: 14,
-            }}></Icon>
-        </TouchableOpacity> */}
-        <ImageViewer
-          // onSave={dataImage}
-          // onSaveToCamera={() => alert('halo')}
-          loadingRender={() => (
-            <ActivityIndicator
-              style={{
-                justifyContent: 'center',
-                alignSelf: 'center',
-              }}
-              size="large"
-              color="#FFFFFF"
-            />
-          )}
-          useNativeDriver={true}
-          renderHeader={index => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => setShowImage(false)}
-              style={{backgroundColor: 'black', marginTop: 20, marginLeft: 20}}>
-              <Icon
-                name={'times'}
-                color={BaseColor.whiteColor}
-                style={{
-                  fontSize: 16,
-                }}></Icon>
-            </TouchableOpacity>
-          )}
-          // saveToLocalByLongPress={true}
-          imageUrls={dataImage}
-          enableSwipeDown={true}
-          onSwipeDown={() => setShowImage(false)}
-          onSave={uri => _saveImages(uri)}
-          menuContext={{
-            saveToLocal: 'Save Image',
-            cancel: 'Cancel',
-          }}
-        />
       </Modal>
     </View>
   );

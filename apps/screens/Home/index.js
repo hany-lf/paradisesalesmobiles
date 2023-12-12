@@ -226,9 +226,7 @@ const Home = props => {
       axios(config)
         .then(result => {
           const pasing = result.data.Data;
-          const filterdata = pasing.filter(
-            pasing => pasing.status == 'Active' && pasing.banner == 'Y',
-          );
+          const filterdata = pasing.filter(pasing => pasing.status == 'Active');
           console.log('data di promo', filterdata);
           setDataPromo(filterdata);
         })

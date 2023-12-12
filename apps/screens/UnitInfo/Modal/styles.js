@@ -89,6 +89,14 @@ export default StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+  header: {
+    backgroundColor: '#000',
+    // marginLeft: 20,
+    paddingLeft: 20,
+    // top: 40,
+    width: '100%',
+    zIndex: 9999,
+  },
   button: {
     borderRadius: 20,
     padding: 10,

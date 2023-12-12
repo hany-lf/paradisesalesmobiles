@@ -1,10 +1,17 @@
 import {Text, Button, Icon} from '@components';
-import {View, TouchableOpacity, Modal, FlatList} from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Modal,
+  FlatList,
+  useWindowDimensions,
+} from 'react-native';
 import React, {useState} from 'react';
 import styles from './styles';
 import {ButtonMenuHome} from '@components';
 import {BaseStyle, Fonts, BaseColor} from '@config';
 import dummy_feature from './dummy_features.json';
+import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
 
 const Features = props => {
   const {onPress, datas, visibleMod, icon, ...attrs} = props;
@@ -13,7 +20,8 @@ const Features = props => {
   console.log('visiblemodal', visibleMod);
   const [visibleModal, setVisibleModal] = useState(visibleMod);
   console.log('visiblemodaldifeature', visibleModal);
-
+  const systemFonts = [...defaultSystemFonts, global.fontRegular];
+  const {width} = useWindowDimensions().width;
   // const [dataFeatures, setDataFeatures] = useState(dummy_feature.data);
   const [dataFeatures, setDataFeatures] = useState(datas);
 
@@ -22,7 +30,7 @@ const Features = props => {
     setVisibleModal(false);
   };
   return (
-    <Modal {...attrs} animationType="slide" transparent={true}>
+    <Modal {...attrs} animationType="slide" transparent={false}>
       <View
         style={[
           styles.centeredView,
@@ -93,19 +101,38 @@ const Features = props => {
               }}></FlatList> */}
             {datas.map((item, index) => (
               // <Text>{item.feature_info}</Text>
-              <Text
+
+              <RenderHtml
                 key={index}
-                style={{
-                  fontFamily: Fonts.type.Lato,
-                  color: BaseColor.corn70,
-                  fontSize: 12,
-                }}>
-                {item.feature_info
-                  .replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '')
-                  .replace(/(&nbsp;)/g, ' ')
-                  .replace(/(&ndash;)/g, '-')
-                  .replace(/(&amp;)/g, `&`)}
-              </Text>
+                contentWidth={width}
+                source={{html: item.feature_info}}
+                systemFonts={systemFonts}
+                tagsStyles={{
+                  p: {
+                    color: BaseColor.corn70,
+                    fontSize: 12,
+                    fontFamily: Fonts.type.LatoBold,
+                    textAlign: 'justify',
+                  },
+                  img: {
+                    paddingVertical: 20,
+                  },
+                }}
+              />
+
+              // <Text
+              //   key={index}
+              //   style={{
+              //     fontFamily: Fonts.type.Lato,
+              //     color: BaseColor.corn70,
+              //     fontSize: 12,
+              //   }}>
+              //   {item.feature_info
+              //     .replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '')
+              //     .replace(/(&nbsp;)/g, ' ')
+              //     .replace(/(&ndash;)/g, '-')
+              //     .replace(/(&amp;)/g, `&`)}
+              // </Text>
             ))}
           </View>
         </View>

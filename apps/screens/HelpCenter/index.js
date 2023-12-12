@@ -35,7 +35,10 @@ const HelpCenter = props => {
           data={dummy_menu}
           renderItem={({item, index}) => {
             return (
-              <TouchableOpacity onPress={() => alert(item.component)}>
+              <TouchableOpacity
+                disabled={true}
+                // onPress={() => alert(item.component)}
+              >
                 <View
                   key={index}
                   style={{

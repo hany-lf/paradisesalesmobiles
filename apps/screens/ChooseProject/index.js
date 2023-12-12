@@ -1,7 +1,13 @@
 import {Text, Header, Icon} from '@components';
 import data_dummy from '../Home/data_dummy.json';
-import React, {useEffect, useState} from 'react';
-import {View, ScrollView, Image, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState, useCallback} from 'react';
+import {
+  View,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  RefreshControl,
+} from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BaseStyle, Fonts, BaseColor} from '@config';
@@ -23,11 +29,19 @@ const ChooseProject = props => {
   const goToScreen = props.route.params.goTo;
   console.log('goto???', goToScreen);
   const [dataProject, setDataProject] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
     goTo();
     getDataProject();
   }, []);
-
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    goTo();
+    getDataProject();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
   const getDataProject = () => {
     const config = {
       method: 'get',
@@ -81,7 +95,10 @@ const ChooseProject = props => {
           navigation.navigate('HomeScreen');
         }}
       />
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <View style={{marginBottom: 100}}>
           {dataProject.map((item, index) => (
             <TouchableOpacity

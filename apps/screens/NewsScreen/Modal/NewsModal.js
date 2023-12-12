@@ -8,10 +8,11 @@ import {
   Image,
   ActivityIndicator,
   useWindowDimensions,
+  Platform,
 } from 'react-native';
 import React, {useState} from 'react';
 import styles from './styles';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {BaseStyle, Fonts, BaseColor} from '@config';
 import {useTranslation} from 'react-i18next';
 import moment from 'moment';
@@ -30,6 +31,7 @@ const NewsModal = props => {
   console.log('visiblemodaldifeature', visibleModal);
   const [dataImage, setDataImage] = useState([]);
   const [showImage, setShowImage] = useState(false);
+  const insets = useSafeAreaInsets();
 
   const close = () => {
     setVisibleModal(false);
@@ -81,6 +83,23 @@ const NewsModal = props => {
         );
       });
   };
+
+  const renderHeader = () => (
+    <View
+      style={[
+        styles.header,
+        Platform.OS === 'ios' ? {paddingTop: insets.top} : {paddingTop: 10},
+      ]}>
+      <TouchableOpacity onPress={() => setShowImage(false)}>
+        <Icon
+          name={'times'}
+          color={BaseColor.whiteColor}
+          style={{
+            fontSize: 16,
+          }}></Icon>
+      </TouchableOpacity>
+    </View>
+  );
 
   return datas == null ? null : ( // <Text>datas null</Text>
     <View
@@ -210,56 +229,9 @@ const NewsModal = props => {
                 </View>
               </View>
               <Modal visible={showImage} transparent={true}>
-                {/* <TouchableOpacity onPress={() => setShowImage(false)}>
-          <Icon
-            name={'times'}
-            color={BaseColor.blackColor}
-            style={{
-              fontSize: 14,
-            }}></Icon>
-        </TouchableOpacity> */}
+                {renderHeader()}
                 <ImageViewer
-                  // onSave={dataImage}
-                  // onSaveToCamera={() => alert('halo')}
-                  loadingRender={() => (
-                    <ActivityIndicator
-                      style={{
-                        justifyContent: 'center',
-                        alignSelf: 'center',
-                      }}
-                      size="large"
-                      color="#FFFFFF"
-                    />
-                  )}
                   useNativeDriver={true}
-                  // renderHeader={index => (
-                  //   <View style={{marginTop: 50}}>
-                  //     <TouchableOpacity
-                  //       key={index}
-                  //       onPress={() => setShowImage(false)}
-                  //       style={{
-                  //         backgroundColor: 'black',
-                  //         marginTop: 20,
-                  //         marginLeft: 20,
-                  //       }}>
-                  //       <View
-                  //         style={{
-                  //           width: 30,
-                  //           height: 30,
-                  //           alignItems: 'center',
-                  //           justifyContent: 'center',
-                  //         }}>
-                  //         <Icon
-                  //           name={'times'}
-                  //           color={BaseColor.whiteColor}
-                  //           style={{
-                  //             fontSize: 16,
-                  //           }}></Icon>
-                  //       </View>
-                  //     </TouchableOpacity>
-                  //   </View>
-                  // )}
-                  // saveToLocalByLongPress={true}
                   imageUrls={dataImage}
                   enableSwipeDown={true}
                   onSwipeDown={() => setShowImage(false)}
