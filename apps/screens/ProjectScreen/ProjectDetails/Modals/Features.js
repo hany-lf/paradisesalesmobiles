@@ -5,6 +5,7 @@ import {
   Modal,
   FlatList,
   useWindowDimensions,
+  useColorScheme,
 } from 'react-native';
 import React, {useState} from 'react';
 import styles from './styles';
@@ -24,6 +25,7 @@ const Features = props => {
   const {width} = useWindowDimensions().width;
   // const [dataFeatures, setDataFeatures] = useState(dummy_feature.data);
   const [dataFeatures, setDataFeatures] = useState(datas);
+  const isDarkMode = useColorScheme() === 'dark';
 
   console.log('datafeature', dataFeatures);
   const close = () => {
@@ -116,6 +118,12 @@ const Features = props => {
                   },
                   img: {
                     paddingVertical: 20,
+                  },
+                  li: {
+                    // color: isDarkMode ? 'blue' : 'red',
+                    color: BaseColor.corn70,
+                    fontSize: 12,
+                    fontFamily: Fonts.type.LatoBold,
                   },
                 }}
               />

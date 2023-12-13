@@ -7,6 +7,7 @@ import {
   Image,
   Dimensions,
   useWindowDimensions,
+  Platform,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import styles from './styles';
@@ -14,6 +15,8 @@ import {useTranslation} from 'react-i18next';
 import {BaseStyle, Fonts, BaseColor} from '@config';
 import moment from 'moment';
 import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
+import ImageViewer from 'react-native-image-zoom-viewer';
 const PromoModal = props => {
   const {t} = useTranslation();
   const {onPress, datas, visibleMod, icon, ...attrs} = props;
@@ -24,10 +27,37 @@ const PromoModal = props => {
   console.log('visiblemodal', visibleMod);
   const [visibleModal, setVisibleModal] = useState(visibleMod);
   console.log('visiblemodaldifeature', visibleModal);
+  const [dataImage, setDataImage] = useState([]);
+  const [showImage, setShowImage] = useState(false);
+  const insets = useSafeAreaInsets();
 
   const close = () => {
     setVisibleModal(false);
   };
+
+  const zoomImage = image => {
+    const data = [{url: image}];
+    console.log('image zoom', image);
+    setShowImage(true);
+    setDataImage(data);
+  };
+
+  const renderHeader = () => (
+    <View
+      style={[
+        styles.header,
+        Platform.OS === 'ios' ? {paddingTop: insets.top} : {paddingTop: 10},
+      ]}>
+      <TouchableOpacity onPress={() => setShowImage(false)}>
+        <Icon
+          name={'times'}
+          color={BaseColor.whiteColor}
+          style={{
+            fontSize: 16,
+          }}></Icon>
+      </TouchableOpacity>
+    </View>
+  );
 
   return datas == null ? null : (
     <View
@@ -109,21 +139,23 @@ const PromoModal = props => {
                       {moment(datas.date_created).format('DD MMM YYYY - hh:mm')}
                     </Text>
                   </View>
-                  <Image
-                    source={{uri: datas.url_image}}
-                    // source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
-                    style={{
-                      // width: '100%',
-                      // // width: 300,
-                      // height: 200,
-                      width: '100%',
-                      height: Dimensions.get('window').height / 2.5,
-                      // marginTop: 10,
-                      // paddingTop: 10,
-                      // ...StyleSheet.absoluteFillObject,
-                      resizeMode: 'contain',
-                      borderRadius: 25,
-                    }}></Image>
+                  <TouchableOpacity onPress={() => zoomImage(datas.url_image)}>
+                    <Image
+                      source={{uri: datas.url_image}}
+                      // source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
+                      style={{
+                        // width: '100%',
+                        // // width: 300,
+                        // height: 200,
+                        width: '100%',
+                        height: Dimensions.get('window').height / 2.5,
+                        // marginTop: 10,
+                        // paddingTop: 10,
+                        // ...StyleSheet.absoluteFillObject,
+                        resizeMode: 'contain',
+                        borderRadius: 25,
+                      }}></Image>
+                  </TouchableOpacity>
                 </View>
                 <View style={{marginVertical: 20}}>
                   <RenderHtml
@@ -136,6 +168,12 @@ const PromoModal = props => {
                         fontSize: 12,
                         fontFamily: Fonts.type.LatoBold,
                         textAlign: 'justify',
+                      },
+                      li: {
+                        // color: isDarkMode ? 'blue' : 'red',
+                        color: BaseColor.corn70,
+                        fontSize: 12,
+                        fontFamily: Fonts.type.LatoBold,
                       },
                     }}
                   />
@@ -162,10 +200,30 @@ const PromoModal = props => {
                         fontFamily: Fonts.type.LatoBold,
                         textAlign: 'justify',
                       },
+                      li: {
+                        // color: isDarkMode ? 'blue' : 'red',
+                        color: BaseColor.corn70,
+                        fontSize: 12,
+                        fontFamily: Fonts.type.LatoBold,
+                      },
                     }}
                   />
                 </View>
               </View>
+              <Modal visible={showImage} transparent={true}>
+                {renderHeader()}
+                <ImageViewer
+                  useNativeDriver={true}
+                  imageUrls={dataImage}
+                  enableSwipeDown={true}
+                  onSwipeDown={() => setShowImage(false)}
+                  onSave={uri => _saveImages(uri)}
+                  menuContext={{
+                    saveToLocal: 'Save Image',
+                    cancel: 'Cancel',
+                  }}
+                />
+              </Modal>
             </ScrollView>
           </View>
         </View>

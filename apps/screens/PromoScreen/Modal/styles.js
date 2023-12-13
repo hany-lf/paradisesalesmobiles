@@ -2,6 +2,14 @@ import {StyleSheet, Dimensions, Platform} from 'react-native';
 import {BaseColor, Fonts} from '@config';
 const {width: screenWidth} = Dimensions.get('window');
 export default StyleSheet.create({
+  header: {
+    backgroundColor: '#000',
+    // marginLeft: 20,
+    paddingLeft: 20,
+    // top: 40,
+    width: '100%',
+    zIndex: 9999,
+  },
   textInput: {
     height: 46,
     backgroundColor: BaseColor.fieldColor,

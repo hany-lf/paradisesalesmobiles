@@ -211,6 +211,12 @@ const NewsModal = props => {
                         fontFamily: Fonts.type.LatoBold,
                         textAlign: 'justify',
                       },
+                      li: {
+                        // color: isDarkMode ? 'blue' : 'red',
+                        color: BaseColor.corn70,
+                        fontSize: 12,
+                        fontFamily: Fonts.type.LatoBold,
+                      },
                     }}
                   />
                   {/* <Text

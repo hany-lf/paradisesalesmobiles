@@ -117,6 +117,12 @@ const AboutUs = props => {
                       fontFamily: Fonts.type.LatoBold,
                       textAlign: 'justify',
                     },
+                    li: {
+                      // color: isDarkMode ? 'blue' : 'red',
+                      color: BaseColor.corn70,
+                      fontSize: 12,
+                      fontFamily: Fonts.type.LatoBold,
+                    },
                   }}
                 />
 
@@ -129,6 +135,12 @@ const AboutUs = props => {
                   systemFonts={systemFonts}
                   tagsStyles={{
                     p: {
+                      color: BaseColor.corn70,
+                      fontSize: 12,
+                      fontFamily: Fonts.type.LatoBold,
+                    },
+                    li: {
+                      // color: isDarkMode ? 'blue' : 'red',
                       color: BaseColor.corn70,
                       fontSize: 12,
                       fontFamily: Fonts.type.LatoBold,
@@ -146,6 +158,12 @@ const AboutUs = props => {
                       fontSize: 12,
                       fontFamily: Fonts.type.LatoBold,
                     },
+                    li: {
+                      // color: isDarkMode ? 'blue' : 'red',
+                      color: BaseColor.corn70,
+                      fontSize: 12,
+                      fontFamily: Fonts.type.LatoBold,
+                    },
                   }}
                 />
 
@@ -155,6 +173,12 @@ const AboutUs = props => {
                   systemFonts={systemFonts}
                   tagsStyles={{
                     p: {
+                      color: BaseColor.corn70,
+                      fontSize: 12,
+                      fontFamily: Fonts.type.LatoBold,
+                    },
+                    li: {
+                      // color: isDarkMode ? 'blue' : 'red',
                       color: BaseColor.corn70,
                       fontSize: 12,
                       fontFamily: Fonts.type.LatoBold,

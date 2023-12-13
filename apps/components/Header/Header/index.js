@@ -41,11 +41,9 @@ export default function Header(props) {
     console.log('opsion forcedark statusbar', forceDark);
     if (forceDark) {
       option = 'light-content';
-    }
-    if (forceDark == false) {
+    } else if (forceDark == false) {
       option = 'dark-content';
-    }
-    if (barStyle) {
+    } else if (barStyle) {
       option = barStyle;
     }
     StatusBar.setBarStyle(option, true);

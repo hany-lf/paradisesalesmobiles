@@ -8,16 +8,18 @@ import {
   ActivityIndicator,
   Dimensions,
   useWindowDimensions,
+  Platform,
 } from 'react-native';
 import React, {useState} from 'react';
 import styles from './styles';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {BaseStyle, Fonts, BaseColor} from '@config';
 import {useTranslation} from 'react-i18next';
 import moment from 'moment';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
+
 const PromoWithoutModal = props => {
   const {navigation} = props;
   const systemFonts = [...defaultSystemFonts, global.fontRegular];
@@ -33,6 +35,8 @@ const PromoWithoutModal = props => {
 
   const [dataImage, setDataImage] = useState([]);
   const [showImage, setShowImage] = useState(false);
+  const insets = useSafeAreaInsets();
+
   console.log('detil prmo', detailPromo);
   const close = () => {
     setVisibleModal(false);
@@ -84,6 +88,24 @@ const PromoWithoutModal = props => {
         );
       });
   };
+
+  const renderHeader = () => (
+    <View
+      style={[
+        styles.header,
+        Platform.OS === 'ios' ? {paddingTop: insets.top} : {paddingTop: 10},
+      ]}>
+      <TouchableOpacity onPress={() => setShowImage(false)}>
+        <Icon
+          name={'times'}
+          color={BaseColor.whiteColor}
+          style={{
+            fontSize: 16,
+          }}></Icon>
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
     <SafeAreaView
       edges={['right', 'top', 'left']}
@@ -166,6 +188,12 @@ const PromoWithoutModal = props => {
                     fontFamily: Fonts.type.LatoBold,
                     textAlign: 'justify',
                   },
+                  li: {
+                    // color: isDarkMode ? 'blue' : 'red',
+                    color: BaseColor.corn70,
+                    fontSize: 12,
+                    fontFamily: Fonts.type.LatoBold,
+                  },
                 }}
               />
               {/* <Text
@@ -192,6 +220,12 @@ const PromoWithoutModal = props => {
                     fontFamily: Fonts.type.LatoBold,
                     textAlign: 'justify',
                   },
+                  li: {
+                    // color: isDarkMode ? 'blue' : 'red',
+                    color: BaseColor.corn70,
+                    fontSize: 12,
+                    fontFamily: Fonts.type.LatoBold,
+                  },
                 }}
               />
             </View>
@@ -199,56 +233,9 @@ const PromoWithoutModal = props => {
         </ScrollView>
       )}
       <Modal visible={showImage} transparent={true}>
-        {/* <TouchableOpacity onPress={() => setShowImage(false)}>
-          <Icon
-            name={'times'}
-            color={BaseColor.blackColor}
-            style={{
-              fontSize: 14,
-            }}></Icon>
-        </TouchableOpacity> */}
+        {renderHeader()}
         <ImageViewer
-          // onSave={dataImage}
-          // onSaveToCamera={() => alert('halo')}
-          loadingRender={() => (
-            <ActivityIndicator
-              style={{
-                justifyContent: 'center',
-                alignSelf: 'center',
-              }}
-              size="large"
-              color="#FFFFFF"
-            />
-          )}
           useNativeDriver={true}
-          renderHeader={index => (
-            <View style={{marginTop: 50}}>
-              <TouchableOpacity
-                key={index}
-                onPress={() => setShowImage(false)}
-                style={{
-                  backgroundColor: 'black',
-                  marginTop: 20,
-                  marginLeft: 20,
-                }}>
-                <View
-                  style={{
-                    width: 30,
-                    height: 30,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                  <Icon
-                    name={'times'}
-                    color={BaseColor.whiteColor}
-                    style={{
-                      fontSize: 16,
-                    }}></Icon>
-                </View>
-              </TouchableOpacity>
-            </View>
-          )}
-          // saveToLocalByLongPress={true}
           imageUrls={dataImage}
           enableSwipeDown={true}
           onSwipeDown={() => setShowImage(false)}
@@ -258,23 +245,6 @@ const PromoWithoutModal = props => {
             cancel: 'Cancel',
           }}
         />
-        {/* <ImageViewer
-          renderHeader={() => {
-            <TouchableOpacity
-              onPress={() => setShowImage(false)}
-              style={{backgroundColor: 'red'}}>
-              <Icon
-                name={'times'}
-                color={BaseColor.whiteColor}
-                style={{
-                  fontSize: 14,
-                }}></Icon>
-            </TouchableOpacity>;
-          }}
-          imageUrls={dataImage}
-          enableSwipeDown={true}
-          onSwipeDown={() => setShowImage(false)}
-        /> */}
       </Modal>
     </SafeAreaView>
   );

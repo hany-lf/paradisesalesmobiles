@@ -305,6 +305,12 @@ const ProjectDetails = props => {
                     img: {
                       paddingVertical: 20,
                     },
+                    li: {
+                      // color: isDarkMode ? 'blue' : 'red',
+                      color: BaseColor.corn70,
+                      fontSize: 12,
+                      fontFamily: Fonts.type.LatoBold,
+                    },
                   }}
                 />
                 {/* <Text
@@ -688,6 +694,12 @@ const ProjectDetails = props => {
                       },
                       img: {
                         paddingVertical: 20,
+                      },
+                      li: {
+                        // color: isDarkMode ? 'blue' : 'red',
+                        color: BaseColor.corn70,
+                        fontSize: 12,
+                        fontFamily: Fonts.type.LatoBold,
                       },
                     }}
                   />
