@@ -49,7 +49,7 @@ const ProjectScreen = props => {
           Authorization: `Bearer ${user.Token}`,
         },
         // params: {approval_user: user.userIDToken.UserId},
-        //  params: {group_cd: user.Group},
+        params: {email: user.user},
       };
       console.log('formdaata get project', config);
       axios(config)

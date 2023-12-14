@@ -11,6 +11,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import {Button, Text, Icon} from '@components';
+import {useFocusEffect} from '@react-navigation/native';
 
 import {ButtonMenuHome, CardHomePromoNews} from '../../components';
 
@@ -30,6 +31,7 @@ import {ExpandingDot} from 'react-native-animated-pagination-dots';
 import {data_promo_dummy} from './data_promo_dummy.json';
 import axios from 'axios';
 import {API_URL} from '@env';
+// import news_dummy from '../NewsScreen/news_dummy.json';
 const SLIDER_1_FIRST_ITEM = 1;
 
 const Home = props => {
@@ -66,6 +68,9 @@ const Home = props => {
   const [dataNews, setDataNews] = useState([]);
 
   const [refreshing, setRefreshing] = useState(false);
+
+  // const [dummy_news, setDummyNews] = useState(news_dummy.Data);
+  // console.log('dummynewsss', news_dummy);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -155,7 +160,7 @@ const Home = props => {
           Authorization: `Bearer ${user.Token}`,
         },
         // params: {approval_user: user.userIDToken.UserId},
-        //  params: {group_cd: user.Group},
+        params: {email: user.user},
       };
       console.log('formdaata get project', config);
       axios(config)
@@ -168,6 +173,7 @@ const Home = props => {
             ...pasing,
             {RowID: 'right-spacer'},
           ]);
+          // getProjectDetails(pasing);
         })
         .catch(error =>
           console.log('error getdata project error', error.response),
@@ -226,7 +232,9 @@ const Home = props => {
       axios(config)
         .then(result => {
           const pasing = result.data.Data;
-          const filterdata = pasing.filter(pasing => pasing.status == 'Active');
+          const filterdata = pasing
+            .filter(pasing => pasing.status == 'Active')
+            .slice(0, 4);
           console.log('data di promo', filterdata);
           setDataPromo(filterdata);
         })
@@ -256,7 +264,10 @@ const Home = props => {
       axios(config)
         .then(result => {
           const pasing = result.data.Data;
-          const filterdata = pasing.filter(pasing => pasing.status == 'Active');
+          const filterdata = pasing
+            .filter(pasing => pasing.status == 'Active')
+            .slice(0, 4);
+
           console.log('data di news', filterdata);
           setDataNews(filterdata);
         })
@@ -515,6 +526,67 @@ const Home = props => {
     );
   };
 
+  const ref = useRef(null);
+  // const [viewableIndex, setViewableIndex] = useState(null);
+  const [viewableIndex, setViewableIndex] = useState(0);
+  const [middleItemFlatlist, setMiddleItemFlatlist] = useState([]);
+  const currentIndex = useRef(0);
+  const onViewableItemsChanged = ({viewableItems, changed}) => {
+    // Do stuff
+    console.log('haloo ini kah items tengah', viewableItems);
+    if (viewableItems.length > 0) {
+      // Ambil index dari item yang berada di tengah layar
+      const middleIndex = Math.floor(viewableItems.length / 2);
+      console.log('middleindx', viewableItems[middleIndex].index);
+      console.log('middleitems', viewableItems[middleIndex].item);
+      setViewableIndex(viewableItems[middleIndex].index);
+      setMiddleItemFlatlist(viewableItems[middleIndex].item);
+    }
+  };
+
+  const viewabilityConfigCallbackPairs = useRef([{onViewableItemsChanged}]);
+
+  const changeProjectAuto = () => {
+    console.log('project apakah ini?', middleItemFlatlist);
+    navigation.navigate('DownloadBrochure', middleItemFlatlist);
+    // navigation.navigate('ChooseProject', {goTo: 'DownloadBrochure'});
+  };
+
+  // const getProjectDetails = pasing => {
+  //   console.log('pasing untuk project detail', pasing);
+  //     pasing.forEach((item, id) => {
+  //       console.log('item databrosur project no', item.project_no);
+  //       console.log('params prject_nno', paramsData.project_no);
+  //       item.project_no === paramsData.project_no ? setDataBrosur(item) : null;
+  //     });
+  //   try {
+  //     const config = {
+  //       method: 'get',
+  //       // url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/groupMenu?approval_user=MGR',
+  //       url: API_URL + '/project/project-details',
+  //       headers: {
+  //         'content-type': 'application/json',
+  //         // 'X-Requested-With': 'XMLHttpRequest',
+  //         Authorization: `Bearer ${user.Token}`,
+  //       },
+  //       params: {entity_cd: entity_cd, project_no: project_no},
+  //     };
+  //     console.log('formdaata get project', config);
+  //     axios(config)
+  //       .then(result => {
+  //         const pasing = result.data.Data;
+  //         console.log('data di project', pasing);
+
+  //         setProjectAddress(pasing.project);
+  //       })
+  //       .catch(error =>
+  //         console.log('error getdata project error', error.response),
+  //       );
+  //   } catch (error) {
+  //     console.log('ini konsol eror', error);
+  //   }
+  // };
+
   return (
     <SafeAreaView
       edges={['right', 'top', 'left']}
@@ -538,6 +610,7 @@ const Home = props => {
 
         <View style={{flex: 1}}>
           <Animated.FlatList
+            ref={ref}
             showsHorizontalScrollIndicator={false}
             data={dataProject}
             keyExtractor={item => item.RowID}
@@ -550,6 +623,14 @@ const Home = props => {
               [{nativeEvent: {contentOffset: {x: scrollX}}}],
               {useNativeDriver: true},
             )}
+            // onViewableItemsChanged={onViewableItemsChanged} //diganti ya
+            viewabilityConfigCallbackPairs={
+              viewabilityConfigCallbackPairs.current
+            }
+            viewabilityConfig={{
+              waitForInteraction: true,
+              viewAreaCoveragePercentThreshold: 95,
+            }}
             scrollEventThrottle={16}
             pagingEnabled
             renderItem={({item, index}) => {
@@ -567,75 +648,79 @@ const Home = props => {
                 outputRange: [0, -5, 0],
               });
               return (
-                <View style={{width: ITEM_SIZE}}>
-                  <Animated.View
-                    style={{
-                      marginHorizontal: SPACING,
-                      // padding: SPACING,
-                      padding: Platform.OS == 'ios' ? 4 : 5,
-                      alignItems: 'center',
-                      backgroundColor: 'white',
-                      borderRadius: 20,
-                      transform: [{translateY}],
-                    }}>
-                    <Image
-                      // source={item.picture_url}
-                      source={{uri: item.picture_url}}
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('ProjectDetails', item)}>
+                  <View style={{width: ITEM_SIZE}}>
+                    <Animated.View
                       style={{
-                        width: '100%',
-                        height:
-                          Platform.OS == 'ios'
-                            ? ITEM_SIZE - 18
-                            : ITEM_SIZE - 10,
-                        resizeMode: 'contain',
-                        borderRadius: 24,
-                      }}></Image>
-
-                    <View
-                      style={{
-                        position: 'absolute',
-                        backgroundColor: BaseColor.grey10,
-                        // top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        // height: Platform.OS == 'android' ? 95 : 110, //height ditutup agar responsive tulisan besar kotak abu nya
-
-                        marginHorizontal: 30,
-                        marginVertical: 20,
+                        marginHorizontal: SPACING,
+                        // padding: SPACING,
+                        padding: Platform.OS == 'ios' ? 4 : 5,
+                        alignItems: 'center',
+                        backgroundColor: 'white',
                         borderRadius: 20,
-                        opacity: 0.8,
-                        // justifyContent: 'center',
-                        // alignItems: 'center',
+                        transform: [{translateY}],
                       }}>
+                      <Image
+                        // source={item.picture_url}
+                        source={{uri: item.picture_url}}
+                        style={{
+                          width: '100%',
+                          height:
+                            Platform.OS == 'ios'
+                              ? ITEM_SIZE - 18
+                              : ITEM_SIZE - 10,
+                          resizeMode: 'contain',
+                          borderRadius: 24,
+                        }}></Image>
+
                       <View
                         style={{
-                          marginVertical: 10,
-                          marginHorizontal: 25,
+                          position: 'absolute',
+                          backgroundColor: BaseColor.grey10,
+                          // top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          // height: Platform.OS == 'android' ? 95 : 110, //height ditutup agar responsive tulisan besar kotak abu nya
+
+                          marginHorizontal: 30,
+                          marginVertical: 20,
+                          borderRadius: 20,
+                          opacity: 0.8,
+                          // justifyContent: 'center',
+                          // alignItems: 'center',
                         }}>
-                        <Text
+                        <View
                           style={{
-                            fontFamily: Fonts.type.LatoBlack,
-                            color: BaseColor.corn90,
-                            marginVertical: 5,
-                            fontSize: 16,
+                            marginVertical: 10,
+                            marginHorizontal: 25,
                           }}>
-                          {item.descs}
-                        </Text>
-                        <Text
-                          style={{
-                            fontFamily: Fonts.type.LatoBold,
-                            color: BaseColor.corn50,
-                            marginVertical: 5,
-                          }}>
-                          {item.caption_address}
-                        </Text>
+                          <Text
+                            style={{
+                              fontFamily: Fonts.type.LatoBlack,
+                              color: BaseColor.corn90,
+                              marginVertical: 5,
+                              fontSize: 16,
+                            }}>
+                            {item.project_descs}
+                          </Text>
+                          {/* <Text
+                            style={{
+                              fontFamily: Fonts.type.LatoBold,
+                              color: BaseColor.corn50,
+                              marginVertical: 5,
+                            }}>
+                            {item.caption_address}
+                          </Text> */}
+                        </View>
                       </View>
-                    </View>
-                  </Animated.View>
-                </View>
+                    </Animated.View>
+                  </View>
+                </TouchableOpacity>
               );
             }}></Animated.FlatList>
+
           {/* <Indicator scrollX={scrollX} />
           <ExpandingDot
             data={datasIndicator}
@@ -671,7 +756,8 @@ const Home = props => {
             <ButtonMenuHome
               goToProject={true}
               onPress={() =>
-                navigation.navigate('ChooseProject', {goTo: 'DownloadBrochure'})
+                // navigation.navigate('ChooseProject', {goTo: 'DownloadBrochure'})
+                changeProjectAuto()
               }
               title={'Download'}
               nameicon={'download'}></ButtonMenuHome>

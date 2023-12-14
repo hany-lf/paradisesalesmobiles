@@ -39,9 +39,9 @@ const DownloadBrochure = props => {
   // const paramsData = props.route.params;
   const [paramsData, setParamsData] = useState(props.route.params);
   const [showModal, setShowModal] = useState(false);
-  const [project_name, setProjectName] = useState(
-    props.route.params.project_name,
-  );
+  // const [project_name, setProjectName] = useState(
+  //   props.route.params.project_name,
+  // );
   const [showAlert, setShowAlert] = useState(false);
   const [messageAlert, setMessageAlert] = useState('');
   const user = useSelector(state => getUser(state));
@@ -134,8 +134,8 @@ const DownloadBrochure = props => {
           }}>
           {/* <Text>{item.image}</Text> */}
           <Image
-            // source={{uri: item.image}}
-            source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
+            source={{uri: paramsData.picture_url}}
+            // source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
             // src={item.image}
             // source={}
             // containerStyle={styles.imageContainer}

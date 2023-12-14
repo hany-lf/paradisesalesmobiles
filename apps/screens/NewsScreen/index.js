@@ -19,6 +19,7 @@ import axios from 'axios';
 import {API_URL} from '@env';
 import NewsModal from './Modal/NewsModal';
 import moment from 'moment';
+import news_dummy from './news_dummy.json';
 const NewsScreen = props => {
   const {navigation} = props;
   const {t} = useTranslation();
@@ -29,12 +30,19 @@ const NewsScreen = props => {
   console.log('params data', paramsData);
   const {width} = useWindowDimensions();
   const [itemsParams, setItemsParams] = useState();
+  const [dummy_news, setDummyNews] = useState(news_dummy.Data);
 
   useEffect(() => {
     getDataNews();
   }, []);
 
   const getDataNews = () => {
+    // const filterdata = dummy_news.filter(
+    //   pasing =>
+    //     pasing.status == 'Active' && pasing.type == paramsData.project_no,
+    // );
+    // console.log('data di news', filterdata);
+    // setDataNews(filterdata);
     const entity_cd = paramsData.entity_cd;
     const project_no = paramsData.project_no;
     try {
@@ -48,19 +56,46 @@ const NewsScreen = props => {
           Authorization: `Bearer ${user.Token}`,
         },
         // params: {approval_user: user.userIDToken.UserId},
-        params: {entity_cd: entity_cd, project_no: project_no},
+        // params: {entity_cd: entity_cd, project_no: project_no},
+        params: {},
       };
       console.log('formdaata get lot type', config);
       axios(config)
         .then(result => {
+          // const pasing = dummy_news;
           const pasing = result.data.Data;
-          const filterdata = pasing.filter(pasing => pasing.status == 'Active');
-          console.log('data di news', filterdata);
-          setDataNews(filterdata);
+          console.log('pasing data', pasing);
+          // const filterdata = pasing.filter(
+          //   pasing => pasing.status == 'Active',
+          // );
+          // console.log('data di news', filterdata);
+          // setDataNews(filterdata);
+
+          // pasing.forEach((item, id) => {
+          //   item.type === project_no
+          //     ? ((filterdata = pasing.filter(
+          //         pasing =>
+          //           pasing.status == 'Active' && pasing.type == project_no,
+          //       )),
+          //       setDataNews(filterdata))
+          //     : ((filterdata = pasing.filter(
+          //         pasing =>
+          //           pasing.status == 'Active' && pasing.type == 'General',
+          //       )),
+          //       setDataNews(filterdata));
+          // });
+
+          const cek = pasing.filter(
+            item =>
+              // item.project_no === project_no &&
+              item.status === 'Active' &&
+              (item.type === 'General' || item.type === project_no),
+          );
+
+          console.log('data di news', cek);
+          setDataNews(cek);
         })
-        .catch(error =>
-          console.log('error getdata news error', error.response),
-        );
+        .catch(error => console.log('error getdata news error', error));
     } catch (error) {
       console.log('ini konsol eror news', error);
     }
@@ -82,7 +117,7 @@ const NewsScreen = props => {
       edges={['right', 'top', 'left']}
       style={[BaseStyle.safeAreaView, {backgroundColor: BaseColor.whiteColor}]}>
       <Header
-        title={t('news')}
+        title={t('news_')}
         renderLeft={() => {
           return (
             <Icon
