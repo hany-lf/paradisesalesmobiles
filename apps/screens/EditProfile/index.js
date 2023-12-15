@@ -9,6 +9,7 @@ import {
   Modal,
   Dimensions,
   Alert,
+  Platform,
 } from 'react-native';
 import RenderHtml from 'react-native-render-html';
 
@@ -27,8 +28,10 @@ import {useSelector, useDispatch, connect} from 'react-redux';
 import editSuksesSelector from '../../selectors/EditProfilSelectors';
 import ImagePicker from 'react-native-image-crop-picker';
 // import ReactNativeBlobUtil from 'react-native-blob-util';
+import {UserAuth} from '@actions';
 
 const EditProfile = props => {
+  const [loading, setLoading] = useState(false);
   const {t} = useTranslation();
   //   const dummyFAQ = dummy_faq.menu_faq;
   const {navigation} = props;
@@ -41,11 +44,12 @@ const EditProfile = props => {
   const editProfilStatus = useSelector(state => editSuksesSelector(state));
   console.log('edit sttus', editProfilStatus);
   const [klikButtonConfirm, setKlikButtonConfirm] = useState(false);
-
+  const {authentication} = UserAuth;
   const [email, setEmail] = useState(user.user);
   const [name, setName] = useState(user.name);
   const [phone, setPhone] = useState(user.handphone);
   const [images, setImage] = useState([]);
+  const [modalAlert, showModal] = useState(false);
 
   const [visibileModalEdit, setVisibleModalEdit] =
     editProfilStatus != undefined
@@ -176,6 +180,19 @@ const EditProfile = props => {
   useEffect(() => {
     images.length != 0 ? savePhoto() : null;
   }, [images]);
+
+  const onLogOut = () => {
+    showModal(!modalAlert);
+  };
+
+  const removeAccount = () => {
+    setLoading(true);
+    dispatch(
+      authentication(false, response => {
+        setLoading(false);
+      }),
+    );
+  };
 
   return (
     <SafeAreaView
@@ -316,6 +333,31 @@ const EditProfile = props => {
             Confirm
           </Text>
         </Button>
+
+        {Platform.OS == 'ios' ? (
+          <Button
+            onPress={() => onLogOut()}
+            backgroundColor={BaseColor.yellowStateColor}
+            style={{
+              height: 50,
+              borderRadius: 15,
+              width: '40%',
+              alignSelf: 'center',
+              marginTop: 50,
+            }}>
+            <Text
+              style={{
+                justifyContent: 'center',
+                color: BaseColor.whiteColor,
+                fontFamily: Fonts.type.Lato,
+                fontSize: 13,
+                textAlign: 'center',
+                margin: 3,
+              }}>
+              Remove Account
+            </Text>
+          </Button>
+        ) : null}
       </ScrollView>
 
       {editProfilStatus != undefined && klikButtonConfirm == true ? (
@@ -404,6 +446,101 @@ const EditProfile = props => {
           </View>
         </Modal>
       ) : null}
+
+      <Modal animationType="slide" transparent={true} visible={modalAlert}>
+        <View
+          style={{
+            backgroundColor: '#98804E80',
+            // opacity: 0.5,
+            height: Dimensions.get('screen').height,
+            // height: 100,
+            alignContent: 'center',
+
+            justifyContent: 'center',
+          }}>
+          <View
+            style={{
+              backgroundColor: BaseColor.whiteColor,
+              borderRadius: 10,
+              marginHorizontal: 20,
+
+              justifyContent: 'center',
+              padding: 10,
+            }}>
+            <Text
+              style={{
+                justifyContent: 'center',
+                color: BaseColor.redStateColor,
+                fontFamily: Fonts.type.LatoBold,
+                fontSize: 15,
+                textAlign: 'center',
+                marginBottom: 20,
+              }}>
+              Are you sure to remove account?
+            </Text>
+
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+              <TouchableOpacity
+                onPress={() => removeAccount()}
+                style={{width: '30%'}}>
+                <View
+                  // small
+                  style={{
+                    borderRadius: 10,
+                    height: 35,
+                    width: '100%',
+                    padding: 0,
+                    margin: 0,
+                    backgroundColor: BaseColor.yellowStateColor,
+                    alignSelf: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      justifyContent: 'center',
+                      color: BaseColor.whiteColor,
+                      fontFamily: Fonts.type.Lato,
+                      fontSize: 13,
+                      textAlign: 'center',
+                      margin: 3,
+                    }}>
+                    Yes
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => showModal(!modalAlert)}
+                style={{width: '30%'}}>
+                <View
+                  // small
+                  style={{
+                    borderRadius: 10,
+                    height: 35,
+                    width: '100%',
+                    padding: 0,
+                    margin: 0,
+                    backgroundColor: BaseColor.redStateColor,
+                    alignSelf: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      justifyContent: 'center',
+                      color: BaseColor.whiteColor,
+                      fontFamily: Fonts.type.Lato,
+                      fontSize: 13,
+                      textAlign: 'center',
+                      margin: 3,
+                    }}>
+                    No
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };

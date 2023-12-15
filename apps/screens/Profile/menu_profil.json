@@ -11,12 +11,6 @@
       "nama_menu": "Change password",
       "component": "ChangePasswordProfile",
       "icon_menu": "fingerprint"
-    },
-    {
-      "key": 3,
-      "nama_menu": "Privacy policy",
-      "component": "PrivacyPolicy",
-      "icon_menu": "key"
     }
   ]
 }

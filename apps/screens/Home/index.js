@@ -232,11 +232,11 @@ const Home = props => {
       axios(config)
         .then(result => {
           const pasing = result.data.Data;
-          const filterdata = pasing
-            .filter(pasing => pasing.status == 'Active')
-            .slice(0, 4);
+          const filterdata = pasing.filter(pasing => pasing.status == 'Active');
+
           console.log('data di promo', filterdata);
-          setDataPromo(filterdata);
+          const sliceFilterData = filterdata.slice(0, 4);
+          setDataPromo(sliceFilterData);
         })
         .catch(error =>
           console.log('error getdata promo error', error.response),
@@ -264,12 +264,12 @@ const Home = props => {
       axios(config)
         .then(result => {
           const pasing = result.data.Data;
-          const filterdata = pasing
-            .filter(pasing => pasing.status == 'Active')
-            .slice(0, 4);
+          const filterdata = pasing.filter(pasing => pasing.status == 'Active');
+
+          const sliceFilterData = filterdata.slice(0, 4);
 
           console.log('data di news', filterdata);
-          setDataNews(filterdata);
+          setDataNews(sliceFilterData);
         })
         .catch(error =>
           console.log('error getdata news error', error.response),
@@ -705,14 +705,14 @@ const Home = props => {
                             }}>
                             {item.project_descs}
                           </Text>
-                          {/* <Text
+                          <Text
                             style={{
                               fontFamily: Fonts.type.LatoBold,
                               color: BaseColor.corn50,
                               marginVertical: 5,
                             }}>
                             {item.caption_address}
-                          </Text> */}
+                          </Text>
                         </View>
                       </View>
                     </Animated.View>

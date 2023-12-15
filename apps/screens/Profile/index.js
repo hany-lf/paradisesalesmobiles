@@ -48,7 +48,7 @@ const Profile = props => {
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
-  }, [user]);
+  }, [user, menu_profil]);
 
   const onLogOut = () => {
     setLoading(true);
@@ -164,7 +164,7 @@ const Profile = props => {
               onPress={() => navigation.navigate('CalculatorScreen')}
               title={'Calculator KPA/R'}
               nameicon={'calculator'}></ButtonMenuHome>
-            <ButtonMenuHome
+            {/* <ButtonMenuHome
               // disabled={true}
               onPress={() => navigation.navigate('HelpCenter')}
               title={'Help center'}
@@ -172,7 +172,7 @@ const Profile = props => {
             <ButtonMenuHome
               onPress={() => navigation.navigate('FAQ')}
               title={'FAQ'}
-              nameicon={'question-circle'}></ButtonMenuHome>
+              nameicon={'question-circle'}></ButtonMenuHome> */}
             <ButtonMenuHome
               onPress={() => navigation.navigate('AboutUs')}
               title={'About us'}
