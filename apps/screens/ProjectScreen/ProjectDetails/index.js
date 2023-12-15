@@ -250,7 +250,7 @@ const ProjectDetails = props => {
                 }}>
                 {/* {item.project_name} */}
                 {/* Project name */}
-                {paramsDetail.descs}
+                {paramsDetail.project_descs}
               </Text>
               <Text
                 style={{
@@ -265,6 +265,35 @@ const ProjectDetails = props => {
             </View>
           </View>
         </ImageBackground>
+
+        {/* brosur ----  */}
+        <TouchableOpacity
+          onPress={() => navigation.navigate('DownloadBrochure', paramsDetail)}>
+          <View
+            style={{
+              marginTop: '10%',
+              backgroundColor: BaseColor.corn30,
+              borderRadius: 15,
+
+              height: 50,
+              marginBottom: 10,
+              marginHorizontal: 20,
+              alignContent: 'center',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Text
+              style={{
+                color: BaseColor.corn90,
+                fontFamily: Fonts.type.LatoBold,
+                fontSize: 14,
+                alignSelf: 'center',
+                alignItems: 'center',
+              }}>
+              Download Brosure
+            </Text>
+          </View>
+        </TouchableOpacity>
 
         {/* -- overview  */}
         <View style={{marginHorizontal: 20, marginTop: 20}}>

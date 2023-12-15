@@ -226,7 +226,7 @@ const UnitEnquiry = props => {
                   marginVertical: 5,
                   fontSize: 16,
                 }}>
-                {paramsData.descs}
+                {paramsData.project_descs}
               </Text>
               <Text
                 style={{

@@ -168,11 +168,13 @@ const Home = props => {
           const pasing = result.data.Data;
           console.log('data di project', pasing);
           // setProjectData(pasing);
-          setProjectData([
+          const dataSpacerPasing = [
             {RowID: 'left-spacer'}, //harus ada left spacer dan right spacer biar tetep presisi posisinya
             ...pasing,
             {RowID: 'right-spacer'},
-          ]);
+          ];
+          console.log('dataspacer', dataSpacerPasing);
+          setProjectData(dataSpacerPasing);
           // getProjectDetails(pasing);
         })
         .catch(error =>
@@ -528,7 +530,7 @@ const Home = props => {
 
   const ref = useRef(null);
   // const [viewableIndex, setViewableIndex] = useState(null);
-  const [viewableIndex, setViewableIndex] = useState(0);
+  const [viewableIndex, setViewableIndex] = useState(null);
   const [middleItemFlatlist, setMiddleItemFlatlist] = useState([]);
   const currentIndex = useRef(0);
   const onViewableItemsChanged = ({viewableItems, changed}) => {
@@ -629,7 +631,7 @@ const Home = props => {
             }
             viewabilityConfig={{
               waitForInteraction: true,
-              viewAreaCoveragePercentThreshold: 95,
+              viewAreaCoveragePercentThreshold: 60,
             }}
             scrollEventThrottle={16}
             pagingEnabled
@@ -741,19 +743,19 @@ const Home = props => {
         </View>
 
         <View>
-          <View
+          {/* <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-evenly',
               marginTop: 30,
-            }}>
-            {/* <ButtonMenuHome
+            }}> */}
+          {/* <ButtonMenuHome
               title={'My Unit'}
               nameicon={'building'}></ButtonMenuHome>
             <ButtonMenuHome
               title={'NUP Online'}
               nameicon={'clipboard-check'}></ButtonMenuHome> */}
-            <ButtonMenuHome
+          {/* <ButtonMenuHome
               goToProject={true}
               onPress={() =>
                 // navigation.navigate('ChooseProject', {goTo: 'DownloadBrochure'})
@@ -766,8 +768,8 @@ const Home = props => {
               nameicon={'calculator'}
               onPress={() =>
                 navigation.navigate('CalculatorScreen')
-              }></ButtonMenuHome>
-          </View>
+              }></ButtonMenuHome> */}
+          {/* </View> */}
 
           <View
             style={{
