@@ -197,7 +197,7 @@ const NewsModal = props => {
                         borderRadius: 25,
                       }}></Image> */}
                     <View
-                      style={{height: 240, borderRadius: 25, width: '100%'}}>
+                      style={{height: 250, borderRadius: 25, width: '100%'}}>
                       <Image
                         source={{uri: datas.url_image}}
                         style={{
@@ -205,11 +205,11 @@ const NewsModal = props => {
                           // height: Dimensions.get('window').height / 2.5,
                           // width: '100%',
                           // // width: 300,
-                          height: 240,
+                          height: '100%',
                           // marginTop: 10,
                           // paddingTop: 10,
                           // ...StyleSheet.absoluteFillObject,
-                          resizeMode: 'cover',
+                          resizeMode: 'contain',
                           borderRadius: 25,
                         }}></Image>
                     </View>

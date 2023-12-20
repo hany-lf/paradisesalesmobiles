@@ -160,7 +160,7 @@ const NewsWithoutModal = props => {
                 </Text>
               </View>
               <TouchableOpacity onPress={() => zoomImage(detailNews.url_image)}>
-                <View style={{height: 240, borderRadius: 25, width: '100%'}}>
+                <View style={{height: 250, borderRadius: 25, width: '100%'}}>
                   <Image
                     source={{uri: detailNews.url_image}}
                     style={{
@@ -168,11 +168,11 @@ const NewsWithoutModal = props => {
                       // height: Dimensions.get('window').height / 2.5,
                       // width: '100%',
                       // // width: 300,
-                      height: 240,
+                      height: '100%',
                       // marginTop: 10,
                       // paddingTop: 10,
                       // ...StyleSheet.absoluteFillObject,
-                      resizeMode: 'cover',
+                      resizeMode: 'contain',
                       borderRadius: 25,
                     }}></Image>
                 </View>
