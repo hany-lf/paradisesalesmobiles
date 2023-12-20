@@ -792,7 +792,7 @@ const Home = props => {
                   justifyContent: 'space-between',
                   flexDirection: 'row',
                 }}>
-                <Text style={{fontSize: 17, fontFamily: Fonts.type.Lato}}>
+                <Text style={{fontSize: 18, fontFamily: Fonts.type.LatoBold}}>
                   Promo & Offers
                 </Text>
                 <TouchableOpacity
@@ -842,7 +842,7 @@ const Home = props => {
                   justifyContent: 'space-between',
                   flexDirection: 'row',
                 }}>
-                <Text style={{fontSize: 17, fontFamily: Fonts.type.Lato}}>
+                <Text style={{fontSize: 18, fontFamily: Fonts.type.LatoBold}}>
                   News & Update
                 </Text>
                 <TouchableOpacity

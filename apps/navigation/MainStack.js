@@ -302,6 +302,12 @@ const MainStack = ({navigation}) => {
           name="PrivacyPolicy"
           component={PrivacyPolicy}
           options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="SignIn"
+          component={SignIn}
+          options={{headerShown: false}}></Stack.Screen>
       </Stack.Group>
       <Stack.Group screenOptions={{presentation: 'modal'}}>
         <Stack.Screen

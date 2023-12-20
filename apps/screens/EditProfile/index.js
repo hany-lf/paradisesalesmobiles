@@ -63,7 +63,13 @@ const EditProfile = props => {
 
   const klikConfirm = () => {
     saveProfiles();
-    setKlikButtonConfirm(true);
+    // navigation.pop()
+    // setTimeout(() => {
+    //   props.navigation.pop();
+    //   //    navigationRef?.current?.dispatch(StackActions.replace('OnBoard'));
+    // }, 300);
+    // console.log('setklikbuttonconfirm true');
+    // setKlikButtonConfirm(true);
   };
 
   const saveProfiles = useCallback(

@@ -100,7 +100,7 @@ const ChangePasswordProfile = props => {
 
   const onCloseAlert = () => {
     setModalAlert(false);
-    navigation.navigate('Home');
+    navigation.navigate('HomeScreen');
   };
   const onCloseAlertNotMatch = () => {
     setModalAlertNotMatch(false);
@@ -261,7 +261,7 @@ const ChangePasswordProfile = props => {
                   style={{
                     marginTop: 10,
                     // marginBottom: 10,
-
+                    backgroundColor: BaseColor.corn70,
                     width: 70,
                     height: 40,
                   }}

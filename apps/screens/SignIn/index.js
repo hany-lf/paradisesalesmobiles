@@ -93,7 +93,7 @@ const SignIn = props => {
       props.navigation.navigate('MainStack');
       // navigation.navigate('MainStack');
     } else {
-      setIntro(true); //tutup dulu sementara
+      setIntro(false); //tutup dulu sementara
       console.log('truee');
     }
   }, []);
@@ -409,7 +409,7 @@ const SignIn = props => {
             style={{
               justifyContent: 'flex-end',
               flexDirection: 'row',
-
+              width: '100%',
               marginVertical: 20,
               paddingRight: 20,
             }}>

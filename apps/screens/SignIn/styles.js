@@ -12,7 +12,7 @@ export default StyleSheet.create({
   },
   forgotPassword: {
     fontFamily: Fonts.type.Lato,
-    width: '30%',
+    width: '40%',
     borderBottomColor: BaseColor.corn70,
     borderBottomWidth: 1,
     textAlign: 'center',

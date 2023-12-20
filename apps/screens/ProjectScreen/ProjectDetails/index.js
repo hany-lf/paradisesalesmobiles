@@ -246,7 +246,7 @@ const ProjectDetails = props => {
                   fontFamily: Fonts.type.LatoBlack,
                   color: BaseColor.corn90,
                   marginVertical: 10,
-                  fontSize: 16,
+                  fontSize: 18,
                 }}>
                 {/* {item.project_name} */}
                 {/* Project name */}
@@ -257,6 +257,7 @@ const ProjectDetails = props => {
                   fontFamily: Fonts.type.LatoBold,
                   color: BaseColor.corn50,
                   marginVertical: 5,
+                  fontSize: 16,
                 }}>
                 {/* {item.location} */}
                 {/* lokasi */}
@@ -290,7 +291,7 @@ const ProjectDetails = props => {
                 alignSelf: 'center',
                 alignItems: 'center',
               }}>
-              Download Brosure
+              Download Brochure
             </Text>
           </View>
         </TouchableOpacity>
@@ -459,6 +460,50 @@ const ProjectDetails = props => {
               color: BaseColor.corn70,
               marginVertical: 15,
             }}>
+            Video
+          </Text>
+
+          {overviewProject.length != 0 ? (
+            overviewProject.map((item, index) => (
+              <YoutubePlayer
+                key={index}
+                height={200}
+                play={playing}
+                videoId={item.youtube_link}
+                // videoId="OfLV5h-1rRI"
+                onChangeState={onStateChange}
+                style={{borderRadius: 15}}
+                useLocalHTML={true}
+              />
+            ))
+          ) : (
+            <Text>No Url Id Youtube</Text>
+          )}
+
+          {/* <Button
+            onPress={() => togglePlaying}
+            style={{backgroundColor: 'red'}}>
+            <Text>{playing ? 'Pause' : 'Play'}</Text>
+          </Button> */}
+          {/* <Button title={playing ? 'pause' : 'play'} onPress={togglePlaying} /> */}
+        </View>
+
+        {/* /// contact  */}
+        <View
+          style={{
+            marginHorizontal: 20,
+            // borderRadius: 15,
+            marginTop: 15,
+            // backgroundColor: 'yellow',
+            marginBottom: 0,
+          }}>
+          <Text
+            style={{
+              fontFamily: Fonts.type.LatoBold,
+              fontSize: 14,
+              color: BaseColor.corn70,
+              marginVertical: 15,
+            }}>
             Contact
           </Text>
 
@@ -517,7 +562,11 @@ const ProjectDetails = props => {
                     width: '50%',
                     height: 40,
                   }}
-                  onPress={() => Linking.openURL(item.coordinat_project)}>
+                  onPress={() =>
+                    item.coordinat_project == null
+                      ? Alert.alert('No available location project')
+                      : Linking.openURL(item.coordinat_project)
+                  }>
                   <View style={{flexDirection: 'row'}}>
                     <Text
                       style={{
@@ -538,51 +587,9 @@ const ProjectDetails = props => {
             </View>
           ))}
         </View>
-        {/* /// VIDEO  */}
-        <View
-          style={{
-            marginHorizontal: 20,
-            // borderRadius: 15,
-            marginTop: 15,
-            // backgroundColor: 'yellow',
-            marginBottom: 0,
-          }}>
-          <Text
-            style={{
-              fontFamily: Fonts.type.LatoBold,
-              fontSize: 14,
-              color: BaseColor.corn70,
-              marginVertical: 15,
-            }}>
-            Video
-          </Text>
 
-          {overviewProject.length != 0 ? (
-            overviewProject.map((item, index) => (
-              <YoutubePlayer
-                key={index}
-                height={200}
-                play={playing}
-                videoId={item.youtube_link}
-                // videoId="OfLV5h-1rRI"
-                onChangeState={onStateChange}
-                style={{borderRadius: 15}}
-                useLocalHTML={true}
-              />
-            ))
-          ) : (
-            <Text>No Url Id Youtube</Text>
-          )}
-
-          {/* <Button
-            onPress={() => togglePlaying}
-            style={{backgroundColor: 'red'}}>
-            <Text>{playing ? 'Pause' : 'Play'}</Text>
-          </Button> */}
-          {/* <Button title={playing ? 'pause' : 'play'} onPress={togglePlaying} /> */}
-        </View>
         {/* /// LOCATION  */}
-        <View>
+        {/* <View>
           <View
             style={{
               marginHorizontal: 20,
@@ -591,8 +598,8 @@ const ProjectDetails = props => {
               marginTop: 15,
               // backgroundColor: 'yellow',
               marginBottom: 0,
-            }}>
-            {/* <Text
+            }}> */}
+        {/* <Text
               style={{
                 fontFamily: Fonts.type.LatoBold,
                 fontSize: 14,
@@ -601,7 +608,7 @@ const ProjectDetails = props => {
               }}>
               Location
             </Text> */}
-            {/* <View>
+        {/* <View>
               <MapView
                 //             {markers.map((marker, index) => (
                 //   <Marker
@@ -628,7 +635,7 @@ const ProjectDetails = props => {
               </MapView>
             </View> */}
 
-            {/* <WebView
+        {/* <WebView
               javaScriptEnabled={true}
               domStorageEnabled={true}
               map
@@ -639,7 +646,7 @@ const ProjectDetails = props => {
               }}
               source={{uri: 'https://google.com/'}}
             /> */}
-            {/* <RenderHTML
+        {/* <RenderHTML
               javaScriptEnabled={true}
               domS
               renderers={renderers}
@@ -649,8 +656,8 @@ const ProjectDetails = props => {
               source={{
                 html: `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15865.742481636988!2d106.85165925!3d-6.206128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f4711cac0e99%3A0x47c98448b038a7d8!2sManggarai!5e0!3m2!1sid!2sid!4v1700646090231!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`,
               }}></RenderHTML> */}
-          </View>
-        </View>
+        {/* </View>
+        </View> */}
         {/* // --- modal project detail overview */}
         <View>
           <Modal

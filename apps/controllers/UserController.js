@@ -68,7 +68,7 @@ class UserController {
   resetPassword = async (email, newPass) => {
     try {
       const result = await httpClient.request({
-        url: `/auth/resetPass`,
+        url: `/profile/change-pass`,
 
         method: 'POST',
         data: {
@@ -119,7 +119,7 @@ class UserController {
     const config = {
       method: 'post',
 
-      url: basePath + '/auth/changeProfile',
+      url: basePath + '/profile/change-profile',
       // headers: {
       //   'content-type': 'application/json',
 

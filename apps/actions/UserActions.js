@@ -336,7 +336,7 @@ export const saveProfile = data => async dispatch => {
   const res = await UserController.saveProfile(data);
   console.log('res save profil', res);
 
-  alert(res.Pesan);
+  // alert(res.Pesan);
 
   if (res.Error == false) {
     dispatch(editSukses({status: true, pesan: res.Pesan}));

@@ -117,7 +117,7 @@ const NewsScreen = props => {
       edges={['right', 'top', 'left']}
       style={[BaseStyle.safeAreaView, {backgroundColor: BaseColor.whiteColor}]}>
       <Header
-        title={t('news_')}
+        title={t('news')}
         renderLeft={() => {
           return (
             <Icon

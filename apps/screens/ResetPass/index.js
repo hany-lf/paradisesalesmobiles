@@ -9,6 +9,7 @@ import getUser from '../../selectors/UserSelectors';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useSelector, useDispatch, connect} from 'react-redux';
 import {API_URL} from '@env';
+import {UserAuth} from '@actions';
 
 const ResetPass = props => {
   const {navigation} = props;
@@ -17,8 +18,9 @@ const ResetPass = props => {
   const dispatch = useDispatch();
   const {t} = useTranslation();
   const user = useSelector(state => getUser(state));
-  console.log('user di resetpass', user);
-
+  console.log('user dihome', user);
+  const {authentication} = UserAuth;
+  const [loading, setLoading] = useState(false);
   const [modalAlert, setModalAlert] = useState(false);
   const [messageAlert, setMessageAlert] = useState('');
   const [ResresetError, setErrorResetPass] = useState(false);
@@ -53,12 +55,22 @@ const ResetPass = props => {
   const resetSuccess = () => {
     console.log('reset sukses');
     console.log('props navigasi', props);
-    // console.log('navigasi signin?', props.navigation.navigate());
-    navigation.navigate('SignIn');
-    // props.navigation.navigate('ForgotPassword');
+    console.log('user di reset', user);
     setModalAlert(false);
 
-    // props.navigation.pop();
+    // props.navigation.navigate('MainStack');
+    dispatch(
+      authentication(false, response => {
+        setLoading(false);
+      }),
+    );
+
+    // console.log('navigasi signin?', props.navigation.navigate());
+    // navigation.navigate('SignIn');
+    // props.navigation.navigate('SignIn');
+    // props.navigation.navigate('ForgotPassword');
+
+    // navigation.pop();
   };
 
   const resetError = () => {

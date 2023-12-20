@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   RefreshControl,
+  Dimensions,
 } from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -108,10 +109,12 @@ const ChooseProject = props => {
                 key={index}
                 // style={styles.item}
                 style={{
-                  width: '100%',
-                  height: 300,
+                  width: '90%',
+                  height: Dimensions.get('screen').height * 0.3,
+                  // height: 300,
                   paddingHorizontal: 30,
                   marginVertical: 10,
+                  alignSelf: 'center',
                   // marginHorizontal
                 }}>
                 {/* <Text>{item.image}</Text> */}
@@ -125,7 +128,8 @@ const ChooseProject = props => {
                   style={{
                     width: '100%',
                     // width: 300,
-                    height: 300,
+                    // height: 300,
+                    height: Dimensions.get('screen').height * 0.3,
                     // marginTop: 10,
                     // paddingTop: 10,
                     // ...StyleSheet.absoluteFillObject,
