@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const client = axios.create({
-  baseURL: 'https://dev.ifca.co.id/apiparadise/api',
+  baseURL: 'http://ifca.paradiseindonesia.com/apiparadise/api',
   // baseURL: "http://35.198.219.220:2121/alfaAPI/approval",
 
   timeout: 10000,

@@ -178,7 +178,7 @@ export const getdata = user => async dispatch => {
   const config = {
     method: 'get',
     // url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/groupMenu?approval_user=MGR',
-    url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/countApproval',
+    url: 'http://ifca.paradiseindonesia.com/apiparadise/api/approval/countApproval',
     headers: {
       'content-type': 'application/json',
       // 'X-Requested-With': 'XMLHttpRequest',
