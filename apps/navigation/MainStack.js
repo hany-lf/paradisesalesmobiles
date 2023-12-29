@@ -46,6 +46,7 @@ import UnitInfoModal from '../screens/UnitInfo/Modal/UnitInfoModal';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
 import RequestBrosur from '../screens/Download/RequestBrosur';
 import UnitInfoDetailsModal from '../screens/UnitInfo/Modal/UnitInfoDetailsModal';
+import SignUpasGuest from '../screens/SignIn/SignUpasGuest';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -307,6 +308,12 @@ const MainStack = ({navigation}) => {
           // component={DrawerStack}
           name="SignIn"
           component={SignIn}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="SignUpasGuest"
+          component={SignUpasGuest}
           options={{headerShown: false}}></Stack.Screen>
       </Stack.Group>
       <Stack.Group screenOptions={{presentation: 'modal'}}>

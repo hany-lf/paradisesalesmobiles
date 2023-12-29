@@ -402,20 +402,34 @@ const SignIn = props => {
           />
         </View>
 
-        <TouchableOpacity
-          style={{}}
-          onPress={() => navigation.navigate('ForgotPassword')}>
-          <View
-            style={{
-              justifyContent: 'flex-end',
-              flexDirection: 'row',
-              width: '100%',
-              marginVertical: 20,
-              paddingRight: 20,
-            }}>
-            <Text style={styles.forgotPassword}>Forgot Password?</Text>
-          </View>
-        </TouchableOpacity>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            // width: '100%',
+            marginVertical: 30,
+            marginHorizontal: 20,
+          }}>
+          {/* <TouchableOpacity onPress={() => Alert.alert('skip login')}>
+            <View
+              style={{
+                borderBottomColor: BaseColor.corn70,
+                borderBottomWidth: 1,
+              }}>
+              <Text style={styles.forgotPassword}>Sign Up as Guest</Text>
+            </View>
+          </TouchableOpacity> */}
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ForgotPassword')}>
+            <View
+              style={{
+                borderBottomColor: BaseColor.corn70,
+                borderBottomWidth: 1,
+              }}>
+              <Text style={styles.forgotPassword}>Forgot Password?</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
 
         <View>
           <Button
@@ -434,6 +448,25 @@ const SignIn = props => {
             )}
           </Button>
         </View>
+
+        {/* <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            // width: '100%',
+            marginVertical: 30,
+          }}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SignUpasGuest')}>
+            <View
+              style={{
+                borderBottomColor: BaseColor.corn70,
+                borderBottomWidth: 1,
+              }}>
+              <Text style={styles.forgotPassword}>Sign Up as Guest</Text>
+            </View>
+          </TouchableOpacity>
+        </View> */}
         {/* <View
           style={{flexDirection: 'row', alignSelf: 'center', marginTop: 30}}>
           <Text
