@@ -309,12 +309,12 @@ const MainStack = ({navigation}) => {
           name="SignIn"
           component={SignIn}
           options={{headerShown: false}}></Stack.Screen>
-        <Stack.Screen
+        {/* <Stack.Screen
           // name="HomeStack"
           // component={DrawerStack}
           name="SignUpasGuest"
           component={SignUpasGuest}
-          options={{headerShown: false}}></Stack.Screen>
+          options={{headerShown: false}}></Stack.Screen> */}
       </Stack.Group>
       <Stack.Group screenOptions={{presentation: 'modal'}}>
         <Stack.Screen

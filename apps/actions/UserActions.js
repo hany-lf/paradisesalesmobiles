@@ -10,6 +10,9 @@ export const actionTypes = {
   LOGIN_REQUEST: 'LOGIN_REQUEST',
   LOGIN_ERROR: 'LOGIN_ERROR',
   LOGIN_SUCCESS: 'LOGIN_SUCCESS',
+  SIGNUPGUEST_REQUEST: 'SIGNUPGUEST_REQUEST',
+  SIGNUPGUEST_ERROR: 'SIGNUPGUEST_ERROR',
+  SIGNUPGUEST_SUCCESS: 'SIGNUPGUEST_SUCCESS',
   LOGOUT: 'LOGOUT',
 
   RESETPASS: 'RESETPASS',
@@ -60,6 +63,21 @@ const loginError = error => ({
 const loginSuccess = (user, data) => ({
   type: actionTypes.LOGIN_SUCCESS,
   login: data,
+  user,
+});
+
+const signUpGuestRequest = () => ({
+  type: actionTypes.SIGNUPGUEST_REQUEST,
+});
+
+const signUpGuestError = error => ({
+  type: actionTypes.SIGNUPGUEST_ERROR,
+  errorSignUpGuest: error,
+});
+
+const signUpGuestSuccess = (user, data) => ({
+  type: actionTypes.SIGNUPGUEST_SUCCESS,
+  signUpGuest: data,
   user,
 });
 
@@ -178,7 +196,7 @@ export const getdata = user => async dispatch => {
   const config = {
     method: 'get',
     // url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/groupMenu?approval_user=MGR',
-    url: 'http://ifca.paradiseindonesia.com/apiparadise/api/approval/countApproval',
+    url: 'https://ifca.paradiseindonesia.com/apiparadise/api/approval/countApproval',
     headers: {
       'content-type': 'application/json',
       // 'X-Requested-With': 'XMLHttpRequest',
@@ -307,6 +325,35 @@ export const login = (email, password, token_firebase) => async dispatch => {
     }
   }
 };
+
+export const signupguest =
+  (name, nohp, email, password, token_firebase) => async dispatch => {
+    dispatch(signUpGuestSuccess());
+    try {
+      console.log('email ada gak', email);
+      console.log('password ada gak', password);
+      const user = await UserController.signupguest(
+        name,
+        nohp,
+        email,
+        password,
+        token_firebase,
+      );
+      console.log('cek user action login', user);
+      let data = {
+        success: true,
+      };
+      // user.Data.login = {success: true};
+      // console.log('user di useraction', user.Data.login);
+      // console.log('user Data di useraction', user.Data);
+      // user.push(data);
+      dispatch(signUpGuestSuccess(user.Data, data));
+      console.log('userrrrr', user);
+      // alert("JSON.stringify(user)");
+    } catch (error) {
+      alert(error.response.data.Pesan);
+    }
+  };
 
 export const reset = (newPass, conPass, email) => async dispatch => {
   dispatch(resetPassRequest());

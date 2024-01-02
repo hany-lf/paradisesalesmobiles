@@ -449,7 +449,7 @@ const SignIn = props => {
           </Button>
         </View>
 
-        {/* <View
+        <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-around',
@@ -466,7 +466,7 @@ const SignIn = props => {
               <Text style={styles.forgotPassword}>Sign Up as Guest</Text>
             </View>
           </TouchableOpacity>
-        </View> */}
+        </View>
         {/* <View
           style={{flexDirection: 'row', alignSelf: 'center', marginTop: 30}}>
           <Text

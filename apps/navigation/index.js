@@ -43,6 +43,7 @@ import SplashScreen from 'react-native-splash-screen';
 import ForgotPassword from '../screens/ForgotPassword';
 import Register from '../screens/Register';
 import CustomModal from '../screens/CustomModal';
+import SignUpasGuest from '../screens/SignIn/SignUpasGuest';
 
 const Navigator = props => {
   const navigationRef = useRef(null);
@@ -128,6 +129,10 @@ const Navigator = props => {
         <RootStack.Screen
           name="ForgotPassword"
           component={ForgotPassword}
+          options={{headerShown: false}}></RootStack.Screen>
+        <RootStack.Screen
+          name="SignUpasGuest"
+          component={SignUpasGuest}
           options={{headerShown: false}}></RootStack.Screen>
         <RootStack.Screen
           name="Register"
