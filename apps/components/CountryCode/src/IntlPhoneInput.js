@@ -17,6 +17,7 @@ import {BaseColor, Fonts} from '../../../config';
 
 export default class IntlPhoneInput extends React.Component {
   constructor(props) {
+    console.log('props phone input', props);
     super(props);
     const defaultCountry =
       data.filter(obj => obj.code === props.defaultCountry)[0] ||
@@ -26,7 +27,7 @@ export default class IntlPhoneInput extends React.Component {
       flag: defaultCountry.flag,
       modalVisible: false,
       dialCode: defaultCountry.dialCode,
-      phoneNumber: '',
+      phoneNumber: props.numPhone,
       mask: defaultCountry.mask,
       countryData: data,
     };
@@ -34,6 +35,7 @@ export default class IntlPhoneInput extends React.Component {
 
   onChangePropText = (unmaskedPhoneNumber, phoneNumber) => {
     const {dialCode, mask} = this.state;
+    console.log('phonenumber props', phoneNumber);
     const countOfNumber = mask.match(/9/g).length;
     if (this.props.onChangeText) {
       const isVerified =
@@ -49,6 +51,7 @@ export default class IntlPhoneInput extends React.Component {
   };
 
   onChangeText = value => {
+    console.log('value onchnage', value);
     let unmaskedPhoneNumber = (value.match(/\d+/g) || []).join('');
     if (unmaskedPhoneNumber.substr(0, 1) == '0') {
       unmaskedPhoneNumber = '';
@@ -219,7 +222,9 @@ export default class IntlPhoneInput extends React.Component {
       dialCodeTextStyle,
       inputProps,
       placeholder,
+      value,
       onFocus,
+      numPhone,
     } = this.props;
     return (
       <View style={{...styles.container, ...containerStyle}}>
@@ -241,6 +246,8 @@ export default class IntlPhoneInput extends React.Component {
           keyboardType="number-pad"
           secureTextEntry={false}
           value={this.state.phoneNumber}
+          // value={numPhone}
+          // maxLength={13}
           onChangeText={this.onChangeText}
         />
         {this.renderAction()}

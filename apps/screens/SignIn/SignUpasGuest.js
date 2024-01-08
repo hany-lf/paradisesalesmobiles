@@ -35,7 +35,8 @@ import AppIntroSlider from 'react-native-app-intro-slider';
 import IconAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {useTranslation} from 'react-i18next';
 import IntlPhoneInput from '@components/CountryCode';
-
+import {UserAuth} from '@actions';
+import axios from 'axios';
 const SignUpasGuest = props => {
   console.log('api url env', API_URL);
   const scheme = useColorScheme();
@@ -43,6 +44,7 @@ const SignUpasGuest = props => {
   const {colors} = scheme === 'dark' ? DefaultTheme.dark : DefaultTheme.light; //dari config aja coba ya
   const font = useFont();
   let slider = useRef(null);
+  const {authentication} = UserAuth;
   const dispatch = useDispatch();
   const {t} = useTranslation();
   const [loading, setLoading] = useState(false);
@@ -60,33 +62,13 @@ const SignUpasGuest = props => {
   const userError = useSelector(state => state.user);
   const user = useSelector(state => state.user);
   console.log('user di sig in', userError);
-
+  const [ResresetError, setErrorResetPass] = useState(false);
+  const [modalAlert, setModalAlert] = useState(false);
+  const [messageAlert, setMessageAlert] = useState('');
   const passwordChanged = useCallback(value => setPassword(value), []);
   const emailChanged = useCallback(value => setEmail(value), []);
   const nameChanged = useCallback(value => setName(value), []);
   // const nameChanged = useCallback(value => setName(value), []);
-
-  const loginklik = () => {
-    setLoadingProses(true);
-    setLoading(true);
-
-    // alert('alert sign in');
-    const cekdata = {
-      email,
-      password,
-      name,
-      nohp,
-      token_firebase,
-    };
-    console.log('cekdata', cekdata);
-
-    SignupUserGuest();
-
-    setTimeout(() => {
-      setLoadingProses(false);
-      setLoading(false);
-    }, 3000);
-  };
 
   const onChangeTextPhone = ({
     dialCode,
@@ -155,6 +137,71 @@ const SignUpasGuest = props => {
     // setLoadingProses(false),
     // setLoading(false),
   );
+
+  const submitSignup = () => {
+    const formData = {
+      email: email,
+      nama: name,
+      password: password,
+      token_firebase: token_firebase,
+      handphone: nohp,
+      group_cd: 'GUEST',
+    };
+    console.log('formdaata signupguest', formData);
+    axios
+      .post(API_URL + '/auth/sign-up-guest', formData)
+      .then(res => {
+        console.log('res', res);
+        if (res.data.Error === false) {
+          setErrorResetPass(res.data.Error);
+          setModalAlert(true);
+          setMessageAlert(res.data.Pesan);
+
+          // alert(res.data.Pesan);
+        } else {
+          setErrorResetPass(res.data.Error);
+          setModalAlert(true);
+          console.log('nama error', res.data.Pesan.nama[0]);
+          const msgError =
+            res.data.Pesan.email[0] ||
+            res.data.Pesan.nama[0] ||
+            res.data.Pesan.handphone[0] ||
+            res.data.Pesan.password[0];
+          setMessageAlert(msgError);
+          // alert(res.data.Pesan);
+        }
+      })
+      .catch(error => {
+        console.log('error signupguest di axios', error.response);
+        // console.log('error di catch signup', error.response.data.Error);
+
+        if (error.response.data.Error === true) {
+          const msgError =
+            error.response.data.Pesan.email[0] ||
+            error.response.data.Pesan.nama[0] ||
+            error.response.data.Pesan.handphone[0] ||
+            error.response.data.Pesan.password[0];
+          setErrorResetPass(error.response.data.Error);
+          setModalAlert(true);
+          // console.log('nama error', error.response.data.Pesan.nama[0]);
+
+          setMessageAlert(msgError);
+        }
+      });
+  };
+
+  const resetError = () => {
+    console.log('reset error');
+    setModalAlert(false);
+  };
+
+  const resetSuccess = () => {
+    console.log('reset sukses');
+    console.log('props navigasi', props);
+
+    setModalAlert(false);
+    props.navigation.pop();
+  };
 
   return (
     <SafeAreaView
@@ -252,7 +299,8 @@ const SignUpasGuest = props => {
             // loading={loading}
             style={{marginTop: 15}}
             backgroundColor={disableUser ? BaseColor.corn30 : BaseColor.corn70}
-            onPress={loginklik}>
+            // onPress={loginklik}
+            onPress={submitSignup}>
             {loadingProses == true ? (
               <ActivityIndicator
                 color={BaseColor.whiteColor}></ActivityIndicator>
@@ -262,6 +310,94 @@ const SignUpasGuest = props => {
           </Button>
         </View>
       </View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalAlert}
+
+        // onRequestClose={() => {
+        //   Alert.alert('Modal has been closed.');
+        //   setModalShowUsername(!showModalUsername);
+        // }}
+      >
+        <View
+          style={{
+            // backgroundColor: BaseColor.corn50,
+            backgroundColor: 'rgba(152, 128, 78, 0.8)', //modal transparan
+            // opacity: 0.5,
+            height: Dimensions.get('screen').height,
+            // height: 100,
+            alignContent: 'center',
+
+            justifyContent: 'center',
+          }}>
+          <View
+            style={{
+              backgroundColor: BaseColor.whiteColor,
+              borderRadius: 10,
+              marginHorizontal: 20,
+
+              justifyContent: 'center',
+              padding: 10,
+            }}>
+            <Text
+              style={{
+                justifyContent: 'center',
+                color: BaseColor.greenStateColor,
+                fontFamily: Fonts.type.Lato,
+                fontSize: 14,
+                textAlign: 'center',
+                marginTop: 10,
+                marginBottom: 5,
+              }}>
+              {ResresetError == false ? 'Successfully updated' : 'Warning'}
+              {/* Successfully updated */}
+            </Text>
+            <Text
+              style={{
+                justifyContent: 'center',
+                color: BaseColor.corn70,
+                fontFamily: Fonts.type.Lato,
+                fontSize: 14,
+                textAlign: 'center',
+                marginTop: 5,
+                marginBottom: 15,
+              }}>
+              {messageAlert}
+            </Text>
+            <TouchableOpacity
+              onPress={() =>
+                ResresetError == false ? resetSuccess() : resetError()
+              }>
+              <View
+                // small
+                style={{
+                  borderRadius: 10,
+                  height: 35,
+                  width: 120,
+                  padding: 0,
+                  margin: 0,
+                  backgroundColor: BaseColor.corn50,
+                  alignSelf: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    justifyContent: 'center',
+                    color: BaseColor.whiteColor,
+                    fontFamily: Fonts.type.Lato,
+                    fontSize: 13,
+                    textAlign: 'center',
+                    margin: 3,
+                  }}>
+                  Okay
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };

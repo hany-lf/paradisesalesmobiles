@@ -163,8 +163,8 @@ const ChooseProject = props => {
                         marginVertical: 5,
                         fontSize: 16,
                       }}>
-                      {/* {item.descs} */}
-                      {item.project_descs}
+                      {item.descs}
+                      {/* {item.project_descs} */}
                     </Text>
                     <Text
                       style={{

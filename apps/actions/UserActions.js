@@ -77,7 +77,7 @@ const signUpGuestError = error => ({
 
 const signUpGuestSuccess = (user, data) => ({
   type: actionTypes.SIGNUPGUEST_SUCCESS,
-  signUpGuest: data,
+  login: data,
   user,
 });
 

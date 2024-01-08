@@ -139,7 +139,9 @@ const PromoModal = props => {
                       {moment(datas.date_created).format('DD MMM YYYY - hh:mm')}
                     </Text>
                   </View>
-                  <TouchableOpacity onPress={() => zoomImage(datas.url_image)}>
+                  <TouchableOpacity
+                    onPress={() => zoomImage(datas.url_image)}
+                    style={{alignItems: 'center'}}>
                     <Image
                       source={{uri: datas.url_image}}
                       // source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
@@ -147,8 +149,10 @@ const PromoModal = props => {
                         // width: '100%',
                         // // width: 300,
                         // height: 200,
-                        width: '100%',
-                        height: Dimensions.get('window').height / 2.5,
+                        // width: '100%',
+                        width: 300,
+                        height: 300,
+                        // height: Dimensions.get('window').height / 2.5,
                         // marginTop: 10,
                         // paddingTop: 10,
                         // ...StyleSheet.absoluteFillObject,

@@ -161,13 +161,15 @@ const PromoWithoutModal = props => {
                 </Text>
               </View>
               <TouchableOpacity
-                onPress={() => zoomImage(detailPromo.url_image)}>
+                onPress={() => zoomImage(detailPromo.url_image)}
+                style={{alignItems: 'center'}}>
                 <Image
                   source={{uri: detailPromo.url_image}}
                   // source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
                   style={{
-                    width: '100%',
-                    height: Dimensions.get('window').height / 2.5,
+                    width: 300,
+                    // height: Dimensions.get('window').height / 2.5,
+                    height: 300,
                     // marginTop: 10,
                     // paddingTop: 10,
                     // ...StyleSheet.absoluteFillObject,

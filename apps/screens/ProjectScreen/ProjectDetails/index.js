@@ -49,6 +49,7 @@ const ProjectDetails = props => {
   const paramsDetail = props.route.params;
   const entity_cd = paramsDetail.entity_cd;
   const project_no = paramsDetail.project_no;
+  console.log('paramsdetail projek detail', paramsDetail);
   const [modalVisible, setModalVisible] = useState(false);
   const [visibleFeatures, setVisibleFeatures] = useState(false);
   const [visibleGallery, setVisibleGallery] = useState(false);
@@ -122,7 +123,7 @@ const ProjectDetails = props => {
       axios(config)
         .then(result => {
           const pasing = result.data.Data;
-          console.log('data di project', pasing);
+          // console.log('data di project', pasing);
           setDataProjectDetail(pasing);
           setGalleryProject(pasing.gallery);
           setOverviewProject(pasing.overview);
@@ -250,7 +251,8 @@ const ProjectDetails = props => {
                 }}>
                 {/* {item.project_name} */}
                 {/* Project name */}
-                {paramsDetail.project_descs}
+                {/* {paramsDetail.project_descs} */}
+                {paramsDetail.descs}
               </Text>
               <Text
                 style={{

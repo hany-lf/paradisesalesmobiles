@@ -9,7 +9,8 @@ import axios from 'axios';
 class UserController {
   constructor() {
     // this.basePath = '/login_mobile';
-    basePath = 'https://dev.ifca.co.id/apiparadise/api'; //lokal
+    // basePath = 'https://dev.ifca.co.id/apiparadise/api'; //lokal
+    basePath = 'http://ifca.paradiseindonesia.com/apiparadise/aspi'; //live
     // httpsAgent = new https.Agent({
     //   rejectUnauthorized: false,
     // });
@@ -71,51 +72,52 @@ class UserController {
     console.log('password yg akan dikirim', password);
     console.log('name yg akan dikirim', name);
     console.log('nohp yg akan dikirim', nohp);
-    // try {
-    //   const result = await httpClient.request({
-    //     url: `/auth/login`,
-    //     // httpsAgent: httpsAgent,
-    //     method: 'POST',
-    //     data: {
-    //       email,
-    //       password,
-    //       device: 'mobile',
-    //       mac: 'mac',
-    //       token_firebase: token_firebase,
-    //       apps_type: 'S',
-    //       groupCd: 'GUEST',
-    //     },
-    //   });
-    //   // alert(result.Pesan);
-    //   console.log('vardums result -->', result);
-    //   console.log('error gak si?', result.Error);
-    //   // ini ada isreset dalemnya, sementara dihilangin, buat biar ga nyangkut insert token firebase
-    //   if (result.Error) {
-    //     console.log('first pesan', result.Pesan);
-    //     return Promise.reject(result.Pesan);
-    //   } else {
-    //     console.log('if succes', result);
-    //     return result;
-    //   }
-    // } catch (error) {
-    //   console.log('error login aja', error.response.data.Pesan);
-    //   console.log('if errorz', error.response.data.Pesan);
+    try {
+      const result = await httpClient.request({
+        url: `/auth/sign-up-guest`,
+        // httpsAgent: httpsAgent,
+        method: 'POST',
+        data: {
+          email,
+          password,
+          nama: name,
+          handphone: nohp,
+          device: 'mobile',
+          mac: 'mac',
+          token_firebase: token_firebase,
+          group_cd: 'GUEST',
+        },
+      });
+      // alert(result.Pesan);
+      console.log('vardums result signupguest -->', result);
+      console.log('error gak si?', result.Error);
+      // ini ada isreset dalemnya, sementara dihilangin, buat biar ga nyangkut insert token firebase
+      if (result.Error) {
+        console.log('first pesan', result.Pesan);
+        return Promise.reject(result.Pesan);
+      } else {
+        console.log('if succes', result);
+        return result;
+      }
+    } catch (error) {
+      console.log('error login aja', error.response.data.Pesan);
+      console.log('if errorz', error.response.data.Pesan);
 
-    //   // if (error.response.data.Error == true) {
-    //   //   console.log('first pesan', error.response.data.Pesan.password[0]);
-    //   //   const pesan_NoPassword = error.response.data.Pesan.password[0];
-    //   //   // return pesan_NoPassword;
+      // if (error.response.data.Error == true) {
+      //   console.log('first pesan', error.response.data.Pesan.password[0]);
+      //   const pesan_NoPassword = error.response.data.Pesan.password[0];
+      //   // return pesan_NoPassword;
 
-    //   //   return Promise.reject(pesan_NoPassword);
-    //   // }
-    //   return Promise.reject(error);
+      //   return Promise.reject(pesan_NoPassword);
+      // }
+      return Promise.reject(error);
 
-    //   // else {
-    //   //   console.log('if succes', error.response.data.Error);
-    //   //   // return result;
-    //   // }
-    //   // this.showErrors(error.response.data.error);
-    // }
+      // else {
+      //   console.log('if succes', error.response.data.Error);
+      //   // return result;
+      // }
+      // this.showErrors(error.response.data.error);
+    }
   };
 
   resetPassword = async (email, newPass) => {
