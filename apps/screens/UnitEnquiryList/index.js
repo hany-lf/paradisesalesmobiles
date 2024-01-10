@@ -27,7 +27,7 @@ import getUser from '../../selectors/UserSelectors';
 import {useSelector, useDispatch, connect} from 'react-redux';
 import axios from 'axios';
 import {Dropdown} from 'react-native-element-dropdown';
-import ImageViewer from 'react-native-image-zoom-viewer';
+
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 

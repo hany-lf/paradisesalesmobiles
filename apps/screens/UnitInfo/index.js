@@ -22,7 +22,7 @@ import getUser from '../../selectors/UserSelectors';
 import axios from 'axios';
 import {API_URL} from '@env';
 import UnitInfoModal from './Modal/UnitInfoModal';
-import ImageViewer from 'react-native-image-zoom-viewer';
+
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import UnitInfoDetailsModal from './Modal/UnitInfoDetailsModal';
 

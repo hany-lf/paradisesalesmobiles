@@ -18,7 +18,7 @@ import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {BaseStyle, Fonts, BaseColor} from '@config';
 import {useTranslation} from 'react-i18next';
 import moment from 'moment';
-import ImageViewer from 'react-native-image-zoom-viewer';
+
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
 

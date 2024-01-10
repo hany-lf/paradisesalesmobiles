@@ -12,7 +12,6 @@ import styles from './styles';
 import {useTranslation} from 'react-i18next';
 import {BaseStyle, Fonts, BaseColor} from '@config';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
-import ImageViewer from 'react-native-image-zoom-viewer';
 
 const UnitInfoModal = props => {
   const {onPress, datas, visibleMod, icon, ...attrs} = props;

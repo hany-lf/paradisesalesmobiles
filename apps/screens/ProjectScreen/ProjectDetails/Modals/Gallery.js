@@ -18,7 +18,6 @@ import {BaseStyle, Fonts, BaseColor} from '@config';
 import {ScrollView} from 'react-native-gesture-handler';
 
 import ImageViewing from 'react-native-image-viewing';
-import GalleryZoom from './GalleryZoom';
 
 import get from 'lodash/get';
 
@@ -33,7 +32,7 @@ const Gallery = props => {
   const [showImageGallery, setShowImageGallery] = useState(false);
   const [showImage, setShowImage] = useState(false);
   const [actionTriggered, setActionTriggered] = useState('');
-  const [visibleGalleryZoom, setVisibleGalleryZoom] = useState(false);
+
   const insets = useSafeAreaInsets();
   const [isVisible, setIsVisible] = useState(false);
   const [currentImageIndex, setImageIndex] = useState(0);

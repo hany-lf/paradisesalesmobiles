@@ -15,7 +15,7 @@ import styles from './styles';
 
 import {BaseStyle, Fonts, BaseColor} from '@config';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
-import ImageViewer from 'react-native-image-zoom-viewer';
+
 import {useIsFocused} from '@react-navigation/native';
 import entities from 'entities';
 import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';

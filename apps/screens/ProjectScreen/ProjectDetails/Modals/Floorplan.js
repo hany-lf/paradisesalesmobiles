@@ -14,11 +14,10 @@ import styles from './styles';
 import {useTranslation} from 'react-i18next';
 import {BaseStyle, Fonts, BaseColor} from '@config';
 import {ScrollView} from 'react-native-gesture-handler';
-import ImageViewer from 'react-native-image-zoom-viewer';
+
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import ImageViewing from 'react-native-image-viewing';
-import GalleryZoom from './GalleryZoom';
 
 import get from 'lodash/get';
 
