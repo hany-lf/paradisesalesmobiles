@@ -11,6 +11,8 @@ import {
   RefreshControl,
   PixelRatio,
   ActivityIndicator,
+  UIManager,
+  LayoutAnimation,
 } from 'react-native';
 import {Button, Text, Icon} from '@components';
 import {useFocusEffect} from '@react-navigation/native';
@@ -36,8 +38,15 @@ import {API_URL} from '@env';
 // import news_dummy from '../NewsScreen/news_dummy.json';
 const SLIDER_1_FIRST_ITEM = 1;
 
+if (
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
 const Home = props => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const {authentication} = UserAuth;
   const {navigation} = props;
@@ -212,30 +221,48 @@ const Home = props => {
     },
   };
 
-  useEffect(() => {
-    setLoading(true);
+  // useEffect(() => {
+  //   setLoading(true);
 
-    setTimeout(() => {
-      getDataPromo();
+  //   setTimeout(() => {
+  //     getDataPromo();
 
-      setLoading(false);
-    }, 5000);
-  }, []);
-
-  useEffect(() => {
-    setLoading(true);
-
-    setTimeout(() => {
-      getDataNews();
-      setLoading(false);
-    }, 5000);
-  }, []);
+  //     setLoading(false);
+  //   }, 5000);
+  // }, []);
 
   useEffect(() => {
+    getDataNews();
     getProject();
-    // getDataNews();
-    // getDataPromo();
+    getDataPromo();
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
   }, []);
+
+  useEffect(() => {
+    LayoutAnimation.configureNext({
+      duration: 300,
+      create: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.opacity,
+      },
+      update: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+      },
+    });
+  });
+
+  // useEffect(() => {
+  //   getProject();
+  //   // getDataNews();
+  //   // getDataPromo();
+  // }, []);
+  // useEffect(() => {
+  //   getDataPromo();
+  //   // getDataNews();
+  //   // getDataPromo();
+  // }, []);
 
   const getDataPromo = () => {
     try {
@@ -534,7 +561,7 @@ const Home = props => {
         }}>
         <View style={{width: 150, height: 200}}>
           <Image
-            source={{uri: item?.url_image}}
+            source={{uri: item.url_image}}
             // source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
             // source={{
             //   uri: 'https://i.stack.imgur.com/280rI.png',
@@ -658,7 +685,7 @@ const Home = props => {
         </View>
 
         <View style={{flex: 1}}>
-          {loading ? (
+          {loading == true ? (
             <ActivityIndicator color={BaseColor.corn70}></ActivityIndicator>
           ) : (
             <Animated.FlatList
@@ -835,6 +862,7 @@ const Home = props => {
                 // backgroundColor: BaseColor.corn10,
                 flex: 1,
                 marginTop: 20,
+                marginBottom: 20,
               }}>
               <View
                 style={{
@@ -861,136 +889,24 @@ const Home = props => {
                   </Text>
                 </TouchableOpacity>
               </View>
-            </View>
-            <View style={{flex: 1}}>
-              {loading ? (
+              {loading == true ? (
                 <ActivityIndicator color={BaseColor.corn70}></ActivityIndicator>
               ) : (
-                <Animated.FlatList
-                  ref={ref}
-                  showsHorizontalScrollIndicator={false}
-                  data={dataPromo}
-                  keyExtractor={item => item.rowID}
-                  horizontal
-                  contentContainerStyle={{alignItems: 'center'}}
-                  snapToInterval={ITEM_SIZE}
-                  decelerationRate={0}
-                  bounces={false}
-                  onScroll={Animated.event(
-                    [{nativeEvent: {contentOffset: {x: scrollX}}}],
-                    {useNativeDriver: true},
-                  )}
-                  // onViewableItemsChanged={onViewableItemsChanged} //diganti ya
-                  viewabilityConfigCallbackPairs={
-                    viewabilityConfigCallbackPairs.current
-                  }
-                  viewabilityConfig={{
-                    waitForInteraction: true,
-                    viewAreaCoveragePercentThreshold: 60,
-                  }}
-                  scrollEventThrottle={16}
-                  pagingEnabled
-                  renderItem={({item, index}) => {
-                    if (!item.url_image) {
-                      return <View style={{width: SPACER_ITEM_SIZE}}></View>;
-                    }
-                    const inputRange = [
-                      (index - 2) * ITEM_SIZE,
-                      (index - 1) * ITEM_SIZE,
-                      index * ITEM_SIZE,
-                      // (index + 1) * ITEM_SIZE,
-                    ];
-                    const translateY = scrollX.interpolate({
-                      inputRange,
-                      outputRange: [0, -5, 0],
-                    });
-                    return (
-                      <TouchableOpacity
-                        key={index}
-                        onPress={() =>
-                          navigation.navigate('ProjectDetails', item)
-                        }>
-                        <View style={{width: ITEM_SIZE}}>
-                          <Animated.View
-                            style={{
-                              marginHorizontal: SPACING,
-                              // padding: SPACING,
-                              padding: Platform.OS == 'ios' ? 4 : 5,
-                              alignItems: 'center',
-                              backgroundColor: 'white',
-                              borderRadius: 20,
-                              transform: [{translateY}],
-                            }}>
-                            <Image
-                              // source={item.picture_url}
-                              source={{uri: item.url_image}}
-                              style={{
-                                width: '100%',
-                                height:
-                                  Platform.OS == 'ios'
-                                    ? ITEM_SIZE - 18
-                                    : ITEM_SIZE - 10,
-                                resizeMode: 'contain',
-                                borderRadius: 24,
-                              }}></Image>
-
-                            <View
-                              style={{
-                                position: 'absolute',
-                                backgroundColor: BaseColor.grey10,
-                                // top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                // height: Platform.OS == 'android' ? 95 : 110, //height ditutup agar responsive tulisan besar kotak abu nya
-
-                                marginHorizontal: 30,
-                                marginVertical: 20,
-                                borderRadius: 20,
-                                opacity: 0.8,
-                                // justifyContent: 'center',
-                                // alignItems: 'center',
-                              }}>
-                              <View
-                                style={{
-                                  marginVertical: 10,
-                                  marginHorizontal: 25,
-                                }}>
-                                <Text
-                                  style={{
-                                    fontFamily: Fonts.type.LatoBlack,
-                                    color: BaseColor.corn90,
-                                    marginVertical: 5,
-                                    fontSize: 16,
-                                  }}>
-                                  {item.promo_title}
-                                </Text>
-                              </View>
-                            </View>
-                          </Animated.View>
-                        </View>
-                      </TouchableOpacity>
-                    );
-                  }}></Animated.FlatList>
+                <View style={{marginHorizontal: 20, marginVertical: 10}}>
+                  <FlatList
+                    data={dataPromo}
+                    horizontal
+                    pagingEnabled={true}
+                    contentContainerStyle={{alignItems: 'center'}}
+                    showsHorizontalScrollIndicator={false}
+                    legacyImplementation={false}
+                    snapToInterval={ITEM_SIZE}
+                    decelerationRate={0}
+                    bounces={false}
+                    keyExtractor={item => item.rowID}
+                    renderItem={_renderItemPromo}></FlatList>
+                </View>
               )}
-
-              {/* <Indicator scrollX={scrollX} />
-          <ExpandingDot
-            data={datasIndicator}
-            expandingDotWidth={20}
-            scrollX={scrollX}
-            inActiveDotColor={'#347af0'}
-            activeDotColor={'#347af0'}
-            inActiveDotOpacity={0.5}
-            // dotStyle={styles.dotStyles}
-            dotStyle={{
-              width: 10,
-              height: 10,
-              borderRadius: 5,
-              marginHorizontal: 3,
-            }}
-            containerStyle={styles.constainerStyles}
-          /> */}
             </View>
 
             {/* //INI NEWS UPDATE */}
@@ -1026,7 +942,7 @@ const Home = props => {
                   </Text>
                 </TouchableOpacity>
               </View>
-              {loading ? (
+              {loading == true ? (
                 <ActivityIndicator color={BaseColor.corn70}></ActivityIndicator>
               ) : (
                 <View style={{marginHorizontal: 20, marginVertical: 10}}>

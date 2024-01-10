@@ -259,6 +259,7 @@ export const login = (email, password, token_firebase) => async dispatch => {
     // alert("JSON.stringify(user)");
   } catch (error) {
     // alert(error.response.data.Pesan);
+    console.log('error login useraction', error);
     console.log('error.response.data.Pesan.email', error.response.data.Pesan);
 
     if (error.response.data.Pesan.email != null) {

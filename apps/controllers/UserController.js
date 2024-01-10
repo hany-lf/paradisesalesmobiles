@@ -10,7 +10,7 @@ class UserController {
   constructor() {
     // this.basePath = '/login_mobile';
     // basePath = 'https://dev.ifca.co.id/apiparadise/api'; //lokal
-    basePath = 'http://ifca.paradiseindonesia.com/apiparadise/aspi'; //live
+    basePath = 'https://ifca.paradiseindonesia.com/apiparadise/api'; //live
     // httpsAgent = new https.Agent({
     //   rejectUnauthorized: false,
     // });
@@ -20,6 +20,7 @@ class UserController {
     console.log('token firebase yg akan dikirim', token_firebase);
     console.log('email yg akan dikirim', email);
     console.log('password yg akan dikirim', password);
+    console.log('loginnnnn!!!');
     try {
       const result = await httpClient.request({
         url: `/auth/login`,
@@ -46,7 +47,7 @@ class UserController {
         return result;
       }
     } catch (error) {
-      console.log('error login aja', error.response.data.Pesan);
+      console.log('error login aja', error);
       console.log('if errorz', error.response.data.Pesan);
 
       // if (error.response.data.Error == true) {
