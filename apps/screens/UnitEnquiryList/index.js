@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   RefreshControl,
   Platform,
+  StatusBar,
 } from 'react-native';
 import RenderHtml from 'react-native-render-html';
 import React, {useState, useEffect, useCallback} from 'react';
@@ -29,6 +30,9 @@ import {Dropdown} from 'react-native-element-dropdown';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
+
+import ImageViewing from 'react-native-image-viewing';
+import get from 'lodash/get';
 
 const UnitEnquiryList = props => {
   const {t} = useTranslation();
@@ -60,16 +64,8 @@ const UnitEnquiryList = props => {
   const [showImage, setShowImage] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const insets = useSafeAreaInsets();
-  // const renderLabel = () => {
-  //   if (value || isFocus) {
-  //     return (
-  //       <Text style={[styles.label, isFocus && {color: 'blue'}]}>
-  //         Dropdown label
-  //       </Text>
-  //     );
-  //   }
-  //   return null;
-  // };
+  const [isVisible, setIsVisible] = useState(false);
+  const [currentImageIndex, setImageIndex] = useState(0);
 
   useEffect(() => {
     getDataListEnquiry();
@@ -118,10 +114,29 @@ const UnitEnquiryList = props => {
   const sendReq_ = () => {};
 
   const zoomImage = image => {
-    const data = [{url: image}];
-    console.log('image zoom', image);
-    setShowImage(true);
+    console.log('array image zoom', image);
+    setImageIndex(0);
+    const data = [{uri: image}];
+
+    console.log('arr url', data);
+
     setDataImage(data);
+    setIsVisible(true);
+  };
+
+  const onRequestClose = () => setIsVisible(false);
+
+  const onLongPress = image => {
+    // Alert.alert('url image', image.uri);
+    Alert.alert(
+      'Do you want to save the image?',
+      'This image will be saved on your phone.',
+      [
+        {text: 'Yes', onPress: () => _saveImages(image.uri)},
+        {text: 'Cancel', onPress: () => onRequestClose()},
+      ],
+      {cancelable: false},
+    );
   };
 
   const _saveImages = uri => {
@@ -173,22 +188,48 @@ const UnitEnquiryList = props => {
     }, 1000);
   }, []);
 
-  const renderHeader = () => (
-    <View
-      style={[
-        styles.header,
-        Platform.OS === 'ios' ? {paddingTop: insets.top} : {paddingTop: 10},
-      ]}>
-      <TouchableOpacity onPress={() => setShowImage(false)}>
-        <Icon
-          name={'times'}
-          color={BaseColor.whiteColor}
+  const ImageHeader = ({title, onRequestClose}) => {
+    const HIT_SLOP = {top: 16, left: 16, bottom: 16, right: 16};
+    return (
+      <SafeAreaView style={{backgroundColor: '#00000077'}}>
+        <View
           style={{
-            fontSize: 16,
-          }}></Icon>
-      </TouchableOpacity>
-    </View>
-  );
+            flex: 1,
+            padding: 8,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+          <View style={{width: 45, height: 45}} />
+          {title && (
+            <Text
+              style={{
+                maxWidth: 240,
+                marginTop: 12,
+                flex: 1,
+                flexWrap: 'wrap',
+                textAlign: 'center',
+                fontSize: 17,
+                lineHeight: 17,
+                color: '#FFF',
+              }}>
+              {title}
+            </Text>
+          )}
+          <TouchableOpacity
+            style={{
+              width: 45,
+              height: 45,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onPress={onRequestClose}
+            hitSlop={HIT_SLOP}>
+            <Text style={styles.closeText}>✕</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
+  };
 
   return (
     <SafeAreaView
@@ -638,21 +679,45 @@ const UnitEnquiryList = props => {
         </View>
       </Modal>
 
-      <Modal visible={showImage} transparent={true} animationType="slide">
-        {renderHeader()}
-
-        <ImageViewer
-          useNativeDriver={true}
-          imageUrls={dataImage}
-          enableSwipeDown={true}
-          onSwipeDown={() => setShowImage(false)}
-          onSave={uri => _saveImages(uri)}
-          menuContext={{
-            saveToLocal: 'Save Image',
-            cancel: 'Cancel',
-          }}
-        />
-      </Modal>
+      <ImageViewing
+        images={dataImage}
+        imageIndex={currentImageIndex}
+        presentationStyle="overFullScreen"
+        visible={isVisible}
+        onRequestClose={onRequestClose}
+        onLongPress={onLongPress}
+        HeaderComponent={
+          dataImage === paramsData
+            ? ({imageIndex}) => {
+                const title = get(dataImage, `${imageIndex}.title`);
+                return (
+                  <ImageHeader title={title} onRequestClose={onRequestClose} />
+                );
+              }
+            : undefined
+        }
+        FooterComponent={({imageIndex}) => (
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: '#000',
+              ...Platform.select({
+                android: {paddingTop: StatusBar.currentHeight},
+                default: null,
+              }),
+            }}>
+            <Text
+              style={{
+                fontFamily: Fonts.type.Lato,
+                color: BaseColor.corn30,
+              }}>{`${imageIndex + 1} / ${dataImage.length}`}</Text>
+          </View>
+          // <ImageFooter
+          //   imageIndex={imageIndex}
+          //   imagesCount={dataImage.length}
+          // />
+        )}
+      />
     </SafeAreaView>
   );
 };

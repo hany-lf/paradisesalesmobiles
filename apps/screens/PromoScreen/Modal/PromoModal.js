@@ -8,6 +8,8 @@ import {
   Dimensions,
   useWindowDimensions,
   Platform,
+  StatusBar,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import styles from './styles';
@@ -17,6 +19,11 @@ import moment from 'moment';
 import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import ReactNativeBlobUtil from 'react-native-blob-util';
+import ImageViewing from 'react-native-image-viewing';
+
+import get from 'lodash/get';
+
 const PromoModal = props => {
   const {t} = useTranslation();
   const {onPress, datas, visibleMod, icon, ...attrs} = props;
@@ -25,39 +32,123 @@ const PromoModal = props => {
   console.log('attrs ?', attrs);
   console.log('datas nya', datas);
   console.log('visiblemodal', visibleMod);
-  const [visibleModal, setVisibleModal] = useState(visibleMod);
-  console.log('visiblemodaldifeature', visibleModal);
+
   const [dataImage, setDataImage] = useState([]);
   const [showImage, setShowImage] = useState(false);
   const insets = useSafeAreaInsets();
 
-  const close = () => {
-    setVisibleModal(false);
-  };
+  const [isVisible, setIsVisible] = useState(false);
+  const [currentImageIndex, setImageIndex] = useState(0);
 
   const zoomImage = image => {
-    const data = [{url: image}];
-    console.log('image zoom', image);
-    setShowImage(true);
+    console.log('array image zoom', image);
+    setImageIndex(0);
+    const data = [{uri: image}];
+
+    console.log('arr url', data);
+
     setDataImage(data);
+    setIsVisible(true);
   };
 
-  const renderHeader = () => (
-    <View
-      style={[
-        styles.header,
-        Platform.OS === 'ios' ? {paddingTop: insets.top} : {paddingTop: 10},
-      ]}>
-      <TouchableOpacity onPress={() => setShowImage(false)}>
-        <Icon
-          name={'times'}
-          color={BaseColor.whiteColor}
+  const ImageHeader = ({title, onRequestClose}) => {
+    const HIT_SLOP = {top: 16, left: 16, bottom: 16, right: 16};
+    return (
+      <SafeAreaView style={{backgroundColor: '#00000077'}}>
+        <View
           style={{
-            fontSize: 16,
-          }}></Icon>
-      </TouchableOpacity>
-    </View>
-  );
+            flex: 1,
+            padding: 8,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+          <View style={{width: 45, height: 45}} />
+          {title && (
+            <Text
+              style={{
+                maxWidth: 240,
+                marginTop: 12,
+                flex: 1,
+                flexWrap: 'wrap',
+                textAlign: 'center',
+                fontSize: 17,
+                lineHeight: 17,
+                color: '#FFF',
+              }}>
+              {title}
+            </Text>
+          )}
+          <TouchableOpacity
+            style={{
+              width: 45,
+              height: 45,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onPress={onRequestClose}
+            hitSlop={HIT_SLOP}>
+            <Text style={styles.closeText}>✕</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
+  };
+
+  const onRequestClose = () => setIsVisible(false);
+
+  const onLongPress = image => {
+    // Alert.alert('url image', image.uri);
+    Alert.alert(
+      'Do you want to save the image?',
+      'This image will be saved on your phone.',
+      [
+        {text: 'Yes', onPress: () => _saveImages(image.uri)},
+        {text: 'Cancel', onPress: () => onRequestClose()},
+      ],
+      {cancelable: false},
+    );
+  };
+
+  const _saveImages = uri => {
+    console.log('urii??', uri);
+    let dirs = ReactNativeBlobUtil.fs.dirs;
+    ReactNativeBlobUtil.config({
+      // add this option that makes response data to be stored as a file,
+      // this is much more performant.
+      fileCache: true,
+      addAndroidDownloads: {
+        path: dirs.DownloadDir + '/' + 'Promo',
+        // path: dirs.DownloadDir + '/' + item.doc_no + '.' + extension, //ini pake extensi yang sama kayak url
+        useDownloadManager: true,
+        // Show notification when response data transmitted
+        notification: true,
+        // Title of download notification
+        title: 'Image Gallery Apps Paradise Mobiles',
+        // File description (not notification description)
+        description: 'downloading content...',
+        // mime: 'application/pdf',
+        // Make the file scannable  by media scanner
+        mediaScannable: true,
+      },
+    })
+      .fetch('GET', uri, {
+        //some headers ..
+      })
+      .then(res => {
+        // the temp file path
+        console.log('The file saved to ', res.path());
+        imageView = (
+          <Image
+            source={{
+              uri:
+                Platform.OS === 'android'
+                  ? 'file://' + res.path()
+                  : '' + res.path(),
+            }}
+          />
+        );
+      });
+  };
 
   return datas == null ? null : (
     <View
@@ -214,20 +305,48 @@ const PromoModal = props => {
                   />
                 </View>
               </View>
-              <Modal visible={showImage} transparent={true}>
-                {renderHeader()}
-                <ImageViewer
-                  useNativeDriver={true}
-                  imageUrls={dataImage}
-                  enableSwipeDown={true}
-                  onSwipeDown={() => setShowImage(false)}
-                  onSave={uri => _saveImages(uri)}
-                  menuContext={{
-                    saveToLocal: 'Save Image',
-                    cancel: 'Cancel',
-                  }}
-                />
-              </Modal>
+              <ImageViewing
+                images={dataImage}
+                imageIndex={currentImageIndex}
+                presentationStyle="overFullScreen"
+                visible={isVisible}
+                onRequestClose={onRequestClose}
+                onLongPress={onLongPress}
+                HeaderComponent={
+                  dataImage === datas
+                    ? ({imageIndex}) => {
+                        const title = get(dataImage, `${imageIndex}.title`);
+                        return (
+                          <ImageHeader
+                            title={title}
+                            onRequestClose={onRequestClose}
+                          />
+                        );
+                      }
+                    : undefined
+                }
+                FooterComponent={({imageIndex}) => (
+                  <View
+                    style={{
+                      flex: 1,
+                      backgroundColor: '#000',
+                      ...Platform.select({
+                        android: {paddingTop: StatusBar.currentHeight},
+                        default: null,
+                      }),
+                    }}>
+                    <Text
+                      style={{
+                        fontFamily: Fonts.type.Lato,
+                        color: BaseColor.corn30,
+                      }}>{`${imageIndex + 1} / ${dataImage.length}`}</Text>
+                  </View>
+                  // <ImageFooter
+                  //   imageIndex={imageIndex}
+                  //   imagesCount={dataImage.length}
+                  // />
+                )}
+              />
             </ScrollView>
           </View>
         </View>
