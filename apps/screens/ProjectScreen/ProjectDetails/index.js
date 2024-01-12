@@ -226,34 +226,31 @@ const ProjectDetails = props => {
               // top: 0,
               left: 0,
               right: 0,
-              bottom: 15,
-              height: 100,
+              bottom: 0,
+              // height: 80,
 
-              marginHorizontal: 30,
+              marginHorizontal: 25,
               marginVertical: 20,
               borderRadius: 20,
               opacity: 0.8,
               // justifyContent: 'center',
               // alignItems: 'center',
             }}>
-            <View
-              style={{
-                marginVertical: 10,
-                marginHorizontal: 25,
-                alignItems: 'center',
-              }}>
+            <View style={{marginVertical: 10, marginHorizontal: 25}}>
               <Text
                 style={{
                   fontFamily: Fonts.type.LatoBlack,
                   color: BaseColor.corn90,
                   marginVertical: 10,
                   fontSize: 18,
+                  // marginHorizontal: 3,
                 }}>
                 {/* {item.project_name} */}
                 {/* Project name */}
                 {/* {paramsDetail.project_descs} */}
                 {paramsDetail.descs}
               </Text>
+
               <Text
                 style={{
                   fontFamily: Fonts.type.LatoBold,

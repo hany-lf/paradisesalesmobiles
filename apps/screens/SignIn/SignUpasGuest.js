@@ -260,6 +260,11 @@ const SignUpasGuest = props => {
                 color: BaseColor.corn70,
                 fontFamily: Fonts.type.Lato,
               }}
+              modalCountryItemCountryNameStyle={{
+                color: BaseColor.corn70,
+                fontFamily: Fonts.type.Lato,
+                fontSize: 13,
+              }}
               phoneInputStyle={{
                 color: BaseColor.corn70,
                 fontFamily: Fonts.type.Lato,

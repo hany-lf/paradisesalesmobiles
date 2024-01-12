@@ -207,7 +207,7 @@ const NewsScreen = props => {
                       style={{
                         width: 150,
                         height: 150,
-                        resizeMode: 'contain',
+                        resizeMode: 'cover',
                         borderRadius: 15,
                       }}></Image>
                   </View>

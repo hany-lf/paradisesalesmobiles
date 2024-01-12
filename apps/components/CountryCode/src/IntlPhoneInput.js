@@ -195,7 +195,9 @@ export default class IntlPhoneInput extends React.Component {
           <TouchableOpacity
             onPress={() => this.hideModal()}
             style={[styles.closeButtonStyle, closeButtonStyle]}>
-            <Text>{closeText || 'CLOSE'}</Text>
+            <Text style={{color: '#4C4027', fontSize: 12}}>
+              {closeText || 'CLOSE'}
+            </Text>
           </TouchableOpacity>
         </SafeAreaView>
       </Modal>
@@ -309,9 +311,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   flagStyle: {
-    fontSize: 35,
+    fontSize: 25,
+    alignItems: 'center',
   },
-  dialCodeTextStyle: {},
+  dialCodeTextStyle: {
+    color: 'red',
+  },
   countryModalStyle: {
     flex: 1,
     borderColor: 'black',
@@ -324,6 +329,7 @@ const styles = StyleSheet.create({
   openDialogView: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   filterInputStyle: {
     flex: 1,
@@ -378,5 +384,6 @@ const styles = StyleSheet.create({
   closeButtonStyle: {
     padding: 12,
     alignItems: 'center',
+    backgroundColor: '#EAE6DC',
   },
 });

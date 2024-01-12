@@ -36,8 +36,14 @@ import IconAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {useTranslation} from 'react-i18next';
 import {PermissionsAndroid} from 'react-native';
 import errorsSelector from '../../selectors/ErrorSelectors';
+import packageJson from '../../package.json';
 
 const SignIn = props => {
+  console.log('pakcage.json version,', packageJson.version); // "1.0.0"
+  console.log(
+    'tes env version',
+    `${process.env.REACT_APP_NAME} ${process.env.REACT_APP_VERSION}`,
+  );
   console.log('api url env', API_URL);
   const scheme = useColorScheme();
   console.log('schema', scheme);
@@ -59,6 +65,7 @@ const SignIn = props => {
   const userError = useSelector(state => state.user);
   const user = useSelector(state => state.user);
   console.log('user di sig in', userError);
+
   // console.log('datashow modal null', user.dataShowModal);
   // const psn =
   //   user.dataShowModal === null
@@ -584,6 +591,27 @@ const SignIn = props => {
           </View>
         </Modal>
       </View> */}
+      <View
+        style={{
+          justifyContent: 'center',
+          flex: 1,
+
+          alignItems: 'center',
+          // position: 'absolute',
+          // bottom: 50,
+          // left: 0,
+          // right: 0,
+        }}>
+        <Text
+          style={{
+            fontSize: 10,
+            color: BaseColor.corn30,
+            fontFamily: Fonts.type.Lato,
+          }}>
+          Version 5.2.0.1
+        </Text>
+      </View>
+      {/* <Text>Version: {appJson.expo.name}</Text> */}
     </SafeAreaView>
   ) : (
     <AppIntroSlider

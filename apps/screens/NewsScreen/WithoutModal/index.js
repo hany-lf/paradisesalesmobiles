@@ -283,8 +283,12 @@ const NewsWithoutModal = props => {
               flex: 1,
               backgroundColor: '#000',
               ...Platform.select({
-                android: {paddingTop: StatusBar.currentHeight},
-                default: null,
+                android: {
+                  paddingTop: StatusBar.currentHeight,
+                  marginLeft: 40,
+                  bottom: 40,
+                },
+                ios: {marginLeft: 40, bottom: 40},
               }),
             }}>
             <Text
