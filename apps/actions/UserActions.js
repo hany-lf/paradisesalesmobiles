@@ -352,7 +352,8 @@ export const signupguest =
       console.log('userrrrr', user);
       // alert("JSON.stringify(user)");
     } catch (error) {
-      alert(error.response.data.Pesan);
+      console.log('error di signup useraction', error);
+      alert(error);
     }
   };
 

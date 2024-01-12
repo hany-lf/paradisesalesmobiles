@@ -1,6 +1,6 @@
 {
   "name": "paradisesalesmobiles",
-  "version": "5.5.2.0.1",
+  "version": "5.5.2.0.3",
   "private": true,
   "scripts": {
     "android": "react-native run-android",

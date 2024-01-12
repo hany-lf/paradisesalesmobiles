@@ -608,7 +608,7 @@ const SignIn = props => {
             color: BaseColor.corn30,
             fontFamily: Fonts.type.Lato,
           }}>
-          Version 5.2.0.1
+          Version 5.2.0.3
         </Text>
       </View>
       {/* <Text>Version: {appJson.expo.name}</Text> */}

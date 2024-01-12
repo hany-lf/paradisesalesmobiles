@@ -89,7 +89,7 @@ const SignUpasGuest = props => {
   //untuk ubah disable button login
   useEffect(() => {
     console.log('!email', email);
-    if (email != '' && password != '') {
+    if (email != '' && password != '' && name != '' && nohp != '') {
       setdisableUser(false);
     } else {
       setdisableUser(true);
@@ -159,14 +159,11 @@ const SignUpasGuest = props => {
 
           // alert(res.data.Pesan);
         } else {
+          console.log('erroor email udah dipake', res);
           setErrorResetPass(res.data.Error);
           setModalAlert(true);
-          console.log('nama error', res.data.Pesan.nama[0]);
-          const msgError =
-            res.data.Pesan.email[0] ||
-            res.data.Pesan.nama[0] ||
-            res.data.Pesan.handphone[0] ||
-            res.data.Pesan.password[0];
+
+          const msgError = res.data.Pesan;
           setMessageAlert(msgError);
           // alert(res.data.Pesan);
         }
@@ -176,16 +173,29 @@ const SignUpasGuest = props => {
         // console.log('error di catch signup', error.response.data.Error);
 
         if (error.response.data.Error === true) {
-          const msgError =
-            error.response.data.Pesan.email[0] ||
-            error.response.data.Pesan.nama[0] ||
-            error.response.data.Pesan.handphone[0] ||
-            error.response.data.Pesan.password[0];
-          setErrorResetPass(error.response.data.Error);
-          setModalAlert(true);
-          // console.log('nama error', error.response.data.Pesan.nama[0]);
+          if (error.response.data.Pesan.email != null) {
+            const msgError = error.response.data.Pesan.email[0];
+            // error.response.data.Pesan.email[0] ||
+            // error.response.data.Pesan.nama[0] ||
+            // error.response.data.Pesan.handphone[0] ||
+            // error.response.data.Pesan.password[0];
+            setErrorResetPass(error.response.data.Error);
+            setModalAlert(true);
+            // console.log('nama error', error.response.data.Pesan.nama[0]);
 
-          setMessageAlert(msgError);
+            setMessageAlert(msgError);
+          } else {
+            const msgError = error.response.data.Pesan;
+            // error.response.data.Pesan.email[0] ||
+            // error.response.data.Pesan.nama[0] ||
+            // error.response.data.Pesan.handphone[0] ||
+            // error.response.data.Pesan.password[0];
+            setErrorResetPass(error.response.data.Error);
+            setModalAlert(true);
+            // console.log('nama error', error.response.data.Pesan.nama[0]);
+
+            setMessageAlert(msgError);
+          }
         }
       });
   };

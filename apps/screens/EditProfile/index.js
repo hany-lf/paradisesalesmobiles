@@ -318,6 +318,7 @@ const EditProfile = props => {
             autoCorrect={false}
             placeholder={t('phone_number')}
             value={phone}
+            keyboardType={'phone-pad'}
             selectionColor={BaseColor.primary}
           />
         </View>
