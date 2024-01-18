@@ -49,6 +49,7 @@ const SignUpasGuest = props => {
   const {t} = useTranslation();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
+  const [emailValidError, setEmailValidError] = useState('');
   const [name, setName] = useState('');
   const [nohp, setNohp] = useState('');
   const [password, setPassword] = useState('');
@@ -66,7 +67,10 @@ const SignUpasGuest = props => {
   const [modalAlert, setModalAlert] = useState(false);
   const [messageAlert, setMessageAlert] = useState('');
   const passwordChanged = useCallback(value => setPassword(value), []);
-  const emailChanged = useCallback(value => setEmail(value), []);
+  const emailChanged = useCallback(value => {
+    setEmail(value);
+    handleValidEmail(value);
+  }, []);
   const nameChanged = useCallback(value => setName(value), []);
   // const nameChanged = useCallback(value => setName(value), []);
 
@@ -82,6 +86,21 @@ const SignUpasGuest = props => {
     // console.log('nohp',this.state.nohp);
   };
 
+  const handleValidEmail = val => {
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+
+    if (val.length === 0) {
+      setEmailValidError('undefined');
+      console.log('email address must be enter');
+    } else if (reg.test(val) === false) {
+      setEmailValidError('notvalid');
+      console.log('enter valid email address');
+    } else if (reg.test(val) === true) {
+      setEmailValidError('valid');
+      console.log('email sudah benar');
+    }
+  };
+
   useEffect(() => {
     requestUserPermission();
   }, []);
@@ -89,7 +108,13 @@ const SignUpasGuest = props => {
   //untuk ubah disable button login
   useEffect(() => {
     console.log('!email', email);
-    if (email != '' && password != '' && name != '' && nohp != '') {
+    if (
+      email != '' &&
+      password != '' &&
+      name != '' &&
+      nohp != '' &&
+      emailValidError == 'valid'
+    ) {
       setdisableUser(false);
     } else {
       setdisableUser(true);
@@ -244,15 +269,34 @@ const SignUpasGuest = props => {
           value={name}
           selectionColor={colors.primary}
         />
-
-        <TextInput
-          style={[BaseStyle.textInput, {marginBottom: 30}]}
-          onChangeText={emailChanged}
-          autoCorrect={false}
-          placeholder={t('email')}
-          value={email}
-          selectionColor={colors.primary}
-        />
+        <View style={{marginBottom: 30}}>
+          <TextInput
+            style={[BaseStyle.textInput]}
+            onChangeText={emailChanged}
+            autoCorrect={false}
+            placeholder={t('email')}
+            value={email}
+            selectionColor={colors.primary}
+          />
+          {emailValidError == 'valid' ? null : emailValidError == 'notvalid' ? (
+            <Text
+              style={{
+                fontSize: 12,
+                color: BaseColor.redStateColor,
+                fontFamily: Fonts.type.LatoItalic,
+              }}>
+              enter valid email address
+            </Text>
+          ) : // <Text
+          //   style={{
+          //     fontSize: 12,
+          //     color: BaseColor.redStateColor,
+          //     fontFamily: Fonts.type.LatoItalic,
+          //   }}>
+          //   email address must be enter
+          // </Text>
+          null}
+        </View>
 
         <View style={{marginBottom: 30}}>
           <View

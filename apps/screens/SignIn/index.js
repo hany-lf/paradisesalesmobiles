@@ -54,6 +54,7 @@ const SignIn = props => {
   const {t} = useTranslation();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
+  const [emailValidError, setEmailValidError] = useState('');
   const [password, setPassword] = useState('');
   const [hidePass, setHidePass] = useState(true);
   const [intro, setIntro] = useState(false);
@@ -87,7 +88,10 @@ const SignIn = props => {
   // );
   // console.log('error selector', errors);
   const passwordChanged = useCallback(value => setPassword(value), []);
-  const emailChanged = useCallback(value => setEmail(value), []);
+  const emailChanged = useCallback(value => {
+    setEmail(value);
+    handleValidEmail(value);
+  }, []);
 
   useEffect(() => {
     console.log('user for reset? ', user.user);
@@ -104,6 +108,21 @@ const SignIn = props => {
       console.log('truee');
     }
   }, []);
+
+  const handleValidEmail = val => {
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+
+    if (val.length === 0) {
+      setEmailValidError('undefined');
+      console.log('email address must be enter');
+    } else if (reg.test(val) === false) {
+      setEmailValidError('notvalid');
+      console.log('enter valid email address');
+    } else if (reg.test(val) === true) {
+      setEmailValidError('valid');
+      console.log('email sudah benar');
+    }
+  };
 
   const _onDone = () => {
     console.log('done');
@@ -329,7 +348,7 @@ const SignIn = props => {
   //untuk ubah disable button login
   useEffect(() => {
     console.log('!email', email);
-    if (email != '' && password != '') {
+    if (email != '' && password != '' && emailValidError == 'valid') {
       setdisableUser(false);
     } else {
       setdisableUser(true);
@@ -380,14 +399,36 @@ const SignIn = props => {
             style={{width: 200, height: 150, resizeMode: 'contain'}}></Image>
         </View>
         <View style={{paddingHorizontal: 20}}>
-          <TextInput
-            style={[BaseStyle.textInput, {marginBottom: 30}]}
-            onChangeText={emailChanged}
-            autoCorrect={false}
-            placeholder={t('email')}
-            value={email}
-            selectionColor={colors.primary}
-          />
+          <View style={{marginBottom: 30}}>
+            <TextInput
+              style={[BaseStyle.textInput]}
+              onChangeText={emailChanged}
+              autoCorrect={false}
+              placeholder={t('email')}
+              value={email}
+              selectionColor={colors.primary}
+            />
+            {emailValidError == 'valid' ? null : emailValidError ==
+              'notvalid' ? (
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: BaseColor.redStateColor,
+                  fontFamily: Fonts.type.LatoItalic,
+                }}>
+                enter valid email address
+              </Text>
+            ) : // <Text
+            //   style={{
+            //     fontSize: 12,
+            //     color: BaseColor.redStateColor,
+            //     fontFamily: Fonts.type.LatoItalic,
+            //   }}>
+            //   email address must be enter
+            // </Text>
+            null}
+          </View>
+
           <TextInput
             style={[BaseStyle.textInput, {marginTop: 10}]}
             onChangeText={passwordChanged}
@@ -397,6 +438,7 @@ const SignIn = props => {
             value={password}
             selectionColor={colors.primary}
             position={'right'}
+            autoCapitalize={'none'}
             icon={
               <Icon
                 onPress={() => setHidePass(!hidePass)}
@@ -608,7 +650,7 @@ const SignIn = props => {
             color: BaseColor.corn30,
             fontFamily: Fonts.type.Lato,
           }}>
-          Version 5.2.0.3
+          {Platform.OS == 'android' ? 'Version 5.2.0.3' : 'Version 5.3'}
         </Text>
       </View>
       {/* <Text>Version: {appJson.expo.name}</Text> */}

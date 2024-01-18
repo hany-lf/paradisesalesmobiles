@@ -13,6 +13,8 @@ import {
   ActivityIndicator,
   UIManager,
   LayoutAnimation,
+  Modal,
+  Linking,
 } from 'react-native';
 import {Button, Text, Icon} from '@components';
 import {useFocusEffect} from '@react-navigation/native';
@@ -35,6 +37,8 @@ import {ExpandingDot} from 'react-native-animated-pagination-dots';
 import {data_promo_dummy} from './data_promo_dummy.json';
 import axios from 'axios';
 import {API_URL} from '@env';
+import checkVersion from 'react-native-store-version';
+import VersionInfo from 'react-native-version-info';
 // import news_dummy from '../NewsScreen/news_dummy.json';
 const SLIDER_1_FIRST_ITEM = 1;
 
@@ -80,8 +84,51 @@ const Home = props => {
 
   const [refreshing, setRefreshing] = useState(false);
 
-  // const [dummy_news, setDummyNews] = useState(news_dummy.Data);
-  // console.log('dummynewsss', news_dummy);
+  const [isLatest, setLatest] = useState(true);
+  const [result, setResult] = useState(undefined);
+  const [visibileModalVers, setVisibleModalVers] = useState(false);
+
+  useEffect(() => {
+    const init = async () => {
+      // const {version} = Constants.manifest;
+      // const version = require('../../package.json');
+      // console.log('ceeek', version);
+      console.log(VersionInfo.appVersion);
+      console.log(VersionInfo.buildVersion);
+      console.log(VersionInfo.bundleIdentifier);
+      const version = VersionInfo.appVersion;
+      try {
+        const check = await checkVersion({
+          version,
+          iosStoreURL: 'https://apps.apple.com/jp/app/github/id1477376905',
+          androidStoreURL:
+            'https://play.google.com/store/apps/details?id=com.paradisesalesmobiles',
+        });
+
+        console.log('check', check);
+
+        setResult(check);
+
+        if (check.result !== 'new') {
+          setLatest(false);
+          setVisibleModalVers(false);
+        } else if (check.result == 'new') {
+          setVisibleModalVers(true);
+        }
+      } catch (e) {
+        console.log(e.message);
+      }
+    };
+
+    init();
+  }, []);
+
+  const downloadVersion = () => {
+    Linking.openURL(
+      'https://play.google.com/store/apps/details?id=com.paradisesalesmobiles',
+    );
+    setVisibleModalVers(false);
+  };
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -98,66 +145,6 @@ const Home = props => {
       props.navigation.navigate('SignIn');
     }
   }, [user]);
-
-  // useEffect(() => {}, [datas]);
-
-  const data_dummy = [
-    {
-      key: 1,
-      project_no: 1,
-      image: require('@assets/images/home/slider-project/sudirmansuite.jpeg'),
-      // image: 'https://i.imgur.com/UYiroysl.jpg',
-      project_name: '31 Sudirman Suites',
-      location: 'Makassar, Indonesia',
-    },
-    // {
-    //   key: 2,
-    //   project_no: 2,
-    //   // image: require('@assets/images/home/slider-project/sudirmansuite.jpeg'),
-    //   image: 'https://i.imgur.com/UYiroysl.jpg',
-    //   project_name: '31 Sudirman Suites',
-    //   location: 'Makassar, Indonesia',
-    // },
-    {
-      key: 2,
-      project_no: 2,
-      image: require('@assets/images/home/slider-project/beachwalk.jpeg'),
-      project_name: 'Beachwalk Residence',
-      location: 'Bali, Indonesia',
-    },
-    {
-      key: 3,
-      project_no: 3,
-      image: require('@assets/images/home/slider-project/antasariplace.jpeg'),
-      project_name: 'Antasari Place',
-      location: 'Jakarta, Indonesia',
-    },
-    {
-      key: 4,
-      project_no: 2,
-      image: require('@assets/images/home/slider-project/beachwalk.jpeg'),
-      project_name: 'Beachwalk Residence',
-      location: 'Bali, Indonesia',
-    },
-    {
-      key: 5,
-      project_no: 3,
-      image: require('@assets/images/home/slider-project/antasariplace.jpeg'),
-      project_name: 'Antasari Place',
-      location: 'Jakarta, Indonesia',
-    },
-    {
-      key: 6,
-      project_no: 3,
-      image: require('@assets/images/home/slider-project/antasariplace.jpeg'),
-      project_name: 'Antasari Place',
-      location: 'Jakarta, Indonesia',
-    },
-  ];
-
-  // useEffect(() => {
-  //   getProject();
-  // }, []);
 
   const getProject = () => {
     try {
@@ -184,7 +171,7 @@ const Home = props => {
             ...pasing,
             {rowID: 'right-spacer'},
           ];
-          console.log('dataspacer', dataSpacerPasing);
+          // console.log('dataspacer', dataSpacerPasing);
           setProjectData(dataSpacerPasing);
           // getProjectDetails(pasing);
         })
@@ -195,41 +182,6 @@ const Home = props => {
       console.log('ini konsol eror', error);
     }
   };
-
-  // useEffect(() => {
-  //   // setDatasIndicator(dataProject);
-  //   setProjectData([
-  //     {RowID: 'left-spacer'},
-  //     ...dataProject,
-  //     {RowID: 'right-spacer'},
-  //   ]);
-  //   console.log('dataprojek spacer', dataProject);
-  // }, []);
-
-  const MENUS = {
-    news: {
-      id: 'news',
-      iconName: 'book',
-      title: 'News',
-      navigate: 'NewsMenu',
-    },
-    eCommerce: {
-      id: 'eCommerce',
-      iconName: 'shopping-cart',
-      title: 'E-commerce',
-      navigate: 'ECommerceMenu',
-    },
-  };
-
-  // useEffect(() => {
-  //   setLoading(true);
-
-  //   setTimeout(() => {
-  //     getDataPromo();
-
-  //     setLoading(false);
-  //   }, 5000);
-  // }, []);
 
   useEffect(() => {
     getDataNews();
@@ -253,17 +205,6 @@ const Home = props => {
     });
   });
 
-  // useEffect(() => {
-  //   getProject();
-  //   // getDataNews();
-  //   // getDataPromo();
-  // }, []);
-  // useEffect(() => {
-  //   getDataPromo();
-  //   // getDataNews();
-  //   // getDataPromo();
-  // }, []);
-
   const getDataPromo = () => {
     try {
       const config = {
@@ -284,10 +225,10 @@ const Home = props => {
           const pasing = result.data.Data;
           const filterdata = pasing.filter(pasing => pasing.status == 'Active');
 
-          console.log('data di promo', filterdata);
+          // console.log('data di promo', filterdata);
           const sliceFilterData = filterdata.slice(0, 4);
           setDataPromo(sliceFilterData);
-          console.log('data di promo', dataPromo);
+          // console.log('data di promo', dataPromo);
         })
         .catch(error =>
           console.log('error getdata promo error', error.response),
@@ -319,7 +260,7 @@ const Home = props => {
 
           const sliceFilterData = filterdata.slice(0, 4);
 
-          console.log('data di news', filterdata);
+          // console.log('data di news', filterdata);
           setDataNews(sliceFilterData);
         })
         .catch(error =>
@@ -963,6 +904,96 @@ const Home = props => {
             </View>
           </View>
         </View>
+
+        {/* {isLatest == true ? (
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={false}
+
+           
+          >
+            <View
+              style={{
+       
+                backgroundColor: 'rgba(152, 128, 78, 0.8)', 
+      
+                height: Dimensions.get('screen').height,
+          
+                alignContent: 'center',
+
+                justifyContent: 'center',
+              }}>
+              <View
+                style={{
+                  backgroundColor: BaseColor.whiteColor,
+                  borderRadius: 10,
+                  marginHorizontal: 20,
+
+                  justifyContent: 'center',
+                  padding: 10,
+                }}>
+                <Text
+                  style={{
+                    justifyContent: 'center',
+                    color: BaseColor.greenStateColor,
+                    fontFamily: Fonts.type.Lato,
+                    fontSize: 14,
+                    textAlign: 'center',
+                    marginTop: 10,
+                    marginBottom: 5,
+                  }}>
+                
+                  Paradise Indonesia needs an update!
+                </Text>
+                <Text
+                  style={{
+                    justifyContent: 'center',
+                    color: BaseColor.corn70,
+                    fontFamily: Fonts.type.Lato,
+                    fontSize: 14,
+                    textAlign: 'center',
+                    marginTop: 5,
+                    marginBottom: 15,
+                  }}>
+             
+                  To use this app, downloaded the latest version
+                </Text>
+                <TouchableOpacity
+                  onPress={() => downloadVersion()}
+                
+                >
+                  <View
+                
+                    style={{
+                      borderRadius: 10,
+                      height: 35,
+                      width: 120,
+                      padding: 0,
+                      margin: 0,
+                      backgroundColor: BaseColor.corn50,
+                      alignSelf: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        justifyContent: 'center',
+                        color: BaseColor.whiteColor,
+                        fontFamily: Fonts.type.Lato,
+                        fontSize: 13,
+                        textAlign: 'center',
+                        margin: 3,
+                      }}>
+                      Download
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+        ) : (
+          <Text>versi tidak ada yang baru</Text>
+        )} */}
       </ScrollView>
     </SafeAreaView>
   );

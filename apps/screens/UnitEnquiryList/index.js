@@ -580,7 +580,8 @@ const UnitEnquiryList = props => {
               return (
                 <View
                   style={{
-                    padding: 8,
+                    // padding: 8,
+                    padding: '3%',
                     // paddingLeft: index % 2 == 0 ? 3 : 10,
                     // paddingRight: index % 2 == 0 ? 3 : 10,
                     paddingBottom: 15,

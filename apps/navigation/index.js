@@ -20,6 +20,8 @@ import {
   View,
   Text,
   useWindowDimensions,
+  Alert,
+  Linking,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 const RootStack = createStackNavigator();
@@ -45,12 +47,19 @@ import Register from '../screens/Register';
 import CustomModal from '../screens/CustomModal';
 import SignUpasGuest from '../screens/SignIn/SignUpasGuest';
 
+import checkVersion from 'react-native-store-version';
+import VersionInfo from 'react-native-version-info';
+
 const Navigator = props => {
   const navigationRef = useRef(null);
   const scheme = useColorScheme();
   const [initialRoute, setInitialRoute] = useState('MainStack');
   const [loading, setLoading] = useState(true);
   const language = useSelector(languageSelect);
+
+  const [isLatest, setLatest] = useState(true);
+  const [result, setResult] = useState(undefined);
+  const [visibileModalVers, setVisibleModalVers] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -75,6 +84,57 @@ const Navigator = props => {
         //    navigationRef?.current?.dispatch(StackActions.replace('OnBoard'));
       }, 300);
     };
+
+    const init = async () => {
+      console.log(VersionInfo.appVersion);
+      console.log(VersionInfo.buildVersion);
+      console.log(VersionInfo.bundleIdentifier);
+      const version = VersionInfo.appVersion;
+      try {
+        const check = await checkVersion({
+          version,
+          iosStoreURL:
+            'https://apps.apple.com/us/app/paradise-indonesia/id6474651466',
+          androidStoreURL:
+            'https://play.google.com/store/apps/details?id=com.paradisesalesmobiles',
+        });
+
+        console.log('check', check);
+
+        setResult(check);
+
+        if (check.result !== 'new') {
+          setLatest(false);
+          // setVisibleModalVers(false);
+        } else if (check.result == 'new') {
+          // setVisibleModalVers(true);
+          Alert.alert(
+            'Paradise Indonesia needs an update!',
+            'To use this app, downloaded the latest version',
+            [
+              {
+                text: 'Download',
+                onPress: () =>
+                  Linking.openURL(
+                    'https://play.google.com/store/apps/details?id=com.paradisesalesmobiles',
+                  ),
+              },
+              // {text: 'Camera', onPress: () => fromCamera()},
+              // {
+              //   text: 'Cancel',
+              //   onPress: () => console.log('User Cancel'),
+              //   style: 'cancel',
+              // },
+            ],
+            {cancelable: false},
+          );
+        }
+      } catch (e) {
+        console.log(e.message);
+      }
+    };
+
+    init();
     onProcess();
   }, []);
 
@@ -83,6 +143,59 @@ const Navigator = props => {
   if (loading) {
     return null;
   }
+
+  // useEffect(() => {
+  //   const init = async () => {
+  //     console.log(VersionInfo.appVersion);
+  //     console.log(VersionInfo.buildVersion);
+  //     console.log(VersionInfo.bundleIdentifier);
+  //     const version = VersionInfo.appVersion;
+  //     try {
+  //       const check = await checkVersion({
+  //         version,
+  //         iosStoreURL: 'https://apps.apple.com/jp/app/github/id1477376905',
+  //         androidStoreURL:
+  //           'https://play.google.com/store/apps/details?id=com.paradisesalesmobiles',
+  //       });
+
+  //       console.log('check', check);
+
+  //       setResult(check);
+
+  //       if (check.result !== 'new') {
+  //         setLatest(false);
+  //         // setVisibleModalVers(false);
+  //       } else if (check.result == 'new') {
+  //         // setVisibleModalVers(true);
+  //         Alert.alert(
+  //           'Paradise Indonesia needs an update!',
+  //           'To use this app, downloaded the latest version',
+  //           [
+  //             {
+  //               text: 'Download',
+  //               onPress: () =>
+  //                 Linking.openURL(
+  //                   'https://play.google.com/store/apps/details?id=com.paradisesalesmobiles',
+  //                 ),
+  //             },
+  //             // {text: 'Camera', onPress: () => fromCamera()},
+  //             // {
+  //             //   text: 'Cancel',
+  //             //   onPress: () => console.log('User Cancel'),
+  //             //   style: 'cancel',
+  //             // },
+  //           ],
+  //           {cancelable: false},
+  //         );
+  //       }
+  //     } catch (e) {
+  //       console.log(e.message);
+  //     }
+  //   };
+
+  //   init();
+  // }, []);
+
   return (
     <NavigationContainer ref={navigationRef}>
       <RootStack.Navigator

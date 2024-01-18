@@ -29,6 +29,8 @@ import editSuksesSelector from '../../selectors/EditProfilSelectors';
 import ImagePicker from 'react-native-image-crop-picker';
 // import ReactNativeBlobUtil from 'react-native-blob-util';
 import {UserAuth} from '@actions';
+import MaskInput, {Masks, useMaskedInputProps} from 'react-native-mask-input';
+import {useTheme} from '@react-navigation/native';
 
 const EditProfile = props => {
   const [loading, setLoading] = useState(false);
@@ -40,7 +42,8 @@ const EditProfile = props => {
   // const {user} = useSelector(state => getUser)
   const user = useSelector(state => getUser(state));
   console.log('user pict', user);
-
+  const {colors} = useTheme();
+  const cardColor = colors.card;
   const editProfilStatus = useSelector(state => editSuksesSelector(state));
   console.log('edit sttus', editProfilStatus);
   const [klikButtonConfirm, setKlikButtonConfirm] = useState(false);
@@ -55,6 +58,33 @@ const EditProfile = props => {
     editProfilStatus != undefined
       ? useState(editProfilStatus.status)
       : useState(false);
+
+  const phoneMaskedInputProps = useMaskedInputProps({
+    value: phone,
+    onChangeText: setPhone,
+    mask: [
+      // /\d+/,
+      /\d/,
+      /\d/,
+      // ')',
+      ' ',
+      /\d/,
+      /\d/,
+      /\d/,
+      /\d/,
+      '-',
+      /\d/,
+      /\d/,
+      /\d/,
+      /\d/,
+      '-',
+      /\d/,
+      /\d/,
+      /\d/,
+    ],
+    // placeholder: 'number',
+    placeholderFillCharacter: '0',
+  });
   // useEffect(() => {
   //   if (user === null) {
   //     props.navigation.navigate('Auth');
@@ -313,6 +343,10 @@ const EditProfile = props => {
             selectionColor={BaseColor.primary}
           />
           <TextInput
+            selectionColor={BaseColor.primary}
+            style={[BaseStyle.textInput, {marginBottom: 30}]}
+            {...phoneMaskedInputProps}></TextInput>
+          {/* <TextInput
             style={[BaseStyle.textInput, {marginBottom: 30}]}
             onChangeText={text => setPhone(text)}
             autoCorrect={false}
@@ -320,7 +354,61 @@ const EditProfile = props => {
             value={phone}
             keyboardType={'phone-pad'}
             selectionColor={BaseColor.primary}
-          />
+            textContentType="telephoneNumber"
+            dataDetectorTypes="phoneNumber"
+            maxLength={14}
+            format="+1 (###) ###-####"
+            inputMode="tel"
+          /> */}
+
+          {/* <View
+            style={[
+              BaseStyle.textInput,
+              {
+                backgroundColor: cardColor,
+                borderColor: BaseColor.corn30,
+                borderWidth: 1,
+                marginBottom: 30,
+              },
+            ]}>
+            <MaskInput
+              value={phone}
+              maxLength={14}
+              placeholder={t('phone_number')}
+              // placeholder={'CPF/CNPJ'}
+              keyboardType={'phone-pad'}
+              selectionColor={BaseColor.primary}
+              onChangeText={(masked, unmasked) => {
+                setPhone(unmasked); // you can use the unmasked value as well
+
+                // assuming you typed "9" all the way:
+                console.log(masked); // (99) 99999-9999
+                console.log(unmasked); // 99999999999
+              }}
+              placeholderFillCharacter="0"
+              mask={[
+                // '(',
+                '+',
+                /\d/,
+                /\d/,
+                // ')',
+                ' ',
+                /\d/,
+                /\d/,
+                /\d/,
+                /\d/,
+                '-',
+                /\d/,
+                /\d/,
+                /\d/,
+                /\d/,
+                '-',
+                /\d/,
+                /\d/,
+                /\d/,
+              ]}
+            />
+          </View> */}
         </View>
 
         <Button
@@ -344,7 +432,7 @@ const EditProfile = props => {
         {Platform.OS == 'ios' ? (
           <Button
             onPress={() => onLogOut()}
-            backgroundColor={BaseColor.yellowStateColor}
+            backgroundColor={BaseColor.grey30}
             style={{
               height: 50,
               borderRadius: 15,

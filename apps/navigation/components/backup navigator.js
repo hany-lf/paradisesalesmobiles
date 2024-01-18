@@ -39,8 +39,8 @@
   options={{modalPresentationStyle: 'fullScreen'}}>
   {Object.keys(tabScreens).map((name, index) => {
     const {options, component} = tabScreens[name];
-    console.log('name tab', name);
-    console.log('index tab', index);
+    // console.log('name tab', name);
+    // console.log('index tab', index);
     return name == 'CustomModal' ? (
       <BottomTab.Screen
         key={index}
