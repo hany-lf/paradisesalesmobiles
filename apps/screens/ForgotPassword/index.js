@@ -136,6 +136,7 @@ const ForgotPassword = props => {
               autoCorrect={false}
               placeholder={t('email')}
               value={email}
+              autoCapitalize={'none'}
               selectionColor={colors.primary}
             />
           </View>

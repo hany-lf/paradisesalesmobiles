@@ -331,6 +331,7 @@ const EditProfile = props => {
             autoCorrect={false}
             placeholder={t('email')}
             value={email}
+            autoCapitalize={'none'}
             editable={false}
             selectionColor={BaseColor.primary}
           />
@@ -344,6 +345,9 @@ const EditProfile = props => {
           />
           <TextInput
             selectionColor={BaseColor.primary}
+            keyboardType={'phone-pad'}
+            textContentType="telephoneNumber"
+            dataDetectorTypes="phoneNumber"
             style={[BaseStyle.textInput, {marginBottom: 30}]}
             {...phoneMaskedInputProps}></TextInput>
           {/* <TextInput

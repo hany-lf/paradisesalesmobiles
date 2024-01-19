@@ -107,6 +107,7 @@ const ContactBrochure = props => {
                 value={emailCust}
                 selectionColor={BaseColor.primary}
                 position={'left'}
+                autoCapitalize={'none'}
                 icon={
                   <Icon
                     style={{marginHorizontal: 10}}

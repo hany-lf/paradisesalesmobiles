@@ -25,6 +25,7 @@ import {useSelector, useDispatch, connect} from 'react-redux';
 import getUser from '../../selectors/UserSelectors';
 import axios from 'axios';
 import {API_URL} from '@env';
+import {horizontalScale, verticalScale} from '../../helpers/Metrics';
 const CustomModal = props => {
   const isFocused = useIsFocused();
   const {navigation} = props;
@@ -192,22 +193,38 @@ const CustomModal = props => {
           <View
             style={{
               position: 'absolute',
-              bottom: Platform.OS == 'ios' ? 100 : 0,
-              // left: 10,
-              // right: 10,
+              bottom: Platform.OS == 'ios' ? verticalScale(200) : 0,
               backgroundColor: BaseColor.corn30,
-              // alignSelf: 'center',
-              width: '90%',
-              paddingHorizontal: '5%',
+              paddingHorizontal:
+                Platform.OS == 'ios' ? horizontalScale(1) : '2%',
+              marginHorizontal: Platform.OS == 'ios' ? '1%' : 0,
               alignItems: 'center',
-              paddingVertical: '3%',
-              marginHorizontal: '3%',
+              paddingVertical: Platform.OS == 'ios' ? verticalScale(5) : '3%',
               borderRadius: 25,
-              marginBottom: '25%',
-              // paddingLeft: '10%',
-              // marginRight: 10,
-              alignSelf: 'center',
-            }}>
+              marginBottom: Platform.OS == 'ios' ? verticalScale(10) : '25%',
+
+              width: Platform.OS == 'ios' ? horizontalScale(350) : 'none',
+            }}
+            // style={{
+            //   position: 'absolute',
+            //   bottom: Platform.OS == 'ios' ? 100 : 0,
+            //   // left: 10,
+            //   // right: 10,
+            //   backgroundColor: BaseColor.corn30,
+            //   // alignSelf: 'center',
+            //   // width: '0%',
+            //   paddingHorizontal: '2%',
+            //   marginHorizontal: '1%',
+            //   alignItems: 'center',
+            //   paddingVertical: '3%',
+
+            //   borderRadius: 25,
+            //   marginBottom: '25%',
+            //   // paddingLeft: '10%',
+            //   // marginRight: 10,
+            //   alignSelf: 'center',
+            // }}
+          >
             <View
               style={{
                 paddingTop: 10,
@@ -220,7 +237,8 @@ const CustomModal = props => {
                   return (
                     <View
                       style={{
-                        padding: 5,
+                        // padding: 5,
+                        padding: Platform.OS == 'ios' ? verticalScale(5) : 5,
                         // paddingLeft: index % 2 == 0 ? 3 : 10,
                         // paddingRight: index % 2 == 0 ? 3 : 10,
                         paddingBottom: 15,
@@ -241,9 +259,9 @@ const CustomModal = props => {
           <View
             style={{
               position: 'absolute',
-              bottom: Platform.OS == 'ios' ? 100 : 0,
+              bottom: Platform.OS == 'ios' ? verticalScale(100) : 0, //jarak antara kotak dan bulet
               alignSelf: 'center',
-              marginBottom: 10, //margin bottom untuk button bulet bawah
+              marginBottom: Platform.OS == 'ios' ? verticalScale(1) : 5, //margin bottom untuk button bulet bawah
             }}>
             <TouchableOpacity
               // onPress={() => button()}

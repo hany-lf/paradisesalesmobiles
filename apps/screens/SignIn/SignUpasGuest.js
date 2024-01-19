@@ -276,6 +276,7 @@ const SignUpasGuest = props => {
             autoCorrect={false}
             placeholder={t('email')}
             value={email}
+            autoCapitalize={'none'}
             selectionColor={colors.primary}
           />
           {emailValidError == 'valid' ? null : emailValidError == 'notvalid' ? (
@@ -337,6 +338,7 @@ const SignUpasGuest = props => {
           placeholder={t('password')}
           secureTextEntry={hidePass}
           value={password}
+          autoCapitalize={'none'}
           selectionColor={colors.primary}
           position={'right'}
           icon={

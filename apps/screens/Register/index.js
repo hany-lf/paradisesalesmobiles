@@ -122,6 +122,7 @@ const Register = props => {
             autoCorrect={false}
             placeholder={t('email')}
             value={email}
+            autoCapitalize={'none'}
             selectionColor={colors.primary}
             // autoComplete={'email'}
           />
@@ -173,6 +174,7 @@ const Register = props => {
             placeholder={t('password')}
             secureTextEntry={hidePass}
             value={password}
+            autoCapitalize={'none'}
             selectionColor={colors.primary}
             position={'right'}
             icon={

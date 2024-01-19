@@ -242,6 +242,7 @@ const RequestBrosur = props => {
                 value={email}
                 selectionColor={BaseColor.primary}
                 position={'left'}
+                autoCapitalize={'none'}
                 icon={
                   <Icon
                     style={{marginHorizontal: 10}}

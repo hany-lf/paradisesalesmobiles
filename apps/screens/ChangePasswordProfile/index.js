@@ -137,6 +137,7 @@ const ChangePasswordProfile = props => {
             placeholder={t('password')}
             secureTextEntry={hidePass}
             value={password}
+            autoCapitalize={'none'}
             selectionColor={BaseColor.primary}
             position={'right'}
             icon={
@@ -172,6 +173,7 @@ const ChangePasswordProfile = props => {
             placeholder={t('password_confirmation')}
             secureTextEntry={hidePassConfirm}
             value={passwordConfirmation}
+            autoCapitalize={'none'}
             selectionColor={BaseColor.primary}
             position={'right'}
             icon={

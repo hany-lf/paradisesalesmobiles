@@ -36,10 +36,11 @@ import IconAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {useTranslation} from 'react-i18next';
 import {PermissionsAndroid} from 'react-native';
 import errorsSelector from '../../selectors/ErrorSelectors';
-import packageJson from '../../package.json';
+
+import checkVersion from 'react-native-store-version';
+import VersionInfo from 'react-native-version-info';
 
 const SignIn = props => {
-  console.log('pakcage.json version,', packageJson.version); // "1.0.0"
   console.log(
     'tes env version',
     `${process.env.REACT_APP_NAME} ${process.env.REACT_APP_VERSION}`,
@@ -66,6 +67,8 @@ const SignIn = props => {
   const userError = useSelector(state => state.user);
   const user = useSelector(state => state.user);
   console.log('user di sig in', userError);
+
+  const [version, setVersion] = useState('');
 
   // console.log('datashow modal null', user.dataShowModal);
   // const psn =
@@ -107,6 +110,21 @@ const SignIn = props => {
       setIntro(false); //tutup dulu sementara
       console.log('truee');
     }
+  }, []);
+
+  useEffect(() => {
+    const init = async () => {
+      // const {version} = Constants.manifest;
+      // const version = require('../../package.json');
+      // console.log('ceeek', version);
+      console.log(VersionInfo.appVersion);
+      console.log(VersionInfo.buildVersion);
+      console.log(VersionInfo.bundleIdentifier);
+      const version = VersionInfo.appVersion;
+      setVersion(version);
+    };
+
+    init();
   }, []);
 
   const handleValidEmail = val => {
@@ -406,6 +424,7 @@ const SignIn = props => {
               autoCorrect={false}
               placeholder={t('email')}
               value={email}
+              autoCapitalize={'none'}
               selectionColor={colors.primary}
             />
             {emailValidError == 'valid' ? null : emailValidError ==
@@ -650,7 +669,8 @@ const SignIn = props => {
             color: BaseColor.corn30,
             fontFamily: Fonts.type.Lato,
           }}>
-          {Platform.OS == 'android' ? 'Version 5.2.0.3' : 'Version 5.3'}
+          Version {version}
+          {/* {Platform.OS == 'android' ? 'Version 5.2.0.3' : 'Version 5.3'} */}
         </Text>
       </View>
       {/* <Text>Version: {appJson.expo.name}</Text> */}
