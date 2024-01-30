@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {Icon, Text} from '@components';
+import {horizontalScale, verticalScale} from '../../helpers/Metrics';
 import {
   View,
   TouchableOpacity,
@@ -172,13 +173,13 @@ export const BottomTabNavigatorMazi = ({tabScreens = {}}) => {
           backgroundColor: BaseColor.corn10,
           // backgroundColor:BaseColor.whiteColor
           borderRadius: 15,
-          height: Platform.OS == 'ios' ? 100 : 60,
+          height: Platform.OS == 'ios' ? verticalScale(90) : 60,
           ...styles.shadow,
         },
         tabBarLabelStyle: {
           fontSize: 11,
-
-          paddingBottom: Platform.OS == 'ios' ? 18 : 8,
+          // marginTop: 10,
+          paddingBottom: Platform.OS == 'ios' ? verticalScale(10) : 8,
         },
       }}>
       {Object.keys(tabScreens).map((name, index) => {

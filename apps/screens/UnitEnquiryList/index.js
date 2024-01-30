@@ -1,6 +1,7 @@
 import {Text, Header, Icon, Image, Button, TextInput} from '@components';
 import {BaseStyle, BaseColor, Fonts} from '../../config';
 import {useTranslation} from 'react-i18next';
+import {horizontalScale, verticalScale} from '../../helpers/Metrics';
 import {
   View,
   TouchableOpacity,
@@ -581,7 +582,9 @@ const UnitEnquiryList = props => {
                 <View
                   style={{
                     // padding: 8,
-                    padding: '3%',
+                    // padding: '3%',
+                    // padding: Platform.OS == 'ios' ? verticalScale(5) : 5,
+                    padding: horizontalScale(5),
                     // paddingLeft: index % 2 == 0 ? 3 : 10,
                     // paddingRight: index % 2 == 0 ? 3 : 10,
                     paddingBottom: 15,
