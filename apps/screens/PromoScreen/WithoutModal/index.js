@@ -20,13 +20,40 @@ import {useTranslation} from 'react-i18next';
 import moment from 'moment';
 
 import ReactNativeBlobUtil from 'react-native-blob-util';
-import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
+import RenderHtml, {
+  defaultSystemFonts,
+  HTMLElementModel,
+  HTMLContentModel,
+} from 'react-native-render-html';
 import ImageViewing from 'react-native-image-viewing';
 import get from 'lodash/get';
 
+import {default as HTML} from 'react-native-render-html';
+// import {cssStringToRNStyle} from 'react-native-render-html/src/HTMLStyles';
+
+function isFontAttribute(attrName) {
+  return attrName === 'color';
+}
+const customHTMLElementModels = {
+  font: HTMLElementModel.fromCustomModel({
+    tagName: 'font',
+    contentModel: HTMLContentModel.block,
+  }),
+};
+
 const PromoWithoutModal = props => {
   const {navigation} = props;
-  const systemFonts = [...defaultSystemFonts, global.fontRegular];
+  const systemFonts = [
+    ...defaultSystemFonts,
+
+    'Arial Black',
+    'Comic-Sans MS',
+    'Courier New',
+    'Lato-Bold',
+    'Lato-Regular',
+    'Lato-Black',
+    'Lato-Italic',
+  ];
   const {width} = useWindowDimensions().width;
 
   const {t} = useTranslation();
@@ -107,6 +134,38 @@ const PromoWithoutModal = props => {
         );
       });
   };
+
+  // const customHTMLElementModels = {
+  //   font: HTMLElementModel.fromCustomModel({
+  //     tagName: 'font',
+  //     contentModel: HTMLContentModel.block,
+  //   }),
+  // };
+  // const renderers = {
+  //   font: {
+  //     wrapper: 'Text',
+  //     renderer: function (
+  //       htmlAttribs,
+  //       children,
+  //       convertedCSSStyles,
+  //       passedProps,
+  //     ) {
+  //       const {key} = passedProps;
+  //       const stylesFromFontAttributes = cssStringToRNStyle(
+  //         extractInlineStyleFromFontAttributes(htmlAttribs),
+  //         'text',
+  //         passedProps,
+  //       );
+  //       return (
+  //         <Text
+  //           style={[convertedCSSStyles, stylesFromFontAttributes]}
+  //           key={key}>
+  //           {children}
+  //         </Text>
+  //       );
+  //     },
+  //   },
+  // };
 
   const ImageHeader = ({title, onRequestClose}) => {
     const HIT_SLOP = {top: 16, left: 16, bottom: 16, right: 16};
@@ -192,7 +251,7 @@ const PromoWithoutModal = props => {
                   }}>
                   {detailPromo.promo_title}
                 </Text>
-                <Text
+                {/* <Text
                   style={{
                     color: BaseColor.corn70,
                     fontFamily: Fonts.type.Lato,
@@ -203,7 +262,7 @@ const PromoWithoutModal = props => {
                   {moment(detailPromo.date_created).format(
                     'DD MMM YYYY - hh:mm',
                   )}
-                </Text>
+                </Text> */}
               </View>
               <TouchableOpacity
                 onPress={() => zoomImage(detailPromo.url_image)}
@@ -224,22 +283,56 @@ const PromoWithoutModal = props => {
               </TouchableOpacity>
             </View>
             <View style={{marginVertical: 20}}>
+              {/* <Text>{detailPromo.promo_descs}</Text> */}
+
+              {/* <Text>halo</Text> */}
               <RenderHtml
                 contentWidth={width}
                 source={{html: detailPromo.promo_descs}}
                 systemFonts={systemFonts}
+                defaultTextProps={{allowFontScaling: false}}
+                enableExperimentalMarginCollapsing={true}
                 tagsStyles={{
+                  strong: {
+                    color: BaseColor.corn70,
+                    // fontSize: 12,
+                    // fontFamily: Fonts.type.LatoBold,
+                    fontWeight: '600',
+                    ...(Platform.OS === 'android' && {
+                      fontWeight: '600',
+                      fontFamily: Fonts.type.LatoBlack,
+                    }),
+                  },
+                  b: {
+                    color: BaseColor.corn70,
+                    // fontSize: 12,
+                    // fontFamily: Fonts.type.LatoBold,
+                    fontWeight: '600',
+                    ...(Platform.OS === 'android' && {
+                      fontWeight: '600',
+                      fontFamily: Fonts.type.LatoBlack,
+                    }),
+                  },
+
                   p: {
                     color: BaseColor.corn70,
-                    fontSize: 12,
-                    fontFamily: Fonts.type.LatoBold,
+                    // fontSize: 12,
+                    fontFamily: Fonts.type.Lato,
+                    // fontFamily: Fonts.type.ComicSansMS,
+                    textAlign: 'justify',
+                  },
+                  span: {
+                    color: BaseColor.corn70,
+                    // fontSize: 12,
+                    fontFamily: Fonts.type.Lato,
+                    // fontFamily: Fonts.type.ComicSansMS,
                     textAlign: 'justify',
                   },
                   li: {
                     // color: isDarkMode ? 'blue' : 'red',
                     color: BaseColor.corn70,
-                    fontSize: 12,
-                    fontFamily: Fonts.type.LatoBold,
+                    // fontSize: 12,
+                    fontFamily: Fonts.type.Lato,
                   },
                 }}
               />
@@ -253,25 +346,53 @@ const PromoWithoutModal = props => {
                   .replace(/(&amp;)/g, `&`)}
               </Text> */}
             </View>
-            <Text>Syarat dan Ketentuan</Text>
+            <Text
+              style={{
+                color: BaseColor.corn70,
+                fontFamily: Fonts.type.LatoBold,
+                fontSize: 16,
+              }}>
+              Syarat dan Ketentuan
+            </Text>
 
             <View style={{marginVertical: 20}}>
               <RenderHtml
                 contentWidth={width}
                 source={{html: detailPromo.tnc_descs}}
                 systemFonts={systemFonts}
+                defaultTextProps={{allowFontScaling: false}}
+                enableExperimentalMarginCollapsing={true}
                 tagsStyles={{
+                  strong: {
+                    color: BaseColor.corn70,
+                    // fontSize: 12,
+                    // fontFamily: Fonts.type.LatoBold,
+                    fontWeight: '600',
+                    ...(Platform.OS === 'android' && {
+                      fontWeight: '600',
+                      fontFamily: Fonts.type.LatoBlack,
+                    }),
+                  },
+
                   p: {
                     color: BaseColor.corn70,
-                    fontSize: 12,
-                    fontFamily: Fonts.type.LatoBold,
+                    // fontSize: 12,
+                    fontFamily: Fonts.type.Lato,
+                    // fontFamily: Fonts.type.ComicSansMS,
+                    textAlign: 'justify',
+                  },
+                  span: {
+                    color: BaseColor.corn70,
+                    // fontSize: 12,
+                    fontFamily: Fonts.type.Lato,
+                    // fontFamily: Fonts.type.ComicSansMS,
                     textAlign: 'justify',
                   },
                   li: {
                     // color: isDarkMode ? 'blue' : 'red',
                     color: BaseColor.corn70,
-                    fontSize: 12,
-                    fontFamily: Fonts.type.LatoBold,
+                    // fontSize: 12,
+                    fontFamily: Fonts.type.Lato,
                   },
                 }}
               />

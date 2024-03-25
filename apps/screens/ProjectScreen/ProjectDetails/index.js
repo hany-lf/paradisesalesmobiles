@@ -71,7 +71,17 @@ const ProjectDetails = props => {
   const [projectAddress, setProjectAddress] = useState([]);
   const {width} = useWindowDimensions().width;
   const {widthRender} = useWindowDimensions();
-  const systemFonts = [...defaultSystemFonts, global.fontRegular];
+  const systemFonts = [
+    ...defaultSystemFonts,
+
+    'Arial Black',
+    'Comic-Sans MS',
+    'Courier New',
+    'Lato-Bold',
+    'Lato-Regular',
+    'Lato-Black',
+    'Lato-Italic',
+  ];
 
   const [itemsOverview, setItemsOverview] = useState([]);
   const [webViewKey, setwebViewKey] = useState(1);
@@ -318,27 +328,57 @@ const ProjectDetails = props => {
               // />
 
               // </View>
-              <View key={index}>
+
+              <View key={index} style={{flex: 1}}>
+                <Text>{item.overview_info}</Text>
                 <RenderHtml
                   key={index}
                   contentWidth={widthRender}
                   source={{html: item.overview_info}}
                   systemFonts={systemFonts}
+                  defaultTextProps={{allowFontScaling: false}}
+                  enableExperimentalMarginCollapsing={true}
                   tagsStyles={{
+                    strong: {
+                      color: BaseColor.corn70,
+                      // fontSize: 12,
+                      // fontFamily: Fonts.type.LatoBold,
+                      fontWeight: '600',
+                      ...(Platform.OS === 'android' && {
+                        fontWeight: '600',
+                        fontFamily: Fonts.type.LatoBlack,
+                      }),
+                    },
+                    b: {
+                      color: BaseColor.corn70,
+                      // fontSize: 12,
+                      // fontFamily: Fonts.type.LatoBold,
+                      fontWeight: '600',
+                      ...(Platform.OS === 'android' && {
+                        fontWeight: '600',
+                        fontFamily: Fonts.type.LatoBlack,
+                      }),
+                    },
+
                     p: {
                       color: BaseColor.corn70,
-                      fontSize: 12,
-                      fontFamily: Fonts.type.LatoBold,
+                      // fontSize: 12,
+                      fontFamily: Fonts.type.Lato,
+                      // fontFamily: Fonts.type.ComicSansMS,
                       textAlign: 'justify',
                     },
-                    img: {
-                      paddingVertical: 20,
+                    span: {
+                      color: BaseColor.corn70,
+                      // fontSize: 12,
+                      fontFamily: Fonts.type.Lato,
+                      // fontFamily: Fonts.type.ComicSansMS,
+                      textAlign: 'justify',
                     },
                     li: {
                       // color: isDarkMode ? 'blue' : 'red',
                       color: BaseColor.corn70,
-                      fontSize: 12,
-                      fontFamily: Fonts.type.LatoBold,
+                      // fontSize: 12,
+                      fontFamily: Fonts.type.Lato,
                     },
                   }}
                 />
@@ -720,21 +760,49 @@ const ProjectDetails = props => {
                     contentWidth={widthRender}
                     source={{html: itemsOverview.overview_info}}
                     systemFonts={systemFonts}
+                    defaultTextProps={{allowFontScaling: false}}
+                    enableExperimentalMarginCollapsing={true}
                     tagsStyles={{
+                      strong: {
+                        color: BaseColor.corn70,
+                        // fontSize: 12,
+                        // fontFamily: Fonts.type.LatoBold,
+                        fontWeight: '600',
+                        ...(Platform.OS === 'android' && {
+                          fontWeight: '600',
+                          fontFamily: Fonts.type.LatoBlack,
+                        }),
+                      },
+                      b: {
+                        color: BaseColor.corn70,
+                        // fontSize: 12,
+                        // fontFamily: Fonts.type.LatoBold,
+                        fontWeight: '600',
+                        ...(Platform.OS === 'android' && {
+                          fontWeight: '600',
+                          fontFamily: Fonts.type.LatoBlack,
+                        }),
+                      },
+
                       p: {
                         color: BaseColor.corn70,
-                        fontSize: 12,
-                        fontFamily: Fonts.type.LatoBold,
+                        // fontSize: 12,
+                        fontFamily: Fonts.type.Lato,
+                        // fontFamily: Fonts.type.ComicSansMS,
                         textAlign: 'justify',
                       },
-                      img: {
-                        paddingVertical: 20,
+                      span: {
+                        color: BaseColor.corn70,
+                        // fontSize: 12,
+                        fontFamily: Fonts.type.Lato,
+                        // fontFamily: Fonts.type.ComicSansMS,
+                        textAlign: 'justify',
                       },
                       li: {
                         // color: isDarkMode ? 'blue' : 'red',
                         color: BaseColor.corn70,
-                        fontSize: 12,
-                        fontFamily: Fonts.type.LatoBold,
+                        // fontSize: 12,
+                        fontFamily: Fonts.type.Lato,
                       },
                     }}
                   />

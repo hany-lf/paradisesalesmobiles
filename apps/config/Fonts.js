@@ -15,6 +15,7 @@ const type = {
   LatoBlack: 'Lato-Black',
   LatoBold: 'Lato-Bold',
   LatoItalic: 'Lato-Italic',
+  ComicSansMS: 'ComicSansMS',
   //   base: 'Avenir-Book',
   //   bold: 'Avenir-Black',
   //   emphasis: 'HelveticaNeue-Italic',

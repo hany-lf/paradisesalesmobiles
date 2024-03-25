@@ -219,7 +219,7 @@ const PromoModal = props => {
                       }}>
                       {datas.promo_title}
                     </Text>
-                    <Text
+                    {/* <Text
                       style={{
                         color: BaseColor.corn70,
                         fontFamily: Fonts.type.Lato,
@@ -228,7 +228,7 @@ const PromoModal = props => {
                       }}>
                       Created date:
                       {moment(datas.date_created).format('DD MMM YYYY - hh:mm')}
-                    </Text>
+                    </Text> */}
                   </View>
                   <TouchableOpacity
                     onPress={() => zoomImage(datas.url_image)}
@@ -259,16 +259,16 @@ const PromoModal = props => {
                     systemFonts={systemFonts}
                     tagsStyles={{
                       p: {
-                        color: BaseColor.corn70,
-                        fontSize: 12,
-                        fontFamily: Fonts.type.LatoBold,
+                        // color: BaseColor.corn70,
+                        // fontSize: 12,
+                        // fontFamily: Fonts.type.LatoBold,
                         textAlign: 'justify',
                       },
                       li: {
                         // color: isDarkMode ? 'blue' : 'red',
-                        color: BaseColor.corn70,
-                        fontSize: 12,
-                        fontFamily: Fonts.type.LatoBold,
+                        // color: BaseColor.corn70,
+                        // fontSize: 12,
+                        // fontFamily: Fonts.type.LatoBold,
                       },
                     }}
                   />
