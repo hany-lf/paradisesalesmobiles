@@ -20,14 +20,36 @@ import {useTranslation} from 'react-i18next';
 import moment from 'moment';
 
 import ReactNativeBlobUtil from 'react-native-blob-util';
-import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
+import RenderHtml, {
+  defaultSystemFonts,
+  HTMLElementModel,
+  HTMLContentModel,
+} from 'react-native-render-html';
 
 import ImageViewing from 'react-native-image-viewing';
 import get from 'lodash/get';
 
+const customHTMLElementModels = {
+  a: HTMLElementModel.fromCustomModel({
+    tagName: 'a',
+    mixedUAStyles: {
+      fontFamily: Fonts.type.Lato,
+      color: 'blue',
+    },
+    contentModel: HTMLContentModel.block,
+  }),
+  p: HTMLElementModel.fromCustomModel({
+    tagName: 'p',
+    mixedUAStyles: {
+      fontFamily: Fonts.type.Lato,
+    },
+    contentModel: HTMLContentModel.block,
+  }),
+};
+
 const NewsWithoutModal = props => {
   const {navigation} = props;
-  const systemFonts = [...defaultSystemFonts, global.fontRegular];
+
   const {width} = useWindowDimensions().width;
 
   const {t} = useTranslation();
@@ -38,6 +60,14 @@ const NewsWithoutModal = props => {
 
   const [isVisible, setIsVisible] = useState(false);
   const [currentImageIndex, setImageIndex] = useState(0);
+
+  const systemFonts = [
+    ...defaultSystemFonts,
+    'Lato-Regular',
+    'Lato-Black',
+    'Lato-Bold',
+    'Lato-Italic',
+  ];
 
   const zoomImage = image => {
     console.log('array image zoom', image);
@@ -190,7 +220,7 @@ const NewsWithoutModal = props => {
                   }}>
                   {detailNews.news_title}
                 </Text>
-                <Text
+                {/* <Text
                   style={{
                     color: BaseColor.corn70,
                     fontFamily: Fonts.type.Lato,
@@ -201,7 +231,7 @@ const NewsWithoutModal = props => {
                   {moment(detailNews.date_created).format(
                     'DD MMM YYYY - hh:mm',
                   )}
-                </Text>
+                </Text> */}
               </View>
               <TouchableOpacity onPress={() => zoomImage(detailNews.url_image)}>
                 <View style={{height: 250, borderRadius: 25, width: '100%'}}>
@@ -216,7 +246,7 @@ const NewsWithoutModal = props => {
                       // marginTop: 10,
                       // paddingTop: 10,
                       // ...StyleSheet.absoluteFillObject,
-                      resizeMode: 'contain',
+                      resizeMode: 'cover',
                       borderRadius: 25,
                     }}></Image>
                 </View>
@@ -228,18 +258,57 @@ const NewsWithoutModal = props => {
                 contentWidth={width}
                 source={{html: detailNews.news_descs}}
                 systemFonts={systemFonts}
+                defaultTextProps={{allowFontScaling: false}}
+                enableExperimentalMarginCollapsing={true}
+                customHTMLElementModels={customHTMLElementModels}
                 tagsStyles={{
+                  strong: {
+                    color: BaseColor.corn70,
+                    // fontSize: 12,
+                    // fontFamily: Fonts.type.LatoBold,
+                    fontWeight: '600',
+                    ...(Platform.OS === 'android' && {
+                      fontWeight: '600',
+                      fontFamily: Fonts.type.LatoBlack,
+                    }),
+                  },
+                  b: {
+                    color: BaseColor.corn70,
+                    // fontSize: 12,
+                    // fontFamily: Fonts.type.LatoBold,
+                    fontWeight: '600',
+                    ...(Platform.OS === 'android' && {
+                      fontWeight: '600',
+                      fontFamily: Fonts.type.LatoBlack,
+                    }),
+                  },
+
+                  a: {
+                    // color: BaseColor.corn70,
+                    // fontSize: 12,
+                    fontFamily: Fonts.type.Lato,
+                    // fontFamily: Fonts.type.ComicSansMS,
+                    // textAlign: 'justify',
+                  },
                   p: {
                     color: BaseColor.corn70,
-                    fontSize: 12,
-                    fontFamily: Fonts.type.LatoBold,
+                    // fontSize: 12,
+                    fontFamily: Fonts.type.Lato,
+                    // fontFamily: Fonts.type.ComicSansMS,
+                    textAlign: 'justify',
+                  },
+                  span: {
+                    color: BaseColor.corn70,
+                    // fontSize: 12,
+                    fontFamily: Fonts.type.Lato,
+                    // fontFamily: Fonts.type.ComicSansMS,
                     textAlign: 'justify',
                   },
                   li: {
                     // color: isDarkMode ? 'blue' : 'red',
                     color: BaseColor.corn70,
-                    fontSize: 12,
-                    fontFamily: Fonts.type.LatoBold,
+                    // fontSize: 12,
+                    fontFamily: Fonts.type.Lato,
                   },
                 }}
               />

@@ -47,6 +47,7 @@ import PrivacyPolicy from '../screens/PrivacyPolicy';
 import RequestBrosur from '../screens/Download/RequestBrosur';
 import UnitInfoDetailsModal from '../screens/UnitInfo/Modal/UnitInfoDetailsModal';
 import SignUpasGuest from '../screens/SignIn/SignUpasGuest';
+import MoreDetailNews from '../screens/NewsScreen/MoreDetailNews';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -308,6 +309,12 @@ const MainStack = ({navigation}) => {
           // component={DrawerStack}
           name="SignIn"
           component={SignIn}
+          options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen
+          // name="HomeStack"
+          // component={DrawerStack}
+          name="MoreDetailNews"
+          component={MoreDetailNews}
           options={{headerShown: false}}></Stack.Screen>
         {/* <Stack.Screen
           // name="HomeStack"

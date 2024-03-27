@@ -330,7 +330,6 @@ const ProjectDetails = props => {
               // </View>
 
               <View key={index} style={{flex: 1}}>
-                <Text>{item.overview_info}</Text>
                 <RenderHtml
                   key={index}
                   contentWidth={widthRender}

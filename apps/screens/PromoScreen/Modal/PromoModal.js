@@ -10,6 +10,7 @@ import {
   Platform,
   StatusBar,
   Alert,
+  StyleSheet,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import styles from './styles';
@@ -210,7 +211,7 @@ const PromoModal = props => {
                 <View
                 // style={{width: 200, height: 100}}
                 >
-                  <View style={{marginBottom: 25}}>
+                  <View style={{marginBottom: 20}}>
                     <Text
                       style={{
                         color: BaseColor.corn70,
@@ -232,7 +233,13 @@ const PromoModal = props => {
                   </View>
                   <TouchableOpacity
                     onPress={() => zoomImage(datas.url_image)}
-                    style={{alignItems: 'center'}}>
+                    style={{
+                      alignItems: 'center',
+                      width: 300,
+                      height: 300,
+
+                      alignSelf: 'center',
+                    }}>
                     <Image
                       source={{uri: datas.url_image}}
                       // source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
@@ -243,11 +250,13 @@ const PromoModal = props => {
                         // width: '100%',
                         width: 300,
                         height: 300,
-                        // height: Dimensions.get('window').height / 2.5,
+                        // height: Dimensions.get('window').height / 3,
                         // marginTop: 10,
                         // paddingTop: 10,
                         // ...StyleSheet.absoluteFillObject,
                         resizeMode: 'contain',
+                        // resizeMode: 'cover',
+
                         borderRadius: 25,
                       }}></Image>
                   </TouchableOpacity>
@@ -257,18 +266,49 @@ const PromoModal = props => {
                     contentWidth={width}
                     source={{html: datas.promo_descs}}
                     systemFonts={systemFonts}
+                    defaultTextProps={{allowFontScaling: false}}
+                    enableExperimentalMarginCollapsing={true}
                     tagsStyles={{
-                      p: {
-                        // color: BaseColor.corn70,
+                      strong: {
+                        color: BaseColor.corn70,
                         // fontSize: 12,
                         // fontFamily: Fonts.type.LatoBold,
+                        fontWeight: '600',
+                        ...(Platform.OS === 'android' && {
+                          fontWeight: '600',
+                          fontFamily: Fonts.type.LatoBlack,
+                        }),
+                      },
+                      b: {
+                        color: BaseColor.corn70,
+                        // fontSize: 12,
+                        // fontFamily: Fonts.type.LatoBold,
+                        fontWeight: '600',
+                        ...(Platform.OS === 'android' && {
+                          fontWeight: '600',
+                          fontFamily: Fonts.type.LatoBlack,
+                        }),
+                      },
+
+                      p: {
+                        color: BaseColor.corn70,
+                        // fontSize: 12,
+                        fontFamily: Fonts.type.Lato,
+                        // fontFamily: Fonts.type.ComicSansMS,
+                        textAlign: 'justify',
+                      },
+                      span: {
+                        color: BaseColor.corn70,
+                        // fontSize: 12,
+                        fontFamily: Fonts.type.Lato,
+                        // fontFamily: Fonts.type.ComicSansMS,
                         textAlign: 'justify',
                       },
                       li: {
                         // color: isDarkMode ? 'blue' : 'red',
-                        // color: BaseColor.corn70,
+                        color: BaseColor.corn70,
                         // fontSize: 12,
-                        // fontFamily: Fonts.type.LatoBold,
+                        fontFamily: Fonts.type.Lato,
                       },
                     }}
                   />
@@ -281,25 +321,63 @@ const PromoModal = props => {
                       .replace(/(&amp;)/g, `&`)}
                   </Text> */}
                 </View>
-                <Text>Syarat dan Ketentuan</Text>
+                <Text
+                  style={{
+                    fontFamily: Fonts.type.Lato,
+                    fontSize: 12,
+                    color: BaseColor.corn70,
+                  }}>
+                  Syarat dan Ketentuan
+                </Text>
 
                 <View style={{marginVertical: 20}}>
                   <RenderHtml
                     contentWidth={width}
                     source={{html: datas.tnc_descs}}
                     systemFonts={systemFonts}
+                    defaultTextProps={{allowFontScaling: false}}
+                    enableExperimentalMarginCollapsing={true}
                     tagsStyles={{
+                      strong: {
+                        color: BaseColor.corn70,
+                        // fontSize: 12,
+                        // fontFamily: Fonts.type.LatoBold,
+                        fontWeight: '600',
+                        ...(Platform.OS === 'android' && {
+                          fontWeight: '600',
+                          fontFamily: Fonts.type.LatoBlack,
+                        }),
+                      },
+                      b: {
+                        color: BaseColor.corn70,
+                        // fontSize: 12,
+                        // fontFamily: Fonts.type.LatoBold,
+                        fontWeight: '600',
+                        ...(Platform.OS === 'android' && {
+                          fontWeight: '600',
+                          fontFamily: Fonts.type.LatoBlack,
+                        }),
+                      },
+
                       p: {
                         color: BaseColor.corn70,
-                        fontSize: 12,
-                        fontFamily: Fonts.type.LatoBold,
+                        // fontSize: 12,
+                        fontFamily: Fonts.type.Lato,
+                        // fontFamily: Fonts.type.ComicSansMS,
+                        textAlign: 'justify',
+                      },
+                      span: {
+                        color: BaseColor.corn70,
+                        // fontSize: 12,
+                        fontFamily: Fonts.type.Lato,
+                        // fontFamily: Fonts.type.ComicSansMS,
                         textAlign: 'justify',
                       },
                       li: {
                         // color: isDarkMode ? 'blue' : 'red',
                         color: BaseColor.corn70,
-                        fontSize: 12,
-                        fontFamily: Fonts.type.LatoBold,
+                        // fontSize: 12,
+                        fontFamily: Fonts.type.Lato,
                       },
                     }}
                   />

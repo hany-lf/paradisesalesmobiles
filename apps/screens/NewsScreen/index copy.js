@@ -19,8 +19,7 @@ import axios from 'axios';
 import {API_URL} from '@env';
 import NewsModal from './Modal/NewsModal';
 import moment from 'moment';
-
-import dummy_news from './dummy_news.json';
+import news_dummy from './news_dummy.json';
 const NewsScreen = props => {
   const {navigation} = props;
   const {t} = useTranslation();
@@ -31,18 +30,21 @@ const NewsScreen = props => {
   console.log('params data', paramsData);
   const {width} = useWindowDimensions();
   const [itemsParams, setItemsParams] = useState();
-  const [dummyNews, setDummyNews] = useState(dummy_news.Data);
+  const [dummy_news, setDummyNews] = useState(news_dummy.Data);
 
   useEffect(() => {
     getDataNews();
   }, []);
 
   const getDataNews = () => {
-    // const entity_cd = paramsData.entity_cd;
-    // const project_no = paramsData.project_no;
-
-    const entity_cd = dummyNews.entity_cd;
-    const project_no = dummyNews.project_no;
+    // const filterdata = dummy_news.filter(
+    //   pasing =>
+    //     pasing.status == 'Active' && pasing.type == paramsData.project_no,
+    // );
+    // console.log('data di news', filterdata);
+    // setDataNews(filterdata);
+    const entity_cd = paramsData.entity_cd;
+    const project_no = paramsData.project_no;
     try {
       const config = {
         method: 'get',
@@ -109,90 +111,6 @@ const NewsScreen = props => {
     setShowNews(false);
   };
 
-  const DetailNews = (detail, key) => {
-    // console.log('detail haa', detail);
-
-    return detail.slice(0, 3).map((item, index) => (
-      <TouchableOpacity
-        key={index}
-        onPress={() => showModalNews(item)}
-        style={{marginVertical: 10}}>
-        <View
-          style={{
-            backgroundColor: BaseColor.corn10,
-            borderRadius: 15,
-            // width: '100%',
-            marginHorizontal: 20,
-            // flex: 1,
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              // justifyContent: 'space-evenly',
-              justifyContent: 'space-around',
-              // width: '100%',
-              marginHorizontal: 5,
-            }}>
-            <View
-              style={{
-                width: '50%',
-                marginVertical: 10,
-                marginHorizontal: 10,
-              }}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  fontFamily: Fonts.type.LatoBold,
-                  color: BaseColor.corn70,
-                  // textAlign: 'justify',
-                }}>
-                {item.news_title}
-              </Text>
-
-              <Text
-                numberOfLines={4}
-                style={{
-                  marginTop: 5,
-                  fontSize: 12,
-                  fontFamily: Fonts.type.Lato,
-                  color: BaseColor.corn70,
-                  // textAlign: 'justify',
-                }}>
-                {item.news_descs
-                  .replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '')
-                  .replace(/(&nbsp;)/g, ' ')
-                  .replace(/(&ndash;)/g, '-')
-                  .replace(/(&amp;)/g, `&`)}
-              </Text>
-
-              <View style={{justifyContent: 'flex-end', flex: 1}}>
-                <Text
-                  style={{
-                    fontSize: 10,
-                    fontFamily: Fonts.type.Lato,
-                    color: BaseColor.corn50,
-                  }}>
-                  {moment(item.date_created).format('MMMM Do YYYY')}
-                </Text>
-              </View>
-            </View>
-            <View style={{marginVertical: 10, marginHorizontal: 10}}>
-              <Image
-                source={{uri: item.url_image}}
-                // source={require('@assets/images/promonews/promo2.png')}
-                style={{
-                  width: 150,
-                  height: 150,
-                  resizeMode: 'cover',
-                  borderRadius: 15,
-                }}></Image>
-            </View>
-          </View>
-        </View>
-      </TouchableOpacity>
-    ));
-  };
-
   // const dataNews = [{title: 'tes', descs: 'ini decs', date: '27 agustus 2023'}];
   return (
     <SafeAreaView
@@ -217,47 +135,85 @@ const NewsScreen = props => {
         }}
       />
       <ScrollView>
-        {dummyNews.length != 0 ? (
-          dummyNews.map((item, index) => (
-            <View key={index}>
-              <View style={{flexDirection: 'row', padding: 10}}>
-                <Icon
-                  name={'city'}
-                  size={18}
-                  color={BaseColor.corn70}
-                  style={{marginRight: 10}}></Icon>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontFamily: Fonts.type.LatoBold,
-                    color: BaseColor.corn70,
-                  }}>
-                  {item.descs}
-                </Text>
-              </View>
-              {DetailNews(item.detail)}
+        {dataNews.length != 0 ? (
+          dataNews.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => showModalNews(item)}
+              style={{marginVertical: 10}}>
               <View
                 style={{
-                  alignItems: 'center',
-                  marginBottom: 10,
+                  backgroundColor: BaseColor.corn10,
+                  borderRadius: 15,
+                  // width: '100%',
+                  marginHorizontal: 20,
+                  // flex: 1,
                 }}>
-                {item.detail.length > 3 ? (
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate('MoreDetailNews', item.detail)
-                    }>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    // justifyContent: 'space-evenly',
+                    justifyContent: 'space-around',
+                    // width: '100%',
+                    marginHorizontal: 5,
+                  }}>
+                  <View
+                    style={{
+                      width: '50%',
+                      marginVertical: 10,
+                      marginHorizontal: 10,
+                    }}>
                     <Text
                       style={{
-                        fontFamily: Fonts.type.Lato,
-                        fontSize: 13,
-                        color: BaseColor.corn50,
+                        fontSize: 14,
+                        fontFamily: Fonts.type.LatoBold,
+                        color: BaseColor.corn70,
+                        // textAlign: 'justify',
                       }}>
-                      Mores...
+                      {item.news_title}
                     </Text>
-                  </TouchableOpacity>
-                ) : null}
+
+                    <Text
+                      numberOfLines={4}
+                      style={{
+                        marginTop: 5,
+                        fontSize: 12,
+                        fontFamily: Fonts.type.Lato,
+                        color: BaseColor.corn70,
+                        // textAlign: 'justify',
+                      }}>
+                      {item.news_descs
+                        .replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '')
+                        .replace(/(&nbsp;)/g, ' ')
+                        .replace(/(&ndash;)/g, '-')
+                        .replace(/(&amp;)/g, `&`)}
+                    </Text>
+
+                    <View style={{justifyContent: 'flex-end', flex: 1}}>
+                      <Text
+                        style={{
+                          fontSize: 10,
+                          fontFamily: Fonts.type.Lato,
+                          color: BaseColor.corn50,
+                        }}>
+                        {moment(item.date_created).format('MMMM Do YYYY')}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={{marginVertical: 10, marginHorizontal: 10}}>
+                    <Image
+                      source={{uri: item.url_image}}
+                      // source={require('@assets/images/promonews/promo2.png')}
+                      style={{
+                        width: 150,
+                        height: 150,
+                        resizeMode: 'cover',
+                        borderRadius: 15,
+                      }}></Image>
+                  </View>
+                </View>
               </View>
-            </View>
+            </TouchableOpacity>
           ))
         ) : (
           <View

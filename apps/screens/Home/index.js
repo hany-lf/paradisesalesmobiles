@@ -871,7 +871,8 @@ const Home = props => {
                 </Text>
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.navigate('ChooseProject', {goTo: 'NewsScreen'})
+                    // navigation.navigate('ChooseProject', {goTo: 'NewsScreen'})
+                    navigation.navigate('NewsScreen')
                   }>
                   <Text
                     style={{
