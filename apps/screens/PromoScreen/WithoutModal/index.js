@@ -35,26 +35,41 @@ function isFontAttribute(attrName) {
   return attrName === 'color';
 }
 const customHTMLElementModels = {
-  font: HTMLElementModel.fromCustomModel({
-    tagName: 'font',
+  a: HTMLElementModel.fromCustomModel({
+    tagName: 'a',
+    mixedUAStyles: {
+      fontFamily: Fonts.type.Lato,
+      color: 'blue',
+    },
+    contentModel: HTMLContentModel.block,
+  }),
+  p: HTMLElementModel.fromCustomModel({
+    tagName: 'p',
+    mixedUAStyles: {
+      fontFamily: Fonts.type.Lato,
+    },
     contentModel: HTMLContentModel.block,
   }),
 };
-
 const PromoWithoutModal = props => {
   const {navigation} = props;
-  const systemFonts = [
-    ...defaultSystemFonts,
+  // const systemFonts = [
+  //   ...defaultSystemFonts,
 
-    'Arial Black',
-    'Comic-Sans MS',
-    'Courier New',
-    'Lato-Bold',
+  //   'Arial Black',
+  //   'Comic-Sans MS',
+  //   'Courier New',
+  //   'Lato-Bold',
+  //   'Lato-Regular',
+  //   'Lato-Black',
+  //   'Lato-Italic',
+  // ];
+  const systemFonts = [  ...defaultSystemFonts,
     'Lato-Regular',
     'Lato-Black',
-    'Lato-Italic',
-  ];
-  const {width} = useWindowDimensions().width;
+    'Lato-Bold',
+    'Lato-Italic'];
+    const {width: contentWidth} = useWindowDimensions();
 
   const {t} = useTranslation();
   const [detailPromo, setDetailPromo] = useState(props.route.params.datas);
@@ -287,11 +302,12 @@ const PromoWithoutModal = props => {
 
               {/* <Text>halo</Text> */}
               <RenderHtml
-                contentWidth={width}
+                contentWidth={contentWidth}
                 source={{html: detailPromo.promo_descs}}
                 systemFonts={systemFonts}
                 defaultTextProps={{allowFontScaling: false}}
                 enableExperimentalMarginCollapsing={true}
+                customHTMLElementModels={customHTMLElementModels}
                 tagsStyles={{
                   strong: {
                     color: BaseColor.corn70,
@@ -357,11 +373,12 @@ const PromoWithoutModal = props => {
 
             <View style={{marginVertical: 20}}>
               <RenderHtml
-                contentWidth={width}
+                contentWidth={contentWidth}
                 source={{html: detailPromo.tnc_descs}}
                 systemFonts={systemFonts}
                 defaultTextProps={{allowFontScaling: false}}
                 enableExperimentalMarginCollapsing={true}
+                customHTMLElementModels={customHTMLElementModels}
                 tagsStyles={{
                   strong: {
                     color: BaseColor.corn70,

@@ -80,7 +80,7 @@ export default StyleSheet.create({
     flex: 1,
     // justifyContent: 'center',
     // alignItems: 'center',
-    marginTop: 22,
+    marginTop: Platform.OS =='ios' ? 50 : 22,
   },
   modalView: {
     margin: 20,

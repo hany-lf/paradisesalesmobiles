@@ -17,7 +17,11 @@ import styles from './styles';
 import {useTranslation} from 'react-i18next';
 import {BaseStyle, Fonts, BaseColor} from '@config';
 import moment from 'moment';
-import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
+import RenderHtml, {
+  defaultSystemFonts,
+  HTMLElementModel,
+  HTMLContentModel,
+} from 'react-native-render-html';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import ReactNativeBlobUtil from 'react-native-blob-util';
@@ -25,10 +29,32 @@ import ImageViewing from 'react-native-image-viewing';
 
 import get from 'lodash/get';
 
+const customHTMLElementModels = {
+  a: HTMLElementModel.fromCustomModel({
+    tagName: 'a',
+    mixedUAStyles: {
+      fontFamily: Fonts.type.Lato,
+      color: 'blue',
+    },
+    contentModel: HTMLContentModel.block,
+  }),
+  p: HTMLElementModel.fromCustomModel({
+    tagName: 'p',
+    mixedUAStyles: {
+      fontFamily: Fonts.type.Lato,
+    },
+    contentModel: HTMLContentModel.block,
+  }),
+};
+
 const PromoModal = props => {
   const {t} = useTranslation();
   const {onPress, datas, visibleMod, icon, ...attrs} = props;
-  const systemFonts = [...defaultSystemFonts, global.fontRegular];
+  const systemFonts = [  ...defaultSystemFonts,
+    'Lato-Regular',
+    'Lato-Black',
+    'Lato-Bold',
+    'Lato-Italic'];
   const {width} = useWindowDimensions().width;
   console.log('attrs ?', attrs);
   console.log('datas nya', datas);
@@ -200,12 +226,12 @@ const PromoModal = props => {
               </View>
             </View>
             {/* --- border  */}
-            <View
+            {/* <View
               style={{
                 borderWidth: 0.3,
                 borderColor: BaseColor.corn70,
                 borderStyle: 'solid',
-              }}></View>
+              }}></View> */}
             <ScrollView>
               <View style={{marginHorizontal: 30, marginVertical: 20}}>
                 <View
@@ -268,6 +294,7 @@ const PromoModal = props => {
                     systemFonts={systemFonts}
                     defaultTextProps={{allowFontScaling: false}}
                     enableExperimentalMarginCollapsing={true}
+                    customHTMLElementModels={customHTMLElementModels}
                     tagsStyles={{
                       strong: {
                         color: BaseColor.corn70,
@@ -337,6 +364,7 @@ const PromoModal = props => {
                     systemFonts={systemFonts}
                     defaultTextProps={{allowFontScaling: false}}
                     enableExperimentalMarginCollapsing={true}
+                    customHTMLElementModels={customHTMLElementModels}
                     tagsStyles={{
                       strong: {
                         color: BaseColor.corn70,
