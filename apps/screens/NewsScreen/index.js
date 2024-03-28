@@ -28,7 +28,7 @@ const NewsScreen = props => {
   const [showNews, setShowNews] = useState(false);
   const [dataNews, setDataNews] = useState([]);
   const [paramsData, setParamsData] = useState(props.route.params);
-  console.log('params data', paramsData);
+  console.log('params data', paramsData); 
   const {width} = useWindowDimensions();
   const [itemsParams, setItemsParams] = useState();
   const [dummyNews, setDummyNews] = useState(dummy_news.Data);
