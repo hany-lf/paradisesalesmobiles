@@ -28,7 +28,7 @@ const NewsScreen = props => {
   const [showNews, setShowNews] = useState(false);
   const [dataNews, setDataNews] = useState([]);
   const [paramsData, setParamsData] = useState(props.route.params);
-  console.log('params data', paramsData); 
+  console.log('params data', paramsData);
   const {width} = useWindowDimensions();
   const [itemsParams, setItemsParams] = useState();
   const [dummyNews, setDummyNews] = useState(dummy_news.Data);
@@ -41,8 +41,8 @@ const NewsScreen = props => {
     // const entity_cd = paramsData.entity_cd;
     // const project_no = paramsData.project_no;
 
-    const entity_cd = dummyNews.entity_cd;
-    const project_no = dummyNews.project_no;
+    // const entity_cd = dummyNews.entity_cd;
+    // const project_no = dummyNews.project_no;
     try {
       const config = {
         method: 'get',
@@ -62,36 +62,31 @@ const NewsScreen = props => {
         .then(result => {
           // const pasing = dummy_news;
           const pasing = result.data.Data;
-          console.log('pasing data', pasing);
-          // const filterdata = pasing.filter(
-          //   pasing => pasing.status == 'Active',
-          // );
-          // console.log('data di news', filterdata);
-          // setDataNews(filterdata);
 
-          // pasing.forEach((item, id) => {
-          //   item.type === project_no
-          //     ? ((filterdata = pasing.filter(
-          //         pasing =>
-          //           pasing.status == 'Active' && pasing.type == project_no,
-          //       )),
-          //       setDataNews(filterdata))
-          //     : ((filterdata = pasing.filter(
-          //         pasing =>
-          //           pasing.status == 'Active' && pasing.type == 'General',
-          //       )),
-          //       setDataNews(filterdata));
-          // });
+          let detail = [];
+          pasing.filter(entity => {
+            let array = Array.isArray(entity.detail);
+            if (array) {
+              entity.detail.forEach(x => {
+                //----- Filter dibawah ini berfungsi untuk memfilter berdasarkan status dan type news..
+                if (
+                  x.status === 'Active' &&
+                  (x.type === entity.project_no || x.type === 'General')
+                )
+                  detail.push(x);
+              });
+            }
+          });
 
-          const cek = pasing.filter(
-            item =>
-              // item.project_no === project_no &&
-              item.status === 'Active' &&
-              (item.type === 'General' || item.type === project_no),
-          );
+          var filteredData = pasing;
+          // ----- Syntax seperti diatas ini adalah untuk menampilkan semua object array Data, jika ini diganti dengan yang bawah, berarti yang tidak memiliki detail array akan hilang dari object array
+          // pasing.filter(entity => Array.isArray(entity.detail) && entity.detail.some(detail => detail.status === 'Active' && (detail.type === 'General' || detail.type === '0321')));
+          filteredData.forEach(element => {
+            let array = Array.isArray(element.detail);
+            if (array) element.detail = detail;
+          });
 
-          console.log('data di news', cek);
-          setDataNews(cek);
+          setDataNews(filteredData);
         })
         .catch(error => console.log('error getdata news error', error));
     } catch (error) {
@@ -109,89 +104,98 @@ const NewsScreen = props => {
     setShowNews(false);
   };
 
-  const DetailNews = (detail, key) => {
-    // console.log('detail haa', detail);
-
-    return detail.slice(0, 3).map((item, index) => (
-      <TouchableOpacity
-        key={index}
-        onPress={() => showModalNews(item)}
-        style={{marginVertical: 10}}>
-        <View
-          style={{
-            backgroundColor: BaseColor.corn10,
-            borderRadius: 15,
-            // width: '100%',
-            marginHorizontal: 20,
-            // flex: 1,
-          }}>
+  const DetailNews = details =>
+    details != '' ? (
+      details.slice(0, 3).map((item, index) => (
+        <TouchableOpacity
+          key={index}
+          onPress={() => showModalNews(item)}
+          style={{marginVertical: 10}}>
           <View
             style={{
-              flexDirection: 'row',
-              // justifyContent: 'space-evenly',
-              justifyContent: 'space-around',
+              backgroundColor: BaseColor.corn10,
+              borderRadius: 15,
               // width: '100%',
-              marginHorizontal: 5,
+              marginHorizontal: 20,
+              // flex: 1,
             }}>
             <View
               style={{
-                width: '50%',
-                marginVertical: 10,
-                marginHorizontal: 10,
+                flexDirection: 'row',
+                // justifyContent: 'space-evenly',
+                justifyContent: 'space-around',
+                // width: '100%',
+                marginHorizontal: 5,
               }}>
-              <Text
+              <View
                 style={{
-                  fontSize: 14,
-                  fontFamily: Fonts.type.LatoBold,
-                  color: BaseColor.corn70,
-                  // textAlign: 'justify',
+                  width: '50%',
+                  marginVertical: 10,
+                  marginHorizontal: 10,
                 }}>
-                {item.news_title}
-              </Text>
-
-              <Text
-                numberOfLines={4}
-                style={{
-                  marginTop: 5,
-                  fontSize: 12,
-                  fontFamily: Fonts.type.Lato,
-                  color: BaseColor.corn70,
-                  // textAlign: 'justify',
-                }}>
-                {item.news_descs
-                  .replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '')
-                  .replace(/(&nbsp;)/g, ' ')
-                  .replace(/(&ndash;)/g, '-')
-                  .replace(/(&amp;)/g, `&`)}
-              </Text>
-
-              <View style={{justifyContent: 'flex-end', flex: 1}}>
                 <Text
                   style={{
-                    fontSize: 10,
-                    fontFamily: Fonts.type.Lato,
-                    color: BaseColor.corn50,
+                    fontSize: 14,
+                    fontFamily: Fonts.type.LatoBold,
+                    color: BaseColor.corn70,
+                    // textAlign: 'justify',
                   }}>
-                  {moment(item.date_created).format('MMMM Do YYYY')}
+                  {item.news_title}
                 </Text>
+
+                <Text
+                  numberOfLines={4}
+                  style={{
+                    marginTop: 5,
+                    fontSize: 12,
+                    fontFamily: Fonts.type.Lato,
+                    color: BaseColor.corn70,
+                    // textAlign: 'justify',
+                  }}>
+                  {item.news_descs
+                    .replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '')
+                    .replace(/(&nbsp;)/g, ' ')
+                    .replace(/(&ndash;)/g, '-')
+                    .replace(/(&amp;)/g, `&`)}
+                </Text>
+
+                <View style={{justifyContent: 'flex-end', flex: 1}}>
+                  <Text
+                    style={{
+                      fontSize: 10,
+                      fontFamily: Fonts.type.Lato,
+                      color: BaseColor.corn50,
+                    }}>
+                    {moment(item.date_created).format('MMMM Do YYYY')}
+                  </Text>
+                </View>
+              </View>
+              <View style={{marginVertical: 10, marginHorizontal: 10}}>
+                <Image
+                  source={{uri: item.url_image}}
+                  // source={require('@assets/images/promonews/promo2.png')}
+                  style={{
+                    width: 150,
+                    height: 150,
+                    resizeMode: 'cover',
+                    borderRadius: 15,
+                  }}></Image>
               </View>
             </View>
-            <View style={{marginVertical: 10, marginHorizontal: 10}}>
-              <Image
-                source={{uri: item.url_image}}
-                // source={require('@assets/images/promonews/promo2.png')}
-                style={{
-                  width: 150,
-                  height: 150,
-                  resizeMode: 'cover',
-                  borderRadius: 15,
-                }}></Image>
-            </View>
           </View>
-        </View>
-      </TouchableOpacity>
-    ));
-  };
+        </TouchableOpacity>
+      ))
+    ) : (
+      // null
+      <View
+        style={{
+          alignContent: 'center',
+          alignItems: 'center',
+          alignSelf: 'center',
+        }}>
+        <Text>Please come back later for the latest news</Text>
+      </View>
+    );
 
   // const dataNews = [{title: 'tes', descs: 'ini decs', date: '27 agustus 2023'}];
   return (
@@ -217,8 +221,8 @@ const NewsScreen = props => {
         }}
       />
       <ScrollView>
-        {dummyNews.length != 0 ? (
-          dummyNews.map((item, index) => (
+        {dataNews.length != 0 ? (
+          dataNews.map((item, index) => (
             <View key={index}>
               <View style={{flexDirection: 'row', padding: 10}}>
                 <Icon
@@ -235,6 +239,7 @@ const NewsScreen = props => {
                   {item.descs}
                 </Text>
               </View>
+
               {DetailNews(item.detail)}
               <View
                 style={{

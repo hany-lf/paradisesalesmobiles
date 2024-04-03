@@ -19,6 +19,8 @@ import {ButtonMenuHome} from '@components';
 import menu_profil from './menu_profil.json';
 import {ScrollView} from 'react-native-gesture-handler';
 
+import VersionInfo from 'react-native-version-info';
+
 const Profile = props => {
   const [loading, setLoading] = useState(false);
   const {t} = useTranslation();
@@ -33,6 +35,8 @@ const Profile = props => {
   const {authentication} = UserAuth;
   const [refreshing, setRefreshing] = useState(false);
 
+  const [version, setVersion] = useState('');
+
   useEffect(() => {}, [menu_profil]);
   useEffect(() => {
     if (user == null) {
@@ -41,6 +45,21 @@ const Profile = props => {
   });
   // console.log('login', login);
   console.log('userz', user);
+
+  useEffect(() => {
+    const init = async () => {
+      // const {version} = Constants.manifest;
+      // const version = require('../../package.json');
+      // console.log('ceeek', version);
+      console.log(VersionInfo.appVersion);
+      console.log(VersionInfo.buildVersion);
+      console.log(VersionInfo.bundleIdentifier);
+      const version = VersionInfo.appVersion;
+      setVersion(version);
+    };
+
+    init();
+  }, []);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -110,6 +129,7 @@ const Profile = props => {
                 style={{
                   backgroundColor: BaseColor.corn90,
                   borderRadius: 35,
+
                   width: 70,
                   height: 70,
                   alignItems: 'center',
@@ -242,6 +262,31 @@ const Profile = props => {
                 </TouchableOpacity>
               );
             }}></FlatList>
+
+          <View
+            style={{
+              justifyContent: 'center',
+              flex: 1,
+
+              alignItems: 'center',
+              //  position:'absolute',
+              //  bottom: 0, left: 0, right: 0
+
+              // position: 'absolute',
+              // bottom: 50,
+              // left: 0,
+              // right: 0,
+            }}>
+            <Text
+              style={{
+                fontSize: 10,
+                color: BaseColor.corn30,
+                fontFamily: Fonts.type.Lato,
+              }}>
+              Version {version}
+              {/* {Platform.OS == 'android' ? 'Version 5.2.0.3' : 'Version 5.3'} */}
+            </Text>
+          </View>
         </View>
       </ScrollView>
       <View style={{position: 'absolute', bottom: 50, left: 0, right: 0}}>

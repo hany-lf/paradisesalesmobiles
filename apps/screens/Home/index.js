@@ -256,12 +256,33 @@ const Home = props => {
       axios(config)
         .then(result => {
           const pasing = result.data.Data;
-          const filterdata = pasing.filter(pasing => pasing.status == 'Active');
+         pasing.forEach((item, id) => {
+              //  const tesDetail = item.detail.filter(detail => detail.project_no == item.project_no );  // ini di filter berdasarkan type dan project no sama
+              // const tesDetail = item.detail.filter(detail => detail.type == 'General' );  // ini di filter berdasarkan type general
+              const foreachDetailData = item.detail.filter(detail => detail.status == 'Active' );  // ini di filter berdasarkan type general
+              //  console.log('tes detail', tesDetail) 
+              const sliceFilterData = foreachDetailData.slice(0, 4);
+              setDataNews(sliceFilterData);
+            // item.project_no === project_no
+            //   ? ((filterdata = pasing.filter(
+            //       pasing =>
+            //         pasing.status == 'Active' && pasing.type == project_no,
+            //     )),
+            //     setDataNews(filterdata))
+            //   : ((filterdata = pasing.filter(
+            //       pasing =>
+            //         pasing.status == 'Active' && pasing.type == 'General',
+            //     )),
+            //     setDataNews(filterdata));
+            
+          });
+          // console.log('hasil gforeach,', foreachData)
+          // const filterdata = pasing.filter(pasing => pasing.status == 'Active');
 
-          const sliceFilterData = filterdata.slice(0, 4);
+          // const sliceFilterData = filterdata.slice(0, 4);
 
           // console.log('data di news', filterdata);
-          setDataNews(sliceFilterData);
+          // setDataNews(sliceFilterData);
         })
         .catch(error =>
           console.log('error getdata news error', error.response),
