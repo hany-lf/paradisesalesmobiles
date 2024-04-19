@@ -89,8 +89,8 @@ android {
         applicationId "com.paradisesalesmobiles"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6
-        versionName "5.2.0.4"
+        versionCode 7
+        versionName "5.2.0.5"
          vectorDrawables.useSupportLibrary = true
          targetSdkVersion rootProject.ext.compileSdkVersion
          multiDexEnabled true //Add this line
@@ -102,6 +102,7 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        
     }
     buildTypes {
         debug {

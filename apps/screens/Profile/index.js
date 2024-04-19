@@ -79,112 +79,120 @@ const Profile = props => {
   };
 
   return (
-    <SafeAreaView
-      edges={['right', 'top', 'left']}
-      style={[BaseStyle.safeAreaView, {backgroundColor: BaseColor.whiteColor}]}>
-      <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }>
-        <Header
-          title={t('profile')}
-          renderLeft={() => {
-            return (
-              <Icon
-                // name="angle-left"
-                name="arrow-left"
-                size={18}
-                color={BaseColor.corn70}
-                enableRTL={true}
+      <SafeAreaView
+          edges={['right', 'top', 'left']}
+          style={[
+              BaseStyle.safeAreaView,
+              {backgroundColor: BaseColor.whiteColor},
+          ]}>
+          <ScrollView
+              refreshControl={
+                  <RefreshControl
+                      refreshing={refreshing}
+                      onRefresh={onRefresh}
+                  />
+              }>
+              <Header
+                  title={t('profile')}
+                  renderLeft={() => {
+                      return (
+                          <Icon
+                              // name="angle-left"
+                              name="arrow-left"
+                              size={18}
+                              color={BaseColor.corn70}
+                              enableRTL={true}
+                          />
+                      );
+                  }}
+                  style={{height: 80}}
+                  onPressLeft={() => {
+                      navigation.goBack();
+                  }}
               />
-            );
-          }}
-          style={{height: 80}}
-          onPressLeft={() => {
-            navigation.goBack();
-          }}
-        />
-        <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              marginHorizontal: 20,
-              // backgroundColor: BaseColor.corn30,
-              alignItems: 'center',
-              paddingBottom: 10,
-              borderBottomWidth: 1,
-              borderBottomColor: BaseColor.corn30,
-            }}>
-            {user != null ? (
-              <Image
-                source={{uri: user.pict}}
-                style={{
-                  width: 80,
-                  height: 80,
-                  margin: 10,
-                  borderRadius: 40,
-                }}></Image>
-            ) : (
-              <View
-                style={{
-                  backgroundColor: BaseColor.corn90,
-                  borderRadius: 35,
+              <View>
+                  <View
+                      style={{
+                          flexDirection: 'row',
+                          marginHorizontal: 20,
+                          // backgroundColor: BaseColor.corn30,
+                          alignItems: 'center',
+                          paddingBottom: 10,
+                          borderBottomWidth: 1,
+                          borderBottomColor: BaseColor.corn30,
+                      }}>
+                      {user != null ? (
+                          <Image
+                              source={{uri: user.pict}}
+                              style={{
+                                  width: 80,
+                                  height: 80,
+                                  margin: 10,
+                                  borderRadius: 40,
+                              }}></Image>
+                      ) : (
+                          <View
+                              style={{
+                                  backgroundColor: BaseColor.corn90,
+                                  borderRadius: 35,
 
-                  width: 70,
-                  height: 70,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Icon
-                  name="user"
-                  size={40}
-                  color={BaseColor.corn50}
-                  style={{margin: 10}}></Icon>
-              </View>
-              // <Image
-              //   source={{uri: user.pict}}
-              //   style={{width: 80, height: 80, margin: 10}}></Image>
-            )}
+                                  width: 70,
+                                  height: 70,
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                              }}>
+                              <Icon
+                                  name="user"
+                                  size={40}
+                                  color={BaseColor.corn50}
+                                  style={{margin: 10}}></Icon>
+                          </View>
+                          // <Image
+                          //   source={{uri: user.pict}}
+                          //   style={{width: 80, height: 80, margin: 10}}></Image>
+                      )}
 
-            {/* <Image
+                      {/* <Image
             style={{width: 80, height: 80, margin: 10}}
             source={require('@assets/images/logo-paradise.png')}></Image> */}
-            <View style={{marginHorizontal: 10}}>
-              <Text
-                style={{
-                  fontFamily: Fonts.type.LatoBold,
-                  color: BaseColor.corn90,
-                  fontSize: 16,
-                  paddingVertical: 5,
-                }}>
-                {/* {user.UserId}  */}
-                {user.name}
-              </Text>
-              <Text
-                style={{
-                  fontFamily: Fonts.type.Lato,
-                  color: BaseColor.corn50,
-                  fontSize: 16,
-                }}>
-                {user.Group}
-                {/* ini harusnya tetep kesimpen di reducer selector, coba ya. kalo ga bisa juga terpaksa minta sama API buat save Group juga saat callback sukses save profil */}
-              </Text>
-            </View>
-          </View>
-        </View>
+                      <View style={{marginHorizontal: 10}}>
+                          <Text
+                              style={{
+                                  fontFamily: Fonts.type.LatoBold,
+                                  color: BaseColor.corn90,
+                                  fontSize: 16,
+                                  paddingVertical: 5,
+                              }}>
+                              {/* {user.UserId}  */}
+                              {user.name}
+                          </Text>
+                          <Text
+                              style={{
+                                  fontFamily: Fonts.type.Lato,
+                                  color: BaseColor.corn50,
+                                  fontSize: 16,
+                              }}>
+                              {user.Group}
+                              {/* ini harusnya tetep kesimpen di reducer selector, coba ya. kalo ga bisa juga terpaksa minta sama API buat save Group juga saat callback sukses save profil */}
+                          </Text>
+                      </View>
+                  </View>
+              </View>
 
-        <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-evenly',
-              marginTop: 30,
-            }}>
-            <ButtonMenuHome
-              onPress={() => navigation.navigate('CalculatorScreen')}
-              title={'Calculator KPA/R'}
-              nameicon={'calculator'}></ButtonMenuHome>
-            {/* <ButtonMenuHome
+              <View>
+                  <View
+                      style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-evenly',
+                          marginTop: 30,
+                      }}>
+                      <ButtonMenuHome
+                          onPress={() =>
+                              navigation.navigate('CalculatorScreen')
+                          }
+                          title={'Calculator KPA/R'}
+                          nameicon={'calculator'}></ButtonMenuHome>
+                      {/* <ButtonMenuHome
               // disabled={true}
               onPress={() => navigation.navigate('HelpCenter')}
               title={'Help center'}
@@ -193,118 +201,123 @@ const Profile = props => {
               onPress={() => navigation.navigate('FAQ')}
               title={'FAQ'}
               nameicon={'question-circle'}></ButtonMenuHome> */}
-            <ButtonMenuHome
-              onPress={() => navigation.navigate('AboutUs')}
-              title={'About us'}
-              nameicon={'book-reader'}></ButtonMenuHome>
-          </View>
-        </View>
-
-        <View style={{marginTop: 40}}>
-          <FlatList
-            data={data_menu_profil}
-            renderItem={({item, index}) => {
-              return (
-                <TouchableOpacity
-                  // disabled={true}
-                  onPress={() => navigation.navigate(item.component)}>
-                  <View
-                    key={index}
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      // marginVertical: 15,
-                      marginHorizontal: 20,
-                      height: 55,
-
-                      borderBottomWidth: 1,
-                      borderBottomColor: BaseColor.corn30,
-
-                      borderTopWidth: index == 0 ? 1 : 0,
-                      borderTopColor: BaseColor.corn30,
-                    }}>
-                    <View
-                      style={{
-                        // backgroundColor: 'yellow',
-                        flexDirection: 'row',
-                        // marginHorizontal: 20,
-                        alignSelf: 'center',
-                      }}>
-                      <Icon
-                        name={item.icon_menu}
-                        size={24}
-                        color={BaseColor.corn70}
-                        style={{alignSelf: 'center'}}></Icon>
-                      <Text
-                        style={{
-                          alignSelf: 'center',
-                          fontFamily: Fonts.type.Lato,
-                          fontSize: 16,
-                          paddingVertical: 3,
-                          paddingHorizontal: 15,
-                          color: BaseColor.corn70,
-                        }}>
-                        {item.nama_menu}
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        justifyContent: 'flex-end',
-                        // marginHorizontal: 20,
-                        alignSelf: 'center',
-                      }}>
-                      <Icon
-                        name={'chevron-right'}
-                        size={14}
-                        color={BaseColor.corn50}></Icon>
-                    </View>
+                      <ButtonMenuHome
+                          onPress={() => navigation.navigate('AboutUs')}
+                          title={'About us'}
+                          nameicon={'book-reader'}></ButtonMenuHome>
                   </View>
-                </TouchableOpacity>
-              );
-            }}></FlatList>
+              </View>
 
-          <View
-            style={{
-              justifyContent: 'center',
-              flex: 1,
+              <View style={{marginTop: 40}}>
+                  <FlatList
+                      data={data_menu_profil}
+                      renderItem={({item, index}) => {
+                          return (
+                              <TouchableOpacity
+                                  // disabled={true}
+                                  onPress={() =>
+                                      navigation.navigate(item.component)
+                                  }>
+                                  <View
+                                      key={index}
+                                      style={{
+                                          flexDirection: 'row',
+                                          justifyContent: 'space-between',
+                                          // marginVertical: 15,
+                                          marginHorizontal: 20,
+                                          height: 55,
 
-              alignItems: 'center',
-              //  position:'absolute',
-              //  bottom: 0, left: 0, right: 0
+                                          borderBottomWidth: 1,
+                                          borderBottomColor: BaseColor.corn30,
 
-              // position: 'absolute',
-              // bottom: 50,
-              // left: 0,
-              // right: 0,
-            }}>
-            <Text
-              style={{
-                fontSize: 10,
-                color: BaseColor.corn30,
-                fontFamily: Fonts.type.Lato,
-              }}>
-              Version {version}
-              {/* {Platform.OS == 'android' ? 'Version 5.2.0.3' : 'Version 5.3'} */}
-            </Text>
+                                          borderTopWidth: index == 0 ? 1 : 0,
+                                          borderTopColor: BaseColor.corn30,
+                                      }}>
+                                      <View
+                                          style={{
+                                              // backgroundColor: 'yellow',
+                                              flexDirection: 'row',
+                                              // marginHorizontal: 20,
+                                              alignSelf: 'center',
+                                          }}>
+                                          <Icon
+                                              name={item.icon_menu}
+                                              size={24}
+                                              color={BaseColor.corn70}
+                                              style={{
+                                                  alignSelf: 'center',
+                                              }}></Icon>
+                                          <Text
+                                              style={{
+                                                  alignSelf: 'center',
+                                                  fontFamily: Fonts.type.Lato,
+                                                  fontSize: 16,
+                                                  paddingVertical: 3,
+                                                  paddingHorizontal: 15,
+                                                  color: BaseColor.corn70,
+                                              }}>
+                                              {item.nama_menu}
+                                          </Text>
+                                      </View>
+                                      <View
+                                          style={{
+                                              justifyContent: 'flex-end',
+                                              // marginHorizontal: 20,
+                                              alignSelf: 'center',
+                                          }}>
+                                          <Icon
+                                              name={'chevron-right'}
+                                              size={14}
+                                              color={BaseColor.corn50}></Icon>
+                                      </View>
+                                  </View>
+                              </TouchableOpacity>
+                          );
+                      }}></FlatList>
+
+                  <View
+                      style={{
+                          justifyContent: 'center',
+                          flex: 1,
+
+                          alignItems: 'center',
+                          marginTop: 10,
+                          //  position:'absolute',
+                          //  bottom: 0, left: 0, right: 0
+
+                          // position: 'absolute',
+                          // bottom: 50,
+                          // left: 0,
+                          // right: 0,
+                      }}>
+                      <Text
+                          style={{
+                              fontSize: 10,
+                              color: BaseColor.corn30,
+                              fontFamily: Fonts.type.Lato,
+                          }}>
+                          Version {version}
+                          {/* {Platform.OS == 'android' ? 'Version 5.2.0.3' : 'Version 5.3'} */}
+                      </Text>
+                  </View>
+              </View>
+          </ScrollView>
+          <View style={{position: 'absolute', bottom: 50, left: 0, right: 0}}>
+              <Button
+                  onPress={() => onLogOut()}
+                  // outline
+                  medium
+                  style={{borderRadius: 15, backgroundColor: BaseColor.corn50}}>
+                  <Text
+                      style={{
+                          color: BaseColor.whiteColor,
+                          fontFamily: Fonts.type.LatoBold,
+                      }}>
+                      Sign Out
+                  </Text>
+              </Button>
           </View>
-        </View>
-      </ScrollView>
-      <View style={{position: 'absolute', bottom: 50, left: 0, right: 0}}>
-        <Button
-          onPress={() => onLogOut()}
-          // outline
-          medium
-          style={{borderRadius: 15, backgroundColor: BaseColor.corn50}}>
-          <Text
-            style={{
-              color: BaseColor.whiteColor,
-              fontFamily: Fonts.type.LatoBold,
-            }}>
-            Sign Out
-          </Text>
-        </Button>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
   );
 };
 

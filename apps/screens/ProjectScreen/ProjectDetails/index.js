@@ -41,126 +41,127 @@ import {Marker} from 'react-native-maps';
 import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
 
 const ProjectDetails = props => {
-  console.log('props dari project', props);
-  const {t} = useTranslation();
-  const {navigation} = props;
-  const [playing, setPlaying] = useState(false);
+    console.log('props dari project', props);
+    const {t} = useTranslation();
+    const {navigation} = props;
+    const [playing, setPlaying] = useState(false);
 
-  const paramsDetail = props.route.params;
-  const entity_cd = paramsDetail.entity_cd;
-  const project_no = paramsDetail.project_no;
-  console.log('paramsdetail projek detail', paramsDetail);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [visibleFeatures, setVisibleFeatures] = useState(false);
-  const [visibleGallery, setVisibleGallery] = useState(false);
-  const [visibleFloorplan, setVisibleFloorplan] = useState(false);
-  const [visibleSurrounding, setVisibleSurrounding] = useState(false);
-  const source_video = 'https://www.youtube.com/watch?v=R8JLo2EB3Wk&t=8s';
-  // const gallery = data_gallery;
-  const [gallery, setGallery] = useState(data_gallery);
-  const [floorplan, setFloorplan] = useState(data_floorplan);
-  const user = useSelector(state => getUser(state));
+    const paramsDetail = props.route.params;
+    const entity_cd = paramsDetail.entity_cd;
+    const project_no = paramsDetail.project_no;
+    console.log('paramsdetail projek detail', paramsDetail);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [visibleFeatures, setVisibleFeatures] = useState(false);
+    const [visibleGallery, setVisibleGallery] = useState(false);
+    const [visibleFloorplan, setVisibleFloorplan] = useState(false);
+    const [visibleSurrounding, setVisibleSurrounding] = useState(false);
+    const source_video = 'https://www.youtube.com/watch?v=R8JLo2EB3Wk&t=8s';
+    // const gallery = data_gallery;
+    const [gallery, setGallery] = useState(data_gallery);
+    const [floorplan, setFloorplan] = useState(data_floorplan);
+    const user = useSelector(state => getUser(state));
 
-  const [dataProjectDetail, setDataProjectDetail] = useState([]);
-  const [galleryProject, setGalleryProject] = useState([]);
-  const [overviewProject, setOverviewProject] = useState([]);
-  const [featureProject, setFeatureProject] = useState([]);
-  const [planProject, setPlanProject] = useState([]);
-  const [surroundingProject, setSurroundingProject] = useState([]);
-  const [downloadProject, setDownloadProject] = useState([]);
-  const [projectAddress, setProjectAddress] = useState([]);
-  const {width} = useWindowDimensions().width;
-  const {widthRender} = useWindowDimensions();
-  const systemFonts = [
-    ...defaultSystemFonts,
+    const [dataProjectDetail, setDataProjectDetail] = useState([]);
+    const [galleryProject, setGalleryProject] = useState([]);
+    const [overviewProject, setOverviewProject] = useState([]);
+    const [featureProject, setFeatureProject] = useState([]);
+    const [planProject, setPlanProject] = useState([]);
+    const [surroundingProject, setSurroundingProject] = useState([]);
+    const [downloadProject, setDownloadProject] = useState([]);
+    const [projectAddress, setProjectAddress] = useState([]);
+    const {width} = useWindowDimensions().width;
+    // const {widthRender} = useWindowDimensions();
+    const {width: contentWidth} = useWindowDimensions();
+    const systemFonts = [
+        ...defaultSystemFonts,
 
-    'Arial Black',
-    'Comic-Sans MS',
-    'Courier New',
-    'Lato-Bold',
-    'Lato-Regular',
-    'Lato-Black',
-    'Lato-Italic',
-  ];
+        'Arial Black',
+        'Comic-Sans MS',
+        'Courier New',
+        'Lato-Bold',
+        'Lato-Regular',
+        'Lato-Black',
+        'Lato-Italic',
+    ];
 
-  const [itemsOverview, setItemsOverview] = useState([]);
-  const [webViewKey, setwebViewKey] = useState(1);
-  const [regionChange, setRegion] = useState('');
-  const [refreshing, setRefreshing] = useState(false);
+    const [itemsOverview, setItemsOverview] = useState([]);
+    const [webViewKey, setwebViewKey] = useState(1);
+    const [regionChange, setRegion] = useState('');
+    const [refreshing, setRefreshing] = useState(false);
 
-  const onStateChange = useCallback(state => {
-    if (state === 'ended') {
-      setPlaying(false);
-      Alert.alert('video has finished playing!');
-    }
-  }, []);
+    const onStateChange = useCallback(state => {
+        if (state === 'ended') {
+            setPlaying(false);
+            Alert.alert('video has finished playing!');
+        }
+    }, []);
 
-  const togglePlaying = useCallback(() => {
-    setPlaying(prev => !prev);
-  }, []);
+    const togglePlaying = useCallback(() => {
+        setPlaying(prev => !prev);
+    }, []);
 
-  const renderers = {
-    iframe: IframeRenderer,
-  };
+    const renderers = {
+        iframe: IframeRenderer,
+    };
 
-  const customHTMLElementModels = {
-    iframe: iframeModel,
-  };
+    const customHTMLElementModels = {
+        iframe: iframeModel,
+    };
 
-  const clik = () => {
-    console.log('cek vis', visibleFeatures);
-    setVisibleFeatures(true);
-  };
+    const clik = () => {
+        console.log('cek vis', visibleFeatures);
+        setVisibleFeatures(true);
+    };
 
-  useEffect(() => {
-    getProjectDetails();
-  }, []);
+    useEffect(() => {
+        getProjectDetails();
+    }, []);
 
-  const getProjectDetails = () => {
-    try {
-      const config = {
-        method: 'get',
-        // url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/groupMenu?approval_user=MGR',
-        url: API_URL + '/project/project-details',
-        headers: {
-          'content-type': 'application/json',
-          // 'X-Requested-With': 'XMLHttpRequest',
-          Authorization: `Bearer ${user.Token}`,
-        },
-        params: {entity_cd: entity_cd, project_no: project_no},
-      };
-      console.log('formdaata get project', config);
-      axios(config)
-        .then(result => {
-          const pasing = result.data.Data;
-          // console.log('data di project', pasing);
-          setDataProjectDetail(pasing);
-          setGalleryProject(pasing.gallery);
-          setOverviewProject(pasing.overview);
-          setFeatureProject(pasing.feature);
-          setPlanProject(pasing.plan);
-          setSurroundingProject(pasing.surrounding);
-          setDownloadProject(pasing.download);
-          setProjectAddress(pasing.project);
-        })
-        .catch(error =>
-          console.log('error getdata project error', error.response),
-        );
-    } catch (error) {
-      console.log('ini konsol eror', error);
-    }
-  };
+    const getProjectDetails = () => {
+        try {
+            const config = {
+                method: 'get',
+                // url: 'http://dev.ifca.co.id:8080/apiciputra/api/approval/groupMenu?approval_user=MGR',
+                url: API_URL + '/project/project-details',
+                headers: {
+                    'content-type': 'application/json',
+                    // 'X-Requested-With': 'XMLHttpRequest',
+                    Authorization: `Bearer ${user.Token}`,
+                },
+                params: {entity_cd: entity_cd, project_no: project_no},
+            };
+            console.log('formdaata get project', config);
+            axios(config)
+                .then(result => {
+                    const pasing = result.data.Data;
+                    // console.log('data di project', pasing);
+                    setDataProjectDetail(pasing);
+                    setGalleryProject(pasing.gallery);
+                    setOverviewProject(pasing.overview);
+                    setFeatureProject(pasing.feature);
+                    setPlanProject(pasing.plan);
+                    setSurroundingProject(pasing.surrounding);
+                    setDownloadProject(pasing.download);
+                    setProjectAddress(pasing.project);
+                })
+                .catch(error =>
+                    console.log('error getdata project error', error.response),
+                );
+        } catch (error) {
+            console.log('ini konsol eror', error);
+        }
+    };
 
-  const showModalOverview = item => {
-    setModalVisible(true);
-    setItemsOverview(item);
-  };
+    const showModalOverview = item => {
+        setModalVisible(true);
+        setItemsOverview(item);
+    };
 
-  const onRegionChange = region => {
-    setRegion(region);
-  };
+    const onRegionChange = region => {
+        setRegion(region);
+    };
 
-  const htmlContent = `
+    const htmlContent = `
     <html>
         <body>
             <div class="section">
@@ -178,210 +179,222 @@ const ProjectDetails = props => {
         </body>
     </html>`;
 
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    getProjectDetails();
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 1000);
-  }, []);
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        getProjectDetails();
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 1000);
+    }, []);
 
-  return (
-    <SafeAreaView
-      edges={['right', 'top', 'left']}
-      style={[BaseStyle.safeAreaView, {backgroundColor: BaseColor.whiteColor}]}>
-      <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }>
-        <ImageBackground
-          source={{uri: paramsDetail.picture_url}}
-          // source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
-          // width={100}
-          // height={100}
-          imageStyle={{
-            borderBottomLeftRadius: 16,
-            borderBottomRightRadius: 16,
-            //   borderRadius: 20,
-          }}
-          style={{
-            resizeMode: 'contain',
-            width: Dimensions.get('screen').width,
+    return (
+        <SafeAreaView
+            edges={['right', 'top', 'left']}
+            style={[
+                BaseStyle.safeAreaView,
+                {backgroundColor: BaseColor.whiteColor},
+            ]}>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }>
+                <ImageBackground
+                    source={{uri: paramsDetail.picture_url}}
+                    // source={require('@assets/images/home/slider-project/sudirmansuite.jpeg')}
+                    // width={100}
+                    // height={100}
+                    imageStyle={{
+                        borderBottomLeftRadius: 16,
+                        borderBottomRightRadius: 16,
+                        //   borderRadius: 20,
+                    }}
+                    style={{
+                        resizeMode: 'contain',
+                        width: Dimensions.get('screen').width,
 
-            height: 350,
-          }}>
-          <Header
-            //   title={t('project_details')}
-            title={t('')}
-            renderLeft={() => {
-              return (
-                <Icon
-                  // name="angle-left"
-                  name="arrow-left"
-                  size={18}
-                  color={BaseColor.corn70}
-                  enableRTL={true}
-                />
-              );
-            }}
-            style={{height: 80, borderRadius: 40}}
-            onPressLeft={() => {
-              navigation.goBack();
-            }}
-          />
-          <View
-            style={{
-              position: 'absolute',
-              backgroundColor: BaseColor.grey10,
-              // top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              // height: 80,
+                        height: 350,
+                    }}>
+                    <Header
+                        //   title={t('project_details')}
+                        title={t('')}
+                        renderLeft={() => {
+                            return (
+                                <Icon
+                                    // name="angle-left"
+                                    name="arrow-left"
+                                    size={18}
+                                    color={BaseColor.corn70}
+                                    enableRTL={true}
+                                />
+                            );
+                        }}
+                        style={{height: 80, borderRadius: 40}}
+                        onPressLeft={() => {
+                            navigation.goBack();
+                        }}
+                    />
+                    <View
+                        style={{
+                            position: 'absolute',
+                            backgroundColor: BaseColor.grey10,
+                            // top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            // height: 80,
 
-              marginHorizontal: 25,
-              marginVertical: 20,
-              borderRadius: 20,
-              opacity: 0.8,
-              // justifyContent: 'center',
-              // alignItems: 'center',
-            }}>
-            <View style={{marginVertical: 10, marginHorizontal: 25}}>
-              <Text
-                style={{
-                  fontFamily: Fonts.type.LatoBlack,
-                  color: BaseColor.corn90,
-                  marginVertical: 10,
-                  fontSize: 18,
-                  // marginHorizontal: 3,
-                }}>
-                {/* {item.project_name} */}
-                {/* Project name */}
-                {/* {paramsDetail.project_descs} */}
-                {paramsDetail.descs}
-              </Text>
+                            marginHorizontal: 25,
+                            marginVertical: 20,
+                            borderRadius: 20,
+                            opacity: 0.8,
+                            // justifyContent: 'center',
+                            // alignItems: 'center',
+                        }}>
+                        <View
+                            style={{marginVertical: 10, marginHorizontal: 25}}>
+                            <Text
+                                style={{
+                                    fontFamily: Fonts.type.LatoBlack,
+                                    color: BaseColor.corn90,
+                                    marginVertical: 10,
+                                    fontSize: 18,
+                                    // marginHorizontal: 3,
+                                }}>
+                                {/* {item.project_name} */}
+                                {/* Project name */}
+                                {/* {paramsDetail.project_descs} */}
+                                {paramsDetail.descs}
+                            </Text>
 
-              <Text
-                style={{
-                  fontFamily: Fonts.type.LatoBold,
-                  color: BaseColor.corn50,
-                  marginVertical: 5,
-                  fontSize: 16,
-                }}>
-                {/* {item.location} */}
-                {/* lokasi */}
-                {paramsDetail.caption_address}
-              </Text>
-            </View>
-          </View>
-        </ImageBackground>
+                            <Text
+                                style={{
+                                    fontFamily: Fonts.type.LatoBold,
+                                    color: BaseColor.corn50,
+                                    marginVertical: 5,
+                                    fontSize: 16,
+                                }}>
+                                {/* {item.location} */}
+                                {/* lokasi */}
+                                {paramsDetail.caption_address}
+                            </Text>
+                        </View>
+                    </View>
+                </ImageBackground>
 
-        {/* brosur ----  */}
-        <TouchableOpacity
-          onPress={() => navigation.navigate('DownloadBrochure', paramsDetail)}>
-          <View
-            style={{
-              marginTop: '10%',
-              backgroundColor: BaseColor.corn30,
-              borderRadius: 15,
+                {/* brosur ----  */}
+                <TouchableOpacity
+                    onPress={() =>
+                        navigation.navigate('DownloadBrochure', paramsDetail)
+                    }>
+                    <View
+                        style={{
+                            marginTop: '10%',
+                            backgroundColor: BaseColor.corn30,
+                            borderRadius: 15,
 
-              height: 50,
-              marginBottom: 10,
-              marginHorizontal: 20,
-              alignContent: 'center',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text
-              style={{
-                color: BaseColor.corn90,
-                fontFamily: Fonts.type.LatoBold,
-                fontSize: 14,
-                alignSelf: 'center',
-                alignItems: 'center',
-              }}>
-              Download Brochure
-            </Text>
-          </View>
-        </TouchableOpacity>
+                            height: 50,
+                            marginBottom: 10,
+                            marginHorizontal: 20,
+                            alignContent: 'center',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}>
+                        <Text
+                            style={{
+                                color: BaseColor.corn90,
+                                fontFamily: Fonts.type.LatoBold,
+                                fontSize: 14,
+                                alignSelf: 'center',
+                                alignItems: 'center',
+                            }}>
+                            Download Brochure
+                        </Text>
+                    </View>
+                </TouchableOpacity>
 
-        {/* -- overview  */}
-        <View style={{marginHorizontal: 20, marginTop: 20}}>
-          <Text
-            style={{
-              fontSize: 14,
-              fontFamily: Fonts.type.LatoBold,
-              color: BaseColor.corn70,
-              marginVertical: 5,
-            }}>
-            Overview
-          </Text>
-          {overviewProject.length != 0 ? (
-            overviewProject.map((item, index) => (
-              // <View>
+                {/* -- overview  */}
+                <View style={{marginHorizontal: 20, marginTop: 20}}>
+                    <Text
+                        style={{
+                            fontSize: 14,
+                            fontFamily: Fonts.type.LatoBold,
+                            color: BaseColor.corn70,
+                            marginVertical: 5,
+                        }}>
+                        Overview
+                    </Text>
+                    {overviewProject.length != 0 ? (
+                        overviewProject.map((item, index) => (
+                            // <View>
 
-              // <RenderHTML
-              //   contentWidth={width}
-              //   source={{
-              //     html: item.overview_info,
-              //   }}
-              // />
+                            // <RenderHTML
+                            //   contentWidth={width}
+                            //   source={{
+                            //     html: item.overview_info,
+                            //   }}
+                            // />
 
-              // </View>
+                            // </View>
 
-              <View key={index} style={{flex: 1}}>
-                <RenderHtml
-                  key={index}
-                  contentWidth={widthRender}
-                  source={{html: item.overview_info}}
-                  systemFonts={systemFonts}
-                  defaultTextProps={{allowFontScaling: false}}
-                  enableExperimentalMarginCollapsing={true}
-                  tagsStyles={{
-                    strong: {
-                      color: BaseColor.corn70,
-                      // fontSize: 12,
-                      // fontFamily: Fonts.type.LatoBold,
-                      fontWeight: '600',
-                      ...(Platform.OS === 'android' && {
-                        fontWeight: '600',
-                        fontFamily: Fonts.type.LatoBlack,
-                      }),
-                    },
-                    b: {
-                      color: BaseColor.corn70,
-                      // fontSize: 12,
-                      // fontFamily: Fonts.type.LatoBold,
-                      fontWeight: '600',
-                      ...(Platform.OS === 'android' && {
-                        fontWeight: '600',
-                        fontFamily: Fonts.type.LatoBlack,
-                      }),
-                    },
+                            <View key={index} style={{flex: 1}}>
+                                <RenderHtml
+                                    key={index}
+                                    contentWidth={contentWidth}
+                                    source={{html: item.overview_info}}
+                                    systemFonts={systemFonts}
+                                    defaultTextProps={{allowFontScaling: false}}
+                                    enableExperimentalMarginCollapsing={true}
+                                    ignoredStyles={['fontSize']}
+                                    tagsStyles={{
+                                        strong: {
+                                            color: BaseColor.corn70,
+                                            // fontSize: 12,
+                                            // fontFamily: Fonts.type.LatoBold,
+                                            fontWeight: '600',
+                                            ...(Platform.OS === 'android' && {
+                                                fontWeight: '600',
+                                                fontFamily:
+                                                    Fonts.type.LatoBlack,
+                                            }),
+                                        },
+                                        b: {
+                                            color: BaseColor.corn70,
+                                            // fontSize: 12,
+                                            // fontFamily: Fonts.type.LatoBold,
+                                            fontWeight: '600',
+                                            ...(Platform.OS === 'android' && {
+                                                fontWeight: '600',
+                                                fontFamily:
+                                                    Fonts.type.LatoBlack,
+                                            }),
+                                        },
 
-                    p: {
-                      color: BaseColor.corn70,
-                      // fontSize: 12,
-                      fontFamily: Fonts.type.Lato,
-                      // fontFamily: Fonts.type.ComicSansMS,
-                      textAlign: 'justify',
-                    },
-                    span: {
-                      color: BaseColor.corn70,
-                      // fontSize: 12,
-                      fontFamily: Fonts.type.Lato,
-                      // fontFamily: Fonts.type.ComicSansMS,
-                      textAlign: 'justify',
-                    },
-                    li: {
-                      // color: isDarkMode ? 'blue' : 'red',
-                      color: BaseColor.corn70,
-                      // fontSize: 12,
-                      fontFamily: Fonts.type.Lato,
-                    },
-                  }}
-                />
-                {/* <Text
+                                        p: {
+                                            color: BaseColor.corn70,
+                                            fontSize: 13,
+                                            fontFamily: Fonts.type.Lato,
+                                            // fontFamily: Fonts.type.ComicSansMS,
+                                            textAlign: 'justify',
+                                        },
+                                        span: {
+                                            color: BaseColor.corn70,
+                                            fontSize: 13,
+                                            fontFamily: Fonts.type.Lato,
+                                            // fontFamily: Fonts.type.ComicSansMS,
+                                            textAlign: 'justify',
+                                        },
+                                        li: {
+                                            // color: isDarkMode ? 'blue' : 'red',
+                                            color: BaseColor.corn70,
+                                            // fontSize: 12,
+                                            fontFamily: Fonts.type.Lato,
+                                        },
+                                    }}
+                                />
+                                {/* <Text
                   style={{
                     fontSize: 14,
                     fontFamily: Fonts.type.Lato,
@@ -394,240 +407,247 @@ const ProjectDetails = props => {
                     .replace(/(&ndash;)/g, '-')
                     .replace(/(&amp;)/g, `&`)}
                 </Text> */}
-                <TouchableOpacity onPress={() => showModalOverview(item)}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginVertical: 5,
+                                <TouchableOpacity
+                                    onPress={() => showModalOverview(item)}>
+                                    <View
+                                        style={{
+                                            flexDirection: 'row',
+                                            marginVertical: 5,
 
-                      alignItems: 'center',
+                                            alignItems: 'center',
+                                        }}>
+                                        <Text
+                                            style={{
+                                                fontSize: 12,
+                                                fontFamily: Fonts.type.Lato,
+                                                color: BaseColor.corn90,
+                                                marginBottom: 2,
+                                                marginRight: 5,
+                                                alignSelf: 'center',
+                                                // alignContent: 'center',
+                                                // justifyContent: 'center',
+                                                // alignItems: 'center',
+                                                borderBottomWidth: 0.5,
+                                                borderBottomColor:
+                                                    BaseColor.corn90,
+                                            }}>
+                                            Show more
+                                        </Text>
+                                        <Icon
+                                            style={
+                                                {
+                                                    // alignSelf: 'center',
+                                                    // alignContent: 'center',
+                                                    // justifyContent: 'center',
+                                                    // alignItems: 'center',
+                                                }
+                                            }
+                                            // name="angle-left"
+
+                                            name="chevron-right"
+                                            size={14}
+                                            color={BaseColor.corn70}
+                                            enableRTL={true}
+                                        />
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                        ))
+                    ) : (
+                        <Text
+                            style={{
+                                fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                                color: BaseColor.corn70,
+                                marginVertical: 5,
+                            }}>
+                            No data overview
+                        </Text>
+                    )}
+                </View>
+
+                {/* --- grid features dll  */}
+                <View style={{marginHorizontal: 20, marginTop: 20}}>
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            marginTop: 30,
+                        }}>
+                        <ButtonMenuHome
+                            onPress={() => clik()}
+                            title={'Features'}
+                            nameicon={'gem'}></ButtonMenuHome>
+                        <ButtonMenuHome
+                            onPress={() => setVisibleGallery(true)}
+                            title={'Gallery'}
+                            nameicon={'images'}></ButtonMenuHome>
+                        <ButtonMenuHome
+                            onPress={() => setVisibleFloorplan(true)}
+                            title={'Unit Plan'}
+                            nameicon={'houzz'}></ButtonMenuHome>
+                        <ButtonMenuHome
+                            onPress={() => setVisibleSurrounding(true)}
+                            title={'Surrounding'}
+                            nameicon={'map-marker-alt'}
+                            // onPress={() =>
+                            //   navigation.navigate('CalculatorScreen')
+                            // }
+                        ></ButtonMenuHome>
+                    </View>
+                </View>
+
+                {/* /// VIDEO  */}
+                <View
+                    style={{
+                        marginHorizontal: 20,
+                        // borderRadius: 15,
+                        marginTop: 15,
+                        // backgroundColor: 'yellow',
+                        marginBottom: 0,
                     }}>
                     <Text
-                      style={{
-                        fontSize: 12,
-                        fontFamily: Fonts.type.Lato,
-                        color: BaseColor.corn90,
-                        marginBottom: 2,
-                        marginRight: 5,
-                        alignSelf: 'center',
-                        // alignContent: 'center',
-                        // justifyContent: 'center',
-                        // alignItems: 'center',
-                        borderBottomWidth: 0.5,
-                        borderBottomColor: BaseColor.corn90,
-                      }}>
-                      Show more
+                        style={{
+                            fontFamily: Fonts.type.LatoBold,
+                            fontSize: 14,
+                            color: BaseColor.corn70,
+                            marginVertical: 15,
+                        }}>
+                        Video
                     </Text>
-                    <Icon
-                      style={
-                        {
-                          // alignSelf: 'center',
-                          // alignContent: 'center',
-                          // justifyContent: 'center',
-                          // alignItems: 'center',
-                        }
-                      }
-                      // name="angle-left"
 
-                      name="chevron-right"
-                      size={14}
-                      color={BaseColor.corn70}
-                      enableRTL={true}
-                    />
-                  </View>
-                </TouchableOpacity>
-              </View>
-            ))
-          ) : (
-            <Text
-              style={{
-                fontSize: 12,
-                fontFamily: Fonts.type.Lato,
-                color: BaseColor.corn70,
-                marginVertical: 5,
-              }}>
-              No data overview
-            </Text>
-          )}
-        </View>
+                    {overviewProject.length != 0 ? (
+                        overviewProject.map((item, index) => (
+                            <YoutubePlayer
+                                key={index}
+                                height={200}
+                                play={playing}
+                                videoId={item.youtube_link}
+                                // videoId="OfLV5h-1rRI"
+                                onChangeState={onStateChange}
+                                style={{borderRadius: 15}}
+                                useLocalHTML={true}
+                            />
+                        ))
+                    ) : (
+                        <Text>No Url Id Youtube</Text>
+                    )}
 
-        {/* --- grid features dll  */}
-        <View style={{marginHorizontal: 20, marginTop: 20}}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: 30,
-            }}>
-            <ButtonMenuHome
-              onPress={() => clik()}
-              title={'Features'}
-              nameicon={'gem'}></ButtonMenuHome>
-            <ButtonMenuHome
-              onPress={() => setVisibleGallery(true)}
-              title={'Gallery'}
-              nameicon={'images'}></ButtonMenuHome>
-            <ButtonMenuHome
-              onPress={() => setVisibleFloorplan(true)}
-              title={'Unit Plan'}
-              nameicon={'houzz'}></ButtonMenuHome>
-            <ButtonMenuHome
-              onPress={() => setVisibleSurrounding(true)}
-              title={'Surrounding'}
-              nameicon={'map-marker-alt'}
-              // onPress={() =>
-              //   navigation.navigate('CalculatorScreen')
-              // }
-            ></ButtonMenuHome>
-          </View>
-        </View>
-
-        {/* /// VIDEO  */}
-        <View
-          style={{
-            marginHorizontal: 20,
-            // borderRadius: 15,
-            marginTop: 15,
-            // backgroundColor: 'yellow',
-            marginBottom: 0,
-          }}>
-          <Text
-            style={{
-              fontFamily: Fonts.type.LatoBold,
-              fontSize: 14,
-              color: BaseColor.corn70,
-              marginVertical: 15,
-            }}>
-            Video
-          </Text>
-
-          {overviewProject.length != 0 ? (
-            overviewProject.map((item, index) => (
-              <YoutubePlayer
-                key={index}
-                height={200}
-                play={playing}
-                videoId={item.youtube_link}
-                // videoId="OfLV5h-1rRI"
-                onChangeState={onStateChange}
-                style={{borderRadius: 15}}
-                useLocalHTML={true}
-              />
-            ))
-          ) : (
-            <Text>No Url Id Youtube</Text>
-          )}
-
-          {/* <Button
+                    {/* <Button
             onPress={() => togglePlaying}
             style={{backgroundColor: 'red'}}>
             <Text>{playing ? 'Pause' : 'Play'}</Text>
           </Button> */}
-          {/* <Button title={playing ? 'pause' : 'play'} onPress={togglePlaying} /> */}
-        </View>
+                    {/* <Button title={playing ? 'pause' : 'play'} onPress={togglePlaying} /> */}
+                </View>
 
-        {/* /// contact  */}
-        <View
-          style={{
-            marginHorizontal: 20,
-            // borderRadius: 15,
-            marginTop: 15,
-            // backgroundColor: 'yellow',
-            marginBottom: 0,
-          }}>
-          <Text
-            style={{
-              fontFamily: Fonts.type.LatoBold,
-              fontSize: 14,
-              color: BaseColor.corn70,
-              marginVertical: 15,
-            }}>
-            Contact
-          </Text>
-
-          {projectAddress.map((item, index) => (
-            <View>
-              <View
-                style={{
-                  backgroundColor: BaseColor.corn30,
-                  borderRadius: 15,
-                  padding: 10,
-                  marginBottom: 10,
-                }}>
-                <Text
-                  style={{
-                    fontFamily: Fonts.type.Lato,
-                    color: BaseColor.corn70,
-                    fontSize: 12,
-                    textAlign: 'center',
-                  }}>
-                  Address: {item.coordinat_address}
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: Fonts.type.Lato,
-                    color: BaseColor.corn70,
-                    fontSize: 12,
-                    textAlign: 'center',
-                  }}>
-                  Phone: {item.wa_no}
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: Fonts.type.Lato,
-                    color: BaseColor.corn70,
-                    fontSize: 12,
-                    textAlign: 'center',
-                  }}>
-                  Email: {item.email_add}
-                </Text>
-              </View>
-
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontFamily: Fonts.type.LatoBold,
-                  color: BaseColor.corn70,
-                  fontSize: 12,
-                }}>
-                ARE YOU INTERESTED? IT'S TIME TO DISCOVER YOUR HOME
-              </Text>
-
-              <View style={{alignItems: 'center', marginTop: 8}}>
-                <Button
-                  style={{
-                    backgroundColor: BaseColor.corn10,
-                    width: '50%',
-                    height: 40,
-                  }}
-                  onPress={() =>
-                    item.coordinat_project == null
-                      ? Alert.alert('No available location project')
-                      : Linking.openURL(item.coordinat_project)
-                  }>
-                  <View style={{flexDirection: 'row'}}>
+                {/* /// contact  */}
+                <View
+                    style={{
+                        marginHorizontal: 20,
+                        // borderRadius: 15,
+                        marginTop: 15,
+                        // backgroundColor: 'yellow',
+                        marginBottom: 0,
+                    }}>
                     <Text
-                      style={{
-                        fontFamily: Fonts.type.LatoBold,
-                        color: BaseColor.corn70,
-                        fontSize: 12,
-                        paddingRight: 5,
-                      }}>
-                      Find Location
+                        style={{
+                            fontFamily: Fonts.type.LatoBold,
+                            fontSize: 14,
+                            color: BaseColor.corn70,
+                            marginVertical: 15,
+                        }}>
+                        Contact
                     </Text>
-                    <Icon
-                      name={'location-arrow'}
-                      color={BaseColor.corn70}
-                      size={14}></Icon>
-                  </View>
-                </Button>
-              </View>
-            </View>
-          ))}
-        </View>
 
-        {/* /// LOCATION  */}
-        {/* <View>
+                    {projectAddress.map((item, index) => (
+                        <View>
+                            <View
+                                style={{
+                                    backgroundColor: BaseColor.corn30,
+                                    borderRadius: 15,
+                                    padding: 10,
+                                    marginBottom: 10,
+                                }}>
+                                <Text
+                                    style={{
+                                        fontFamily: Fonts.type.Lato,
+                                        color: BaseColor.corn70,
+                                        fontSize: 12,
+                                        textAlign: 'center',
+                                    }}>
+                                    Address: {item.coordinat_address}
+                                </Text>
+                                <Text
+                                    style={{
+                                        fontFamily: Fonts.type.Lato,
+                                        color: BaseColor.corn70,
+                                        fontSize: 12,
+                                        textAlign: 'center',
+                                    }}>
+                                    Phone: {item.wa_no}
+                                </Text>
+                                <Text
+                                    style={{
+                                        fontFamily: Fonts.type.Lato,
+                                        color: BaseColor.corn70,
+                                        fontSize: 12,
+                                        textAlign: 'center',
+                                    }}>
+                                    Email: {item.email_add}
+                                </Text>
+                            </View>
+
+                            <Text
+                                style={{
+                                    textAlign: 'center',
+                                    fontFamily: Fonts.type.LatoBold,
+                                    color: BaseColor.corn70,
+                                    fontSize: 12,
+                                }}>
+                                ARE YOU INTERESTED? IT'S TIME TO DISCOVER YOUR
+                                HOME
+                            </Text>
+
+                            <View style={{alignItems: 'center', marginTop: 8}}>
+                                <Button
+                                    style={{
+                                        backgroundColor: BaseColor.corn10,
+                                        width: '50%',
+                                        height: 40,
+                                    }}
+                                    onPress={() =>
+                                        item.coordinat_project == null
+                                            ? Alert.alert(
+                                                  'No available location project',
+                                              )
+                                            : Linking.openURL(
+                                                  item.coordinat_project,
+                                              )
+                                    }>
+                                    <View style={{flexDirection: 'row'}}>
+                                        <Text
+                                            style={{
+                                                fontFamily: Fonts.type.LatoBold,
+                                                color: BaseColor.corn70,
+                                                fontSize: 12,
+                                                paddingRight: 5,
+                                            }}>
+                                            Find Location
+                                        </Text>
+                                        <Icon
+                                            name={'location-arrow'}
+                                            color={BaseColor.corn70}
+                                            size={14}></Icon>
+                                    </View>
+                                </Button>
+                            </View>
+                        </View>
+                    ))}
+                </View>
+
+                {/* /// LOCATION  */}
+                {/* <View>
           <View
             style={{
               marginHorizontal: 20,
@@ -637,7 +657,7 @@ const ProjectDetails = props => {
               // backgroundColor: 'yellow',
               marginBottom: 0,
             }}> */}
-        {/* <Text
+                {/* <Text
               style={{
                 fontFamily: Fonts.type.LatoBold,
                 fontSize: 14,
@@ -646,7 +666,7 @@ const ProjectDetails = props => {
               }}>
               Location
             </Text> */}
-        {/* <View>
+                {/* <View>
               <MapView
                 //             {markers.map((marker, index) => (
                 //   <Marker
@@ -673,7 +693,7 @@ const ProjectDetails = props => {
               </MapView>
             </View> */}
 
-        {/* <WebView
+                {/* <WebView
               javaScriptEnabled={true}
               domStorageEnabled={true}
               map
@@ -684,7 +704,7 @@ const ProjectDetails = props => {
               }}
               source={{uri: 'https://google.com/'}}
             /> */}
-        {/* <RenderHTML
+                {/* <RenderHTML
               javaScriptEnabled={true}
               domS
               renderers={renderers}
@@ -694,118 +714,135 @@ const ProjectDetails = props => {
               source={{
                 html: `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15865.742481636988!2d106.85165925!3d-6.206128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f4711cac0e99%3A0x47c98448b038a7d8!2sManggarai!5e0!3m2!1sid!2sid!4v1700646090231!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`,
               }}></RenderHTML> */}
-        {/* </View>
+                {/* </View>
         </View> */}
-        {/* // --- modal project detail overview */}
-        <View>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}>
-            <View
-              style={[
-                styles.centeredView,
-                {
-                  backgroundColor: BaseColor.whiteColor,
-                  borderTopRightRadius: 25,
-                  borderTopLeftRadius: 25,
-                },
-              ]}>
-              <View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    marginHorizontal: 20,
-                    marginVertical: 20,
-                  }}>
-                  <TouchableOpacity
-                    onPress={() => setModalVisible(!modalVisible)}>
-                    <View>
-                      <Icon
-                        name={'arrow-left'}
-                        size={18}
-                        color={BaseColor.corn90}></Icon>
-                    </View>
-                  </TouchableOpacity>
+                {/* // --- modal project detail overview */}
+                <View>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}>
+                        <View
+                            style={[
+                                styles.centeredView,
+                                {
+                                    backgroundColor: BaseColor.whiteColor,
+                                    borderTopRightRadius: 25,
+                                    borderTopLeftRadius: 25,
+                                },
+                            ]}>
+                            <View>
+                                <View
+                                    style={{
+                                        flexDirection: 'row',
+                                        marginHorizontal: 20,
+                                        marginVertical: 20,
+                                    }}>
+                                    <TouchableOpacity
+                                        onPress={() =>
+                                            setModalVisible(!modalVisible)
+                                        }>
+                                        <View>
+                                            <Icon
+                                                name={'arrow-left'}
+                                                size={18}
+                                                color={BaseColor.corn90}></Icon>
+                                        </View>
+                                    </TouchableOpacity>
 
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <Text
-                      style={{
-                        fontFamily: Fonts.type.LatoBold,
-                        color: BaseColor.corn70,
-                        fontSize: 16,
-                      }}>
-                      Overview
-                    </Text>
-                  </View>
-                </View>
-                {/* --- border  */}
-                <View
-                  style={{
-                    borderWidth: 0.3,
-                    borderColor: BaseColor.corn70,
-                    borderStyle: 'solid',
-                  }}></View>
-              </View>
-              {/* <View style={styles.modalView}> */}
-              {itemsOverview.length != 0 ? (
-                <View style={{marginHorizontal: 30, marginVertical: 20}}>
-                  <RenderHtml
-                    contentWidth={widthRender}
-                    source={{html: itemsOverview.overview_info}}
-                    systemFonts={systemFonts}
-                    defaultTextProps={{allowFontScaling: false}}
-                    enableExperimentalMarginCollapsing={true}
-                    tagsStyles={{
-                      strong: {
-                        color: BaseColor.corn70,
-                        // fontSize: 12,
-                        // fontFamily: Fonts.type.LatoBold,
-                        fontWeight: '600',
-                        ...(Platform.OS === 'android' && {
-                          fontWeight: '600',
-                          fontFamily: Fonts.type.LatoBlack,
-                        }),
-                      },
-                      b: {
-                        color: BaseColor.corn70,
-                        // fontSize: 12,
-                        // fontFamily: Fonts.type.LatoBold,
-                        fontWeight: '600',
-                        ...(Platform.OS === 'android' && {
-                          fontWeight: '600',
-                          fontFamily: Fonts.type.LatoBlack,
-                        }),
-                      },
+                                    <View
+                                        style={{
+                                            flex: 1,
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                        }}>
+                                        <Text
+                                            style={{
+                                                fontFamily: Fonts.type.LatoBold,
+                                                color: BaseColor.corn70,
+                                                fontSize: 16,
+                                            }}>
+                                            Overview
+                                        </Text>
+                                    </View>
+                                </View>
+                                {/* --- border  */}
+                                <View
+                                    style={{
+                                        borderWidth: 0.3,
+                                        borderColor: BaseColor.corn70,
+                                        borderStyle: 'solid',
+                                    }}></View>
+                            </View>
+                            {/* <View style={styles.modalView}> */}
+                            {itemsOverview.length != 0 ? (
+                                <View
+                                    style={{
+                                        marginHorizontal: 30,
+                                        marginVertical: 20,
+                                    }}>
+                                    <RenderHtml
+                                        contentWidth={contentWidth}
+                                        source={{
+                                            html: itemsOverview.overview_info,
+                                        }}
+                                        systemFonts={systemFonts}
+                                        defaultTextProps={{
+                                            allowFontScaling: false,
+                                        }}
+                                        ignoredStyles={['fontSize']}
+                                        enableExperimentalMarginCollapsing={
+                                            true
+                                        }
+                                        tagsStyles={{
+                                            strong: {
+                                                color: BaseColor.corn70,
+                                                // fontSize: 12,
+                                                // fontFamily: Fonts.type.LatoBold,
+                                                fontWeight: '600',
+                                                ...(Platform.OS ===
+                                                    'android' && {
+                                                    fontWeight: '600',
+                                                    fontFamily:
+                                                        Fonts.type.LatoBlack,
+                                                }),
+                                            },
+                                            b: {
+                                                color: BaseColor.corn70,
+                                                // fontSize: 12,
+                                                // fontFamily: Fonts.type.LatoBold,
+                                                fontWeight: '600',
+                                                ...(Platform.OS ===
+                                                    'android' && {
+                                                    fontWeight: '600',
+                                                    fontFamily:
+                                                        Fonts.type.LatoBlack,
+                                                }),
+                                            },
 
-                      p: {
-                        color: BaseColor.corn70,
-                        // fontSize: 12,
-                        fontFamily: Fonts.type.Lato,
-                        // fontFamily: Fonts.type.ComicSansMS,
-                        textAlign: 'justify',
-                      },
-                      span: {
-                        color: BaseColor.corn70,
-                        // fontSize: 12,
-                        fontFamily: Fonts.type.Lato,
-                        // fontFamily: Fonts.type.ComicSansMS,
-                        textAlign: 'justify',
-                      },
-                      li: {
-                        // color: isDarkMode ? 'blue' : 'red',
-                        color: BaseColor.corn70,
-                        // fontSize: 12,
-                        fontFamily: Fonts.type.Lato,
-                      },
-                    }}
-                  />
-                  {/* <Text
+                                            p: {
+                                                color: BaseColor.corn70,
+                                                fontSize: 13,
+                                                fontFamily: Fonts.type.Lato,
+                                                // fontFamily: Fonts.type.ComicSansMS,
+                                                textAlign: 'justify',
+                                            },
+                                            span: {
+                                                color: BaseColor.red,
+                                                fontSize: 13,
+                                                fontFamily: Fonts.type.Lato,
+                                                // fontFamily: Fonts.type.ComicSansMS,
+                                                textAlign: 'justify',
+                                            },
+                                            li: {
+                                                // color: isDarkMode ? 'blue' : 'red',
+                                                color: BaseColor.corn70,
+                                                // fontSize: 12,
+                                                fontFamily: Fonts.type.Lato,
+                                            },
+                                        }}
+                                    />
+                                    {/* <Text
                     numberOfLines={0}
                     style={{
                       textAlign: 'justify',
@@ -817,79 +854,83 @@ const ProjectDetails = props => {
                       .replace(/(&ndash;)/g, '-')
                       .replace(/(&amp;)/g, `&`)}
                   </Text> */}
-                  {/* <Text style={styles.modalText}>Hello World!</Text>
+                                    {/* <Text style={styles.modalText}>Hello World!</Text>
                 <Button
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}>
                   <Text style={styles.textStyle}>Hide Modal</Text>
                 </Button> */}
+                                </View>
+                            ) : (
+                                <Text>No data overview</Text>
+                            )}
+                        </View>
+                    </Modal>
                 </View>
-              ) : (
-                <Text>No data overview</Text>
-              )}
-            </View>
-          </Modal>
-        </View>
-        {/* // modal features */}
-        <Features
-          onRequestClose={() => {
-            setVisibleFeatures(false);
-          }}
-          visible={visibleFeatures}
-          icon={
-            <TouchableOpacity onPress={() => setVisibleFeatures(false)}>
-              <Icon
-                name={'arrow-left'}
-                size={18}
-                color={BaseColor.corn90}></Icon>
-            </TouchableOpacity>
-          }
-          datas={featureProject}></Features>
-        {/* // modal gallery  */}
-        <Gallery
-          onRequestClose={() => {
-            setVisibleGallery(false);
-          }}
-          visible={visibleGallery}
-          icon={
-            <TouchableOpacity onPress={() => setVisibleGallery(false)}>
-              <Icon
-                name={'arrow-left'}
-                size={18}
-                color={BaseColor.corn90}></Icon>
-            </TouchableOpacity>
-          }
-          datas={galleryProject}></Gallery>
-        <Floorplan
-          onRequestClose={() => {
-            setVisibleFloorplan(false);
-          }}
-          visible={visibleFloorplan}
-          icon={
-            <TouchableOpacity onPress={() => setVisibleFloorplan(false)}>
-              <Icon
-                name={'arrow-left'}
-                size={18}
-                color={BaseColor.corn90}></Icon>
-            </TouchableOpacity>
-          }
-          datas={planProject}></Floorplan>
-        <Surrounding
-          onRequestClose={() => {
-            setVisibleSurrounding(false);
-          }}
-          visible={visibleSurrounding}
-          icon={
-            <TouchableOpacity onPress={() => setVisibleSurrounding(false)}>
-              <Icon
-                name={'arrow-left'}
-                size={18}
-                color={BaseColor.corn90}></Icon>
-            </TouchableOpacity>
-          }
-          datas={surroundingProject}></Surrounding>
-      </ScrollView>
-    </SafeAreaView>
-  );
+                {/* // modal features */}
+                <Features
+                    onRequestClose={() => {
+                        setVisibleFeatures(false);
+                    }}
+                    visible={visibleFeatures}
+                    icon={
+                        <TouchableOpacity
+                            onPress={() => setVisibleFeatures(false)}>
+                            <Icon
+                                name={'arrow-left'}
+                                size={18}
+                                color={BaseColor.corn90}></Icon>
+                        </TouchableOpacity>
+                    }
+                    datas={featureProject}></Features>
+                {/* // modal gallery  */}
+                <Gallery
+                    onRequestClose={() => {
+                        setVisibleGallery(false);
+                    }}
+                    visible={visibleGallery}
+                    icon={
+                        <TouchableOpacity
+                            onPress={() => setVisibleGallery(false)}>
+                            <Icon
+                                name={'arrow-left'}
+                                size={18}
+                                color={BaseColor.corn90}></Icon>
+                        </TouchableOpacity>
+                    }
+                    datas={galleryProject}></Gallery>
+                <Floorplan
+                    onRequestClose={() => {
+                        setVisibleFloorplan(false);
+                    }}
+                    visible={visibleFloorplan}
+                    icon={
+                        <TouchableOpacity
+                            onPress={() => setVisibleFloorplan(false)}>
+                            <Icon
+                                name={'arrow-left'}
+                                size={18}
+                                color={BaseColor.corn90}></Icon>
+                        </TouchableOpacity>
+                    }
+                    datas={planProject}></Floorplan>
+                <Surrounding
+                    onRequestClose={() => {
+                        setVisibleSurrounding(false);
+                    }}
+                    visible={visibleSurrounding}
+                    icon={
+                        <TouchableOpacity
+                            onPress={() => setVisibleSurrounding(false)}>
+                            <Icon
+                                name={'arrow-left'}
+                                size={18}
+                                color={BaseColor.corn90}></Icon>
+                        </TouchableOpacity>
+                    }
+                    datas={surroundingProject}></Surrounding>
+            </ScrollView>
+        </SafeAreaView>
+    );
 };
 export default ProjectDetails;

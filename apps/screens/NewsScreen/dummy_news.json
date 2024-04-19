@@ -6,6 +6,68 @@
       "project_no": "0321",
       "descs": "IFCA CITY CENTRE",
       "entity_name": "PT. Prospek Duta Sukses - Antasari Place",
+      "top": [
+        {
+          "rowID": "1",
+          "news_title": "INPP Building Tomorrow, Menelusuri Cuan Sektor Properti di 2024",
+
+          "entity_cd": "1514",
+          "project_no": "1514",
+          "url_image": "http://ifca.paradiseindonesia.com/webparadise/public/storage/photo-news/0321_0321_INPP_IDXChannel.png",
+          "source": "https://www.youtube.com/watch?v=wnPkofHeYi8",
+          "date_created": "2023-12-28 11:30:46.000",
+          "status": "Active",
+          "priority_no": "1   ",
+          "audit_user": "MGR",
+          "audit_date": "2023-12-28 11:30:46.000",
+          "type": "1514"
+        },
+        {
+          "rowID": "2",
+          "news_title": "INPP Building Tomorrow, Menelusuri Cuan Sektor Properti di 2024",
+
+          "entity_cd": "0321",
+          "project_no": "0321",
+          "url_image": "http://ifca.paradiseindonesia.com/webparadise/public/storage/photo-news/0321_0321_INPP_IDXChannel.png",
+          "source": "https://www.youtube.com/watch?v=wnPkofHeYi8",
+          "date_created": "2023-12-28 11:30:46.000",
+          "status": "Active",
+          "priority_no": "1   ",
+          "audit_user": "MGR",
+          "audit_date": "2023-12-28 11:30:46.000",
+          "type": "0321"
+        },
+        {
+          "rowID": "6",
+          "news_title": "INPP Building Tomorrow, Menelusuri Cuan Sektor Properti di 2024",
+
+          "entity_cd": "1514",
+          "project_no": "1514",
+          "url_image": "http://ifca.paradiseindonesia.com/webparadise/public/storage/photo-news/0321_0321_INPP_IDXChannel.png",
+          "source": "https://www.youtube.com/watch?v=wnPkofHeYi8",
+          "date_created": "2023-12-28 11:30:46.000",
+          "status": "Active",
+          "priority_no": "1   ",
+          "audit_user": "MGR",
+          "audit_date": "2023-12-28 11:30:46.000",
+          "type": "General"
+        },
+        {
+          "rowID": "7",
+          "news_title": "INPP Building Tomorrow, Menelusuri Cuan Sektor Properti di 2024",
+
+          "entity_cd": "0321",
+          "project_no": "0321",
+          "url_image": "http://ifca.paradiseindonesia.com/webparadise/public/storage/photo-news/0321_0321_INPP_IDXChannel.png",
+          "source": "https://www.youtube.com/watch?v=wnPkofHeYi8",
+          "date_created": "2023-12-28 11:30:46.000",
+          "status": "Active",
+          "priority_no": "1   ",
+          "audit_user": "MGR",
+          "audit_date": "2023-12-28 11:30:46.000",
+          "type": "0321"
+        }
+      ],
       "detail": [
         {
           "rowID": "1",

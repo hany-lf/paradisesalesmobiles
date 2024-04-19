@@ -51,7 +51,7 @@ const MoreDetailNews = props => {
       edges={['right', 'top', 'left']}
       style={[BaseStyle.safeAreaView, {backgroundColor: BaseColor.whiteColor}]}>
       <Header
-        title={t('More Promo')}
+        title={t('More News')}
         renderLeft={() => {
           return (
             <Icon
@@ -69,82 +69,89 @@ const MoreDetailNews = props => {
         }}
       />
       <ScrollView>
-        {paramsData.map((items, key) => (
-          <TouchableOpacity
-            key={key}
-            style={{marginVertical: 10}}
-            onPress={() => showModalNews(items)}>
-            <View
-              style={{
-                backgroundColor: BaseColor.corn10,
-                borderRadius: 15,
-                // width: '100%',
-                marginHorizontal: 20,
-                // flex: 1,
-              }}>
+        {paramsData.detail.map((items, key) =>
+          items.status == 'Active' &&
+          (paramsData.project_no == items.type || items.type == 'General') ? (
+            <TouchableOpacity
+              key={key}
+              style={{marginVertical: 10}}
+              onPress={() => showModalNews(items)}>
               <View
                 style={{
-                  flexDirection: 'row',
-                  // justifyContent: 'space-evenly',
-                  justifyContent: 'space-around',
+                  backgroundColor: BaseColor.corn10,
+                  borderRadius: 15,
                   // width: '100%',
-                  marginHorizontal: 5,
+                  marginHorizontal: 20,
+                  // flex: 1,
                 }}>
                 <View
                   style={{
-                    width: '50%',
-                    marginVertical: 10,
-                    marginHorizontal: 10,
+                    flexDirection: 'row',
+                    // justifyContent: 'space-evenly',
+                    justifyContent: 'space-around',
+                    // width: '100%',
+                    marginHorizontal: 5,
                   }}>
-                  <Text
+                  <View
                     style={{
-                      fontSize: 14,
-                      fontFamily: Fonts.type.LatoBold,
-                      color: BaseColor.corn70,
+                      width: '50%',
+                      marginVertical: 10,
+                      marginHorizontal: 10,
                     }}>
-                    {items.news_title}
-                  </Text>
-
-                  <Text
-                    numberOfLines={4}
-                    style={{
-                      marginTop: 5,
-                      fontSize: 12,
-                      fontFamily: Fonts.type.Lato,
-                      color: BaseColor.corn70,
-                    }}>
-                    {items.news_descs
-                      .replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '')
-                      .replace(/(&nbsp;)/g, ' ')
-                      .replace(/(&ndash;)/g, '-')
-                      .replace(/(&amp;)/g, `&`)}
-                  </Text>
-                  <View style={{justifyContent: 'flex-end', flex: 1}}>
                     <Text
                       style={{
-                        fontSize: 10,
-                        fontFamily: Fonts.type.Lato,
-                        color: BaseColor.corn50,
+                        fontSize: 14,
+                        fontFamily: Fonts.type.LatoBold,
+                        color: BaseColor.corn70,
                       }}>
-                      {moment(items.date_created).format('MMMM Do YYYY')}
+                      {items.news_title}
                     </Text>
+
+                    <Text
+                      numberOfLines={4}
+                      style={{
+                        marginTop: 5,
+                        fontSize: 12,
+                        fontFamily: Fonts.type.Lato,
+                        color: BaseColor.corn70,
+                      }}>
+                      {items.news_descs
+                        .replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '')
+                        .replace(/(&nbsp;)/g, ' ')
+                        .replace(/(&ndash;)/g, '-')
+                        .replace(/(&amp;)/g, `&`)}
+                    </Text>
+                    <View style={{justifyContent: 'flex-end', flex: 1}}>
+                      <Text
+                        style={{
+                          fontSize: 10,
+                          fontFamily: Fonts.type.Lato,
+                          color: BaseColor.corn50,
+                        }}>
+                        {moment(items.date_created).format('MMMM Do YYYY')}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={{marginVertical: 10, marginHorizontal: 10}}>
+                    <Image
+                      source={{uri: items.url_image}}
+                      // source={require('@assets/images/promonews/promo2.png')}
+                      style={{
+                        // width: 150,
+                        // height: 150,
+                        // resizeMode: 'contain',
+                        // borderRadius: 15,
+                        width: 150,
+                        height: 150,
+                        resizeMode: 'cover',
+                        borderRadius: 15,
+                      }}></Image>
                   </View>
                 </View>
-                <View style={{marginVertical: 10, marginHorizontal: 10}}>
-                  <Image
-                    source={{uri: items.url_image}}
-                    // source={require('@assets/images/promonews/promo2.png')}
-                    style={{
-                      width: 150,
-                      height: 150,
-                      resizeMode: 'contain',
-                      borderRadius: 15,
-                    }}></Image>
-                </View>
               </View>
-            </View>
-          </TouchableOpacity>
-        ))}
+            </TouchableOpacity>
+          ) : null,
+        )}
       </ScrollView>
 
       <NewsModal

@@ -180,75 +180,79 @@ const NewsModal = props => {
   };
 
   return datas == null ? null : ( // <Text>datas null</Text>
-    <View
-      style={{
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-      }}>
-      <Modal {...attrs} animationType="slide" transparent={true}>
-        <View
-          style={[
-            styles.centeredView,
-            {
-              backgroundColor: BaseColor.whiteColor,
-              borderTopRightRadius: 25,
-              borderTopLeftRadius: 25,
-              paddingBottom: 40,
-            },
-          ]}>
-          <View>
-            <View
-              style={{
-                flexDirection: 'row',
-                marginHorizontal: 20,
-                marginVertical: 20,
-              }}>
-              {icon}
-
+      <View
+          style={{
+              shadowColor: '#000',
+              shadowOffset: {
+                  width: 0,
+                  height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 4,
+              elevation: 5,
+          }}>
+          <Modal {...attrs} animationType="slide" transparent={true}>
               <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={{
-                    fontFamily: Fonts.type.LatoBold,
-                    color: BaseColor.corn70,
-                    fontSize: 16,
-                  }}>
-                  {t('news_detail')}
-                </Text>
-              </View>
-            </View>
-            {/* --- border  */}
-            {/* <View
+                  style={[
+                      styles.centeredView,
+                      {
+                          backgroundColor: BaseColor.whiteColor,
+                          borderTopRightRadius: 25,
+                          borderTopLeftRadius: 25,
+                          paddingBottom: 40,
+                      },
+                  ]}>
+                  <View>
+                      <View
+                          style={{
+                              flexDirection: 'row',
+                              marginHorizontal: 20,
+                              marginVertical: 20,
+                          }}>
+                          {icon}
+
+                          <View
+                              style={{
+                                  flex: 1,
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
+                              }}>
+                              <Text
+                                  style={{
+                                      fontFamily: Fonts.type.LatoBold,
+                                      color: BaseColor.corn70,
+                                      fontSize: 16,
+                                  }}>
+                                  {t('news_detail')}
+                              </Text>
+                          </View>
+                      </View>
+                      {/* --- border  */}
+                      {/* <View
               style={{
                 borderWidth: 0.3,
                 borderColor: BaseColor.corn70,
                 borderStyle: 'solid',
               }}></View> */}
-            <ScrollView>
-              <View style={{marginHorizontal: 30, marginVertical: 20}}>
-                <View
-                // style={{width: 200, height: 100}}
-                >
-                  <View style={{marginBottom: 25}}>
-                    <Text
-                      style={{
-                        color: BaseColor.corn70,
-                        fontFamily: Fonts.type.LatoBold,
-                        fontSize: 16,
-                      }}>
-                      {datas.news_title}
-                    </Text>
-                    {/* <Text
+                      <ScrollView>
+                          <View
+                              style={{
+                                  marginHorizontal: 30,
+                                  marginVertical: 20,
+                              }}>
+                              <View
+                              // style={{width: 200, height: 100}}
+                              >
+                                  <View style={{marginBottom: 25}}>
+                                      <Text
+                                          style={{
+                                              color: BaseColor.corn70,
+                                              fontFamily: Fonts.type.LatoBold,
+                                              fontSize: 16,
+                                          }}>
+                                          {datas.news_title}
+                                      </Text>
+                                      {/* <Text
                       style={{
                         color: BaseColor.corn70,
                         fontFamily: Fonts.type.Lato,
@@ -258,9 +262,12 @@ const NewsModal = props => {
                       Created date:{' '}
                       {moment(datas.date_created).format('DD MMM YYYY - hh:mm')}
                     </Text> */}
-                  </View>
-                  <TouchableOpacity onPress={() => zoomImage(datas.url_image)}>
-                    {/* <Image
+                                  </View>
+                                  <TouchableOpacity
+                                      onPress={() =>
+                                          zoomImage(datas.url_image)
+                                      }>
+                                      {/* <Image
                       source={{uri: datas.url_image}}
                       style={{
                         width: '100%',
@@ -274,86 +281,101 @@ const NewsModal = props => {
                         resizeMode: 'contain',
                         borderRadius: 25,
                       }}></Image> */}
-                    <View
-                      style={{height: 250, borderRadius: 25, width: '100%'}}>
-                      <Image
-                        source={{uri: datas.url_image}}
-                        style={{
-                          width: '100%',
-                          // height: Dimensions.get('window').height / 2.5,
-                          // width: '100%',
-                          // // width: 300,
-                          height: '100%',
-                          // marginTop: 10,
-                          // paddingTop: 10,
-                          // ...StyleSheet.absoluteFillObject,
-                          resizeMode: 'contain',
-                          borderRadius: 25,
-                        }}></Image>
-                    </View>
-                  </TouchableOpacity>
-                </View>
+                                      <View
+                                          style={{
+                                              height: 250,
+                                              borderRadius: 25,
+                                              width: '100%',
+                                          }}>
+                                          <Image
+                                              source={{uri: datas.url_image}}
+                                              style={{
+                                                  width: '100%',
+                                                  // height: Dimensions.get('window').height / 2.5,
+                                                  // width: '100%',
+                                                  // // width: 300,
+                                                  height: '100%',
+                                                  // marginTop: 10,
+                                                  // paddingTop: 10,
+                                                  // ...StyleSheet.absoluteFillObject,
+                                                  resizeMode: 'contain',
+                                                  borderRadius: 25,
+                                              }}></Image>
+                                      </View>
+                                  </TouchableOpacity>
+                              </View>
 
-                <View style={{marginVertical: 20}}>
-                  <RenderHtml
-                    contentWidth={width}
-                    source={{html: datas.news_descs}}
-                    systemFonts={systemFonts}
-                    defaultTextProps={{allowFontScaling: false}}
-                    enableExperimentalMarginCollapsing={true}
-                    customHTMLElementModels={customHTMLElementModels}
-                    tagsStyles={{
-                      strong: {
-                        color: BaseColor.corn70,
-                        // fontSize: 12,
-                        // fontFamily: Fonts.type.LatoBold,
-                        fontWeight: '600',
-                        ...(Platform.OS === 'android' && {
-                          fontWeight: '600',
-                          fontFamily: Fonts.type.LatoBlack,
-                        }),
-                      },
-                      b: {
-                        color: BaseColor.corn70,
-                        // fontSize: 12,
-                        // fontFamily: Fonts.type.LatoBold,
-                        fontWeight: '600',
-                        ...(Platform.OS === 'android' && {
-                          fontWeight: '600',
-                          fontFamily: Fonts.type.LatoBlack,
-                        }),
-                      },
+                              <View style={{marginVertical: 20}}>
+                                  <RenderHtml
+                                      contentWidth={width}
+                                      source={{html: datas.news_descs}}
+                                      systemFonts={systemFonts}
+                                      defaultTextProps={{
+                                          allowFontScaling: false,
+                                      }}
+                                      enableExperimentalMarginCollapsing={true}
+                                      customHTMLElementModels={
+                                          customHTMLElementModels
+                                      }
+                                      ignoredStyles={[
+                                          'fontSize',
+                                          'fontFamily',
+                                          'color',
+                                      ]}
+                                      tagsStyles={{
+                                          strong: {
+                                              color: BaseColor.corn70,
+                                              // fontSize: 12,
+                                              // fontFamily: Fonts.type.LatoBold,
+                                              fontWeight: '600',
+                                              ...(Platform.OS === 'android' && {
+                                                  fontWeight: '600',
+                                                  fontFamily:
+                                                      Fonts.type.LatoBlack,
+                                              }),
+                                          },
+                                          b: {
+                                              color: BaseColor.corn70,
+                                              // fontSize: 12,
+                                              // fontFamily: Fonts.type.LatoBold,
+                                              fontWeight: '600',
+                                              ...(Platform.OS === 'android' && {
+                                                  fontWeight: '600',
+                                                  fontFamily:
+                                                      Fonts.type.LatoBlack,
+                                              }),
+                                          },
 
-                      a: {
-                        // color: BaseColor.corn70,
-                        // fontSize: 12,
-                        fontFamily: Fonts.type.Lato,
-                        // fontFamily: Fonts.type.ComicSansMS,
-                        // textAlign: 'justify',
-                      },
-                      p: {
-                        color: BaseColor.corn70,
-                        // fontSize: 12,
-                        fontFamily: Fonts.type.Lato,
-                        // fontFamily: Fonts.type.ComicSansMS,
-                        textAlign: 'justify',
-                      },
-                      span: {
-                        color: BaseColor.corn70,
-                        // fontSize: 12,
-                        fontFamily: Fonts.type.Lato,
-                        // fontFamily: Fonts.type.ComicSansMS,
-                        textAlign: 'justify',
-                      },
-                      li: {
-                        // color: isDarkMode ? 'blue' : 'red',
-                        color: BaseColor.corn70,
-                        // fontSize: 12,
-                        fontFamily: Fonts.type.Lato,
-                      },
-                    }}
-                  />
-                  {/* <Text
+                                          a: {
+                                              // color: BaseColor.corn70,
+                                              // fontSize: 12,
+                                              fontFamily: Fonts.type.Lato,
+                                              // fontFamily: Fonts.type.ComicSansMS,
+                                              // textAlign: 'justify',
+                                          },
+                                          p: {
+                                              color: BaseColor.corn70,
+                                              // fontSize: 12,
+                                              fontFamily: Fonts.type.Lato,
+                                              // fontFamily: Fonts.type.ComicSansMS,
+                                              textAlign: 'justify',
+                                          },
+                                          span: {
+                                              color: BaseColor.corn70,
+                                              // fontSize: 12,
+                                              fontFamily: Fonts.type.Lato,
+                                              // fontFamily: Fonts.type.ComicSansMS,
+                                              textAlign: 'justify',
+                                          },
+                                          li: {
+                                              // color: isDarkMode ? 'blue' : 'red',
+                                              color: BaseColor.corn70,
+                                              // fontSize: 12,
+                                              fontFamily: Fonts.type.Lato,
+                                          },
+                                      }}
+                                  />
+                                  {/* <Text
                     style={{
                       textAlign: 'justify',
                       fontFamily: Fonts.type.Lato,
@@ -366,64 +388,72 @@ const NewsModal = props => {
                       .replace(/(&ndash;)/g, '-')
                       .replace(/(&amp;)/g, `&`)}
                   </Text> */}
-                </View>
-              </View>
-              <ImageViewing
-                images={dataImage}
-                imageIndex={currentImageIndex}
-                presentationStyle="overFullScreen"
-                visible={isVisible}
-                onRequestClose={onRequestClose}
-                onLongPress={onLongPress}
-                HeaderComponent={
-                  dataImage === datas
-                    ? ({imageIndex}) => {
-                        const title = get(dataImage, `${imageIndex}.title`);
-                        return (
-                          <ImageHeader
-                            title={title}
-                            onRequestClose={onRequestClose}
+                              </View>
+                          </View>
+                          <ImageViewing
+                              images={dataImage}
+                              imageIndex={currentImageIndex}
+                              presentationStyle="overFullScreen"
+                              visible={isVisible}
+                              onRequestClose={onRequestClose}
+                              onLongPress={onLongPress}
+                              HeaderComponent={
+                                  dataImage === datas
+                                      ? ({imageIndex}) => {
+                                            const title = get(
+                                                dataImage,
+                                                `${imageIndex}.title`,
+                                            );
+                                            return (
+                                                <ImageHeader
+                                                    title={title}
+                                                    onRequestClose={
+                                                        onRequestClose
+                                                    }
+                                                />
+                                            );
+                                        }
+                                      : undefined
+                              }
+                              FooterComponent={({imageIndex}) => (
+                                  <View
+                                      style={{
+                                          flex: 1,
+                                          backgroundColor: '#000',
+                                          ...Platform.select({
+                                              android: {
+                                                  paddingTop:
+                                                      StatusBar.currentHeight,
+                                                  marginLeft: 40,
+                                                  bottom: 40,
+                                              },
+                                              ios: {marginLeft: 40, bottom: 40},
+                                          }),
+                                      }}>
+                                      <Text
+                                          style={{
+                                              fontFamily: Fonts.type.Lato,
+                                              color: BaseColor.corn30,
+                                              // marginLeft: 40,
+                                          }}>{`${imageIndex + 1} / ${
+                                          dataImage.length
+                                      }`}</Text>
+                                  </View>
+                                  // <ImageFooter
+                                  //   imageIndex={imageIndex}
+                                  //   imagesCount={dataImage.length}
+                                  // />
+                              )}
                           />
-                        );
-                      }
-                    : undefined
-                }
-                FooterComponent={({imageIndex}) => (
-                  <View
-                    style={{
-                      flex: 1,
-                      backgroundColor: '#000',
-                      ...Platform.select({
-                        android: {
-                          paddingTop: StatusBar.currentHeight,
-                          marginLeft: 40,
-                          bottom: 40,
-                        },
-                        ios: {marginLeft: 40, bottom: 40},
-                      }),
-                    }}>
-                    <Text
-                      style={{
-                        fontFamily: Fonts.type.Lato,
-                        color: BaseColor.corn30,
-                        // marginLeft: 40,
-                      }}>{`${imageIndex + 1} / ${dataImage.length}`}</Text>
+                      </ScrollView>
                   </View>
-                  // <ImageFooter
-                  //   imageIndex={imageIndex}
-                  //   imagesCount={dataImage.length}
-                  // />
-                )}
-              />
-            </ScrollView>
-          </View>
-        </View>
+              </View>
 
-        {/* <Button onPress={() => close()} style={{backgroundColor: 'red'}}>
+              {/* <Button onPress={() => close()} style={{backgroundColor: 'red'}}>
         <Text>close</Text>
       </Button> */}
-      </Modal>
-    </View>
+          </Modal>
+      </View>
   );
 };
 
