@@ -32,49 +32,49 @@ const ButtonMenuHome = props => {
     return <Loading style={style} />;
   }
   return (
-    <TouchableOpacity
-      disabled={disabled}
-      style={[
-        styles.container,
-        {
-          backgroundColor: BaseColor.corn10,
-          borderColor: BaseColor.corn10,
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
-        style,
-      ]}
-      onPress={onPress}>
-      {typeIcon == 'MCI' ? (
-        <MaterialCommunityIcons
-          name={nameicon}
-          color={BaseColor.corn70}
-          solid
-          size={20}></MaterialCommunityIcons>
-      ) : (
-        <IconFontAwesome5
-          name={nameicon}
-          solid
-          size={20}
-          color={BaseColor.corn70}></IconFontAwesome5>
-      )}
+      <TouchableOpacity
+          disabled={disabled}
+          style={[
+              styles.container,
+              {
+                  backgroundColor: BaseColor.corn10,
+                  borderColor: BaseColor.corn10,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+              },
+              style,
+          ]}
+          onPress={onPress}>
+          {typeIcon == 'MCI' ? (
+              <MaterialCommunityIcons
+                  name={nameicon}
+                  color={BaseColor.corn70}
+                  solid
+                  size={20}></MaterialCommunityIcons>
+          ) : (
+              <IconFontAwesome5
+                  name={nameicon}
+                  solid
+                  size={20}
+                  color={BaseColor.corn70}></IconFontAwesome5>
+          )}
 
-      <Text
-        body2
-        semibold
-        style={[
-          styles.title,
-          {
-            textAlign: 'center',
-            // alignItems: 'center',
-            // alignContent: 'center',
-            // alignSelf: 'center',
-          },
-        ]}
-        numberOfLines={2}>
-        {title}
-      </Text>
-    </TouchableOpacity>
+          <Text
+              body2
+              semibold
+              style={[
+                  styles.title,
+                  {
+                      textAlign: 'center',
+                      // alignItems: 'center',
+                      // alignContent: 'center',
+                      // alignSelf: 'center',
+                  },
+              ]}
+              numberOfLines={2}>
+              {title}
+          </Text>
+      </TouchableOpacity>
   );
 };
 

@@ -21,7 +21,16 @@ import entities from 'entities';
 import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
 const Surrounding = props => {
   const {onPress, datas, icon, ...attrs} = props;
-  const systemFonts = [...defaultSystemFonts, global.fontRegular];
+  const systemFonts = [
+      ...defaultSystemFonts,
+      'Arial Black',
+      'Comic-Sans MS',
+      'Courier New',
+      'Lato-Bold',
+      'Lato-Regular',
+      'Lato-Black',
+      'Lato-Italic',
+  ];
   const {width} = useWindowDimensions().width;
   const {widthRender} = useWindowDimensions();
   console.log('attrs ?', attrs);
@@ -45,152 +54,221 @@ const Surrounding = props => {
   console.log('cekk tess', setDataFilter); //untuk memfilter amenities type aja dan jgn ada yang sama
 
   return (
-    <ScrollView>
-      <Modal {...attrs} animationType="slide" transparent={false}>
-        <View
-          style={[
-            styles.centeredView,
-            {
-              backgroundColor: BaseColor.whiteColor,
-              borderTopRightRadius: 25,
-              borderTopLeftRadius: 25,
-              paddingBottom: 30,
-            },
-          ]}>
-          <View>
-            <View
-              style={{
-                flexDirection: 'row',
-                marginHorizontal: 20,
-                marginVertical: 20,
-              }}>
-              {icon}
-
+      <ScrollView>
+          <Modal {...attrs} animationType="slide" transparent={false}>
               <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={{
-                    fontFamily: Fonts.type.LatoBold,
-                    color: BaseColor.corn70,
-                    fontSize: 16,
-                  }}>
-                  Surrounding Area
-                </Text>
-              </View>
-            </View>
-            {/* --- border  */}
-            <View
-              style={{
-                borderWidth: 0.3,
-                borderColor: BaseColor.corn70,
-                borderStyle: 'solid',
-              }}></View>
-
-            <ScrollView
-              style={{
-                marginTop: 10,
-                // backgroundColor: 'yellow',
-              }}>
-              <View style={{marginBottom: 10, marginLeft: 15}}>
-                {setDataFilter.map((itemType, indexType) => (
-                  <View key={indexType} style={{marginBottom: 10}}>
-                    <View
-                      style={[styles.badgeSurrounding, {marginVertical: 5}]}>
-                      <Icon
-                        name={
-                          itemType == 'I'
-                            ? 'bus'
-                            : itemType == 'S'
-                            ? 'school'
-                            : itemType == 'H'
-                            ? 'hospital'
-                            : itemType == 'O'
-                            ? 'store'
-                            : 'time'
-                        }
-                        size={16}
-                        color={BaseColor.corn70}
-                        style={{margin: 5}}></Icon>
-
+                  style={[
+                      styles.centeredView,
+                      {
+                          backgroundColor: BaseColor.whiteColor,
+                          borderTopRightRadius: 25,
+                          borderTopLeftRadius: 25,
+                          paddingBottom: 30,
+                      },
+                  ]}>
+                  <View>
                       <View
-                        style={{
-                          borderBottomColor: BaseColor.corn70,
-                          borderBottomWidth: 1,
-                          borderStyle: 'solid',
-                        }}>
-                        <Text style={styles.textBold}>
-                          {itemType == 'I'
-                            ? 'INFRASTRUCTURE'
-                            : itemType == 'S'
-                            ? 'SCHOOL'
-                            : itemType == 'H'
-                            ? 'HOSPITAL'
-                            : itemType == 'O'
-                            ? 'SHOPPING'
-                            : '.'}
-                        </Text>
-                      </View>
-                    </View>
-                    {datas.map((item, index) => (
-                      <View style={{marginTop: 0}} key={index}>
-                        {itemType === item.amenities_type ? (
-                          <RenderHtml
-                            contentWidth={widthRender}
-                            source={{html: item.amenities_info}}
-                            systemFonts={systemFonts}
-                            tagsStyles={{
-                              p: {
-                                color: BaseColor.corn70,
-                                fontSize: 12,
-                                fontFamily: Fonts.type.LatoBold,
-                                textAlign: 'justify',
-                              },
-                              img: {
-                                paddingVertical: 20,
-                              },
-                              li: {
-                                // color: isDarkMode ? 'blue' : 'red',
-                                color: BaseColor.corn70,
-                                fontSize: 12,
-                                fontFamily: Fonts.type.LatoBold,
-                              },
-                            }}
-                          />
-                        ) : // <Text style={[styles.text, {marginLeft: 20}]}>
-                        //   {hasATag(item.amenities_info)}
-                        //   {/* {item.amenities_info.replace(
-                        //     /<(?!a\s*\/?)[^>]+>/g,
-                        //     '',
-                        //   )} */}
-                        //   {/* {item.amenities_info
-                        //     // .replace(/(<([^>]+)>)/gi, '')
-                        //     .replace(
-                        //       /<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim,
-                        //       '',
-                        //     )
-                        //     .replace(/(&nbsp;)/g, ' ')
-                        //     .replace(/(&ndash;)/g, '-')
-                        //     .replace(/(&amp;)/g, `&`)} */}
-                        // </Text>
-                        null}
-                      </View>
-                    ))}
-                  </View>
-                ))}
-              </View>
-            </ScrollView>
-          </View>
-        </View>
+                          style={{
+                              flexDirection: 'row',
+                              marginHorizontal: 20,
+                              marginVertical: 20,
+                          }}>
+                          {icon}
 
-        {/* <Button onPress={() => close()} style={{backgroundColor: 'red'}}>
+                          <View
+                              style={{
+                                  flex: 1,
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
+                              }}>
+                              <Text
+                                  style={{
+                                      fontFamily: Fonts.type.LatoBold,
+                                      color: BaseColor.corn70,
+                                      fontSize: 16,
+                                  }}>
+                                  Surrounding Area
+                              </Text>
+                          </View>
+                      </View>
+                      {/* --- border  */}
+                      <View
+                          style={{
+                              borderWidth: 0.3,
+                              borderColor: BaseColor.corn70,
+                              borderStyle: 'solid',
+                          }}></View>
+
+                      <ScrollView
+                          style={{
+                              marginTop: 10,
+                              // backgroundColor: 'yellow',
+                          }}>
+                          <View style={{marginBottom: 10, marginLeft: 15}}>
+                              {setDataFilter.map((itemType, indexType) => (
+                                  <View
+                                      key={indexType}
+                                      style={{marginBottom: 10}}>
+                                      <View
+                                          style={[
+                                              styles.badgeSurrounding,
+                                              {marginVertical: 5},
+                                          ]}>
+                                          <Icon
+                                              name={
+                                                  itemType == 'I'
+                                                      ? 'bus'
+                                                      : itemType == 'S'
+                                                      ? 'school'
+                                                      : itemType == 'H'
+                                                      ? 'hospital'
+                                                      : itemType == 'O'
+                                                      ? 'store'
+                                                      : 'time'
+                                              }
+                                              size={16}
+                                              color={BaseColor.corn70}
+                                              style={{margin: 5}}></Icon>
+
+                                          <View
+                                              style={{
+                                                  borderBottomColor:
+                                                      BaseColor.corn70,
+                                                  borderBottomWidth: 1,
+                                                  borderStyle: 'solid',
+                                              }}>
+                                              <Text style={styles.textBold}>
+                                                  {itemType == 'I'
+                                                      ? 'INFRASTRUCTURE'
+                                                      : itemType == 'S'
+                                                      ? 'SCHOOL'
+                                                      : itemType == 'H'
+                                                      ? 'HOSPITAL'
+                                                      : itemType == 'O'
+                                                      ? 'SHOPPING'
+                                                      : '.'}
+                                              </Text>
+                                          </View>
+                                      </View>
+                                      {datas.map((item, index) => (
+                                          <View
+                                              style={{marginTop: 0}}
+                                              key={index}>
+                                              {itemType ===
+                                              item.amenities_type ? (
+                                                  <RenderHtml
+                                                      contentWidth={widthRender}
+                                                      source={{
+                                                          html: item.amenities_info,
+                                                      }}
+                                                      systemFonts={systemFonts}
+                                                      ignoredStyles={[
+                                                          'fontSize',
+                                                          'fontFamily',
+                                                          'color',
+                                                      ]}
+                                                      tagsStyles={{
+                                                          em: {
+                                                              color: BaseColor.corn70,
+                                                              // fontSize: 12,
+                                                              fontFamily:
+                                                                  Fonts.type
+                                                                      .Lato,
+                                                              // fontFamily: Fonts.type.ComicSansMS,
+                                                              // textAlign: 'justify',
+                                                              fontStyle:
+                                                                  'normal',
+                                                          },
+                                                          strong: {
+                                                              color: BaseColor.corn70,
+                                                              // fontSize: 12,
+                                                              // fontFamily: Fonts.type.LatoBold,
+                                                              fontWeight: '600',
+                                                              ...(Platform.OS ===
+                                                                  'android' && {
+                                                                  fontWeight:
+                                                                      '600',
+                                                                  fontFamily:
+                                                                      Fonts.type
+                                                                          .LatoBlack,
+                                                              }),
+                                                          },
+                                                          b: {
+                                                              color: BaseColor.corn70,
+                                                              // fontSize: 12,
+                                                              // fontFamily: Fonts.type.LatoBold,
+                                                              fontWeight: '600',
+                                                              ...(Platform.OS ===
+                                                                  'android' && {
+                                                                  fontWeight:
+                                                                      '600',
+                                                                  fontFamily:
+                                                                      Fonts.type
+                                                                          .LatoBlack,
+                                                              }),
+                                                          },
+
+                                                          p: {
+                                                              color: BaseColor.corn70,
+                                                              fontSize: 13,
+                                                              fontFamily:
+                                                                  Fonts.type
+                                                                      .Lato,
+                                                              // fontFamily: Fonts.type.ComicSansMS,
+                                                              textAlign:
+                                                                  'justify',
+                                                          },
+                                                          span: {
+                                                              color: BaseColor.corn70,
+                                                              fontSize: 13,
+                                                              fontFamily:
+                                                                  Fonts.type
+                                                                      .Lato,
+                                                              // fontFamily: Fonts.type.ComicSansMS,
+                                                              textAlign:
+                                                                  'justify',
+                                                          },
+                                                          li: {
+                                                              // color: isDarkMode ? 'blue' : 'red',
+                                                              color: BaseColor.corn70,
+                                                              // fontSize: 12,
+                                                              fontFamily:
+                                                                  Fonts.type
+                                                                      .Lato,
+                                                          },
+                                                      }}
+                                                  />
+                                              ) : // <Text style={[styles.text, {marginLeft: 20}]}>
+                                              //   {hasATag(item.amenities_info)}
+                                              //   {/* {item.amenities_info.replace(
+                                              //     /<(?!a\s*\/?)[^>]+>/g,
+                                              //     '',
+                                              //   )} */}
+                                              //   {/* {item.amenities_info
+                                              //     // .replace(/(<([^>]+)>)/gi, '')
+                                              //     .replace(
+                                              //       /<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim,
+                                              //       '',
+                                              //     )
+                                              //     .replace(/(&nbsp;)/g, ' ')
+                                              //     .replace(/(&ndash;)/g, '-')
+                                              //     .replace(/(&amp;)/g, `&`)} */}
+                                              // </Text>
+                                              null}
+                                          </View>
+                                      ))}
+                                  </View>
+                              ))}
+                          </View>
+                      </ScrollView>
+                  </View>
+              </View>
+
+              {/* <Button onPress={() => close()} style={{backgroundColor: 'red'}}>
         <Text>close</Text>
       </Button> */}
-      </Modal>
-    </ScrollView>
+          </Modal>
+      </ScrollView>
   );
 };
 

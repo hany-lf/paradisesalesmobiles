@@ -19,7 +19,16 @@ import {useDispatch, useSelector} from 'react-redux';
 
 const AboutUs = props => {
   const {t} = useTranslation();
-  const systemFonts = [...defaultSystemFonts, global.fontRegular];
+  const systemFonts = [
+      ...defaultSystemFonts,
+      'Arial Black',
+      'Comic-Sans MS',
+      'Courier New',
+      'Lato-Bold',
+      'Lato-Regular',
+      'Lato-Black',
+      'Lato-Italic',
+  ];
   //   const dummyFAQ = dummy_faq.menu_faq;
   const {navigation} = props;
   const {width} = useWindowDimensions().width;
@@ -105,87 +114,271 @@ const AboutUs = props => {
           {dataAbout.map((item, index) => {
             console.log('item source', item.about_descs);
             return (
-              <View>
-                <RenderHtml
-                  contentWidth={width}
-                  source={{html: item.about_descs}}
-                  systemFonts={systemFonts}
-                  tagsStyles={{
-                    p: {
-                      color: BaseColor.corn70,
-                      fontSize: 12,
-                      fontFamily: Fonts.type.LatoBold,
-                      textAlign: 'justify',
-                    },
-                    li: {
-                      // color: isDarkMode ? 'blue' : 'red',
-                      color: BaseColor.corn70,
-                      fontSize: 12,
-                      fontFamily: Fonts.type.LatoBold,
-                    },
-                  }}
-                />
+                <View>
+                    <RenderHtml
+                        contentWidth={width}
+                        source={{html: item.about_descs}}
+                        systemFonts={systemFonts}
+                        ignoredStyles={['fontSize', 'fontFamily', 'color']}
+                        tagsStyles={{
+                            em: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                                // fontFamily: Fonts.type.ComicSansMS,
+                                // textAlign: 'justify',
+                                fontStyle: 'normal',
+                            },
+                            strong: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                // fontFamily: Fonts.type.LatoBold,
+                                fontWeight: '600',
+                                ...(Platform.OS === 'android' && {
+                                    fontWeight: '600',
+                                    fontFamily: Fonts.type.LatoBlack,
+                                }),
+                            },
+                            b: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                // fontFamily: Fonts.type.LatoBold,
+                                fontWeight: '600',
+                                ...(Platform.OS === 'android' && {
+                                    fontWeight: '600',
+                                    fontFamily: Fonts.type.LatoBlack,
+                                }),
+                            },
 
-                <Text style={{fontFamily: Fonts.type.LatoBold, fontSize: 15}}>
-                  Our Contact
-                </Text>
-                <RenderHtml
-                  contentWidth={width}
-                  source={{html: item.address}}
-                  systemFonts={systemFonts}
-                  tagsStyles={{
-                    p: {
-                      color: BaseColor.corn70,
-                      fontSize: 12,
-                      fontFamily: Fonts.type.LatoBold,
-                    },
-                    li: {
-                      // color: isDarkMode ? 'blue' : 'red',
-                      color: BaseColor.corn70,
-                      fontSize: 12,
-                      fontFamily: Fonts.type.LatoBold,
-                    },
-                  }}
-                />
+                            a: {
+                                // color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                                // fontFamily: Fonts.type.ComicSansMS,
+                                // textAlign: 'justify',
+                            },
+                            p: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                                // fontFamily: Fonts.type.ComicSansMS,
+                                textAlign: 'justify',
+                            },
+                            span: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                                // fontFamily: Fonts.type.ComicSansMS,
+                                textAlign: 'justify',
+                            },
+                            li: {
+                                // color: isDarkMode ? 'blue' : 'red',
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                            },
+                        }}
+                    />
 
-                <RenderHtml
-                  contentWidth={width}
-                  source={{html: item.contact_info}}
-                  systemFonts={systemFonts}
-                  tagsStyles={{
-                    p: {
-                      color: BaseColor.corn70,
-                      fontSize: 12,
-                      fontFamily: Fonts.type.LatoBold,
-                    },
-                    li: {
-                      // color: isDarkMode ? 'blue' : 'red',
-                      color: BaseColor.corn70,
-                      fontSize: 12,
-                      fontFamily: Fonts.type.LatoBold,
-                    },
-                  }}
-                />
+                    <Text
+                        style={{fontFamily: Fonts.type.LatoBold, fontSize: 15}}>
+                        Our Contact
+                    </Text>
+                    <RenderHtml
+                        contentWidth={width}
+                        source={{html: item.address}}
+                        systemFonts={systemFonts}
+                        ignoredStyles={['fontSize', 'fontFamily', 'color']}
+                        tagsStyles={{
+                            em: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                                // fontFamily: Fonts.type.ComicSansMS,
+                                // textAlign: 'justify',
+                                fontStyle: 'normal',
+                            },
+                            strong: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                // fontFamily: Fonts.type.LatoBold,
+                                fontWeight: '600',
+                                ...(Platform.OS === 'android' && {
+                                    fontWeight: '600',
+                                    fontFamily: Fonts.type.LatoBlack,
+                                }),
+                            },
+                            b: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                // fontFamily: Fonts.type.LatoBold,
+                                fontWeight: '600',
+                                ...(Platform.OS === 'android' && {
+                                    fontWeight: '600',
+                                    fontFamily: Fonts.type.LatoBlack,
+                                }),
+                            },
 
-                <RenderHtml
-                  contentWidth={width}
-                  source={{html: item.phone}}
-                  systemFonts={systemFonts}
-                  tagsStyles={{
-                    p: {
-                      color: BaseColor.corn70,
-                      fontSize: 12,
-                      fontFamily: Fonts.type.LatoBold,
-                    },
-                    li: {
-                      // color: isDarkMode ? 'blue' : 'red',
-                      color: BaseColor.corn70,
-                      fontSize: 12,
-                      fontFamily: Fonts.type.LatoBold,
-                    },
-                  }}
-                />
-              </View>
+                            a: {
+                                // color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                                // fontFamily: Fonts.type.ComicSansMS,
+                                // textAlign: 'justify',
+                            },
+                            p: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                                // fontFamily: Fonts.type.ComicSansMS,
+                                textAlign: 'justify',
+                            },
+                            span: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                                // fontFamily: Fonts.type.ComicSansMS,
+                                textAlign: 'justify',
+                            },
+                            li: {
+                                // color: isDarkMode ? 'blue' : 'red',
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                            },
+                        }}
+                    />
+
+                    <RenderHtml
+                        contentWidth={width}
+                        source={{html: item.contact_info}}
+                        systemFonts={systemFonts}
+                        ignoredStyles={['fontSize', 'fontFamily', 'color']}
+                        tagsStyles={{
+                            em: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                                // fontFamily: Fonts.type.ComicSansMS,
+                                // textAlign: 'justify',
+                                fontStyle: 'normal',
+                            },
+                            strong: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                // fontFamily: Fonts.type.LatoBold,
+                                fontWeight: '600',
+                                ...(Platform.OS === 'android' && {
+                                    fontWeight: '600',
+                                    fontFamily: Fonts.type.LatoBlack,
+                                }),
+                            },
+                            b: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                // fontFamily: Fonts.type.LatoBold,
+                                fontWeight: '600',
+                                ...(Platform.OS === 'android' && {
+                                    fontWeight: '600',
+                                    fontFamily: Fonts.type.LatoBlack,
+                                }),
+                            },
+
+                            a: {
+                                // color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                                // fontFamily: Fonts.type.ComicSansMS,
+                                // textAlign: 'justify',
+                            },
+                            p: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                                // fontFamily: Fonts.type.ComicSansMS,
+                                textAlign: 'justify',
+                            },
+                            span: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                                // fontFamily: Fonts.type.ComicSansMS,
+                                textAlign: 'justify',
+                            },
+                            li: {
+                                // color: isDarkMode ? 'blue' : 'red',
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                            },
+                        }}
+                    />
+
+                    <RenderHtml
+                        contentWidth={width}
+                        source={{html: item.phone}}
+                        systemFonts={systemFonts}
+                        ignoredStyles={['fontSize', 'fontFamily', 'color']}
+                        tagsStyles={{
+                            em: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                                // fontFamily: Fonts.type.ComicSansMS,
+                                // textAlign: 'justify',
+                                fontStyle: 'normal',
+                            },
+                            strong: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                // fontFamily: Fonts.type.LatoBold,
+                                fontWeight: '600',
+                                ...(Platform.OS === 'android' && {
+                                    fontWeight: '600',
+                                    fontFamily: Fonts.type.LatoBlack,
+                                }),
+                            },
+                            b: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                // fontFamily: Fonts.type.LatoBold,
+                                fontWeight: '600',
+                                ...(Platform.OS === 'android' && {
+                                    fontWeight: '600',
+                                    fontFamily: Fonts.type.LatoBlack,
+                                }),
+                            },
+
+                            a: {
+                                // color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                                // fontFamily: Fonts.type.ComicSansMS,
+                                // textAlign: 'justify',
+                            },
+                            p: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                                // fontFamily: Fonts.type.ComicSansMS,
+                                textAlign: 'justify',
+                            },
+                            span: {
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                                // fontFamily: Fonts.type.ComicSansMS,
+                                textAlign: 'justify',
+                            },
+                            li: {
+                                // color: isDarkMode ? 'blue' : 'red',
+                                color: BaseColor.corn70,
+                                // fontSize: 12,
+                                fontFamily: Fonts.type.Lato,
+                            },
+                        }}
+                    />
+                </View>
             );
             // (
 

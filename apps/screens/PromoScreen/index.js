@@ -78,124 +78,157 @@ const PromoScreen = props => {
   };
 
   return (
-    <SafeAreaView
-      edges={['right', 'top', 'left']}
-      style={[BaseStyle.safeAreaView, {backgroundColor: BaseColor.whiteColor}]}>
-      <Header
-        title={t('promo')}
-        renderLeft={() => {
-          return (
-            <Icon
-              // name="angle-left"
-              name="arrow-left"
-              size={18}
-              color={BaseColor.corn70}
-              enableRTL={true}
-            />
-          );
-        }}
-        style={{height: 80}}
-        onPressLeft={() => {
-          navigation.goBack();
-        }}
-      />
-      <ScrollView>
-        {dataPromo.length != 0 ? (
-          dataPromo.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              style={{marginVertical: 10}}
-              onPress={() => showModalPromo(item)}>
-              <View
-                style={{
-                  backgroundColor: BaseColor.corn10,
-                  borderRadius: 15,
-                  // width: '100%',
-                  marginHorizontal: 20,
-                  // flex: 1,
-                }}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    // justifyContent: 'space-evenly',
-                    justifyContent: 'space-around',
-                    // width: '100%',
-                    marginHorizontal: 5,
-                  }}>
+      <SafeAreaView
+          edges={['right', 'top', 'left']}
+          style={[
+              BaseStyle.safeAreaView,
+              {backgroundColor: BaseColor.whiteColor},
+          ]}>
+          <Header
+              title={t('promo')}
+              renderLeft={() => {
+                  return (
+                      <Icon
+                          // name="angle-left"
+                          name="arrow-left"
+                          size={18}
+                          color={BaseColor.corn70}
+                          enableRTL={true}
+                      />
+                  );
+              }}
+              style={{height: 80}}
+              onPressLeft={() => {
+                  navigation.goBack();
+              }}
+          />
+          <ScrollView>
+              {dataPromo.length != 0 ? (
+                  dataPromo.map((item, index) => (
+                      <TouchableOpacity
+                          key={index}
+                          style={{marginVertical: 10}}
+                          onPress={() => showModalPromo(item)}>
+                          <View
+                              style={{
+                                  backgroundColor: BaseColor.corn10,
+                                  borderRadius: 15,
+                                  // width: '100%',
+                                  marginHorizontal: 20,
+                                  // flex: 1,
+                              }}>
+                              <View
+                                  style={{
+                                      flexDirection: 'row',
+                                      // justifyContent: 'space-evenly',
+                                      justifyContent: 'space-around',
+                                      // width: '100%',
+                                      marginHorizontal: 5,
+                                  }}>
+                                  <View
+                                      style={{
+                                          width: '50%',
+                                          marginVertical: 10,
+                                          marginHorizontal: 10,
+                                      }}>
+                                      <Text
+                                          style={{
+                                              fontSize: 14,
+                                              fontFamily: Fonts.type.LatoBold,
+                                              color: BaseColor.corn70,
+                                          }}>
+                                          {item.promo_title}
+                                      </Text>
+
+                                      <Text
+                                          numberOfLines={4}
+                                          style={{
+                                              marginTop: 5,
+                                              fontSize: 12,
+                                              fontFamily: Fonts.type.Lato,
+                                              color: BaseColor.corn70,
+                                          }}>
+                                          {item.promo_descs
+                                              .replace(
+                                                  /<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim,
+                                                  '',
+                                              )
+                                              .replace(/(&nbsp;)/g, ' ')
+                                              .replace(/(&ndash;)/g, '-')
+                                              .replace(/(&amp;)/g, `&`)}
+                                      </Text>
+                                      <View
+                                          style={{
+                                              justifyContent: 'flex-end',
+                                              flex: 1,
+                                          }}>
+                                          <Text
+                                              style={{
+                                                  fontSize: 10,
+                                                  fontFamily: Fonts.type.Lato,
+                                                  color: BaseColor.corn50,
+                                              }}>
+                                              {moment(item.date_created).format(
+                                                  'MMMM Do YYYY',
+                                              )}
+                                          </Text>
+                                      </View>
+                                  </View>
+                                  <View
+                                      style={{
+                                          marginVertical: 10,
+                                          marginHorizontal: 10,
+                                      }}>
+                                      <Image
+                                          source={{uri: item.url_image}}
+                                          // source={require('@assets/images/promonews/promo2.png')}
+                                          style={{
+                                              width: 150,
+                                              height: 150,
+                                              resizeMode: 'contain',
+                                              borderRadius: 15,
+                                          }}></Image>
+                                  </View>
+                              </View>
+                          </View>
+                      </TouchableOpacity>
+                  ))
+              ) : (
                   <View
-                    style={{
-                      width: '50%',
-                      marginVertical: 10,
-                      marginHorizontal: 10,
-                    }}>
-                    <Text
                       style={{
-                        fontSize: 14,
-                        fontFamily: Fonts.type.LatoBold,
-                        color: BaseColor.corn70,
+                          backgroundColor: BaseColor.corn10,
+                          borderRadius: 15,
+                          // width: '100%',
+                          marginHorizontal: 20,
+                          // flex: 1,
                       }}>
-                      {item.promo_title}
-                    </Text>
-
-                    <Text
-                      numberOfLines={4}
-                      style={{
-                        marginTop: 5,
-                        fontSize: 12,
-                        fontFamily: Fonts.type.Lato,
-                        color: BaseColor.corn70,
-                      }}>
-                      {item.promo_descs
-                        .replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '')
-                        .replace(/(&nbsp;)/g, ' ')
-                        .replace(/(&ndash;)/g, '-')
-                        .replace(/(&amp;)/g, `&`)}
-                    </Text>
-                    <View style={{justifyContent: 'flex-end', flex: 1}}>
                       <Text
-                        style={{
-                          fontSize: 10,
-                          fontFamily: Fonts.type.Lato,
-                          color: BaseColor.corn50,
-                        }}>
-                        {moment(item.date_created).format('MMMM Do YYYY')}
+                          style={{
+                              fontSize: 12,
+                              fontFamily: Fonts.type.Lato,
+                              color: BaseColor.corn70,
+                          }}>
+                          Data not available
                       </Text>
-                    </View>
                   </View>
-                  <View style={{marginVertical: 10, marginHorizontal: 10}}>
-                    <Image
-                      source={{uri: item.url_image}}
-                      // source={require('@assets/images/promonews/promo2.png')}
-                      style={{
-                        width: 150,
-                        height: 150,
-                        resizeMode: 'contain',
-                        borderRadius: 15,
-                      }}></Image>
-                  </View>
-                </View>
-              </View>
-            </TouchableOpacity>
-          ))
-        ) : (
-          <View>
-            <Text>Data not available</Text>
-          </View>
-        )}
-      </ScrollView>
+              )}
+          </ScrollView>
 
-      <PromoModal
-        onRequestClose={() => {
-          setShowPromo(false);
-        }}
-        visible={showPromo}
-        icon={
-          <TouchableOpacity onPress={() => setShowPromo(false)}>
-            <Icon name={'arrow-left'} size={18} color={BaseColor.corn90}></Icon>
-          </TouchableOpacity>
-        }
-        datas={itemsParams}></PromoModal>
-    </SafeAreaView>
+          <PromoModal
+              onRequestClose={() => {
+                  setShowPromo(false);
+              }}
+              visible={showPromo}
+              icon={
+                  <TouchableOpacity onPress={() => setShowPromo(false)}>
+                      <Icon
+                          name={'arrow-left'}
+                          size={18}
+                          color={BaseColor.corn90}></Icon>
+                  </TouchableOpacity>
+              }
+              datas={itemsParams}></PromoModal>
+      </SafeAreaView>
   );
 };
 

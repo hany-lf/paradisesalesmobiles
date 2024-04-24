@@ -124,6 +124,14 @@ const Features = props => {
                                   'color',
                               ]}
                               tagsStyles={{
+                                  em: {
+                                      color: BaseColor.corn70,
+                                      // fontSize: 12,
+                                      fontFamily: Fonts.type.Lato,
+                                      // fontFamily: Fonts.type.ComicSansMS,
+                                      // textAlign: 'justify',
+                                      fontStyle: 'normal',
+                                  },
                                   strong: {
                                       color: BaseColor.corn70,
                                       // fontSize: 12,

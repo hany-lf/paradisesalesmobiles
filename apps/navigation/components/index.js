@@ -187,40 +187,46 @@ export const BottomTabNavigatorMazi = ({tabScreens = {}}) => {
         // console.log('name tab', name);
         // console.log('index tab', index);
         // console.log('component', component);
+        console.log('options tab', options);
         return name === 'CustomModal' ? (
-          <BottomTab.Screen
-            key={index}
-            name={name}
-            component={component}
-            // listeners={{tabPress: e => console.log('Tab press', e.target)}}
-            listeners={({navigation, route}) => ({
-              tabPress: e => {
-                console.log('ealah ini', e);
-                e.preventDefault();
-                navigation.navigate('CustomModal', {showModal: true});
-              },
-            })}
-            options={{
-              ...options,
-              tabBarVisibilityAnimationConfig: 'hide',
-              animationEnabled: true,
-              title: t(options.title),
-              tabBarStyle: {display: 'none'},
-              headerShown: false,
-              tabBarIconStyle: {paddingVertical: 0, marginVertical: 0},
-            }}
-          />
+            <BottomTab.Screen
+                key={index}
+                name={name}
+                component={component}
+                // listeners={{tabPress: e => console.log('Tab press', e.target)}}
+                listeners={({navigation, route}) => ({
+                    tabPress: e => {
+                        console.log('ealah ini', e);
+                        e.preventDefault();
+                        navigation.navigate('CustomModal', {showModal: true});
+                    },
+                })}
+                options={{
+                    ...options,
+                    tabBarVisibilityAnimationConfig: 'hide',
+                    animationEnabled: true,
+                    title: t(options.title),
+                    tabBarStyle: {display: 'none'},
+                    headerShown: false,
+                    tabBarIconStyle: {paddingVertical: 0, marginVertical: 0},
+                }}
+            />
         ) : (
-          <BottomTab.Screen
-            key={index}
-            name={name}
-            component={component}
-            options={{
-              tabBarIconStyle: {paddingVertical: 0, marginVertical: 0},
-              ...options,
-              title: t(options.title),
-            }}
-          />
+            <BottomTab.Screen
+                key={index}
+                name={name}
+                component={component}
+                options={{
+                    tabBarIconStyle: {paddingVertical: 0, marginVertical: 0},
+                    ...options,
+                    tabBarLabelStyle: {
+                        fontFamily: Fonts.type.Lato,
+                        fontSize: 11,
+                        marginBottom: 10,
+                    },
+                    title: t(options.title),
+                }}
+            />
         );
       })}
     </BottomTab.Navigator>

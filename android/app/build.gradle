@@ -89,8 +89,8 @@ android {
         applicationId "com.paradisesalesmobiles"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 7
-        versionName "5.2.0.5"
+        versionCode 9
+        versionName "5.2.0.7"
          vectorDrawables.useSupportLibrary = true
          targetSdkVersion rootProject.ext.compileSdkVersion
          multiDexEnabled true //Add this line
