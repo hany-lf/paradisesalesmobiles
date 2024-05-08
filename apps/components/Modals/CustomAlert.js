@@ -9,12 +9,12 @@ import React, {useState} from 'react';
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import {BaseColor, Fonts} from '../../config';
 const CustomAlert = props => {
-    const {onPress, datas, icon, ...attrs} = props;
-    // const [sukses, setSukses] = useState(false);
+    const {onPress, datas, icon, handleSaveSuccess, ...attrs} = props;
+    const [sukses, setSukses] = useState(false);
     // const [visib, setVisib] = useState(attrs.visible);
     // console.log('visib', visib);
-    // console.log('attrs custom alert?', attrs);
-    // console.log('datas images di custom alert', datas);
+    console.log('attrs custom alert?', attrs);
+    console.log('datas images di custom alert', datas);
 
     const _saveImages = uri => {
         console.log('urii??', uri);
@@ -54,6 +54,11 @@ const CustomAlert = props => {
                         }}
                     />
                 );
+                setTimeout(() => {
+                    console.log('Image saved!');
+                    handleSaveSuccess(); // Panggil fungsi callback untuk memberi tahu bahwa penyimpanan gambar berhasil
+                }, 1000); // Contoh penundaan untuk simulasi proses penyimpanan gambar
+                // Alert.alert('sukses');
                 // setSukses(true);
                 // console.log('attrs visible', attrs.visible);
                 // attrs.visible = 'false';
@@ -75,6 +80,7 @@ const CustomAlert = props => {
                 transparent={true}
                 // onRequestClose={attrs.onRequestClose}
                 // visible={attrs.visible}
+                // visible={sukses ? false : true}
             >
                 <View
                     style={{
@@ -128,7 +134,7 @@ const CustomAlert = props => {
                                     flex: 1,
                                 }}>
                                 <TouchableOpacity
-                                    onPress={() => _saveImages(datas.uri)}>
+                                    onPress={() => _saveImages(datas)}>
                                     <Text
                                         style={{
                                             fontFamily: Fonts.type.Lato,

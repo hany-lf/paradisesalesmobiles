@@ -1,19 +1,21 @@
 import {Text, Button, Icon} from '@components';
 import {
-  View,
-  TouchableOpacity,
-  Modal,
-  Dimensions,
-  ScrollView,
-  Image,
-  ActivityIndicator,
-  useWindowDimensions,
-  Platform,
-  StatusBar,
-  Alert,
+    View,
+    TouchableOpacity,
+    Modal,
+    Dimensions,
+    ScrollView,
+    Image,
+    ActivityIndicator,
+    useWindowDimensions,
+    Platform,
+    PermissionsAndroid,
+    StatusBar,
+    Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import styles from './styles';
+import Share from 'react-native-share';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {BaseStyle, Fonts, BaseColor} from '@config';
 import {useTranslation} from 'react-i18next';
@@ -21,12 +23,13 @@ import moment from 'moment';
 
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import RenderHtml, {
-  defaultSystemFonts,
-  HTMLElementModel,
-  HTMLContentModel,
+    defaultSystemFonts,
+    HTMLElementModel,
+    HTMLContentModel,
 } from 'react-native-render-html';
 
 import ImageViewing from 'react-native-image-viewing';
+import {ImageHeader} from '@components';
 
 import get from 'lodash/get';
 
@@ -73,7 +76,7 @@ const NewsModal = props => {
 
     const [showAlert, setShowAlert] = useState(false);
     const [imagesAlert, setImagesAlert] = useState([]);
-
+    const [suksesAlert, setSuksesAlert] = useState(false);
     const zoomImage = image => {
         console.log('array image zoom', image);
         setImageIndex(0);
@@ -86,6 +89,234 @@ const NewsModal = props => {
     };
 
     const onRequestClose = () => setIsVisible(false);
+
+    const onDownload = img => {
+        console.log('klik ondownload');
+
+        // if (Platform.OS === 'ios') {
+        //     _saveImage2(img);
+        // } else {
+        //     onLongPress(img);
+        // }
+
+        // _saveImage2(img); //ini bisa ya langsung save, cuman gak muncul alert aja sukses atau ngga savenya
+        checkPermission(img);
+    };
+
+    const getExtention = filename => {
+        //To get the file extension
+        return /[.]/.exec(filename) ? /[^.]+$/.exec(filename) : undefined;
+    };
+
+    const checkPermission = async img => {
+        // Function to check the platform
+        // If iOS then start downloading
+        // If Android then ask for permission
+
+        if (Platform.OS === 'ios') {
+            //   downloadImage();
+            _saveImage2(img);
+        } else {
+            try {
+                const writed = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                    {
+                        title: 'Storage Permission Required',
+                        message:
+                            'App needs access to your storage to download Photos',
+                    },
+                );
+                const readed = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+                    {
+                        title: 'Storage Permission Required',
+                        message:
+                            'App needs access to your storage to download Photos',
+                    },
+                );
+                if (
+                    writed === PermissionsAndroid.RESULTS.GRANTED &&
+                    readed === PermissionsAndroid.RESULTS.GRANTED
+                ) {
+                    // Once user grant the permission start downloading
+                    console.log('Storage Permission Granted.');
+                    _saveImage2(img);
+                } else {
+                    // If permission denied then show alert
+                    alert('Storage Permission Not Granted');
+                }
+            } catch (err) {
+                // To handle permission related exception
+                console.warn(err);
+            }
+        }
+    };
+
+    const _saveImage2 = async img => {
+        // send http request in a new thread (using native code)
+        const {
+            // dirs: {DownloadDir, DocumentDir},
+            dirs: {PictureDir, DocumentDir},
+        } = ReactNativeBlobUtil.fs;
+        const {config} = ReactNativeBlobUtil;
+        var ext = getExtention(img);
+        ext = '.' + ext[0];
+        const realURI = Platform.select({
+            android: img,
+            ios: decodeURI(img),
+        });
+        const fileDirPathAndroid = '/storage/emulated/0/Download';
+        let newImgUri = realURI.lastIndexOf('/');
+        let imageName = realURI.substring(newImgUri);
+        let imageReplace = imageName.replace('/', '');
+        // console.log('replace name', imageName.replace('/', ''));
+        // console.log('console name', imageName);
+        const aPath = Platform.select({
+            ios: DocumentDir,
+            android: fileDirPathAndroid,
+        });
+        const fPath = `${aPath}/${imageReplace}`;
+        console.log('fpath', fPath);
+        const configOptions = Platform.select({
+            ios: {
+                fileCache: true,
+                // path: fPath,
+                notification: true,
+            },
+            android: {
+                fileCache: true,
+                addAndroidDownloads: {
+                    useDownloadManager: true,
+                    notification: true,
+                    path: fPath,
+                    // ReactNativeBlobUtil.fs.dirs.DownloadDir +
+                    // '/' +
+                    // imageReplace,
+                    // ReactNativeBlobUtil.fs.dirs.DCIMDir +
+                    // '/image_' +
+                    // imageReplace,
+                    description: 'Downloading...',
+                    title: 'Image Gallery Apps Paradise Mobiles',
+                },
+                // appendExt: 'png',
+                indicator: true,
+                IOSBackgroundTask: true,
+                path: fPath,
+                // ReactNativeBlobUtil.fs.dirs.DCIMDir +
+                // '/image_' +
+                // imageReplace,
+            },
+        });
+
+        ReactNativeBlobUtil.config({
+            fileCache: true,
+            // path: fPath,
+
+            appendExt: 'png',
+        })
+            .fetch('GET', realURI, {
+                //some headers ..
+            })
+            .then(async res => {
+                // the temp file path with file extension `png`
+                // console.log('The file saved to ', res.path());
+                const imagePath = res.path();
+                console.log('imagePath', imagePath);
+                // const b64 = await ReactNativeBlobUtil.fs.readFile(
+                //     imagePath,
+                //     'base64',
+                // );
+                // console.log('base644', b64);
+
+                if (Platform.OS === 'ios') {
+                    {
+                        console.log('img url', img);
+                        const ShareResponse = await Share.open(
+                            {
+                                // message: 'Image Gallery Apps Paradise Mobiles',
+                                title: 'Image Gallery Apps Paradise Mobiles',
+                                url: imagePath,
+                                // url: `data:image/jpeg;base64,${imagePath}`,
+                                type: 'image/jpeg',
+                                activityItemSources: [
+                                    {
+                                        // linkMetadata: {
+                                        //     image: `data:image/jpeg;base64,${imagePath}`,
+                                        //     title: 'Image Apps Paradise Mobiles',
+                                        //     // url: realURI,
+                                        // },
+                                        // For using custom icon instead of default text icon at share preview when sharing with message.
+                                        placeholderItem: {
+                                            type: 'url',
+                                            content: `data:image/jpeg;base64,${img}`,
+                                        },
+                                        // item: {
+                                        //     default: {
+                                        //         type: 'text',
+                                        //         content: `Please check this out https://awesome.contents.com/`,
+                                        //     },
+                                        // },
+                                        linkMetadata: {
+                                            title: 'Please check this out',
+                                            icon: `data:image/jpeg;base64,${img}`,
+                                        },
+                                    },
+                                ],
+                            },
+                            {
+                                // Android only:
+                                dialogTitle: 'Share',
+                                // iOS only:
+                                excludedActivityTypes: [
+                                    'com.apple.UIKit.activity.PostToTwitter',
+                                ],
+                            },
+                        );
+                        console.log('Result =>', ShareResponse);
+                        if (ShareResponse.success == true) {
+                            Alert.alert('Success save image', [
+                                {
+                                    text: 'Close',
+                                    onPress: () =>
+                                        console.log('Cancel Pressed'),
+                                    style: 'cancel',
+                                },
+                                // {
+                                //     text: 'OK',
+                                //     onPress: () => console.log('OK Pressed'),
+                                // },
+                            ]);
+                        }
+
+                        // setResult(JSON.stringify(ShareResponse, null, 2));
+                    }
+                } else {
+                    config(configOptions)
+                        .fetch('GET', realURI)
+                        .then(async res => {
+                            console.log('res andro', res);
+                            // ReactNativeBlobUtil.android.actionViewIntent(
+                            //     res.path(),
+                            // );
+
+                            setTimeout(() => {
+                                // Alert.alert('suukses save image');
+                                setSuksesAlert(true);
+                            }, 2000);
+                        })
+                        .catch((errorMessage, statusCode) => {
+                            console.log(
+                                'error message save foto, ',
+                                errorMessage,
+                            );
+                            console.log(
+                                'statusCode message save foto, ',
+                                statusCode,
+                            );
+                        });
+                }
+            });
+    };
 
     const _saveImages = uri => {
         console.log('urii??', uri);
@@ -143,47 +374,8 @@ const NewsModal = props => {
         // );
     };
 
-    const ImageHeader = ({title, onRequestClose}) => {
-        const HIT_SLOP = {top: 16, left: 16, bottom: 16, right: 16};
-        return (
-            <SafeAreaView style={{backgroundColor: '#00000077'}}>
-                <View
-                    style={{
-                        flex: 1,
-                        padding: 8,
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                    }}>
-                    <View style={{width: 45, height: 45}} />
-                    {title && (
-                        <Text
-                            style={{
-                                maxWidth: 240,
-                                marginTop: 12,
-                                flex: 1,
-                                flexWrap: 'wrap',
-                                textAlign: 'center',
-                                fontSize: 17,
-                                lineHeight: 17,
-                                color: '#FFF',
-                            }}>
-                            {title}
-                        </Text>
-                    )}
-                    <TouchableOpacity
-                        style={{
-                            width: 45,
-                            height: 45,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                        onPress={onRequestClose}
-                        hitSlop={HIT_SLOP}>
-                        <Text style={styles.closeText}>✕</Text>
-                    </TouchableOpacity>
-                </View>
-            </SafeAreaView>
-        );
+    const handleSaveSuccess = () => {
+        setShowAlert(false);
     };
 
     return datas == null ? null : ( // <Text>datas null</Text>
@@ -274,39 +466,38 @@ const NewsModal = props => {
                                         onPress={() =>
                                             zoomImage(datas.url_image)
                                         }>
-                                        {/* <Image
-                      source={{uri: datas.url_image}}
-                      style={{
-                        width: '100%',
-                        height: Dimensions.get('window').height / 2.5,
-                        // width: '100%',
-                        // // width: 300,
-                        // height: 200,
-                        // marginTop: 10,
-                        // paddingTop: 10,
-                        // ...StyleSheet.absoluteFillObject,
-                        resizeMode: 'contain',
-                        borderRadius: 25,
-                      }}></Image> */}
                                         <View
                                             style={{
-                                                height: 250,
-                                                borderRadius: 25,
-                                                width: '100%',
+                                                // backgroundColor: 'yellow',
+                                                // height: 210,
+                                                // borderRadius: 25,
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                flex: 1,
                                             }}>
                                             <Image
                                                 source={{uri: datas.url_image}}
+                                                contentFit={'contain'}
+                                                transition={15000}
                                                 style={{
-                                                    width: '100%',
+                                                    width: '100%', //bagus tapi di andro jelek
+                                                    height:
+                                                        Dimensions.get('window')
+                                                            .height / 3.7,
+                                                    // width: 210,
                                                     // height: Dimensions.get('window').height / 2.5,
                                                     // width: '100%',
                                                     // // width: 300,
-                                                    height: '100%',
+                                                    // height: '100%',
+                                                    // height:
+                                                    //     Platform.OS == 'android'
+                                                    //         ? 190
+                                                    //         : 185,
                                                     // marginTop: 10,
                                                     // paddingTop: 10,
                                                     // ...StyleSheet.absoluteFillObject,
-                                                    resizeMode: 'contain',
-                                                    borderRadius: 25,
+
+                                                    borderRadius: 20,
                                                 }}></Image>
                                         </View>
                                     </TouchableOpacity>
@@ -415,29 +606,48 @@ const NewsModal = props => {
                                 presentationStyle="overFullScreen"
                                 visible={isVisible}
                                 onRequestClose={onRequestClose}
-                                onLongPress={onLongPress}
+                                contentWidth={width}
+                                // onLongPress={onLongPress}
                                 HeaderComponent={
-                                    dataImage === datas
+                                    datas === datas
                                         ? ({imageIndex}) => {
-                                              const title = get(
-                                                  dataImage,
-                                                  `${imageIndex}.title`,
+                                              console.log(
+                                                  'imageindex',
+                                                  imageIndex,
                                               );
+                                              console.log(
+                                                  'datas',
+                                                  datas.audit_user,
+                                              );
+                                              const title = datas.news_title;
+                                              //   const title = get(
+                                              //       datas,
+                                              //       datas.audit_user,
+                                              //   );
+                                              console.log('titlee', title);
+                                              const ima = datas.url_image;
+                                              //   const ima = get(
+                                              //       datas,
+                                              //       `${imageIndex}.url_image`,
+                                              //   );
                                               return (
                                                   <ImageHeader
                                                       title={title}
                                                       onRequestClose={
                                                           onRequestClose
                                                       }
+                                                      dataImageDownload={ima}
+                                                      onDownload={onDownload}
                                                   />
                                               );
                                           }
-                                        : undefined
+                                        : console.log('false')
                                 }
                                 FooterComponent={({imageIndex}) => (
                                     <View
                                         style={{
                                             flex: 1,
+                                            flexDirection: 'row',
                                             backgroundColor: '#000',
                                             ...Platform.select({
                                                 android: {
@@ -476,9 +686,11 @@ const NewsModal = props => {
       </Button> */}
             </Modal>
             <CustomAlert
+                {...props}
                 onRequestClose={() => {
                     setShowAlert(false);
                 }}
+                handleSaveSuccess={handleSaveSuccess}
                 visible={showAlert}
                 icon={
                     <TouchableOpacity onPress={() => setShowAlert(false)}>
@@ -498,6 +710,74 @@ const NewsModal = props => {
                 }
                 // text={}
                 datas={imagesAlert}></CustomAlert>
+            {suksesAlert && (
+                <Modal
+                    visible={suksesAlert}
+                    transparent={true}
+                    animationType="slide">
+                    <View
+                        style={{
+                            flex: 1,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            // marginTop: 22,
+                        }}>
+                        <View
+                            style={{
+                                // margin: 20,
+                                backgroundColor: 'white',
+                                borderRadius: 20,
+                                padding: 20,
+                                alignItems: 'center',
+                                shadowColor: '#000',
+                                shadowOffset: {
+                                    width: 0,
+                                    height: 2,
+                                },
+                                shadowOpacity: 0.25,
+                                shadowRadius: 4,
+                                elevation: 5,
+                            }}>
+                            <Text
+                                style={{
+                                    fontFamily: Fonts.type.Lato,
+                                    fontSize: 12,
+                                    color: BaseColor.corn70,
+                                }}>
+                                Success save image
+                            </Text>
+
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    marginTop: 25,
+                                    justifyContent: 'space-between',
+                                }}>
+                                <View
+                                    style={{
+                                        marginHorizontal: 25,
+                                        alignItems: 'flex-end',
+                                        flex: 1,
+                                    }}>
+                                    <TouchableOpacity
+                                        onPress={() => setSuksesAlert(false)}>
+                                        <Text
+                                            style={{
+                                                fontFamily: Fonts.type.Lato,
+                                                fontSize: 12,
+                                                color: BaseColor.redStateColor,
+                                            }}>
+                                            Close
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+
+                            {/* <Text>ini akan jadi cutom modal</Text> */}
+                        </View>
+                    </View>
+                </Modal>
+            )}
         </View>
     );
 };

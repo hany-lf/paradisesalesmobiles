@@ -1,21 +1,23 @@
 import {Text, Header, Icon, Button} from '@components';
 
 import {
-  View,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  Modal,
-  ActivityIndicator,
-  Animated,
-  Platform,
-  StatusBar,
-  Alert,
+    View,
+    ScrollView,
+    Image,
+    TouchableOpacity,
+    Modal,
+    ActivityIndicator,
+    Animated,
+    Platform,
+    StatusBar,
+    PermissionsAndroid,
+    Alert,
 } from 'react-native';
 import styles from './styles';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {BaseStyle, Fonts, BaseColor} from '@config';
 import {useTranslation} from 'react-i18next';
+import Share from 'react-native-share';
 import React, {useEffect, useState, useCallback, useRef} from 'react';
 import {useSelector, useDispatch, connect} from 'react-redux';
 import getUser from '../../selectors/UserSelectors';
@@ -30,6 +32,7 @@ import ImageViewing from 'react-native-image-viewing';
 import get from 'lodash/get';
 
 import {CustomAlert} from '@components';
+import {ImageHeader} from '@components';
 
 const UnitInfo = props => {
     const {navigation} = props;
@@ -50,6 +53,7 @@ const UnitInfo = props => {
 
     const [showAlert, setShowAlert] = useState(false);
     const [imagesAlert, setImagesAlert] = useState([]);
+    const [suksesAlert, setSuksesAlert] = useState(false);
 
     console.log('params data untuk unit info', paramsData);
     console.log('items data untuk unit info', itemsData);
@@ -70,6 +74,208 @@ const UnitInfo = props => {
     };
 
     const onRequestClose = () => setIsVisible(false);
+
+    const onDownload = img => {
+        console.log('klik ondownload');
+
+        // if (Platform.OS === 'ios') {
+        //     _saveImage2(img);
+        // } else {
+        //     onLongPress(img);
+        // }
+
+        // _saveImage2(img); //ini bisa ya langsung save, cuman gak muncul alert aja sukses atau ngga savenya
+        checkPermission(img);
+    };
+
+    const getExtention = filename => {
+        //To get the file extension
+        return /[.]/.exec(filename) ? /[^.]+$/.exec(filename) : undefined;
+    };
+
+    const checkPermission = async img => {
+        // Function to check the platform
+        // If iOS then start downloading
+        // If Android then ask for permission
+
+        if (Platform.OS === 'ios') {
+            //   downloadImage();
+            _saveImage2(img);
+        } else {
+            try {
+                const writed = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                    {
+                        title: 'Storage Permission Required',
+                        message:
+                            'App needs access to your storage to download Photos',
+                    },
+                );
+                const readed = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+                    {
+                        title: 'Storage Permission Required',
+                        message:
+                            'App needs access to your storage to download Photos',
+                    },
+                );
+                if (
+                    writed === PermissionsAndroid.RESULTS.GRANTED &&
+                    readed === PermissionsAndroid.RESULTS.GRANTED
+                ) {
+                    // Once user grant the permission start downloading
+                    console.log('Storage Permission Granted.');
+                    _saveImage2(img);
+                } else {
+                    // If permission denied then show alert
+                    alert('Storage Permission Not Granted');
+                }
+            } catch (err) {
+                // To handle permission related exception
+                console.warn(err);
+            }
+        }
+    };
+
+    const _saveImage2 = async img => {
+        // send http request in a new thread (using native code)
+        const {
+            dirs: {DownloadDir, DocumentDir},
+        } = ReactNativeBlobUtil.fs;
+        const {config} = ReactNativeBlobUtil;
+        var ext = getExtention(img);
+        ext = '.' + ext[0];
+        const realURI = Platform.select({
+            android: img,
+            ios: decodeURI(img),
+        });
+        const fileDirPathAndroid = '/storage/emulated/0/Download';
+        let newImgUri = realURI.lastIndexOf('/');
+        let imageName = realURI.substring(newImgUri);
+        let imageReplace = imageName.replace('/', '');
+        const aPath = Platform.select({
+            ios: DocumentDir,
+            android: fileDirPathAndroid,
+        });
+        // const fPath = `${aPath}/Promo`;
+        const fPath = `${aPath}/${imageReplace}`;
+        const configOptions = Platform.select({
+            ios: {
+                fileCache: true,
+                // path: fPath,
+                notification: true,
+            },
+            android: {
+                fileCache: false,
+                addAndroidDownloads: {
+                    useDownloadManager: true,
+                    notification: true,
+                    path: fPath,
+                    description: 'Downloading...',
+                    title: 'Image Gallery Apps Paradise Mobiles',
+                },
+                indicator: true,
+                IOSBackgroundTask: true,
+                path: fPath,
+            },
+        });
+
+        ReactNativeBlobUtil.config({
+            fileCache: true,
+            // by adding this option, the temp files will have a file extension
+            appendExt: 'png',
+        })
+            .fetch('GET', realURI, {
+                //some headers ..
+            })
+            .then(async res => {
+                // the temp file path with file extension `png`
+                // console.log('The file saved to ', res.path());
+                const imagePath = res.path();
+                // console.log('base64', res.readFile('base64'));
+                const b64 = await ReactNativeBlobUtil.fs.readFile(
+                    imagePath,
+                    'base64',
+                );
+                console.log('base644', b64);
+
+                if (Platform.OS === 'ios') {
+                    {
+                        const ShareResponse = await Share.open(
+                            {
+                                // message: 'This is the testing. Please check',
+                                title: 'Image Gallery Apps Paradise Mobiles',
+                                url: imagePath,
+                                // url: `data:image/jpeg;base64,${imagePath}`,
+                                type: 'image/jpeg',
+                                activityItemSources: [
+                                    {
+                                        placeholderItem: {
+                                            type: 'url',
+                                            content: `data:image/jpeg;base64,${img}`,
+                                        },
+                                        // item: {
+                                        //     default: {
+                                        //         type: 'text',
+                                        //         content: `Please check this out https://awesome.contents.com/`,
+                                        //     },
+                                        // },
+                                        linkMetadata: {
+                                            title: 'Image Gallery Apps Paradise Mobiles',
+                                            icon: `data:image/jpeg;base64,${img}`,
+                                        },
+                                    },
+                                ],
+                            },
+                            {
+                                // Android only:
+                                dialogTitle: 'Share',
+                                // iOS only:
+                                excludedActivityTypes: [
+                                    'com.apple.UIKit.activity.PostToTwitter',
+                                ],
+                            },
+                        );
+                        console.log('Result =>', ShareResponse);
+                        if (ShareResponse.success == true) {
+                            Alert.alert('Success save image', [
+                                {
+                                    text: 'Close',
+                                    onPress: () =>
+                                        console.log('Cancel Pressed'),
+                                    style: 'cancel',
+                                },
+                                // {
+                                //     text: 'OK',
+                                //     onPress: () => console.log('OK Pressed'),
+                                // },
+                            ]);
+                        }
+                        // setResult(JSON.stringify(ShareResponse, null, 2));
+                    }
+                } else {
+                    config(configOptions)
+                        .fetch('GET', realURI)
+                        .then(res => {
+                            console.log('res andro', res);
+                            // ReactNativeBlobUtil.android.actionViewIntent(
+                            //     res.path(),
+                            // );
+                            setTimeout(() => {
+                                // Alert.alert('suukses save image');
+                                setSuksesAlert(true);
+                            }, 2000);
+                        })
+                        .catch((errorMessage, statusCode) => {
+                            console.log(errorMessage);
+                        });
+                }
+            });
+    };
+
+    const handleSaveSuccess = () => {
+        setShowAlert(false);
+    };
 
     const onLongPress = image => {
         // Alert.alert('url image', image.uri);
@@ -140,49 +346,6 @@ const UnitInfo = props => {
 
     const dataDummyDetails =
         'Lokasi terbaik, berada di Jantung Jakarta Selatan, di Perempatan Pangeran Antasari dan TB Simatupang. Akses mudah, dengan Akses JORR 1 dan 2, sehingga mudah menuju ke berbagai area sekitar lainnya. Semua yang kamu butuhkan tersedia, Fitness Center, kolam renang, serta fasilitas untuk anak-anak seperti sekolah, area playground dalam satu area tempat tinggal. Konsultasi kelas dunia, dalam merancang dan merencanakan produknya INPP berorientasi pada pendekatan yang berfokus pada konsumen. yang dihasilkan harus sesuai kebutuhan, Kebiasaan, dan kapabilitas konsumen. Tipe unit smart dan modern, selalu konsisten dalam mengimplementasikan startegi bisnis yang kreatif dan inovatifuntuk menghasilkan Iconic Lifestyle Destination.';
-
-    const ImageHeader = ({title, onRequestClose}) => {
-        const HIT_SLOP = {top: 16, left: 16, bottom: 16, right: 16};
-        return (
-            <SafeAreaView style={{backgroundColor: '#00000077'}}>
-                <View
-                    style={{
-                        flex: 1,
-                        padding: 8,
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                    }}>
-                    <View style={{width: 45, height: 45}} />
-                    {title && (
-                        <Text
-                            style={{
-                                maxWidth: 240,
-                                marginTop: 12,
-                                flex: 1,
-                                flexWrap: 'wrap',
-                                textAlign: 'center',
-                                fontSize: 17,
-                                lineHeight: 17,
-                                color: '#FFF',
-                            }}>
-                            {title}
-                        </Text>
-                    )}
-                    <TouchableOpacity
-                        style={{
-                            width: 45,
-                            height: 45,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                        onPress={onRequestClose}
-                        hitSlop={HIT_SLOP}>
-                        <Text style={styles.closeText}>✕</Text>
-                    </TouchableOpacity>
-                </View>
-            </SafeAreaView>
-        );
-    };
 
     return (
         <SafeAreaView
@@ -604,20 +767,28 @@ const UnitInfo = props => {
                 onRequestClose={onRequestClose}
                 onLongPress={onLongPress}
                 HeaderComponent={
-                    dataImage === paramsData
+                    paramsData === paramsData
                         ? ({imageIndex}) => {
-                              const title = get(
-                                  dataImage,
-                                  `${imageIndex}.title`,
-                              );
+                              //   const title = get(
+                              //       dataImage,
+                              //       `${imageIndex}.title`,
+                              //   );
+                              const title = paramsData.property_cd;
+                              const ima = paramsData.picture_url;
+
+                              console.log('title header', title);
+                              console.log('ima header', ima);
+
                               return (
                                   <ImageHeader
                                       title={title}
                                       onRequestClose={onRequestClose}
+                                      dataImageDownload={ima}
+                                      onDownload={onDownload}
                                   />
                               );
                           }
-                        : undefined
+                        : console.log('false')
                 }
                 FooterComponent={({imageIndex}) => (
                     <View
@@ -677,10 +848,12 @@ const UnitInfo = props => {
                 }
                 datas={dataDummyDetails}></UnitInfoDetailsModal>
             <CustomAlert
+                {...props}
                 onRequestClose={() => {
                     setShowAlert(false);
                 }}
                 visible={showAlert}
+                handleSaveSuccess={handleSaveSuccess}
                 icon={
                     <TouchableOpacity onPress={() => setShowAlert(false)}>
                         {/* <Icon
@@ -699,6 +872,74 @@ const UnitInfo = props => {
                 }
                 // text={}
                 datas={imagesAlert}></CustomAlert>
+            {suksesAlert && (
+                <Modal
+                    visible={suksesAlert}
+                    transparent={true}
+                    animationType="slide">
+                    <View
+                        style={{
+                            flex: 1,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            // marginTop: 22,
+                        }}>
+                        <View
+                            style={{
+                                // margin: 20,
+                                backgroundColor: 'white',
+                                borderRadius: 20,
+                                padding: 20,
+                                alignItems: 'center',
+                                shadowColor: '#000',
+                                shadowOffset: {
+                                    width: 0,
+                                    height: 2,
+                                },
+                                shadowOpacity: 0.25,
+                                shadowRadius: 4,
+                                elevation: 5,
+                            }}>
+                            <Text
+                                style={{
+                                    fontFamily: Fonts.type.Lato,
+                                    fontSize: 12,
+                                    color: BaseColor.corn70,
+                                }}>
+                                Success save image
+                            </Text>
+
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    marginTop: 25,
+                                    justifyContent: 'space-between',
+                                }}>
+                                <View
+                                    style={{
+                                        marginHorizontal: 25,
+                                        alignItems: 'flex-end',
+                                        flex: 1,
+                                    }}>
+                                    <TouchableOpacity
+                                        onPress={() => setSuksesAlert(false)}>
+                                        <Text
+                                            style={{
+                                                fontFamily: Fonts.type.Lato,
+                                                fontSize: 12,
+                                                color: BaseColor.redStateColor,
+                                            }}>
+                                            Close
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+
+                            {/* <Text>ini akan jadi cutom modal</Text> */}
+                        </View>
+                    </View>
+                </Modal>
+            )}
         </SafeAreaView>
     );
 };

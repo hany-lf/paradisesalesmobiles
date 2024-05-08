@@ -19,3 +19,4 @@ export {SafeAreaView} from 'react-native-safe-area-context';
 export {default as ComingSoon} from './ComingSoon';
 export {default as CountryCode} from './CountryCode';
 export {default as CustomAlert} from './Modals/CustomAlert';
+export {default as ImageHeader} from './ImageHeader';
