@@ -9,7 +9,7 @@ import axios from 'axios';
 class UserController {
   constructor() {
     // this.basePath = '/login_mobile';
-    basePath = 'https://dev.ifca.co.id/apiparadise/api'; //lokal
+    basePath = 'https://dev.ifca.co.id:4414/apiparadise/api'; //lokal
     // basePath = 'https://ifca.paradiseindonesia.com/apiparadise/api'; //live
     // httpsAgent = new https.Agent({
     //   rejectUnauthorized: false,

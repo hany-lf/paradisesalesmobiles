@@ -114,6 +114,7 @@ const EditProfile = props => {
   );
 
   const handlePhotoPick = () => {
+    // Alert.alert('test');
     console.log('datImage', images);
     Alert.alert(
       'Select a Photo',
@@ -253,6 +254,7 @@ const EditProfile = props => {
         }}
       />
       <ScrollView style={{marginHorizontal: 20}}>
+    
         {user ? (
           user.pict ? (
             <TouchableOpacity onPress={() => handlePhotoPick()}>
@@ -267,24 +269,11 @@ const EditProfile = props => {
                       borderRadius: 50,
                     }}></Image>
                 </View>
-
-                {/* <TouchableOpacity>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Icon
-                    name={'camera'}
-                    size={23}
-                    solid
-                    color={BaseColor.corn30}></Icon>
-                  <View style={{marginHorizontal: 10}}>
-                    <Text>Change Photo Profil</Text>
-                  </View>
-                </View>
-              </TouchableOpacity> */}
               </View>
             </TouchableOpacity>
           ) : (
             <View style={{alignItems: 'center'}}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => handlePhotoPick()}>
                 <View
                   style={{
                     backgroundColor: BaseColor.corn70,

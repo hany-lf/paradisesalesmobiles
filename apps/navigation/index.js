@@ -134,7 +134,7 @@ const Navigator = props => {
       }
     };
 
-    init();
+    // init(); //ini dimatiin dulu biar bisa develop lebih cepet
     onProcess();
   }, []);
 

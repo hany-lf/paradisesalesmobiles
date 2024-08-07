@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>726316344031-v1ossso1qr216ev809tcalk7al0cls7n.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.726316344031-v1ossso1qr216ev809tcalk7al0cls7n</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>726316344031-buc6s2lnht51qeq08tsk0g5s96c4sqtd.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC8Dh0tdK04Zdr7iPyIKz5F6oIGKJlZxeQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>726316344031</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.paradisesalesmobiles</string>
+	<key>PROJECT_ID</key>
+	<string>paradisesalesmobiles</string>
+	<key>STORAGE_BUCKET</key>
+	<string>paradisesalesmobiles.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:726316344031:ios:82c8765095ec50f49fbf6a</string>
+</dict>
+</plist>

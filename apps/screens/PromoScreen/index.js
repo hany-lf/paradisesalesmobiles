@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   Modal,
+  Alert,
 } from 'react-native';
 import styles from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -37,8 +38,11 @@ const PromoScreen = props => {
   }, []);
 
   const getDataPromo = () => {
-    const entity_cd = paramsData.entity_cd;
-    const project_no = paramsData.project_no;
+    // const entity_cd = paramsData.entity_cd;
+    // const project_no = paramsData.project_no;
+      const entity_cd = '0321';
+    const project_no = '0321';
+
     try {
       const config = {
         method: 'get',
@@ -97,6 +101,20 @@ const PromoScreen = props => {
         style={{height: 80}}
         onPressLeft={() => {
           navigation.goBack();
+        }}
+        onPressRight={() => {
+          navigation.navigate(Alert.alert('ini kanan'));
+        }}
+        renderRight={() => {
+          return (
+            <Icon
+              // name="angle-left"
+              name="download"
+              size={18}
+              color={BaseColor.corn70}
+              enableRTL={true}
+            />
+          );
         }}
       />
       <ScrollView>
